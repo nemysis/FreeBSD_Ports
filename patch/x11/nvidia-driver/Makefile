@@ -1,18 +1,21 @@
 # Created by: Stijn Hoop <stijn@win.tue.nl>
-# $FreeBSD: head/x11/nvidia-driver/Makefile 307494 2012-11-16 18:11:43Z danfe $
+# $FreeBSD: head/x11/nvidia-driver/Makefile 315761 2013-04-08 13:41:57Z danfe $
+#
+# For those wondering why this port is not under `x11-drivers' category,
+# please see PR ports/121930.
 #
 # Starting with version 1.0-7667, NVidia has dropped support for numerous
 # "legacy" GPUs.  Consult NVidia README (the Appendix) to find out whether
 # you need to use legacy driver version and install one of corresponding
-# `x11/nvidia-driver-71', `x11/nvidia-driver-96', or `x11/nvidia-driver-173'
-# slave ports.
+# `x11/nvidia-driver-71', `x11/nvidia-driver-96', `x11/nvidia-driver-173',
+# or `x11/nvidia-driver-304' slave ports.
 
 PORTNAME=	nvidia-driver
-# Always try to set PORTREVISION as can be overridden by the slave ports
+# Always try to set PORTREVISION as it can be overridden by the slave ports
 PORTREVISION?=	0
 CATEGORIES=	x11 kld
 MASTER_SITES=	${MASTER_SITE_NVIDIA}
-# MASTER_SITE_SUBDIR has to be set later because it depends on NVVERSION
+# MASTER_SITE_SUBDIR it set later because it depends on NVVERSION
 DISTNAME=	NVIDIA-FreeBSD-x86${ARCH_SUFX}-${DISTVERSION}
 
 MAINTAINER=	danfe@FreeBSD.org
@@ -23,7 +26,7 @@ LICENSE_NAME=	License For Customer Use of NVIDIA Software
 LICENSE_FILE=	${WRKSRC}/doc/license.txt
 LICENSE_PERMS=	dist-mirror no-dist-sell pkg-mirror no-pkg-sell auto-accept
 
-.include "${.CURDIR}/Makefile.common"
+.include "${.CURDIR}/../nvidia-driver/Makefile.common"
 
 ARCH_SUFX=	${ARCH:S/i386//:S/amd/_/}
 USE_XORG=	xorg-server
@@ -33,7 +36,7 @@ USE_LDCONFIG=	yes
 # NVIDIA_ROOT is not set in src/Makefile, which results in bogus -I/src
 # passed to compiler and broken build on HEAD since r221320 when option
 # -Wmissing-include-dirs was added for kernel sources.  Until properly
-# fixed upstream across all versions (including legacy ones), use this
+# fixed upstream (across all versions, including legacy ones), use this
 # hack below to universally set NVIDIA_ROOT.  Also provide X11BASE value
 # since it is going away from `Mk/bsd.port.mk' as deprecated.
 MAKE_ENV=	NVIDIA_ROOT=${WRKSRC} X11BASE=${LOCALBASE}
@@ -100,23 +103,47 @@ IGNORE=		requires fairly recent FreeBSD-STABLE, or FreeBSD-CURRENT
 .endif
 
 .if ${NVVERSION} < 1952200
+# ABI version is hardcoded inside the binary, so better be explicit here
 LIB_DEPENDS=	m.3:${PORTSDIR}/misc/compat5x
 .endif
 
 post-patch: .SILENT
 # We should support -CURRENT: kill the check
 	${REINPLACE_CMD} -e '24,26d' ${WRKSRC}/src/nv-freebsd.h
-# Adjust legacy drivers for updated d_mmap() since early 9.X
+# Adjust legacy drivers for updated d_mmap() since FreeBSD src SVN r201223
 .if ${OSVERSION} > 900005 && ${NVVERSION} < 1952200
 	${REINPLACE_CMD} -e 's/vm_offset_t offset/vm_ooffset_t offset/ ; \
 		s/vm_offset_t \*address/vm_paddr_t *address/ ; \
 		s/int nprot/&, vm_memattr_t *memattr/' \
 			${WRKSRC}/src/nvidia_dev.c
 .endif
+# In the legacy drivers: remove paqe queue locking and add page locking
+# around vm_page_(un)wire() after FreeBSD src SVN r207410, r207617, and
+# r207644; also remove paqe queue locking around vm_page_wakeup() after
+# FreeBSD src SVN r163622
+.if ${OSVERSION} > 900011 && ${NVVERSION} < 3046400
+	${REINPLACE_CMD} -E '/vm_page_(un)?lock_queues\(\);/d ; \
+		s/(vm_page_(un)?wire\()([^,]+)(, 0)?(\);)/vm_page_lock(\3); & vm_page_unlock(\3);/' \
+			${WRKSRC}/src/nvidia_subr.c
+.endif
 # Catch up legacy drivers with FreeBSD src SVN r225617
 .if ${OSVERSION} > 900043 && ${NVVERSION} < 1952200
 	${REINPLACE_CMD} -e '/return/s/ioctl/sys_&/' \
 		${WRKSRC}/src/nvidia_linux.c
+.endif
+# Adjust Linux headers #include's after FreeBSD src SVN r246085
+.if ${OSVERSION} > 1000027 && ${NVVERSION} >= 964323
+	${REINPLACE_CMD} -E '/#include "machine\/\.\.\/linux(32)?\/linux.h"/ \
+		{ x ; s/.*/#include "machine\/..\/..\/compat\/linux\/linux_ioctl.h"/ ; H ; x ; }' \
+			${WRKSRC}/src/nvidia_linux.c
+.endif
+# Adjust vm_object locking after FreeBSD src SVN r248084
+.if ${OSVERSION} > 1000029
+	${REINPLACE_CMD} -e '/#include <vm\/vm_object.h>/ \
+		{ x ; s/.*/#include <sys\/rwlock.h>/ ; G ; }' \
+			${WRKSRC}/src/nv-freebsd.h
+	${REINPLACE_CMD} -E 's/(VM_OBJECT_)(UN)?(LOCK)/\1W\2\3/' \
+		${WRKSRC}/src/nvidia_subr.c
 .endif
 # Process OPTIONS
 .if ${PORT_OPTIONS:MFREEBSD_AGP}
@@ -193,9 +220,7 @@ post-install: .SILENT
 .endif
 .if ${NVVERSION} >= 3101900
 	${REINPLACE_CMD} -e '/libXvMCNVIDIA/d' ${TMPPLIST}
-.endif
-.if ${NVVERSION} < 3101900
-	# Some applications need this symlink (see PR ports/72877)
+.else	# some applications need this symlink (see PR ports/72877)
 	${LN} -sf libXvMCNVIDIA.so.1 ${PREFIX}/lib/libXvMCNVIDIA_dynamic.so.1
 .endif
 .if ${NVVERSION} >= 1952200

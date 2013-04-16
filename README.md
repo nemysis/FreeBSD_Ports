@@ -1,8 +1,11 @@
 FreeBSD_Ports
 =============
 
-nemysis FreeBSD Ports which are not in in FreeBSD Ports Tree and patches
+nemysis FreeBSD Ports which are not in in FreeBSD Ports Tree and patches or changed FreeBSD Ports.
 
+
+
+Links
 
 
 SourceForge FreeBSD Ports files
@@ -10,7 +13,6 @@ SourceForge FreeBSD Ports files
 http://sourceforge.net/projects/nemysisfreebsdp/files/
 
 
-
-nemysis Site
+Web site
 
 http://nemysis.anapnea.net/
