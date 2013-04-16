@@ -1,0 +1,12 @@
+bin/glightoff
+share/applications/glightoff.desktop
+%%NLS%%share/locale/es/LC_MESSAGES/glightoff.mo
+%%NLS%%share/locale/fr/LC_MESSAGES/glightoff.mo
+%%NLS%%share/locale/it/LC_MESSAGES/glightoff.mo
+share/pixmaps/glightoff.png
+share/pixmaps/glightoff/bulb_off.svg
+share/pixmaps/glightoff/bulb_on.svg
+@dirrm share/pixmaps/glightoff
+@dirrmtry share/applications
+@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
+@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true

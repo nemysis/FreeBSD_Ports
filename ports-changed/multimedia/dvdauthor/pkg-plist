@@ -1,0 +1,10 @@
+bin/dvdauthor
+bin/dvddirdel
+bin/dvdunauthor
+bin/mpeg2desc
+bin/spumux
+bin/spuunmux
+%%DATADIR%%/common.xsd
+%%DATADIR%%/dvdauthor.xsd
+%%DATADIR%%/spumux.xsd
+@dirrm %%DATADIR%%

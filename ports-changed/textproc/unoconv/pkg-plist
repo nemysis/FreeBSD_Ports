@@ -1,0 +1,8 @@
+bin/unoconv
+share/pixmaps/unoconv.png
+%%DATADIR%%/tests/dag.gif
+%%DATADIR%%/tests/document-example.odt
+%%DATADIR%%/tests/spreadsheet-example.csv
+%%DATADIR%%/unoconv
+@dirrm %%DATADIR%%/tests
+@dirrm %%DATADIR%%
