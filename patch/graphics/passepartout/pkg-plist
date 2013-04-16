@@ -1,0 +1,7 @@
+bin/examinepdf
+bin/passepartout
+bin/xml2ps
+share/xml/passepartout/docbook.xslt
+share/xml/passepartout/xhtml.xslt
+share/xml/passepartout/xml2ps.dtd
+@dirrm share/xml/passepartout

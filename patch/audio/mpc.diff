@@ -1,0 +1,93 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/audio/mpc/Makefile ./Makefile
+--- /usr/ports/audio/mpc/Makefile	2013-03-21 18:51:09.000000000 +0100
++++ ./Makefile	2013-04-02 00:01:39.000000000 +0200
+@@ -2,16 +2,18 @@
+ # $FreeBSD: head/audio/mpc/Makefile 314853 2013-03-21 17:32:34Z bapt $
+ 
+ PORTNAME=	mpc
+-PORTVERSION=	0.21
++PORTVERSION=	0.22
+ CATEGORIES=	audio ipv6
+-MASTER_SITES=	SF/musicpd/${PORTNAME}/${PORTVERSION}
++MASTER_SITES=	SF/musicpd/${PORTNAME}/${PORTVERSION}/
+ 
+ MAINTAINER=	ports@mark.reidel.info
+ COMMENT=	Command line client for the musicpd
+ 
++LICENSE=	GPLv2
++
+ LIB_DEPENDS=	mpdclient:${PORTSDIR}/audio/libmpdclient
+ 
+-OPTIONS_DEFINE=	EXAMPLES DOCS ICONV
++OPTIONS_DEFINE=	ICONV
+ OPTIONS_DEFAULT=	ICONV
+ ICONV_DESC=	Support for international characters
+ 
+@@ -21,20 +23,15 @@
+ LDFLAGS+=	-L${LOCALBASE}/lib
+ CFLAGS+=	-I${LOCALBASE}/include
+ 
++MAN1=		${PORTNAME}.1
++
+ PORTDOCS=	AUTHORS README NEWS
++PORTEXAMPLES=	*
+ 
+-PLIST_FILES=	bin/${PORTNAME} %%PORTEXAMPLES%%%%EXAMPLESDIR%%/${PORTNAME}-completion.bash
++PLIST_FILES=	bin/${PORTNAME}
+ 
+ .include <bsd.port.options.mk>
+ 
+-.if ${PORT_OPTIONS:MEXAMPLESDIR}
+-PLIST_DIRS=	%%EXAMPLESDIR%%
+-.endif
+-
+-.ifndef(NO_INSTALL_MANPAGES)
+-MAN1=		${PORTNAME}.1
+-.endif
+-
+ .if ${PORT_OPTIONS:MICONV}
+ USE_ICONV=	yes
+ .else
+@@ -45,19 +42,15 @@
+ 	@${REINPLACE_CMD} -e 's|-lintl|-liconv|g' ${WRKSRC}/configure
+ 
+ do-install:
+-	${INSTALL_PROGRAM} ${WRKSRC}/src/${PORTNAME} ${PREFIX}/bin/
++	${INSTALL_PROGRAM} ${WRKSRC}/src/${PORTNAME} ${PREFIX}/bin
+ .if ${PORT_OPTIONS:MDOCS}
+ 	@${MKDIR} ${DOCSDIR}
+-.for i in ${PORTDOCS}
+-	${INSTALL_DATA} ${WRKSRC}/${i} ${DOCSDIR}
+-.endfor
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ .if ${PORT_OPTIONS:MEXAMPLES}
+ 	@${MKDIR} ${EXAMPLESDIR}
+ 	${INSTALL_DATA} ${WRKSRC}/doc/${PORTNAME}-completion.bash ${EXAMPLESDIR}
+ .endif
+-.ifndef(NO_INSTALL_MANPAGES)
+-	${INSTALL_MAN} ${WRKSRC}/doc/${PORTNAME}.1 ${MAN1PREFIX}/man/man1/
+-.endif
++	${INSTALL_MAN} ${WRKSRC}/doc/${PORTNAME}.1 ${MAN1PREFIX}/man/man1
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/audio/mpc/distinfo ./distinfo
+--- /usr/ports/audio/mpc/distinfo	2013-01-14 17:54:21.000000000 +0100
++++ ./distinfo	2013-04-01 23:46:31.000000000 +0200
+@@ -1,2 +1,2 @@
+-SHA256 (mpc-0.21.tar.bz2) = 2fd743c42a52e5de376e774dd968541f6b6273ec782c66600b75d740f8b47cc2
+-SIZE (mpc-0.21.tar.bz2) = 99936
++SHA256 (mpc-0.22.tar.bz2) = cc42811d7ed8e65d50a0aaf1edf29597e3e264b06026b40da88a8a763a2dd334
++SIZE (mpc-0.22.tar.bz2) = 102296
+diff -ruN --exclude=CVS /usr/ports/audio/mpc/pkg-descr ./pkg-descr
+--- /usr/ports/audio/mpc/pkg-descr	2013-01-14 17:54:21.000000000 +0100
++++ ./pkg-descr	2013-04-01 23:43:26.000000000 +0200
+@@ -2,4 +2,4 @@
+ mpc connects to a MPD running on a machine via a network.
+ Read more about MPD on http://www.musicpd.org
+ 
+-WWW:	http://www.musicpd.org
++WWW: http://www.musicpd.org
+===> Done

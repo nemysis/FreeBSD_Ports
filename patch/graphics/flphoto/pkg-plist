@@ -1,0 +1,10 @@
+bin/flphoto
+%%NLS%%share/locale/de/flphoto_de
+%%NLS%%share/locale/en_CA/flphoto_en_CA
+%%NLS%%share/locale/en_GB/flphoto_en_GB
+%%NLS%%share/locale/es/flphoto_es
+%%NLS%%share/locale/fr/flphoto_fr
+%%NLS%%share/locale/it/flphoto_it
+%%NLS%%share/locale/nl/flphoto_nl
+%%NLS%%share/locale/pt/flphoto_pt
+share/pixmaps/flphoto.png

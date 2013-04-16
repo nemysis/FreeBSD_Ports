@@ -1,0 +1,84 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	linux-f10-libsndfile
+#	linux-f10-libsndfile/pkg-plist
+#	linux-f10-libsndfile/distinfo.i386
+#	linux-f10-libsndfile/Makefile
+#
+echo c - linux-f10-libsndfile
+mkdir -p linux-f10-libsndfile > /dev/null 2>&1
+echo x - linux-f10-libsndfile/pkg-plist
+sed 's/^X//' >linux-f10-libsndfile/pkg-plist << 'b044141a6f87769d0a2892511197ac37'
+X@comment file listing
+Xusr/bin/sndfile-cmp
+Xusr/bin/sndfile-convert
+Xusr/bin/sndfile-info
+Xusr/bin/sndfile-jackplay
+Xusr/bin/sndfile-metadata-get
+Xusr/bin/sndfile-metadata-set
+Xusr/bin/sndfile-play
+Xusr/bin/sndfile-regtest
+Xusr/lib/libsndfile.so
+Xusr/lib/libsndfile.so.1
+Xusr/lib/libsndfile.so.%%PORTVERSION%%
+Xusr/share/doc/libsndfile-%%PORTVERSION%%/AUTHORS
+Xusr/share/doc/libsndfile-%%PORTVERSION%%/COPYING
+Xusr/share/doc/libsndfile-%%PORTVERSION%%/NEWS
+Xusr/share/doc/libsndfile-%%PORTVERSION%%/README
+Xusr/share/man/man1/sndfile-convert.1.gz
+Xusr/share/man/man1/sndfile-info.1.gz
+Xusr/share/man/man1/sndfile-play.1.gz
+X@comment non-empty directory listing in revers order
+X@dirrmtry usr/share/man/man1
+X@dirrmtry usr/share/man
+X@dirrmtry usr/share/doc/libsndfile-%%PORTVERSION%%
+X@dirrmtry usr/share/doc
+X@dirrmtry usr/share
+X@dirrmtry usr/lib
+X@dirrmtry usr/bin
+X@dirrmtry usr
+b044141a6f87769d0a2892511197ac37
+echo x - linux-f10-libsndfile/distinfo.i386
+sed 's/^X//' >linux-f10-libsndfile/distinfo.i386 << '159b9d12594c52e6fe59873d573c2302'
+XSHA256 (rpm/i386/fedora/10/libsndfile-1.0.20-3.fc10.i386.rpm) = 9be66a612b00597d779a19e4809dbb64adbd370f2635971b558b01ac632c7c38
+XSIZE (rpm/i386/fedora/10/libsndfile-1.0.20-3.fc10.i386.rpm) = 218893
+159b9d12594c52e6fe59873d573c2302
+echo x - linux-f10-libsndfile/Makefile
+sed 's/^X//' >linux-f10-libsndfile/Makefile << '0135b41f93bbe8fe902a5aba599fd109'
+X# Created by	nemysis@gmx.ch
+X# $FreeBSD$
+X
+XPORTNAME=	libsndfile
+XPORTVERSION=	1.0.20
+XCATEGORIES=	audio linux
+XMASTER_SITES=	https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/${LINUX_DIST_VER}/i386/ \
+X		http://ftp.udl.es/pub/fedora/linux/updates/${LINUX_DIST_VER}/i386/
+XPKGNAMEPREFIX=	linux-f10-
+XDISTNAME=	${PORTNAME}-${PORTVERSION}-${RPMVERSION}
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	Reading and writing files containing sampled sound (Linux Fedora 10)
+X
+XONLY_FOR_ARCHS=	i386 amd64
+XUSE_LINUX_RPM=	yes
+XUSE_LINUX_APPS=	libvorbis
+XLINUX_DIST_VER=	10
+XRPMVERSION=	3.fc10
+XBRANDELF_DIRS=	usr/bin
+XUSE_LDCONFIG=	yes
+X
+XPLIST_SUB+=	PORTVERSION=${PORTVERSION}
+XDESCR=		${.CURDIR}/../${PORTNAME}/pkg-descr
+X
+Xpost-install:
+X		@cd ${PREFIX}/usr/lib ; ${LN} -sf libsndfile.so.1 libsndfile.so
+X
+X.include <bsd.port.mk>
+0135b41f93bbe8fe902a5aba599fd109
+exit
+

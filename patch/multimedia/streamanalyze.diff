@@ -1,0 +1,46 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/multimedia/streamanalyze/Makefile ./Makefile
+--- /usr/ports/multimedia/streamanalyze/Makefile	2013-01-14 17:54:56.000000000 +0100
++++ ./Makefile	2013-03-29 18:57:28.000000000 +0100
+@@ -1,9 +1,5 @@
+-# New ports collection makefile for:	streamanalyze
+-# Date created:				2005-10-30
+-# Whom:					Heiner Eichmann
+-#
++# Created by: Heiner Eichmann
+ # $FreeBSD: head/multimedia/streamanalyze/Makefile 300896 2012-07-14 13:54:48Z beat $
+-#
+ 
+ PORTNAME=	streamanalyze
+ PORTVERSION=	0.4
+@@ -14,22 +10,24 @@
+ MAINTAINER=	ports@FreeBSD.org
+ COMMENT=	Shrink-factor calculator for StreamDVD
+ 
+-LIB_DEPENDS=	dvdread.4:${PORTSDIR}/multimedia/libdvdread
++LIB_DEPENDS=	dvdread:${PORTSDIR}/multimedia/libdvdread
+ 
+ WRKSRC=		${WRKDIR}/StreamAnalyze
+ 
+ PLIST_FILES=	bin/streamanalyze
+ PORTDOCS=	README
+ 
++.include <bsd.port.options.mk>
++
+ post-patch:
+ 	@${REINPLACE_CMD} -e 's|gcc -g -Wall|${CC} ${CFLAGS} -I${LOCALBASE}/include -L${LOCALBASE}/lib|' ${WRKSRC}/Makefile
+ 	@${REINPLACE_CMD} -e '/#include <getopt\.h>/ d' ${WRKSRC}/streamanalyze.c
+ 
+ do-install:
+ 	${INSTALL_PROGRAM} ${WRKSRC}/streamanalyze ${PREFIX}/bin
+-.if !defined(NOPORTDOCS)
+-	${MKDIR} ${DOCSDIR}
+-	${INSTALL_DATA} ${PORTDOCS:S,^,${WRKSRC}/,} ${DOCSDIR}
++.if ${PORT_OPTIONS:MDOCS}
++	@${MKDIR} ${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+ .include <bsd.port.mk>
+===> Done

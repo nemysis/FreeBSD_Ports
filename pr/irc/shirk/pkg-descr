@@ -1,0 +1,6 @@
+Shirk is a modular IRC bot based on the Twisted framework. It is designed
+to be easy to write modules for so you can focus on the things you actually
+want to do. After all, if you wanted to mess with IRC internals you wouldn't
+be using someone else's bot.
+
+WWW: https://github.com/frank001/shirk/tree/wigglytuff

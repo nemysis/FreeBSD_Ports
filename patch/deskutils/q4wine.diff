@@ -1,0 +1,174 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/deskutils/q4wine/Makefile ./Makefile
+--- /usr/ports/deskutils/q4wine/Makefile	2013-03-23 02:42:32.000000000 +0100
++++ ./Makefile	2013-03-23 14:21:49.000000000 +0100
+@@ -1,47 +1,53 @@
+-# New ports collection makefile for:	q4wine
+-# Date created:		05 Feb 2009
+-# Whom:			Sergey V. Dyatko <sergey.dyatko@gmail.com>
+-#
++# Created by: Sergey V. Dyatko <sergey.dyatko@gmail.com>
+ # $FreeBSD: head/deskutils/q4wine/Makefile 314960 2013-03-22 20:06:14Z makc $
+ 
+ PORTNAME=	q4wine
+-PORTVERSION=	0.120
+-PORTREVISION=	1
++PORTVERSION=	1.0
+ CATEGORIES=	deskutils emulators
+ MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}%20${PORTVERSION}
+ 
+ MAINTAINER=	sergey.dyatko@gmail.com
+ COMMENT=	QT4 front-end for WINE
+ 
++LICENSE=	GPLv3
++
+ BUILD_DEPENDS=	icotool:${PORTSDIR}/graphics/icoutils
+ RUN_DEPENDS=	sudo:${PORTSDIR}/security/sudo \
+-		wine:${PORTSDIR}/emulators/wine \
+ 		wget:${PORTSDIR}/ftp/wget \
+ 		cabextract:${PORTSDIR}/archivers/cabextract \
+ 		icotool:${PORTSDIR}/graphics/icoutils
+ 
++USES=		cmake
++CMAKE_ARGS+=	-DMANPAGE_ENTRY_PATH=${MANPREFIX}/man
++USE_GNOME=	desktopfileutils
++USE_LDCONFIG=	yes
++INSTALLS_ICONS=	yes
+ USE_QT4=	qmake_build rcc_build moc_build uic_build \
+ 		linguist_build corelib gui sql network
+-
+-ONLY_FOR_ARCHS=	i386
+-ONLY_FOR_ARCHS_REASON=	depends on wine which is only available for i386
++ONLY_FOR_ARCHS=	i386 amd64
+ 
+ MAN1=		q4wine-cli.1 q4wine-helper.1 q4wine.1
+ 
+-USES=		cmake
+-CMAKE_ARGS+=	-DMANPAGE_ENTRY_PATH=${MANPREFIX}/man/
+-
+-OPTIONS=	DBUS "Enable DBus notification support" on
++OPTIONS_DEFINE=	DBUS
++OPTIONS_DEFAULT=DBUS
+ 
+ .include <bsd.port.options.mk>
+ 
+-.if defined(WITHOUT_DBUS)
+-CMAKE_ARGS+=	-DWITH_DBUS:BOOL=OFF
+-.else
++.if ${ARCH} == "i386"
++RUN_DEPENDS+=	wine:${PORTSDIR}/emulators/wine-devel
++.endif
++
++.if ${PORT_OPTIONS:MDBUS}
+ USE_QT4+=	dbus
++.else
++CMAKE_ARGS+=	-DWITH_DBUS:BOOL=OFF
+ .endif
+ 
+ post-install:
+-	@-update-desktop-database
++	@-update-desktop-database -q
++
++	@${ECHO_CMD}
++	@${CAT} ${PKGMESSAGE}
++	@${ECHO_CMD}
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/deskutils/q4wine/distinfo ./distinfo
+--- /usr/ports/deskutils/q4wine/distinfo	2013-01-14 17:54:25.000000000 +0100
++++ ./distinfo	2013-03-23 14:09:55.000000000 +0100
+@@ -1,2 +1,2 @@
+-SHA256 (q4wine-0.120.tar.gz) = 9db9cc021722403709e6f2bb81318e285cfad9eba24d1343532b0fa32f823996
+-SIZE (q4wine-0.120.tar.gz) = 836328
++SHA256 (q4wine-1.0.tar.gz) = 4ab4875665168a4942b42687b8d2d59d3ecdc82ec4a7e2adede8f4b57cfbc7af
++SIZE (q4wine-1.0.tar.gz) = 1092343
+diff -ruN --exclude=CVS /usr/ports/deskutils/q4wine/pkg-message ./pkg-message
+--- /usr/ports/deskutils/q4wine/pkg-message	2013-01-14 17:54:25.000000000 +0100
++++ ./pkg-message	2012-10-30 17:25:09.000000000 +0100
+@@ -1,8 +1,15 @@
+ ################################################################################
+ 
+-This programm will attempt to obtain some system information by accessing files
+-in procfs. You must mount procfs filesystem for this to work correctly. This can
+-be accomplished by adding the following line to your /etc/fstab file:
++FreeBSD/amd64 users:
++You need to manually install Wine 32bit binary from:
++http://www.mediafire.com/wine_fbsd64
++
++For more info about running wine on FreeBSD please see:
++http://wiki.freebsd.org/Wine
++
++This program will attempt to obtain some system information by accessing files
++in procfs. You must mount procfs filesystem for this to work correctly.
++This can be accomplished by adding the following line to your /etc/fstab file:
+ 
+ # Device                Mountpoint      FStype  Options         Dump    Pass#
+ proc                    /proc           procfs  rw              0       0
+@@ -11,7 +18,7 @@
+ 
+ mount /proc
+ 
+-Also you need passwordless sudo for mdconfig, mount_cd9660, umount commands for 
++Also you need passwordless sudo for mdconfig, mount_cd9660, umount commands for
+ work with ISO images
+ 
+ ################################################################################
+diff -ruN --exclude=CVS /usr/ports/deskutils/q4wine/pkg-plist ./pkg-plist
+--- /usr/ports/deskutils/q4wine/pkg-plist	2013-01-14 17:54:25.000000000 +0100
++++ ./pkg-plist	2013-03-23 14:18:51.000000000 +0100
+@@ -3,22 +3,39 @@
+ bin/q4wine-helper
+ lib/q4wine/libq4wine-core.so
+ share/applications/q4wine.desktop
+-share/pixmaps/q4wine.png
+-%%DATADIR%%/i18n/cs_cz.qm
+-%%DATADIR%%/i18n/en_us.qm
+-%%DATADIR%%/i18n/es_es.qm
+-%%DATADIR%%/i18n/it_it.qm
+-%%DATADIR%%/i18n/pt_br.qm
+-%%DATADIR%%/i18n/ru_ru.qm
+-%%DATADIR%%/i18n/uk_ua.qm
++share/icons/hicolor/128x128/apps/q4wine.png
++share/icons/hicolor/16x16/apps/q4wine.png
++share/icons/hicolor/192x192/apps/q4wine.png
++share/icons/hicolor/22x22/apps/q4wine.png
++share/icons/hicolor/256x256/apps/q4wine.png
++share/icons/hicolor/32x32/apps/q4wine.png
++share/icons/hicolor/48x48/apps/q4wine.png
++share/icons/hicolor/64x64/apps/q4wine.png
++share/icons/hicolor/96x96/apps/q4wine.png
++%%DATADIR%%/i18n/q4wine_cs_cz.qm
++%%DATADIR%%/i18n/q4wine_de_de.qm
++%%DATADIR%%/i18n/q4wine_en_us.qm
++%%DATADIR%%/i18n/q4wine_es_es.qm
++%%DATADIR%%/i18n/q4wine_he_il.qm
++%%DATADIR%%/i18n/q4wine_it_it.qm
++%%DATADIR%%/i18n/q4wine_pl_pl.qm
++%%DATADIR%%/i18n/q4wine_pt_br.qm
++%%DATADIR%%/i18n/q4wine_ru_ru.qm
++%%DATADIR%%/i18n/q4wine_uk_ua.qm
++%%DATADIR%%/icons/control.png
+ %%DATADIR%%/icons/eject.png
+ %%DATADIR%%/icons/exec_wine.png
+ %%DATADIR%%/icons/explorer.png
++%%DATADIR%%/icons/iexplore.png
+ %%DATADIR%%/icons/notepad.png
++%%DATADIR%%/icons/oleview.png
+ %%DATADIR%%/icons/regedit.png
++%%DATADIR%%/icons/taskmgr.png
+ %%DATADIR%%/icons/uninstaller.png
+ %%DATADIR%%/icons/winecfg.png
+ %%DATADIR%%/icons/wineconsole.png
++%%DATADIR%%/icons/winemine.png
++%%DATADIR%%/icons/wordpad.png
+ %%DATADIR%%/scripts/mount_image.sh
+ %%DATADIR%%/scripts/umount.sh
+ %%DATADIR%%/theme/nuvola/data/configure.png
+@@ -47,3 +64,5 @@
+ @dirrm %%DATADIR%%
+ @dirrmtry share/applications
+ @dirrm lib/q4wine
++@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
++@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
+===> Done

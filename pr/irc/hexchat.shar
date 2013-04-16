@@ -1,0 +1,410 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	hexchat
+#	hexchat/distinfo
+#	hexchat/Makefile
+#	hexchat/pkg-descr
+#	hexchat/pkg-plist
+#	hexchat/files
+#	hexchat/files/patch-src-fe-gtk-banlist.c
+#	hexchat/files/patch-src-fe-gtk-fe-gtk.c
+#	hexchat/files/patch-src-fe-gtk-Makefile.am
+#	hexchat/files/patch-configure.ac
+#	hexchat/files/patch-src-fe-gtk-custom-list.h
+#
+echo c - hexchat
+mkdir -p hexchat > /dev/null 2>&1
+echo x - hexchat/distinfo
+sed 's/^X//' >hexchat/distinfo << '46c9bb047867e1d95db2bf2b99bfca29'
+XSHA256 (hexchat-2.9.5.tar.xz) = 11dfd0fbfb88d8dbb38f631fab8a7dffbb179f7f7dafe316953ed6f513ac623d
+XSIZE (hexchat-2.9.5.tar.xz) = 1309112
+46c9bb047867e1d95db2bf2b99bfca29
+echo x - hexchat/Makefile
+sed 's/^X//' >hexchat/Makefile << '665bfd2316f69ebc6d10d8e912c9733e'
+X# Created by: nemysis <nemysis@gmx.ch>
+X# $FreeBSD$
+X
+XPORTNAME=	hexchat
+XPORTVERSION=	2.9.5
+XCATEGORIES=	irc gnome ipv6
+XMASTER_SITES=	http://dl.hexchat.org/hexchat/
+XEXTRACT_SUFX=	.tar.xz
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	IRC chat program with GTK and Text Frontend
+X
+XLICENSE=	GPLv2
+X
+XLIB_DEPENDS=	proxy:${PORTSDIR}/net/libproxy
+X
+XUSE_PKGCONFIG=	build
+XUSES=		pathfix
+XUSE_GNOME=	gtk20 desktopfileutils libxml2
+XWANT_PERL=	yes
+XUSE_AUTOTOOLS=	automake autoconf libtool
+XGNU_CONFIGURE=	yes
+XCONFIGURE_ARGS+=--enable-gtkfe --disable-sysinfo
+XUSE_GMAKE=	yes
+XINSTALLS_ICONS=	yes
+X
+XCPPFLAGS+=	-I${LOCALBASE}/include ${PTHREAD_CFLAGS}
+XLDFLAGS+=	-L${LOCALBASE}/lib ${PTHREAD_LIBS}
+X
+XMAN1=		hexchat.1
+X
+XPORTDOCS=	*
+X
+XOPTIONS_DEFINE=		SOCKS XFT OPENSSL TEXTFE PYTHON PERL DOAT DBUS NOTIFY
+X
+XOPTIONS_RADIO=		SPELL
+XOPTIONS_RADIO_SPELL=	LIBSEXY GTKSPELL STATIC
+X
+XOPTIONS_DEFAULT=	SOCKS XFT OPENSSL PERL DOAT DBUS NOTIFY LIBSEXY
+X
+XTEXTFE_DESC=		Build the Text frontend
+XDOAT_DESC=		Enable Do At plugin
+XSTATIC_DESC=		Enable Spell checking
+XLIBSEXY_DESC=		Enable Spell checking through Libsexy
+XGTKSPELL_DESC=		Enable Spell checking through GTKSpell
+X
+X.include <bsd.port.options.mk>
+X
+Xpost-patch:
+X	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|g' ${WRKSRC}/autogen.sh
+X
+Xpre-configure:
+X	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./autogen.sh)
+X
+X.if ${PORT_OPTIONS:MNLS}
+XUSE_GETTEXT=	yes
+XPLIST_SUB+=	NLS=""
+X.else
+XCONFIGURE_ARGS+=--disable-nls
+XPLIST_SUB+=	NLS="@comment "
+X.endif
+X
+X.if ! ${PORT_OPTIONS:MLIBSEXY} && ! ${PORT_OPTIONS:MGTKSPELL} && ! ${PORT_OPTIONS:MSTATIC}
+XCONFIGURE_ARGS+=--enable-spell=none
+X.endif
+X
+X.if ${PORT_OPTIONS:MSTATIC}
+XCONFIGURE_ARGS+=--enable-spell=static
+X.endif
+X
+X.if ${PORT_OPTIONS:MLIBSEXY}
+XLIB_DEPENDS+=	sexy:${PORTSDIR}/x11-toolkits/libsexy
+XCONFIGURE_ARGS+=--enable-spell=libsexy
+X.endif
+X
+X.if ${PORT_OPTIONS:MGTKSPELL}
+XLIB_DEPENDS+=	gtkspell:${PORTSDIR}/textproc/gtkspell
+XCONFIGURE_ARGS+=--enable-spell=gtkspell
+X.endif
+X
+X.if ${PORT_OPTIONS:MSOCKS}
+XLIB_DEPENDS+=	socks:${PORTSDIR}/net/dante
+XCONFIGURE_ARGS+=--enable-socks
+X.else
+XCONFIGURE_ARGS+=--disable-socks
+X.endif
+X
+X.if ${PORT_OPTIONS:MXFT}
+XUSE_XORG+=	xft
+XCONFIGURE_ARGS+=--enable-xft
+X.else
+XCONFIGURE_ARGS+=--disable-xft
+X.endif
+X
+X.if ${PORT_OPTIONS:MOPENSSL}
+XCONFIGURE_ARGS+=--enable-openssl
+XPLIST_SUB+=	OPENSSL=""
+X.else
+XCONFIGURE_ARGS+=--disable-openssl
+X
+XPLIST_SUB+=	OPENSSL="@comment "
+X.endif
+X
+X.if ${PORT_OPTIONS:MTEXTFE}
+XCONFIGURE_ARGS+=--enable-textfe
+XPLIST_SUB+=	TEXTFE=""
+X.else
+XCONFIGURE_ARGS+=--disable-textfe
+XPLIST_SUB+=	TEXTFE="@comment "
+X#.endif
+X.endif
+X
+X.if ${PORT_OPTIONS:MPYTHON}
+XUSE_PYTHON=	yes
+XCONFIGURE_ARGS+=--enable-python
+XPLIST_SUB+=	PYTHON=""
+X.else
+XCONFIGURE_ARGS+=--disable-python
+XPLIST_SUB+=	PYTHON="@comment "
+X.endif
+X
+X.if ${PORT_OPTIONS:MPERL}
+XUSE_PERL5=	yes
+XCONFIGURE_ARGS+=--enable-perl
+XPLIST_SUB+=	PERL=""
+X.else
+XCONFIGURE_ARGS+=--disable-perl
+XPLIST_SUB+=	PERL="@comment "
+X.endif
+X
+X.if ${PORT_OPTIONS:MDOAT}
+XCONFIGURE_ARGS+=--enable-doat
+XPLIST_SUB+=	DOAT=""
+X.else
+XCONFIGURE_ARGS+=--disable-doat
+XPLIST_SUB+=	DOAT="@comment "
+X.endif
+X
+X.if ${PORT_OPTIONS:MDBUS}
+XLIB_DEPENDS+=	dbus-glib-1:${PORTSDIR}/devel/dbus-glib
+XCONFIGURE_ARGS+=--enable-dbus
+XUSE_GNOME+=	gconf2
+XPLIST_SUB+=	DBUS=""
+X.else
+XCONFIGURE_ARGS+=--disable-dbus
+XPLIST_SUB+=	DBUS="@comment "
+X.endif
+X
+X.if ${PORT_OPTIONS:MDBUS}
+XGCONF_SCHEMAS+=	apps_hexchat_url_handler.schemas
+X.endif
+X
+X.if ${PORT_OPTIONS:MNOTIFY}
+XRUN_DEPENDS+=	notify-send:${PORTSDIR}/devel/libnotify
+XCONFIGURE_ARGS+=--enable-libnotify
+XPLIST_SUB+=	NOTIFY=""
+X.else
+XCONFIGURE_ARGS+=--disable-libnotify
+XPLIST_SUB+=	NOTIFY="@comment "
+X.endif
+X
+Xpost-install:
+X	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
+X	${INSTALL_MAN} ${WRKSRC}/man/${MAN1} ${MAN1PREFIX}/man/man1
+X
+X.if ${PORT_OPTIONS:MDOCS}
+X	@${MKDIR} ${DOCSDIR}
+X	${INSTALL_DATA} ${WRKSRC}/share/doc/*.md ${DOCSDIR}
+X.endif
+X	@(cd ${PREFIX}/lib/hexchat/plugins/ && ${RM} -f *.a)
+X
+X	@-update-desktop-database -q
+X
+X.include <bsd.port.mk>
+665bfd2316f69ebc6d10d8e912c9733e
+echo x - hexchat/pkg-descr
+sed 's/^X//' >hexchat/pkg-descr << '649aeb2fd2f4c99e3d7582fb47be6027'
+XHexChat is an IRC chat program.
+XIt allows you to join multiple IRC channels (chat rooms) at the same time,
+Xtalk publicly, private one-on-one conversations etc.
+X
+XHexChat is based on XChat, but unlike XChat it's completely free for both
+XWindows and Unix-like systems. Since XChat is open source, it's perfectly legal.
+X
+XWWW: http://www.hexchat.org/
+XWWW: https://github.com/hexchat/hexchat
+649aeb2fd2f4c99e3d7582fb47be6027
+echo x - hexchat/pkg-plist
+sed 's/^X//' >hexchat/pkg-plist << 'ed6c86b5c09fa6a00e52c7a7de014458'
+Xbin/hexchat
+X%%TEXTFE%%bin/hexchat-text
+Xinclude/hexchat-plugin.h
+X%%OPENSSL%%lib/hexchat/plugins/checksum.la
+X%%OPENSSL%%lib/hexchat/plugins/checksum.so
+X%%DOAT%%lib/hexchat/plugins/doat.la
+X%%DOAT%%lib/hexchat/plugins/doat.so
+X%%OPENSSL%%lib/hexchat/plugins/fishlim.la
+X%%OPENSSL%%lib/hexchat/plugins/fishlim.so
+X%%PERL%%lib/hexchat/plugins/perl.la
+X%%PERL%%lib/hexchat/plugins/perl.so
+X%%PYTHON%%lib/hexchat/plugins/python.la
+X%%PYTHON%%lib/hexchat/plugins/python.so
+Xshare/applications/hexchat.desktop
+X%%DBUS%%share/dbus-1/services/org.hexchat.service.service
+Xshare/icons/hicolor/48x48/apps/hexchat.png
+Xshare/icons/hicolor/scalable/apps/hexchat.svg
+X%%NLS%%share/locale/af/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/am/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/ast/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/az/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/be/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/bg/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/ca/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/cs/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/da/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/de/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/el/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/en_GB/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/es/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/et/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/eu/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/fi/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/fr/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/gl/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/gu/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/hi/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/hu/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/id/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/it/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/ja/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/kn/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/ko/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/lt/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/lv/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/mk/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/ml/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/ms/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/nb/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/nl/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/no/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/pa/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/pl/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/pt/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/pt_BR/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/ru/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/rw/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/sk/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/sl/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/sq/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/sr/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/sv/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/th/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/uk/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/vi/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/wa/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/zh_CN/LC_MESSAGES/hexchat.mo
+X%%NLS%%share/locale/zh_TW/LC_MESSAGES/hexchat.mo
+Xshare/pixmaps/hexchat.png
+X%%NLS%%@dirrmtry share/locale/rw/LC_MESSAGES
+X%%NLS%%@dirrmtry share/locale/rw
+X%%NLS%%@dirrmtry share/locale/ast/LC_MESSAGES
+X%%NLS%%@dirrmtry share/locale/ast
+X@dirrmtry share/applications
+X@dirrm lib/hexchat/plugins
+X@dirrm lib/hexchat
+X@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
+X@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
+ed6c86b5c09fa6a00e52c7a7de014458
+echo c - hexchat/files
+mkdir -p hexchat/files > /dev/null 2>&1
+echo x - hexchat/files/patch-src-fe-gtk-banlist.c
+sed 's/^X//' >hexchat/files/patch-src-fe-gtk-banlist.c << '09eb685da10be117f0bc6e158fd2252f'
+X--- src/fe-gtk/banlist.c.orig	2013-04-02 03:07:55.000000000 +0200
+X+++ src/fe-gtk/banlist.c	2013-04-04 20:31:29.000000000 +0200
+X@@ -37,6 +37,7 @@
+X #include <gtk/gtktreeview.h>
+X #include <gtk/gtktreeselection.h>
+X #include <gtk/gtktogglebutton.h>
+X+#include <gtk/gtkcheckbutton.h>
+X #include <gtk/gtktable.h>
+X #include <glib.h>
+X 
+X@@ -583,7 +584,7 @@
+X  *		#define DATE_FORMAT "%a %b %d %T %Y"
+X  */
+X static void
+X-strptime (char *ti, struct tm *tm)
+X+banlist_strptime (char *ti, struct tm *tm)
+X {
+X 	/* Expect something like "Sat Mar 16 21:24:27 2013" */
+X 	static char *mon[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+X@@ -625,8 +626,8 @@
+X 
+X 	gtk_tree_model_get(model, a, DATE_COLUMN, &time1, -1);
+X 	gtk_tree_model_get(model, b, DATE_COLUMN, &time2, -1);
+X-	strptime (time1, &tm1);
+X-	strptime (time2, &tm2);
+X+	banlist_strptime (time1, &tm1);
+X+	banlist_strptime (time2, &tm2);
+X 	t1 = mktime (&tm1);
+X 	t2 = mktime (&tm2);
+X 
+09eb685da10be117f0bc6e158fd2252f
+echo x - hexchat/files/patch-src-fe-gtk-fe-gtk.c
+sed 's/^X//' >hexchat/files/patch-src-fe-gtk-fe-gtk.c << 'b68a6a3d727b61c0cc40d3385af2e35f'
+X--- src/fe-gtk/fe-gtk.c.orig	2013-04-02 03:07:55.000000000 +0200
+X+++ src/fe-gtk/fe-gtk.c	2013-04-04 20:46:15.000000000 +0200
+X@@ -134,7 +134,7 @@
+X  {"no-plugins",	'n', 0, G_OPTION_ARG_NONE,	&arg_skip_plugins, N_("Don't auto load any plugins"), NULL},
+X  {"plugindir",	'p', 0, G_OPTION_ARG_NONE,	&arg_show_autoload, N_("Show plugin/script auto-load directory"), NULL},
+X  {"configdir",	'u', 0, G_OPTION_ARG_NONE,	&arg_show_config, N_("Show user config directory"), NULL},
+X- {"url",	 0,  0, G_OPTION_ARG_STRING,	&arg_url, N_("Open an irc://server:port/channel URL"), "URL"},
+X+ {"url",	 0,  0, G_OPTION_ARG_STRING,	&arg_url, N_("Open an irc://server:port/channel?key URL"), "URL"},
+X #ifndef WIN32	/* uses DBUS */
+X  {"command",	'c', 0, G_OPTION_ARG_STRING,	&arg_command, N_("Execute command:"), "COMMAND"},
+X  {"existing",	'e', 0, G_OPTION_ARG_NONE,	&arg_existing, N_("Open URL or execute command in an existing HexChat"), NULL},
+b68a6a3d727b61c0cc40d3385af2e35f
+echo x - hexchat/files/patch-src-fe-gtk-Makefile.am
+sed 's/^X//' >hexchat/files/patch-src-fe-gtk-Makefile.am << '5a7ed84898fd9eacdcd386505f677ed7'
+X--- src/fe-gtk/Makefile.am.orig	2013-04-02 03:07:55.000000000 +0200
+X+++ src/fe-gtk/Makefile.am	2013-04-04 21:02:35.000000000 +0200
+X@@ -2,7 +2,7 @@
+X 
+X bin_PROGRAMS = hexchat
+X 
+X-AM_CPPFLAGS = $(GUI_CFLAGS) -DG_DISABLE_CAST_CHECKS -DLOCALEDIR=\"$(localedir)\"
+X+AM_CPPFLAGS = $(GUI_CFLAGS) -DLOCALEDIR=\"$(localedir)\"
+X 
+X hexchat_LDADD = ../common/libhexchatcommon.a $(GUI_LIBS)
+X 
+5a7ed84898fd9eacdcd386505f677ed7
+echo x - hexchat/files/patch-configure.ac
+sed 's/^X//' >hexchat/files/patch-configure.ac << 'c2b32a0471bf89dd5c4b3a65e313a650'
+X--- configure.ac.orig	2013-04-02 03:07:55.000000000 +0200
+X+++ configure.ac	2013-04-04 21:12:36.000000000 +0200
+X@@ -191,9 +191,9 @@
+X 	AC_MSG_ERROR(Cannot find GLib!)
+X fi
+X 
+X-COMMON_CFLAGS="$GLIB_CFLAGS"
+X+COMMON_CFLAGS="$GLIB_CFLAGS -DG_DISABLE_SINGLE_INCLUDES"
+X COMMON_LIBS="$GLIB_LIBS"
+X-COMMON_LIBS="$COMMON_LIBS -lgmodule-2.0"
+X+COMMON_LIBS="$COMMON_LIBS -lgmodule-2.0 -lgobject-2.0"
+X 
+X dnl *********************************************************************
+X dnl ** GTK **************************************************************
+X@@ -201,7 +201,7 @@
+X 
+X # we might get undefined macro without this test
+X if test "$gtkfe" = yes ; then
+X-	AM_PATH_GTK_2_0(2.10.0, havegtk=yes, havegtk=no)
+X+	AM_PATH_GTK_2_0(2.14.0, havegtk=yes, havegtk=no)
+X 
+X 	if test "$havegtk" = no; then
+X 		gtkfe=no
+X@@ -222,7 +222,7 @@
+X dnl *********************************************************************
+X 
+X GUI_LIBS="$GUI_LIBS $GTK_LIBS"
+X-GUI_CFLAGS="$GUI_CFLAGS $GTK_CFLAGS"
+X++GUI_CFLAGS="$GUI_CFLAGS $GTK_CFLAGS -DG_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_SINGLE_INCLUDES"
+X 
+X #if test "$gnome" = yes; then
+X #	AC_PATH_PROG(pkgconfigpath, pkg-config)
+c2b32a0471bf89dd5c4b3a65e313a650
+echo x - hexchat/files/patch-src-fe-gtk-custom-list.h
+sed 's/^X//' >hexchat/files/patch-src-fe-gtk-custom-list.h << 'f59ec0e51ddd9a2123283e0dfff37dd0'
+X--- src/fe-gtk/custom-list.h.orig	2013-04-02 03:07:55.000000000 +0200
+X+++ src/fe-gtk/custom-list.h	2013-04-04 21:09:51.000000000 +0200
+X@@ -22,6 +22,8 @@
+X 
+X #include <gtk/gtk.h>
+X 
+X+GType custom_list_get_type (void);
+X+
+X /* Some boilerplate GObject defines. 'klass' is used
+X  *   instead of 'class', because 'class' is a C++ keyword */
+X 
+f59ec0e51ddd9a2123283e0dfff37dd0
+exit
+

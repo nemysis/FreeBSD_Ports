@@ -1,0 +1,53 @@
+# Created by: Sergey V. Dyatko <sergey.dyatko@gmail.com>
+# $FreeBSD: head/deskutils/q4wine/Makefile 315248 2013-03-25 21:47:11Z jgh $
+
+PORTNAME=	q4wine
+PORTVERSION=	1.0
+CATEGORIES=	deskutils emulators
+MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}%20${PORTVERSION}
+
+MAINTAINER=	sergey.dyatko@gmail.com
+COMMENT=	QT4 front-end for WINE
+
+LICENSE=	GPLv3
+
+BUILD_DEPENDS=	icotool:${PORTSDIR}/graphics/icoutils
+RUN_DEPENDS=	sudo:${PORTSDIR}/security/sudo \
+		wget:${PORTSDIR}/ftp/wget \
+		cabextract:${PORTSDIR}/archivers/cabextract \
+		icotool:${PORTSDIR}/graphics/icoutils
+
+USES=		cmake
+CMAKE_ARGS+=	-DMANPAGE_ENTRY_PATH=${MANPREFIX}/man
+USE_GNOME=	desktopfileutils
+USE_LDCONFIG=	yes
+INSTALLS_ICONS=	yes
+USE_QT4=	qmake_build rcc_build moc_build uic_build \
+		linguist_build corelib gui sql network
+ONLY_FOR_ARCHS=	i386 amd64
+
+MAN1=		q4wine-cli.1 q4wine-helper.1 q4wine.1
+
+OPTIONS_DEFINE=	DBUS
+OPTIONS_DEFAULT=	DBUS
+
+.include <bsd.port.options.mk>
+
+.if ${ARCH} == "i386"
+RUN_DEPENDS+=	wine:${PORTSDIR}/emulators/wine-devel
+.endif
+
+.if ${PORT_OPTIONS:MDBUS}
+USE_QT4+=	dbus
+.else
+CMAKE_ARGS+=	-DWITH_DBUS:BOOL=OFF
+.endif
+
+post-install:
+	@-update-desktop-database -q
+
+	@${ECHO_CMD}
+	@${CAT} ${PKGMESSAGE}
+	@${ECHO_CMD}
+
+.include <bsd.port.mk>

@@ -1,0 +1,390 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/plee-the-bear/Makefile ./Makefile
+--- /usr/ports/games/plee-the-bear/Makefile	2013-03-23 02:42:33.000000000 +0100
++++ ./Makefile	2013-04-07 09:24:34.000000000 +0200
+@@ -3,13 +3,19 @@
+ 
+ PORTNAME=	plee-the-bear
+ PORTVERSION=	0.6.0
+-PORTREVISION=	2
++PORTREVISION=	3
+ CATEGORIES=	games
+ MASTER_SITES=	SF/${PORTNAME}/Plee%20the%20Bear/${PORTVERSION:R}
+ 
+ MAINTAINER=	amdmi3@FreeBSD.org
+ COMMENT=	2D platform jump and run game
+ 
++LICENSE=	GPLv2 CCbyNCSA3
++LICENSE_COMB=	dual
++LICENSE_NAME_CCbyNCSA3=Attribution-NonCommercial-ShareAlike 3.0 Unported
++LICENSE_FILE_CCbyNCSA3=${WRKSRC}/CCPL
++LICENSE_PERMS_CCbyNCSA3=dist-mirror pkg-mirror auto-accept
++
+ LIB_DEPENDS=	boost_filesystem:${PORTSDIR}/devel/boost-libs \
+ 		claw_application:${PORTSDIR}/devel/libclaw
+ 
+@@ -18,12 +24,29 @@
+ WANT_GNOME=	yes
+ INSTALLS_ICONS=	yes
+ USE_LDCONFIG=	yes
+-USE_GETTEXT=	yes
+ MAKE_JOBS_SAFE=	yes
+ USE_GCC=	4.6+
+ 
+ USES=		cmake
+ CMAKE_ARGS=	-Dlibclaw_DIR="${LOCALBASE}/share/libclaw/cmake" \
+-		-DBEAR_NO_EDITOR=YES
++		-DBEAR_NO_EDITOR=YES -DBEAR_NO_MANPAGES=YES
++
++OPTIONS_DEFINE=	NLS
++
++.include <bsd.port.options.mk>
++
++.if ${PORT_OPTIONS:MNLS}
++USE_GETTEXT=	yes
++PLIST_SUB+=	NLS=""
++.else
++PLIST_SUB+=	NLS="@comment "
++.endif
++
++post-patch:
++.if ! ${PORT_OPTIONS:MNLS}
++	@${REINPLACE_CMD} -e 's|locale||' \
++		${WRKSRC}/bear-engine/desktop/CMakeLists.txt \
++		${WRKSRC}/plee-the-bear/desktop/CMakeLists.txt
++.endif
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/games/plee-the-bear/pkg-descr ./pkg-descr
+--- /usr/ports/games/plee-the-bear/pkg-descr	2013-01-14 17:55:34.000000000 +0100
++++ ./pkg-descr	2013-04-06 22:55:51.000000000 +0200
+@@ -3,4 +3,5 @@
+ of games). You're a bear, trying to catch his son, which ran away
+ after he ate all your honey.
+ 
+-WWW: http://plee-the-bear.sourceforge.net/
++WWW: http://stuff-o-matic.com/
++WWW: http://sourceforge.net/projects/plee-the-bear/
+diff -ruN --exclude=CVS /usr/ports/games/plee-the-bear/pkg-plist ./pkg-plist
+--- /usr/ports/games/plee-the-bear/pkg-plist	2013-01-14 17:55:34.000000000 +0100
++++ ./pkg-plist	2013-04-07 01:42:57.000000000 +0200
+@@ -108,10 +108,10 @@
+ share/icons/hicolor/32x32/apps/ptb.png
+ share/icons/hicolor/48x48/apps/ptb.png
+ share/icons/hicolor/64x64/apps/ptb.png
+-share/locale/fr/LC_MESSAGES/bear-engine.mo
+-share/locale/fr/LC_MESSAGES/plee-the-bear.mo
+-share/locale/nn/LC_MESSAGES/bear-engine.mo
+-share/locale/nn/LC_MESSAGES/plee-the-bear.mo
++%%NLS%%share/locale/fr/LC_MESSAGES/bear-engine.mo
++%%NLS%%share/locale/fr/LC_MESSAGES/plee-the-bear.mo
++%%NLS%%share/locale/nn/LC_MESSAGES/bear-engine.mo
++%%NLS%%share/locale/nn/LC_MESSAGES/plee-the-bear.mo
+ share/pixmaps/ptb.png
+ share/pixmaps/ptb.xpm
+ %%DATADIR%%/animation/air_bubble_generator.canim
+@@ -340,7 +340,6 @@
+ %%DATADIR%%/animation/weather/rain-medium.canim
+ %%DATADIR%%/animation/weather/rain.canim
+ %%DATADIR%%/credits.txt
+-%%DATADIR%%/font/AUTHORS
+ %%DATADIR%%/font/bouncy.fnt
+ %%DATADIR%%/font/bouncy.png
+ %%DATADIR%%/font/fixed-10x20-unicode.fnt
+@@ -354,7 +353,6 @@
+ %%DATADIR%%/font/level_name-42x50.png
+ %%DATADIR%%/font/speech.fnt
+ %%DATADIR%%/font/speech.png
+-%%DATADIR%%/gfx/AUTHORS
+ %%DATADIR%%/gfx/bonus-box-1.png
+ %%DATADIR%%/gfx/bonus-box-1.spritepos
+ %%DATADIR%%/gfx/bonus-box-2.png
+@@ -363,21 +361,17 @@
+ %%DATADIR%%/gfx/bonus-box-3.spritepos
+ %%DATADIR%%/gfx/bubble.png
+ %%DATADIR%%/gfx/bubble.spritepos
+-%%DATADIR%%/gfx/castle/armor/AUTHORS
+ %%DATADIR%%/gfx/castle/armor/armor-parts.png
+ %%DATADIR%%/gfx/castle/armor/armor-parts.spritepos
+ %%DATADIR%%/gfx/checkpoint.png
+ %%DATADIR%%/gfx/checkpoint.spritepos
+-%%DATADIR%%/gfx/coop/AUTHORS
+ %%DATADIR%%/gfx/coop/totem.png
+ %%DATADIR%%/gfx/coop/totem.spritepos
+ %%DATADIR%%/gfx/corrupting-bonus-disapearing.png
+ %%DATADIR%%/gfx/corrupting-bonus-disapearing.spritepos
+-%%DATADIR%%/gfx/effect/AUTHORS
+ %%DATADIR%%/gfx/effect/air-blast.png
+ %%DATADIR%%/gfx/effect/ground-blast.png
+ %%DATADIR%%/gfx/effect/ground-blast.spritepos
+-%%DATADIR%%/gfx/forest/AUTHORS
+ %%DATADIR%%/gfx/forest/bk/bk_00.png
+ %%DATADIR%%/gfx/forest/bk/bk_01.png
+ %%DATADIR%%/gfx/forest/bk/bk_02.png
+@@ -398,7 +392,6 @@
+ %%DATADIR%%/gfx/forest/bk/bk_17.png
+ %%DATADIR%%/gfx/forest/bk/bk_18.png
+ %%DATADIR%%/gfx/forest/bk/bk_19.png
+-%%DATADIR%%/gfx/forest/bonus-icons/AUTHORS
+ %%DATADIR%%/gfx/forest/bonus-icons/bonus-icons.png
+ %%DATADIR%%/gfx/forest/bonus-icons/bonus-icons.spritepos
+ %%DATADIR%%/gfx/forest/boss/fall-exploded.png
+@@ -409,7 +402,6 @@
+ %%DATADIR%%/gfx/forest/boss/jump-exploded.spritepos
+ %%DATADIR%%/gfx/forest/bridge.png
+ %%DATADIR%%/gfx/forest/bridge.spritepos
+-%%DATADIR%%/gfx/forest/butterfly/AUTHORS
+ %%DATADIR%%/gfx/forest/butterfly/butterfly.png
+ %%DATADIR%%/gfx/forest/butterfly/butterfly.spritepos
+ %%DATADIR%%/gfx/forest/ceiling-slope-26-left.png
+@@ -417,12 +409,10 @@
+ %%DATADIR%%/gfx/forest/corrupting-carrot.png
+ %%DATADIR%%/gfx/forest/corrupting-carrot.spritepos
+ %%DATADIR%%/gfx/forest/fog-1.png
+-%%DATADIR%%/gfx/forest/frog/AUTHORS
+ %%DATADIR%%/gfx/forest/frog/frog-1.png
+ %%DATADIR%%/gfx/forest/frog/frog-1.spritepos
+ %%DATADIR%%/gfx/forest/frog/frog-2.png
+ %%DATADIR%%/gfx/forest/frog/frog-2.spritepos
+-%%DATADIR%%/gfx/forest/gorilla/AUTHORS
+ %%DATADIR%%/gfx/forest/gorilla/angry.png
+ %%DATADIR%%/gfx/forest/gorilla/angry.spritepos
+ %%DATADIR%%/gfx/forest/gorilla/idle.png
+@@ -442,7 +432,6 @@
+ %%DATADIR%%/gfx/forest/little-slope-wall.png
+ %%DATADIR%%/gfx/forest/plants.png
+ %%DATADIR%%/gfx/forest/platform.png
+-%%DATADIR%%/gfx/forest/rabbit/AUTHORS
+ %%DATADIR%%/gfx/forest/rabbit/rabbit-1.png
+ %%DATADIR%%/gfx/forest/rabbit/rabbit-1.spritepos
+ %%DATADIR%%/gfx/forest/rabbit/rabbit-2.png
+@@ -476,7 +465,6 @@
+ %%DATADIR%%/gfx/forest/wall-corner.spritepos
+ %%DATADIR%%/gfx/forest/wall-fill-2.png
+ %%DATADIR%%/gfx/forest/wall-fill.png
+-%%DATADIR%%/gfx/forest/wasp/AUTHORS
+ %%DATADIR%%/gfx/forest/wasp/sting.spritepos
+ %%DATADIR%%/gfx/forest/wasp/sting.tga
+ %%DATADIR%%/gfx/forest/wasp/wasp-shooting-1.png
+@@ -494,13 +482,11 @@
+ %%DATADIR%%/gfx/forest/woodlog-thrower.spritepos
+ %%DATADIR%%/gfx/forest/woodlog.png
+ %%DATADIR%%/gfx/forest/woodlog.spritepos
+-%%DATADIR%%/gfx/forest/woodpecker/AUTHORS
+ %%DATADIR%%/gfx/forest/woodpecker/woodpecker-1.png
+ %%DATADIR%%/gfx/forest/woodpecker/woodpecker-1.spritepos
+ %%DATADIR%%/gfx/forest/woodpecker/woodpecker-2.png
+ %%DATADIR%%/gfx/forest/woodpecker/woodpecker-2.spritepos
+ %%DATADIR%%/gfx/gamned.png
+-%%DATADIR%%/gfx/god/AUTHORS
+ %%DATADIR%%/gfx/god/appearing.png
+ %%DATADIR%%/gfx/god/appearing.spritepos
+ %%DATADIR%%/gfx/god/disappearing-stork.png
+@@ -516,36 +502,28 @@
+ %%DATADIR%%/gfx/headstone.png
+ %%DATADIR%%/gfx/info-board.png
+ %%DATADIR%%/gfx/info-board.spritepos
+-%%DATADIR%%/gfx/intro/AUTHORS
+ %%DATADIR%%/gfx/intro/intro-1.png
+ %%DATADIR%%/gfx/intro/intro-2.png
+ %%DATADIR%%/gfx/intro/intro-3.png
+ %%DATADIR%%/gfx/intro/intro-4.png
+-%%DATADIR%%/gfx/loading/AUTHORS
+ %%DATADIR%%/gfx/loading/hourglass.png
+ %%DATADIR%%/gfx/loading/hourglass.spritepos
+ %%DATADIR%%/gfx/loading/plumber-plee.png
+ %%DATADIR%%/gfx/loading/plumber-plee.spritepos
+-%%DATADIR%%/gfx/mini-game/AUTHORS
+ %%DATADIR%%/gfx/mini-game/medal.png
+ %%DATADIR%%/gfx/mini-game/medal.spritepos
+-%%DATADIR%%/gfx/mini-game/sequencer/AUTHORS
+ %%DATADIR%%/gfx/mini-game/sequencer/bridge-button.png
+ %%DATADIR%%/gfx/mini-game/sequencer/bridge-button.spritepos
+ %%DATADIR%%/gfx/mini-game/sequencer/notes.png
+ %%DATADIR%%/gfx/mini-game/sequencer/notes.spritepos
+-%%DATADIR%%/gfx/mini-game/stones/AUTHORS
+ %%DATADIR%%/gfx/mini-game/stones/target.png
+ %%DATADIR%%/gfx/mini-game/stones/target.spritepos
+-%%DATADIR%%/gfx/misc/AUTHORS
+ %%DATADIR%%/gfx/misc/enemy.png
+ %%DATADIR%%/gfx/misc/enemy.spritepos
+ %%DATADIR%%/gfx/misc/link.png
+ %%DATADIR%%/gfx/misc/link.spritepos
+-%%DATADIR%%/gfx/owl/AUTHORS
+ %%DATADIR%%/gfx/owl/owl.png
+ %%DATADIR%%/gfx/owl/owl.spritepos
+-%%DATADIR%%/gfx/plee/AUTHORS
+ %%DATADIR%%/gfx/plee/cap-alt.png
+ %%DATADIR%%/gfx/plee/cap.png
+ %%DATADIR%%/gfx/plee/cap.spritepos
+@@ -565,7 +543,6 @@
+ %%DATADIR%%/gfx/plee/plee-alt-2.png
+ %%DATADIR%%/gfx/plee/plee-alt-3.png
+ %%DATADIR%%/gfx/plee/plee-alt-4.png
+-%%DATADIR%%/gfx/power-filter-door/AUTHORS
+ %%DATADIR%%/gfx/power-filter-door/plinth.png
+ %%DATADIR%%/gfx/power-filter-door/plinth.spritepos
+ %%DATADIR%%/gfx/power-filter-door/power-filter-door-1.png
+@@ -574,23 +551,18 @@
+ %%DATADIR%%/gfx/power-filter-door/power-filter-door-2.spritepos
+ %%DATADIR%%/gfx/power-filter-door/waves.png
+ %%DATADIR%%/gfx/power-filter-door/waves.spritepos
+-%%DATADIR%%/gfx/ray/AUTHORS
+ %%DATADIR%%/gfx/ray/ray-1.png
+ %%DATADIR%%/gfx/ray/ray-1.spritepos
+-%%DATADIR%%/gfx/shiny-honey-jar/AUTHORS
+ %%DATADIR%%/gfx/shiny-honey-jar/shiny-honey-jar.png
+ %%DATADIR%%/gfx/shiny-honey-jar/shiny-honey-jar.spritepos
+-%%DATADIR%%/gfx/smoke/AUTHORS
+ %%DATADIR%%/gfx/smoke/smoke.png
+ %%DATADIR%%/gfx/smoke/steam.png
+ %%DATADIR%%/gfx/splash.png
+ %%DATADIR%%/gfx/splash.spritepos
+-%%DATADIR%%/gfx/stone/AUTHORS
+ %%DATADIR%%/gfx/stone/air-stone.png
+ %%DATADIR%%/gfx/stone/air-stone.spritepos
+ %%DATADIR%%/gfx/stone/stone.png
+ %%DATADIR%%/gfx/stone/stone.spritepos
+-%%DATADIR%%/gfx/thumb/AUTHORS
+ %%DATADIR%%/gfx/thumb/bears_on_fire.png
+ %%DATADIR%%/gfx/thumb/forest-boss.png
+ %%DATADIR%%/gfx/thumb/forest.png
+@@ -599,7 +571,6 @@
+ %%DATADIR%%/gfx/thumb/the_arena.png
+ %%DATADIR%%/gfx/thumb/the_waterfall.png
+ %%DATADIR%%/gfx/thumb/tutorial.png
+-%%DATADIR%%/gfx/title_screen/AUTHORS
+ %%DATADIR%%/gfx/title_screen/background_00.png
+ %%DATADIR%%/gfx/title_screen/background_01.png
+ %%DATADIR%%/gfx/title_screen/background_02.png
+@@ -612,19 +583,15 @@
+ %%DATADIR%%/gfx/title_screen/background_09.png
+ %%DATADIR%%/gfx/title_screen/background_10.png
+ %%DATADIR%%/gfx/title_screen/background_11.png
+-%%DATADIR%%/gfx/transition/AUTHORS
+ %%DATADIR%%/gfx/transition/ground.png
+-%%DATADIR%%/gfx/ui/AUTHORS
+ %%DATADIR%%/gfx/ui/air-power.png
+ %%DATADIR%%/gfx/ui/balloon.png
+ %%DATADIR%%/gfx/ui/balloon.spritepos
+-%%DATADIR%%/gfx/ui/bonus-icons/AUTHORS
+ %%DATADIR%%/gfx/ui/bonus-icons/bonus-icons.png
+ %%DATADIR%%/gfx/ui/bonus-icons/bonus-icons.spritepos
+ %%DATADIR%%/gfx/ui/fire-power.png
+ %%DATADIR%%/gfx/ui/frame.png
+ %%DATADIR%%/gfx/ui/frame.spritepos
+-%%DATADIR%%/gfx/ui/power-icons/AUTHORS
+ %%DATADIR%%/gfx/ui/power-icons/air-1.svg
+ %%DATADIR%%/gfx/ui/power-icons/air-2.svg
+ %%DATADIR%%/gfx/ui/power-icons/air-3.svg
+@@ -637,7 +604,6 @@
+ %%DATADIR%%/gfx/ui/power-icons/water-2.svg
+ %%DATADIR%%/gfx/ui/power-icons/water-3.svg
+ %%DATADIR%%/gfx/ui/power-icons/water-4.svg
+-%%DATADIR%%/gfx/ui/status/AUTHORS
+ %%DATADIR%%/gfx/ui/status/status.png
+ %%DATADIR%%/gfx/ui/status/status.spritepos
+ %%DATADIR%%/gfx/ui/status/tube-vertical.png
+@@ -646,7 +612,6 @@
+ %%DATADIR%%/gfx/ui/status/tube.spritepos
+ %%DATADIR%%/gfx/ui/water-power.png
+ %%DATADIR%%/gfx/water.tga
+-%%DATADIR%%/gfx/weather/AUTHORS
+ %%DATADIR%%/gfx/weather/rain-light.png
+ %%DATADIR%%/gfx/weather/rain-light.spritepos
+ %%DATADIR%%/gfx/weather/rain-medium.png
+@@ -700,7 +665,6 @@
+ %%DATADIR%%/model/stones/water_fire_stone.cm
+ %%DATADIR%%/model/stones/water_stone.cm
+ %%DATADIR%%/music/1-up.ogg
+-%%DATADIR%%/music/AUTHORS
+ %%DATADIR%%/music/bonus.ogg
+ %%DATADIR%%/music/boss.ogg
+ %%DATADIR%%/music/castle.ogg
+@@ -708,13 +672,11 @@
+ %%DATADIR%%/music/game-over.ogg
+ %%DATADIR%%/music/invincibility.ogg
+ %%DATADIR%%/music/quick-end.ogg
+-%%DATADIR%%/music/sequencer/bonus/AUTHORS
+ %%DATADIR%%/music/sequencer/bonus/atmosphere.ogg
+ %%DATADIR%%/music/sequencer/bonus/back.ogg
+ %%DATADIR%%/music/sequencer/bonus/guitar.ogg
+ %%DATADIR%%/music/sequencer/bonus/sequencer-atmosphere-track.txt
+ %%DATADIR%%/music/sequencer/bonus/sequencer-guitar-track.txt
+-%%DATADIR%%/music/sequencer/title-screen/AUTHORS
+ %%DATADIR%%/music/sequencer/title-screen/back.ogg
+ %%DATADIR%%/music/sequencer/title-screen/bass.ogg
+ %%DATADIR%%/music/sequencer/title-screen/guitar.ogg
+@@ -750,28 +712,22 @@
+ %%DATADIR%%/script/tutorial/wall_jump.txt
+ %%DATADIR%%/script/tutorial/wasp.txt
+ %%DATADIR%%/script/tutorial/water.txt
+-%%DATADIR%%/sound/AUTHORS
+ %%DATADIR%%/sound/checkpoint-ding.ogg
+ %%DATADIR%%/sound/checkpoint-slide.ogg
+ %%DATADIR%%/sound/corrupting-bonus.ogg
+ %%DATADIR%%/sound/crack.ogg
+ %%DATADIR%%/sound/dummy.ogg
+-%%DATADIR%%/sound/effect/AUTHORS
+ %%DATADIR%%/sound/effect/earthquake.ogg
+-%%DATADIR%%/sound/forest/frog/AUTHORS
+ %%DATADIR%%/sound/forest/frog/croak-idle.ogg
+ %%DATADIR%%/sound/forest/frog/croak-jump.ogg
+-%%DATADIR%%/sound/forest/gorilla/AUTHORS
+ %%DATADIR%%/sound/forest/gorilla/hit-chest-1.ogg
+ %%DATADIR%%/sound/forest/gorilla/hit-chest-2.ogg
+-%%DATADIR%%/sound/forest/woodpecker/AUTHORS
+ %%DATADIR%%/sound/forest/woodpecker/attack.ogg
+ %%DATADIR%%/sound/forest/woodpecker/flying.ogg
+ %%DATADIR%%/sound/forest/woodpecker/peck.ogg
+ %%DATADIR%%/sound/grr.wav
+ %%DATADIR%%/sound/hit.ogg
+ %%DATADIR%%/sound/jump.ogg
+-%%DATADIR%%/sound/plee/AUTHORS
+ %%DATADIR%%/sound/plee/clung.ogg
+ %%DATADIR%%/sound/plee/injured.ogg
+ %%DATADIR%%/sound/plee/jump.ogg
+@@ -782,7 +738,6 @@
+ %%DATADIR%%/sound/plee/start-power-jump.ogg
+ %%DATADIR%%/sound/plee/throw.ogg
+ %%DATADIR%%/sound/scale/A.ogg
+-%%DATADIR%%/sound/scale/AUTHORS
+ %%DATADIR%%/sound/scale/As.ogg
+ %%DATADIR%%/sound/scale/B.ogg
+ %%DATADIR%%/sound/scale/C.ogg
+@@ -794,12 +749,10 @@
+ %%DATADIR%%/sound/scale/Fs.ogg
+ %%DATADIR%%/sound/scale/G.ogg
+ %%DATADIR%%/sound/scale/Gs.ogg
+-%%DATADIR%%/sound/sequencer/AUTHORS
+ %%DATADIR%%/sound/sequencer/fail.ogg
+ %%DATADIR%%/sound/splash.ogg
+ %%DATADIR%%/sound/sting.ogg
+ %%DATADIR%%/sound/tick.ogg
+-%%DATADIR%%/sound/weather/AUTHORS
+ %%DATADIR%%/sound/weather/rain.ogg
+ @dirrm %%DATADIR%%/sound/weather
+ @dirrm %%DATADIR%%/sound/sequencer
+@@ -890,20 +843,6 @@
+ @dirrm %%DATADIR%%/animation/effect
+ @dirrm %%DATADIR%%/animation
+ @dirrm %%DATADIR%%
+-@dirrmtry share/icons/hicolor/64x64/apps
+-@dirrmtry share/icons/hicolor/64x64
+-@dirrmtry share/icons/hicolor/48x48/apps
+-@dirrmtry share/icons/hicolor/48x48
+-@dirrmtry share/icons/hicolor/32x32/apps
+-@dirrmtry share/icons/hicolor/32x32
+-@dirrmtry share/icons/hicolor/24x24/apps
+-@dirrmtry share/icons/hicolor/24x24
+-@dirrmtry share/icons/hicolor/16x16/apps
+-@dirrmtry share/icons/hicolor/16x16
+-@dirrmtry share/icons/hicolor/128x128/apps
+-@dirrmtry share/icons/hicolor/128x128
+-@dirrmtry share/icons/hicolor
+-@dirrmtry share/icons
+ @dirrm share/bear-factory/plee-the-bear/item-description/mini-game
+ @dirrm share/bear-factory/plee-the-bear/item-description/item_brick
+ @dirrm share/bear-factory/plee-the-bear/item-description/forest
+===> Done

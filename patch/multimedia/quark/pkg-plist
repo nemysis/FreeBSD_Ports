@@ -1,0 +1,8 @@
+bin/charm-quark
+bin/quark
+bin/strange-quark
+share/applications/quark.desktop
+%%NLS%%share/locale/ko/LC_MESSAGES/quark.mo
+share/pixmaps/quark.png
+share/pixmaps/quark48.png
+@dirrmtry share/applications

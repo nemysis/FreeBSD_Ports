@@ -1,0 +1,98 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	cocos2d
+#	cocos2d/Makefile
+#	cocos2d/pkg-descr
+#	cocos2d/distinfo
+#
+echo c - cocos2d
+mkdir -p cocos2d > /dev/null 2>&1
+echo x - cocos2d/Makefile
+sed 's/^X//' >cocos2d/Makefile << '695025d76338df3ed6ad617fdaa4fa5a'
+X# Created by:	nemysis@gmx.ch
+X#
+X# $FreeBSD$
+X#
+X
+XPORTNAME=	cocos2d
+XPORTVERSION=	0.5.5
+XCATEGORIES=	graphics
+XMASTER_SITES=	GOOGLE_CODE
+XPROJECTHOST=	los-cocos
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	Framework for building 2D games, demos, and other applications
+X
+XLICENSE=	BSD GPLv2 CCbyNCSA2
+XLICENSE_COMB=	multi
+XLICENSE_NAME_CCbyNCSA2=	Attribution-NonCommercial-ShareAlike 2.0 Unported
+XLICENSE_FILE=	${WRKSRC}/LICENSE ${WRKSRC}/LICENSE.python_interpreter ${WRKSRC}/LICENSE.euclid
+XLICENSE_FILE_CCbyNCSA2=	${WRKSRC}/LICENSE.grossini
+XLICENSE_PERMS_CCbyNCSA2=	dist-mirror pkg-mirror auto-accept
+X
+XRUN_DEPENDS=	${PYTHON_SITELIBDIR}/pyglet/__init__.py:${PORTSDIR}/graphics/py-pyglet-devel \
+X		easy_install:${PORTSDIR}/devel/py-setuptools \
+X		${PYNUMPY} \
+X		avbin>=7:${PORTSDIR}/multimedia/avbin
+X
+XUSE_ZIP=	yes
+XUSE_GL=		yes
+XUSE_SDL=	sdl mixer
+XUSE_PYTHON=	2.5-2.7
+XUSE_PYDISTUTILS=	yes
+XUSE_WX=		yes
+XWX_COMPS=	python:lib
+XNO_BUILD=	yes
+X
+XPORTDATA=	*
+XPORTDOCS=	*
+XDATADIR=	${PYTHON_SITELIBDIR}/${PORTNAME}-${PORTVERSION}-py${PYTHON_VER}.egg
+XPYDISTUTILS_NOEGGINFO=	yes
+X
+X.include <bsd.port.options.mk>
+X
+Xpost-install:
+X.for d in benchmarks dist samples test tools utest
+X	@(cd ${WRKSRC} && ${COPYTREE_SHARE} ${d} ${DATADIR})
+X.endfor
+X
+X.if ${PORT_OPTIONS:MDOCS}
+X	${MKDIR} ${DOCSDIR}
+X.  for f in CHANGELOG README
+X	 ${INSTALL_DATA} ${WRKSRC}/${f} ${DOCSDIR}
+X.  endfor
+X	@cd ${WRKSRC}/doc && ${COPYTREE_SHARE} \* ${DOCSDIR}
+X.endif
+X
+X.include <bsd.port.mk>
+695025d76338df3ed6ad617fdaa4fa5a
+echo x - cocos2d/pkg-descr
+sed 's/^X//' >cocos2d/pkg-descr << 'aa9d4770b354678d4962b9f8ff718c93'
+Xcocos2d
+X
+XA framework for building 2D games, demos, and other graphical/interactive
+Xapplications. Draws using OpenGL, which is hardware accelerated.
+XIt provides some conventions and classes to help you structure
+Xa "scene based application".
+X
+XA cocos2d application consists of several scenes, and a workflow connecting
+Xthe different scenes. It provides you with a "director" (a singleton)
+Xwhich handles that workflow between scenes.
+XEach scene is composed of an arbitrary number of layers;
+Xlayers take care of drawing to the screen (using the pyglet and OpenGL APIs),
+Xhandling events and in general contain all of the game/application logic.
+X
+XWWW: http://cocos2d.org/
+aa9d4770b354678d4962b9f8ff718c93
+echo x - cocos2d/distinfo
+sed 's/^X//' >cocos2d/distinfo << 'b81dfbdf91582c06a4a6c8680d7b2a9f'
+XSHA256 (cocos2d-0.5.5.zip) = 04d648fdfefee0c79b34238465b2051ba80f13281e8aa78b1b1d5b01ed6c3f75
+XSIZE (cocos2d-0.5.5.zip) = 5622186
+b81dfbdf91582c06a4a6c8680d7b2a9f
+exit
+

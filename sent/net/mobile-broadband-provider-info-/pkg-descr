@@ -1,0 +1,7 @@
+This package contains mobile broadband settings for different service providers
+in different countries. The Package contains only informational files so it's
+safe for distributions to grab updates even during feature freeze and
+maintenance stages.
+
+WWW: http://packages.ubuntu.com/raring/mobile-broadband-provider-info
+WWW: https://live.gnome.org/NetworkManager/MobileBroadband/ServiceProviders

@@ -1,0 +1,11 @@
+From the beginning, Sudoku Sensei was intended to become a program with
+Graphical User Interface. Though, the first versions were just the core of that:
+a sudoku logic explainer engine. That is, a library capable of solving sudokus
+just like humans do.
+
+The engine solves sudokus by applying complex logical rules a few times,
+instead of applying simpler rules (like guessing and backtracking) many many
+times. These complex logical rules are exactly the same ones that people use
+with paper and pen.
+
+WWW: http://sudoku-sensei.sourceforge.net/

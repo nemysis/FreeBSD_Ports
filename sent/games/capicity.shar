@@ -1,0 +1,213 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	capicity
+#	capicity/Makefile
+#	capicity/pkg-descr
+#	capicity/distinfo
+#	capicity/pkg-plist
+#
+echo c - capicity
+mkdir -p capicity > /dev/null 2>&1
+echo x - capicity/Makefile
+sed 's/^X//' >capicity/Makefile << '196d2a9d98010abac88695ee1fd3bcd3'
+X# Created by: nemysis <nemysis@gmx.ch>
+X# $FreeBSD$
+X
+XPORTNAME=	capicity
+XPORTVERSION=	1.0
+XCATEGORIES=	games
+XMASTER_SITES=	SF/capitalism/Capi%20City/${PORTVERSION}/
+XDISTNAME=	CapiCity_${DISTVERSION}
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	Qt client for the Monopd server
+X
+XLICENSE=	GPLv2
+X
+XLIB_DEPENDS=	pthread-stubs:${PORTSDIR}/devel/libpthread-stubs \
+X		pcre:${PORTSDIR}/devel/pcre \
+X		png15:${PORTSDIR}/graphics/png \
+X		freetype:${PORTSDIR}/print/freetype2 \
+X		expat:${PORTSDIR}/textproc/expat2 \
+X		fontconfig:${PORTSDIR}/x11-fonts/fontconfig \
+X		xcb:${PORTSDIR}/x11/libxcb
+X
+XWRKSRC=		${WRKDIR}/CapiCity_${PORTVERSION}
+X
+XUSE_ICONV=	yes
+XUSE_XORG=	ice sm x11 xau xdmcp xext xrender
+XUSE_QT4=	moc_build qmake_build rcc_build uic_build iconengines imageformats \
+X		corelib gui network script xml
+XMAKE_JOBS_SAFE=	yes
+X
+XPORTDOCS=	README changelog
+X
+XINSTALLS_ICONS=	yes
+XICON_SIZES=	16x16 22x22 24x24 32x32 48x48 64x64
+X
+XDESKTOP_ENTRIES="Capi City" "${COMMENT}" "${PORTNAME}" \
+X		"${PORTNAME}" "Game;BoardGame;" false
+X
+XOPTIONS_DEFINE=	NLS
+X
+X.include <bsd.port.options.mk>
+X
+X.if ${PORT_OPTIONS:MNLS}
+XUSE_GETTEXT=	yes
+XPLIST_SUB+=	NLS=""
+X.else
+XPLIST_SUB+=	NLS="@comment "
+X.endif
+X
+Xdo-configure:
+X	@cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} \
+X	${QMAKE} ${QMAKEFLAGS} PREFIX=${PREFIX}
+X
+Xpost-configure:
+X	@${REINPLACE_CMD} -e 's|-O2 -Wall -W||g' ${WRKSRC}/Makefile
+X
+Xdo-install:
+X	${INSTALL_PROGRAM} ${WRKSRC}/CapiCity ${PREFIX}/bin/${PORTNAME}
+X
+X.for d in games images
+X	@(cd ${WRKSRC} && ${COPYTREE_SHARE} ${d} ${DATADIR})
+X.endfor
+X
+X.if ${PORT_OPTIONS:MNLS}
+X	@(cd ${WRKSRC} && ${COPYTREE_SHARE} ts ${DATADIR})
+X.endif
+X
+Xpost-install:
+X.for s in ${ICON_SIZES}
+X	${MKDIR} ${PREFIX}/share/icons/hicolor/${s}/apps
+X	${INSTALL_DATA} ${WRKSRC}/icons/${s}.png \
+X		${PREFIX}/share/icons/hicolor/${s}/apps/${PORTNAME}.png
+X.endfor
+X	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
+X
+X.if ${PORT_OPTIONS:MDOCS}
+X	@${MKDIR} ${DOCSDIR}
+X	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+X.endif
+X
+X.include <bsd.port.mk>
+196d2a9d98010abac88695ee1fd3bcd3
+echo x - capicity/pkg-descr
+sed 's/^X//' >capicity/pkg-descr << 'b83af34259bc848a21e2c7348d382be2'
+XCapi City is a client for the online server monopd.
+XYou can play Monopoly like games with it online.
+X
+XIntegrated Capid to be able to start a server for LAN.
+X
+XWWW: http://linux-ecke.de/CapiCity/
+b83af34259bc848a21e2c7348d382be2
+echo x - capicity/distinfo
+sed 's/^X//' >capicity/distinfo << '5e2102abcbb34222e4d65332a48b2b26'
+XSHA256 (CapiCity_1.0.tar.gz) = b4efa91aa7476dd9769cea151239bfcd9afa35cb28afd574d9bb7fdfaba1a33b
+XSIZE (CapiCity_1.0.tar.gz) = 363899
+5e2102abcbb34222e4d65332a48b2b26
+echo x - capicity/pkg-plist
+sed 's/^X//' >capicity/pkg-plist << '43b795d5103ba1911548be89e91a7184'
+Xbin/capicity
+X%%DATADIR%%/games/atlantic.xml
+X%%DATADIR%%/games/city.xml
+X%%DATADIR%%/images/avatars/badge.png
+X%%DATADIR%%/images/avatars/beachball.png
+X%%DATADIR%%/images/avatars/bell.png
+X%%DATADIR%%/images/avatars/bomb.png
+X%%DATADIR%%/images/avatars/cat.png
+X%%DATADIR%%/images/avatars/cookie.png
+X%%DATADIR%%/images/avatars/cube.png
+X%%DATADIR%%/images/avatars/eyeball.png
+X%%DATADIR%%/images/avatars/flag.png
+X%%DATADIR%%/images/avatars/ghost.png
+X%%DATADIR%%/images/avatars/globe.png
+X%%DATADIR%%/images/avatars/hamburger.png
+X%%DATADIR%%/images/avatars/lips.png
+X%%DATADIR%%/images/avatars/none.png
+X%%DATADIR%%/images/avatars/puzzle.png
+X%%DATADIR%%/images/avatars/pyramid.png
+X%%DATADIR%%/images/avatars/skull.png
+X%%DATADIR%%/images/avatars/spectating.png
+X%%DATADIR%%/images/avatars/traffic_light.png
+X%%DATADIR%%/images/avatars/wizard.png
+X%%DATADIR%%/images/field/document.png
+X%%DATADIR%%/images/field/dollar.png
+X%%DATADIR%%/images/field/jailed.png
+X%%DATADIR%%/images/field/qmark-red.png
+X%%DATADIR%%/images/menu/config.png
+X%%DATADIR%%/images/smilies/icon_arrow.gif
+X%%DATADIR%%/images/smilies/icon_biggrin.gif
+X%%DATADIR%%/images/smilies/icon_confused.gif
+X%%DATADIR%%/images/smilies/icon_cool.gif
+X%%DATADIR%%/images/smilies/icon_cry.gif
+X%%DATADIR%%/images/smilies/icon_eek.gif
+X%%DATADIR%%/images/smilies/icon_evil.gif
+X%%DATADIR%%/images/smilies/icon_exclaim.gif
+X%%DATADIR%%/images/smilies/icon_frown.gif
+X%%DATADIR%%/images/smilies/icon_idea.gif
+X%%DATADIR%%/images/smilies/icon_lol.gif
+X%%DATADIR%%/images/smilies/icon_mad.gif
+X%%DATADIR%%/images/smilies/icon_mrgreen.gif
+X%%DATADIR%%/images/smilies/icon_neutral.gif
+X%%DATADIR%%/images/smilies/icon_question.gif
+X%%DATADIR%%/images/smilies/icon_razz.gif
+X%%DATADIR%%/images/smilies/icon_redface.gif
+X%%DATADIR%%/images/smilies/icon_rolleyes.gif
+X%%DATADIR%%/images/smilies/icon_sad.gif
+X%%DATADIR%%/images/smilies/icon_smile.gif
+X%%DATADIR%%/images/smilies/icon_surprised.gif
+X%%DATADIR%%/images/smilies/icon_twisted.gif
+X%%DATADIR%%/images/smilies/icon_wink.gif
+X%%DATADIR%%/images/tools/addtrade.png
+X%%DATADIR%%/images/tools/auction.png
+X%%DATADIR%%/images/tools/buyhouse.png
+X%%DATADIR%%/images/tools/buyhouserow.png
+X%%DATADIR%%/images/tools/endturn.png
+X%%DATADIR%%/images/tools/highlight.png
+X%%DATADIR%%/images/tools/jailcard.png
+X%%DATADIR%%/images/tools/jailpay.png
+X%%DATADIR%%/images/tools/jailroll.png
+X%%DATADIR%%/images/tools/mortage.png
+X%%DATADIR%%/images/tools/paypercent.png
+X%%DATADIR%%/images/tools/reject.png
+X%%DATADIR%%/images/tools/removetrade.png
+X%%DATADIR%%/images/tools/roll.png
+X%%DATADIR%%/images/tools/sell.png
+X%%DATADIR%%/images/tools/sellhouse.png
+X%%DATADIR%%/images/tools/sellhouserow.png
+X%%DATADIR%%/images/tools/trade.png
+X%%DATADIR%%/images/tools/unmortage.png
+X%%NLS%%%%DATADIR%%/ts/CapiCity_de_DE.qm
+X%%NLS%%%%DATADIR%%/ts/CapiCity_de_DE.ts
+X%%NLS%%%%DATADIR%%/ts/CapiCity_es_ES.ts
+X%%NLS%%%%DATADIR%%/ts/CapiCity_fi_FI.ts
+X%%NLS%%%%DATADIR%%/ts/CapiCity_it.ts
+X%%NLS%%%%DATADIR%%/ts/CapiCity_pl.ts
+X%%NLS%%%%DATADIR%%/ts/CapiCity_ru_RU.qm
+X%%NLS%%%%DATADIR%%/ts/CapiCity_ru_RU.ts
+X%%NLS%%%%DATADIR%%/ts/Capid_de_DE.trans
+Xshare/icons/hicolor/16x16/apps/capicity.png
+Xshare/icons/hicolor/22x22/apps/capicity.png
+Xshare/icons/hicolor/24x24/apps/capicity.png
+Xshare/icons/hicolor/32x32/apps/capicity.png
+Xshare/icons/hicolor/48x48/apps/capicity.png
+Xshare/icons/hicolor/64x64/apps/capicity.png
+Xshare/pixmaps/capicity.png
+X%%NLS%%@dirrm %%DATADIR%%/ts
+X@dirrm %%DATADIR%%/images/tools
+X@dirrm %%DATADIR%%/images/smilies
+X@dirrm %%DATADIR%%/images/menu
+X@dirrm %%DATADIR%%/images/field
+X@dirrm %%DATADIR%%/images/avatars
+X@dirrm %%DATADIR%%/images
+X@dirrm %%DATADIR%%/games
+X@dirrm %%DATADIR%%
+43b795d5103ba1911548be89e91a7184
+exit
+

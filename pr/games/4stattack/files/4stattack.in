@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# $FreeBSD$ 
+#
+
+if [ ! -f ~/.4stattackrc ]; then
+        cp "%%DATADIR%%"/settings.ini ~/.4stattackrc
+fi
+
+cd "%%DATADIR%%"
+exec /usr/bin/env python ./4stattack.py -ini ~/.4stattackrc "${@}"

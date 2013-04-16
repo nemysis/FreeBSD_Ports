@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# $FreeBSD$
+#
+
+echo "This maps you can use:"
+echo ""
+
+ls -x %%DATADIR%%/maps
+echo ""

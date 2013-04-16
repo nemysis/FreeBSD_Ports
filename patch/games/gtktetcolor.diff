@@ -1,0 +1,100 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/gtktetcolor/Makefile ./Makefile
+--- /usr/ports/games/gtktetcolor/Makefile	2013-03-29 00:26:25.000000000 +0100
++++ ./Makefile	2013-04-06 21:59:56.000000000 +0200
+@@ -2,11 +2,9 @@
+ # $FreeBSD: head/games/gtktetcolor/Makefile 315433 2013-03-28 03:28:30Z eadler $
+ 
+ PORTNAME=	gtktetcolor
+-PORTVERSION=	0.6.4
+-PORTREVISION=	11
++DISTVERSION=	0.6.5pre3
+ CATEGORIES=	games gnome
+-MASTER_SITES=	SUNSITE/games \
+-		http://canopus.iacp.dvo.ru/~panov/gtktetcolor/
++MASTER_SITES=	ftp://canopus.iacp.dvo.ru/pub/Games/gtktetcolor/
+ 
+ MAINTAINER=	ports@FreeBSD.org
+ COMMENT=	Game for GNOME that resembles well-known Tetris and Columns
+@@ -14,8 +12,10 @@
+ LICENSE=	GPLv2 GPLv3
+ LICENSE_COMB=	dual
+ 
+-USES=        pathfix
+-USE_GNOME=	gnomeprefix intlhack libgnomeui
++USE_BZIP2=	yes
++USES=		pathfix
++USE_PKGCONFIG=	build
++USE_GNOME=	desktopfileutils gnomeprefix intlhack libgnomeui
+ USE_GMAKE=	yes
+ GNU_CONFIGURE=	yes
+ MAKE_JOBS_SAFE=	yes
+@@ -23,10 +23,36 @@
+ CPPFLAGS+=	-I${LOCALBASE}/include
+ LDFLAGS+=	-L${LOCALBASE}/lib
+ 
++PORTDOCS=	AUTHORS ChangeLog NEWS README TODO
++
++OPTIONS_DEFINE=	NLS
++
++.include <bsd.port.options.mk>
++
++.if ${PORT_OPTIONS:MNLS}
++USE_GETTEXT=	yes
++PLIST_SUB+=	NLS=""
++.else
++CONFIGURE_ARGS+=	--disable-nls
++PLIST_SUB+=	NLS="@comment "
++.endif
++
+ post-patch:
+ 	@${REINPLACE_CMD} -e \
+ 		's|games\.games|games:games|g' ${WRKSRC}/Makefile.in
+ 	@${FIND} ${WRKSRC} -name Makefile.in | ${XARGS} ${REINPLACE_CMD} -e \
+ 		's|-D.*_DISABLE_DEPRECATED||g'
+ 
++.if ! ${PORT_OPTIONS:MNLS}
++	@${REINPLACE_CMD} -e '/^SUBDIRS/s|po||g' ${WRKSRC}/Makefile.in
++.endif
++
++post-install:
++.if ${PORT_OPTIONS:MDOCS}
++	@${MKDIR} ${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
++.endif
++
++	@-update-desktop-database -q
++
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/games/gtktetcolor/distinfo ./distinfo
+--- /usr/ports/games/gtktetcolor/distinfo	2013-01-14 17:55:29.000000000 +0100
++++ ./distinfo	2013-04-06 21:40:27.000000000 +0200
+@@ -1,2 +1,2 @@
+-SHA256 (gtktetcolor-0.6.4.tar.gz) = 1d70d9d4c87ab6f42366dc491e8a467dae01ce168d3bbf4b9fc5215227ce5628
+-SIZE (gtktetcolor-0.6.4.tar.gz) = 198699
++SHA256 (gtktetcolor-0.6.5pre3.tar.bz2) = c11a02377d0ed83ef59e5dd1cf7ea82491bbdbfb19957e5bc2774b871e93b049
++SIZE (gtktetcolor-0.6.5pre3.tar.bz2) = 172629
+diff -ruN --exclude=CVS /usr/ports/games/gtktetcolor/pkg-plist ./pkg-plist
+--- /usr/ports/games/gtktetcolor/pkg-plist	2013-01-14 17:55:29.000000000 +0100
++++ ./pkg-plist	2013-04-06 21:49:59.000000000 +0200
+@@ -2,12 +2,15 @@
+ etc/sound/events/gtktetcolor.soundlist
+ share/applications/gtktetcolor.desktop
+ share/games/gtktetcolor.scores
++%%NLS%%share/locale/de/LC_MESSAGES/gtktetcolor.mo
++%%NLS%%share/locale/fr/LC_MESSAGES/gtktetcolor.mo
++%%NLS%%share/locale/ru/LC_MESSAGES/gtktetcolor.mo
+ share/pixmaps/gtktetcolor.xpm
+ share/sounds/gtktetcolor/bonus.wav
+ share/sounds/gtktetcolor/gameover.wav
+ share/sounds/gtktetcolor/linerem.wav
+-share/locale/de/LC_MESSAGES/gtktetcolor.mo
+-share/locale/fr/LC_MESSAGES/gtktetcolor.mo
+-share/locale/ru/LC_MESSAGES/gtktetcolor.mo
+ @dirrm share/sounds/gtktetcolor
++@dirrmtry share/games
+ @dirrmtry share/applications
++@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
++@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
+===> Done

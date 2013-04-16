@@ -1,0 +1,37 @@
+# Created by: nemysis <nemysis@gmx.ch>
+# $FreeBSD$
+
+PORTNAME=	loook
+PORTVERSION=	0.6.8
+CATEGORIES=	textproc
+MASTER_SITES=	http://www.danielnaber.de/loook/
+PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+PKGNAMESUFFIX=	-devel
+DIST_SUBDIR=	python
+
+MAINTAINER=	nemysis@gmx.ch
+COMMENT=	Simple Python tool that search in OpenOffice files
+
+LICENSE=	GPLv2
+
+RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}tkinter>=0:${PORTSDIR}/x11-toolkits/py31-tkinter \
+		${PYTHON_PKGNAMEPREFIX}iniparse>=0:${PORTSDIR}/devel/py-iniparse
+
+WRKSRC=		${WRKDIR}
+
+USE_ZIP=	yes
+USE_PYTHON=	3.1-3.3
+NO_BUILD=	yes
+CONFLICTS=	loook-[0-9]*
+
+PLIST_FILES=	bin/${PORTNAME}
+
+post-patch:
+	@${REINPLACE_CMD} -e 's,/usr/bin/python,${PYTHON_CMD},' \
+		${WRKSRC}/${PORTNAME}.py
+	@(cd ${WRKSRC} ; ${RM} *.py.bak)
+
+do-install:
+	${INSTALL_SCRIPT} ${WRKSRC}/${PORTNAME}.py ${PREFIX}/bin/${PORTNAME}
+
+.include <bsd.port.mk>

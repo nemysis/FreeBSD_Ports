@@ -1,0 +1,28 @@
+@comment file listing
+usr/bin/sndfile-cmp
+usr/bin/sndfile-convert
+usr/bin/sndfile-info
+usr/bin/sndfile-jackplay
+usr/bin/sndfile-metadata-get
+usr/bin/sndfile-metadata-set
+usr/bin/sndfile-play
+usr/bin/sndfile-regtest
+usr/lib/libsndfile.so
+usr/lib/libsndfile.so.1
+usr/lib/libsndfile.so.%%PORTVERSION%%
+usr/share/doc/libsndfile-%%PORTVERSION%%/AUTHORS
+usr/share/doc/libsndfile-%%PORTVERSION%%/COPYING
+usr/share/doc/libsndfile-%%PORTVERSION%%/NEWS
+usr/share/doc/libsndfile-%%PORTVERSION%%/README
+usr/share/man/man1/sndfile-convert.1.gz
+usr/share/man/man1/sndfile-info.1.gz
+usr/share/man/man1/sndfile-play.1.gz
+@comment non-empty directory listing in revers order
+@dirrmtry usr/share/man/man1
+@dirrmtry usr/share/man
+@dirrmtry usr/share/doc/libsndfile-%%PORTVERSION%%
+@dirrmtry usr/share/doc
+@dirrmtry usr/share
+@dirrmtry usr/lib
+@dirrmtry usr/bin
+@dirrmtry usr

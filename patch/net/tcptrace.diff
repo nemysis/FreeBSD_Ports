@@ -1,0 +1,129 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/net/tcptrace/Makefile ./Makefile
+--- /usr/ports/net/tcptrace/Makefile	2013-01-14 17:56:33.000000000 +0100
++++ ./Makefile	2013-04-01 20:41:36.000000000 +0200
+@@ -1,9 +1,5 @@
+-# New ports collection makefile for:	tcptrace
+-# Date created:		3 March 1997
+-# Whom:			fenner
+-#
++# Created by: fenner
+ # $FreeBSD: head/net/tcptrace/Makefile 300897 2012-07-14 14:29:18Z beat $
+-#
+ 
+ PORTNAME=	tcptrace
+ PORTVERSION=	6.6.7
+@@ -11,31 +7,34 @@
+ MASTER_SITES=	http://www.tcptrace.org/download/
+ 
+ MAINTAINER=	ports@FreeBSD.org
+-COMMENT=	A TCP dump file analysis tool
++COMMENT=	TCP dump file analysis tool
+ 
+-MAKE_JOBS_SAFE=  yes
++LICENSE=	GPLv2
+ 
+ GNU_CONFIGURE=	yes
+ ALL_TARGET=	tcptrace
++MAKE_JOBS_SAFE=	yes
++
++PLIST_FILES=	bin/${PORTNAME} \
++		bin/xpl2gpl
+ 
+ MAN1=		tcptrace.1
+ 
+-DOCFILES=	ARGS CHANGES COPYING COPYRIGHT FAQ README README.mailing_list \
++PORTDOCS=	ARGS CHANGES FAQ README README.mailing_list \
+ 		README.modules README.tline_graphs README.tput_graphs \
+-		README.version README.xpl2gpl THANKS WWW \
+-		dot_tcptracerc
++		README.version README.xpl2gpl THANKS dot_tcptracerc
++
++.include <bsd.port.options.mk>
+ 
+ do-install:
+ 	${INSTALL_PROGRAM} ${WRKSRC}/tcptrace ${PREFIX}/bin
+ 	${INSTALL_SCRIPT} ${WRKSRC}/xpl2gpl ${PREFIX}/bin
+-	${INSTALL_MAN} ${WRKSRC}/tcptrace.man ${PREFIX}/man/man1/tcptrace.1
+ 
+ post-install:
+-.if !defined(NOPORTDOCS)
+-	${MKDIR} ${DOCSDIR}
+-.for file in ${DOCFILES}
+-	${INSTALL_MAN} ${WRKSRC}/${file} ${DOCSDIR}
+-.endfor
++	${INSTALL_MAN} ${WRKSRC}/${PORTNAME}.man ${MAN1PREFIX}/man/man1/${PORTNAME}.1
++.if ${PORT_OPTIONS:MDOCS}
++	@${MKDIR} ${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/net/tcptrace/pkg-descr ./pkg-descr
+--- /usr/ports/net/tcptrace/pkg-descr	2013-01-14 17:56:33.000000000 +0100
++++ ./pkg-descr	2013-03-31 18:51:10.000000000 +0200
+@@ -1,28 +1,15 @@
+-tcptrace a TCP dump file analysis tool written by Shawn Ostermann
+-at Ohio University. It is NOT a packet capture program. It reads
+-output dump files in the formats of several popular packet capturing
+-programs: tcpdump, snoop, etherpeek, and netm.  It can also output
+-(ie, convert thus converting to) tcpdump format files.
++tcptrace is a TCP connection analysis tool. It can tell you detailed
++information about TCP connections by sifting through dump files.
++The dump file formats supported are:
++   Standard tcpdump format (you need the pcap library)
++   Sun's snoop format
++   Macintosh Etherpeek format
++   HP/NetMetrix protocol analysis format
++   NS simulator output format
++   NetScout
++   NLANR Tsh Format
+ 
+-For each connection, it keeps track of elapsed time, bytes/segments
+-sent and received, retransmissions, round trip times, window
+-advertisements, throughput, etc.  Its output format ranges from
+-Simple to Long to Very Detailed.
+-
+-It can also produce three different types of graphs, as follows: 
+-
+-   Time Sequence Graph 
+-     This is the format that Tim Shepard started using at MIT some
+-     years ago. It shows segments sent and ACKs returned as a
+-     function of time.
+-   Instantaneous Throughput 
+-     This format shows the instantaneous (averaged over a few
+-     segments) throughput of the connection as a function of time.
+-   Round Trip Times 
+-     This format shows the round trip times for the ACKs as a
+-     function of time.
+-
+-The graphs produced are viewable only by Tim Shepard's wonderful
+-xplot program (in math/xplot).
++To see the graphs, you'll also need Tim Shepard's xplot program,
++available at http://www.xplot.org
+ 
+ WWW: http://www.tcptrace.org/
+diff -ruN --exclude=CVS /usr/ports/net/tcptrace/pkg-plist ./pkg-plist
+--- /usr/ports/net/tcptrace/pkg-plist	2013-01-14 17:56:33.000000000 +0100
++++ ./pkg-plist	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+-bin/tcptrace
+-bin/xpl2gpl
+-%%PORTDOCS%%%%DOCSDIR%%/ARGS
+-%%PORTDOCS%%%%DOCSDIR%%/CHANGES
+-%%PORTDOCS%%%%DOCSDIR%%/COPYING
+-%%PORTDOCS%%%%DOCSDIR%%/COPYRIGHT
+-%%PORTDOCS%%%%DOCSDIR%%/FAQ
+-%%PORTDOCS%%%%DOCSDIR%%/README
+-%%PORTDOCS%%%%DOCSDIR%%/README.mailing_list
+-%%PORTDOCS%%%%DOCSDIR%%/README.modules
+-%%PORTDOCS%%%%DOCSDIR%%/README.tline_graphs
+-%%PORTDOCS%%%%DOCSDIR%%/README.tput_graphs
+-%%PORTDOCS%%%%DOCSDIR%%/README.version
+-%%PORTDOCS%%%%DOCSDIR%%/README.xpl2gpl
+-%%PORTDOCS%%%%DOCSDIR%%/THANKS
+-%%PORTDOCS%%%%DOCSDIR%%/WWW
+-%%PORTDOCS%%%%DOCSDIR%%/dot_tcptracerc
+-%%PORTDOCS%%@dirrm %%DOCSDIR%%
+===> Done

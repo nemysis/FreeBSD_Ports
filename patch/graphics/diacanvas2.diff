@@ -1,0 +1,148 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/graphics/diacanvas2/Makefile ./Makefile
+--- /usr/ports/graphics/diacanvas2/Makefile	2013-03-29 00:26:08.000000000 +0100
++++ ./Makefile	2013-04-09 00:50:46.000000000 +0200
+@@ -3,28 +3,55 @@
+ 
+ PORTNAME=	diacanvas2
+ PORTVERSION=	0.15.4
+-PORTREVISION=	3
++PORTREVISION=	4
+ CATEGORIES=	graphics gnome
+ MASTER_SITES=	SF/diacanvas/DiaCanvas2/${PORTVERSION}
+ DISTNAME=	${PORTNAME}_${PORTVERSION}
+ 
+ MAINTAINER=	ports@FreeBSD.org
+-COMMENT=	A general drawing canvas from dia dialog editor
++COMMENT=	General drawing canvas from dia dialog editor
+ 
+-USES=        pathfix
++LICENSE=	GPLv2
++
++USES=		pathfix
+ USE_GNOME=	pygnome2
+ USE_PYTHON=	2.2+
+ USE_GMAKE=	yes
+ USE_AUTOTOOLS=	libtool
+-CPPFLAGS+=	-I${LOCALBASE}/include
+-LDFLAGS+=	-L${LOCALBASE}/lib
+ USE_LDCONFIG=	yes
+ USE_DISPLAY=	yes
+ 
++CPPFLAGS+=	-I${LOCALBASE}/include
++LDFLAGS+=	-L${LOCALBASE}/lib
++
+ WRKSRC=		${WRKDIR}/${PORTNAME}-${PORTVERSION}
+ 
++OPTIONS_DEFINE=	NLS
++
++.include <bsd.port.options.mk>
++
++.if ${PORT_OPTIONS:MDOCS}
++PLIST_SUB+=	APIDOCS=""
++.else
++PLIST_SUB+=	APIDOCS="@comment "
++.endif
++
++.if ${PORT_OPTIONS:MNLS}
++USE_GETTEXT=	yes
++PLIST_SUB+=	NLS=""
++.else
++PLIST_SUB+=	NLS="@comment "
++.endif
++
+ post-patch:
+-	@${REINPLACE_CMD} -e \
+-		's|unit_tests doc|unit_tests|g' ${WRKSRC}/Makefile.in
++	@${REINPLACE_CMD} -e 's|glib/garray.h|glib.h|' ${WRKSRC}/diacanvas/dia-canvas.c
++
++.if ! ${PORT_OPTIONS:MDOCS}
++	@${REINPLACE_CMD} -e '/SUBDIRS/s|doc||g' ${WRKSRC}/Makefile.in
++.endif
++
++.if ! ${PORT_OPTIONS:MNLS}
++	@${REINPLACE_CMD} -e 's|po diacanvas po |diacanvas |g' ${WRKSRC}/Makefile.in
++.endif
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/graphics/diacanvas2/pkg-plist ./pkg-plist
+--- /usr/ports/graphics/diacanvas2/pkg-plist	2013-01-14 17:57:08.000000000 +0100
++++ ./pkg-plist	2013-04-09 01:23:31.000000000 +0200
+@@ -46,13 +46,6 @@
+ lib/libdiacanvas2.la
+ lib/libdiacanvas2.so
+ lib/libdiacanvas2.so.0
+-libdata/pkgconfig/diacanvas2.pc
+-share/locale/nl/LC_MESSAGES/diacanvas.mo
+-share/pygtk/2.0/defs/dia-boxed.defs
+-share/pygtk/2.0/defs/diacanvas.defs
+-share/pygtk/2.0/defs/diageometry.defs
+-share/pygtk/2.0/defs/diashape.defs
+-share/pygtk/2.0/defs/diaview.defs
+ %%PYTHON_SITELIBDIR%%/diacanvas/__init__.py
+ %%PYTHON_SITELIBDIR%%/diacanvas/__init__.pyc
+ %%PYTHON_SITELIBDIR%%/diacanvas/__init__.pyo
+@@ -71,5 +64,60 @@
+ %%PYTHON_SITELIBDIR%%/diacanvas/viewmodule.a
+ %%PYTHON_SITELIBDIR%%/diacanvas/viewmodule.la
+ %%PYTHON_SITELIBDIR%%/diacanvas/viewmodule.so
+-@dirrm %%PYTHON_SITELIBDIR%%/diacanvas
++libdata/pkgconfig/diacanvas2.pc
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaCanvas.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaCanvasBox.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaCanvasEditable.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaCanvasElement.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaCanvasGroup.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaCanvasGroupable.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaCanvasImage.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaCanvasItem.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaCanvasLine.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaCanvasText.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaCanvasView.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaCanvasViewItem.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaConstraint.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaHandle.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaHandleLayer.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaSolver.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaTool.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaUndoManager.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/DiaVariable.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/arrowhead.png
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/chap-DiaCanvas.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/chap-Geometry.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/chap-Objects.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/chap-Python.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/chap-Solver.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/chap-Views.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/diacanvas.png
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/diacanvas2-DiaExpression.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/diacanvas2-DiaGeometry.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/diacanvas2-DiaShape-functions-for-LibArt-rendering.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/diacanvas2-DiaShape-functions-for-X11-rendering.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/diacanvas2-DiaShape.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/diacanvas2-DiaStrength.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/diacanvas2-Exporting.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/diacanvas2.devhelp
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/diacanvas2.devhelp2
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/diacanvasview.png
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/diasolver.png
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/element.png
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/home.png
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/index.html
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/index.sgml
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/left.png
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/line.png
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/right.png
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/style.css
++%%APIDOCS%%share/gtk-doc/html/diacanvas2/up.png
++%%NLS%%share/locale/nl/LC_MESSAGES/diacanvas.mo
++share/pygtk/2.0/defs/diacanvas.defs
++share/pygtk/2.0/defs/diaview.defs
++share/pygtk/2.0/defs/diageometry.defs
++share/pygtk/2.0/defs/diashape.defs
++share/pygtk/2.0/defs/dia-boxed.defs
+ @dirrm include/diacanvas
++@dirrm %%PYTHON_SITELIBDIR%%/diacanvas
++%%APIDOCS%%@dirrm share/gtk-doc/html/diacanvas2
+===> Done

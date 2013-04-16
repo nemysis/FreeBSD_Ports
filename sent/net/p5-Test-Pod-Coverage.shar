@@ -1,0 +1,58 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	p5-Test-Pod-Coverage
+#	p5-Test-Pod-Coverage/pkg-plist
+#	p5-Test-Pod-Coverage/Makefile
+#	p5-Test-Pod-Coverage/distinfo
+#	p5-Test-Pod-Coverage/pkg-descr
+#
+echo c - p5-Test-Pod-Coverage
+mkdir -p p5-Test-Pod-Coverage > /dev/null 2>&1
+echo x - p5-Test-Pod-Coverage/pkg-plist
+sed 's/^X//' >p5-Test-Pod-Coverage/pkg-plist << '87a32bd4f3779137e00cb8074e676196'
+X%%SITE_PERL%%/Test/Pod/Coverage.pm
+X%%SITE_PERL%%/mach/auto/Test/Pod/Coverage/.packlist
+X@dirrm %%SITE_PERL%%/mach/auto/Test/Pod/Coverage
+X@dirrmtry %%SITE_PERL%%/mach/auto/Test/Pod
+X@dirrmtry %%SITE_PERL%%/mach/auto/Test
+X@dirrmtry %%SITE_PERL%%/Test/Pod
+X@dirrmtry %%SITE_PERL%%/Test
+87a32bd4f3779137e00cb8074e676196
+echo x - p5-Test-Pod-Coverage/Makefile
+sed 's/^X//' >p5-Test-Pod-Coverage/Makefile << '8a0b14280697622cb846496b7643e4f1'
+X# Created by: nemysis <nemysis@gmx.ch>
+X# $FreeBSD$
+X
+XPORTNAME=	Test-Pod-Coverage
+XPORTVERSION=	1.08
+XCATEGORIES=	net
+XMASTER_SITES=	CPAN
+XPKGNAMEPREFIX=	p5-
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	Check for pod coverage in your distribution
+X
+XPERL_CONFIGURE=	yes
+X
+XMAN3=		Test::Pod::Coverage.3
+X
+X.include <bsd.port.mk>
+8a0b14280697622cb846496b7643e4f1
+echo x - p5-Test-Pod-Coverage/distinfo
+sed 's/^X//' >p5-Test-Pod-Coverage/distinfo << 'e2048b5c2e4aebc63ba49b41ec389b42'
+XSHA256 (Test-Pod-Coverage-1.08.tar.gz) = e06336c3eb7d0f37605934b983ececf2782c78dda04ffdb96c7dc12f466a5578
+XSIZE (Test-Pod-Coverage-1.08.tar.gz) = 6418
+e2048b5c2e4aebc63ba49b41ec389b42
+echo x - p5-Test-Pod-Coverage/pkg-descr
+sed 's/^X//' >p5-Test-Pod-Coverage/pkg-descr << 'ed95a947b267e4f25e6a4c5df0010acd'
+XTest::Pod::Coverage - Check for pod coverage in your distribution.
+X
+XWWW: http://search.cpan.org/dist/Test-Pod-Coverage/
+ed95a947b267e4f25e6a4c5df0010acd
+exit
+

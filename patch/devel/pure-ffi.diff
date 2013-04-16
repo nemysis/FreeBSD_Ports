@@ -1,0 +1,75 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/devel/pure-ffi/Makefile ./Makefile
+--- /usr/ports/devel/pure-ffi/Makefile	2013-01-14 17:53:47.000000000 +0100
++++ ./Makefile	2013-04-05 22:55:27.000000000 +0200
+@@ -1,25 +1,40 @@
+-# New ports collection makefile for:	pure-ffi
+-# Date created:		2011-03-18
+-# Whom:			Zhihao Yuan <lichray@gmail.com>
+-#
++# Created by: Zhihao Yuan <lichray@gmail.com>
+ # $FreeBSD: head/devel/pure-ffi/Makefile 300896 2012-07-14 13:54:48Z beat $
+-#
+ 
+ PORTNAME=	pure-ffi
+-PORTVERSION=	0.12
+-PORTREVISION=	1
++PORTVERSION=	0.13
+ CATEGORIES=	devel
++#MASTER_SITES=	https://cdn.bitbucket.org/purelang/pure-lang/downloads/
++MASTER_SITES=	https://pure-lang.googlecode.com/files/
++DIST_SUBDIR=	pure
+ 
+ MAINTAINER=	lichray@gmail.com
+ COMMENT=	Pure language interface to libffi
+ 
++LICENSE=	GPLv3 LGPL3
++LICENSE_COMB=	dual
++
+ LIB_DEPENDS+=	ffi:${PORTSDIR}/devel/libffi
+ 
+-USE_PURE=	yes
++USES=	pure
+ 
+ PLIST_FILES=	lib/pure/ffi.pure \
+ 		lib/pure/ffi.so
+ 
+-.include <bsd.port.pre.mk>
+-.include "${PORTSDIR}/lang/pure/bsd.pure.mk"
+-.include <bsd.port.post.mk>
++PORTDOCS=	README
++PORTEXAMPLES=	*
++
++.include <bsd.port.options.mk>
++
++post-install:
++.if ${PORT_OPTIONS:MDOCS}
++	@${MKDIR} ${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
++.endif
++
++.if ${PORT_OPTIONS:MEXAMPLES}
++	@${MKDIR} ${EXAMPLESDIR}
++	@(cd ${WRKSRC}/examples/ && ${COPYTREE_SHARE} . ${EXAMPLESDIR})
++.endif
++
++.include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/devel/pure-ffi/distinfo ./distinfo
+--- /usr/ports/devel/pure-ffi/distinfo	2013-01-14 17:53:47.000000000 +0100
++++ ./distinfo	2013-04-05 21:41:37.000000000 +0200
+@@ -1,2 +1,2 @@
+-SHA256 (pure/pure-ffi-0.12.tar.gz) = 7aba78d96cad5ce6277b9857cbe9a09d6d572cb3fa5a48a53e4a8d3e23eee32d
+-SIZE (pure/pure-ffi-0.12.tar.gz) = 39868
++SHA256 (pure/pure-ffi-0.13.tar.gz) = 1c605ee261a6a8fe60684e764ba1f12dfd2e1e09290190411314b35a71a69636
++SIZE (pure/pure-ffi-0.13.tar.gz) = 39857
+diff -ruN --exclude=CVS /usr/ports/devel/pure-ffi/pkg-descr ./pkg-descr
+--- /usr/ports/devel/pure-ffi/pkg-descr	2013-01-14 17:53:47.000000000 +0100
++++ ./pkg-descr	2013-04-06 03:03:39.000000000 +0200
+@@ -3,4 +3,4 @@
+ built-in C interface in that it also handles C structs and makes Pure
+ functions callable from C without writing a single line of C code.
+ 
+-WWW:	http://docs.pure-lang.googlecode.com/hg/pure-ffi.html
++WWW: http://docs.pure-lang.googlecode.com/hg/pure-ffi.html
+===> Done

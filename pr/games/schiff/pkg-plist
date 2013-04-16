@@ -1,0 +1,9 @@
+bin/schiff
+share/icons/hicolor/32x32/apps/schiff.png
+share/icons/hicolor/48x48/apps/schiff.png
+share/icons/hicolor/64x64/apps/schiff.png
+share/icons/hicolor/72x72/apps/schiff.png
+share/icons/hicolor/96x96/apps/schiff.png
+share/pixmaps/schiff.png
+%%DATADIR%%/schiff.py
+@dirrm %%DATADIR%%

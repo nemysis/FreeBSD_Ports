@@ -1,0 +1,14 @@
+===============================================================================
+
+Train Game has been installed.
+
+Now you can play the game by running:
+
+    traingame play <map_name_here>
+
+
+To use the editor, run:
+
+    traingame edit <map_name_here>
+
+===============================================================================

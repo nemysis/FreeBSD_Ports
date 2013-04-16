@@ -1,0 +1,23 @@
+%%SITE_PERL%%/Video/Info.pm
+%%SITE_PERL%%/Video/Info/ASF.pm
+%%SITE_PERL%%/Video/Info/FOO.pm
+%%SITE_PERL%%/Video/Info/MPEG.pm
+%%SITE_PERL%%/Video/Info/MPEG/Audio.pm
+%%SITE_PERL%%/Video/Info/MPEG/Constants.pm
+%%SITE_PERL%%/Video/Info/MPEG/System.pm
+%%SITE_PERL%%/Video/Info/MPEG/Video.pm
+%%SITE_PERL%%/Video/Info/Magic.pm
+%%SITE_PERL%%/Video/Info/Quicktime.pm
+%%SITE_PERL%%/Video/Info/RIFF.pm
+%%SITE_PERL%%/%%PERL_ARCH%%/auto/Video/Info/.packlist
+@dirrm %%SITE_PERL%%/%%PERL_ARCH%%/auto/Video/Info
+@dirrmtry %%SITE_PERL%%/%%PERL_ARCH%%/auto/Video
+@dirrmtry %%SITE_PERL%%/%%PERL_ARCH%%/auto
+@dirrmtry %%SITE_PERL%%/%%PERL_ARCH%%
+@dirrm %%SITE_PERL%%/Video/Info/MPEG
+@dirrm %%SITE_PERL%%/Video/Info
+@dirrm %%SITE_PERL%%/Video
+@dirrmtry %%SITE_PERL%%
+@dirrmtry lib/perl5/site_perl
+@dirrmtry lib/perl5/5.14.2
+@dirrmtry lib/perl5

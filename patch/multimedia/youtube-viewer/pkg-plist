@@ -1,0 +1,3 @@
+bin/youtube-viewer
+%%SITE_PERL%%/WWW/YoutubeViewer.pm
+@dirrmtry %%SITE_PERL%%/WWW

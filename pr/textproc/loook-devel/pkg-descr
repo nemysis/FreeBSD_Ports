@@ -1,0 +1,7 @@
+Loook is a simple Python tool that searches for text strings in OpenOffice.org
+(and StarOffice 6.0 or later) files.
+It works under FreeBSD, Linux, Windows and Macintosh.
+AND, OR and phrase searches are supported. It doesn't create an index,
+but searching should be fast enough unless you have really many files.
+
+WWW: http://www.danielnaber.de/loook/

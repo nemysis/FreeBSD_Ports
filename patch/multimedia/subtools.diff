@@ -1,0 +1,81 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/multimedia/subtools/Makefile ./Makefile
+--- /usr/ports/multimedia/subtools/Makefile	2013-01-14 17:54:58.000000000 +0100
++++ ./Makefile	2013-03-29 18:05:31.000000000 +0100
+@@ -1,28 +1,32 @@
+-# New ports collection makefile for:	subtools
+-# Date created:		10 January 2006
+-# Whom:			Andrew Pantyukhin <infofarmer@FreeBSD.org>
+-#
++# Created by: Andrew Pantyukhin <infofarmer@FreeBSD.org>
+ # $FreeBSD: head/multimedia/subtools/Makefile 300896 2012-07-14 13:54:48Z beat $
+-#
+ 
+ PORTNAME=	subtools
+-PORTVERSION=	20060508
+-DISTVERSIONSUFFIX=	alpha
++PORTVERSION=	20081026
+ CATEGORIES=	multimedia
+-MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}-${PORTVERSION}alpha
++MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}-${PORTVERSION}
+ 
+ MAINTAINER=	ports@FreeBSD.org
+ COMMENT=	Command-line tools for movie subtitles in SubRipper format
+ 
+-USE_PYTHON=	yes
+ WRKSRC=		${WRKDIR}/${PORTNAME}/src
++
++USE_BZIP2=	yes
++USE_PYTHON=	yes
++USE_DOS2UNIX=	*.c *.py ../*.TXT
++
+ EXECS=		srtshift srtrate
+-PYEXECS=	udvd2srt.py udvdshift.py
+-PORTDOCS=	CHANGELOG.TXT LICENSE.TXT README.TXT TODO.TXT
+-PLIST_FILES=	${EXECS:S/^/bin\//} ${PYEXECS:S/^/bin\//}
++
++PLIST_FILES=	bin/srtshift bin/srtrate bin/udvd2srt.py bin/udvdshift.py
++
++PORTDOCS=	CHANGELOG.TXT README.TXT
++
++.include <bsd.port.options.mk>
+ 
+ post-patch:
+-	@${REINPLACE_CMD} -e 's,,,g;s,^.*#!.*python.*$$,#!${PYTHON_CMD},' ${WRKSRC}/*
++	@${REINPLACE_CMD} -e 's|^M||g;s|^.*#!.*python.*$$|#!${PYTHON_CMD}|' \
++		${WRKSRC}/*.py
++	@(cd ${WRKSRC} && ${RM} *.py.bak)
+ 
+ do-build:
+ .for EXEC in ${EXECS}
+@@ -30,11 +34,15 @@
+ .endfor
+ 
+ do-install:
+-	${INSTALL_PROGRAM} ${EXECS:S/^/${WRKSRC}\//} ${PREFIX}/bin/
+-	${INSTALL_SCRIPT} ${PYEXECS:S/^/${WRKSRC}\//} ${PREFIX}/bin/
+-.ifndef(NOPORTDOCS)
+-	${INSTALL} -d ${DOCSDIR}
+-	${INSTALL_DATA} ${PORTDOCS:S/^/${WRKSRC}\//} ${DOCSDIR}/
++.for s in ${EXECS}
++	@(cd ${WRKSRC} && ${INSTALL_PROGRAM} ${s} ${PREFIX}/bin)
++.endfor
++	@(cd ${WRKSRC} && ${INSTALL_SCRIPT} *.py ${PREFIX}/bin)
++
++post-install:
++.if ${PORT_OPTIONS:MDOCS}
++	@${MKDIR} ${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/../|} ${DOCSDIR}
+ .endif
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/multimedia/subtools/distinfo ./distinfo
+--- /usr/ports/multimedia/subtools/distinfo	2013-01-14 17:54:58.000000000 +0100
++++ ./distinfo	2013-03-29 16:58:05.000000000 +0100
+@@ -1,2 +1,2 @@
+-SHA256 (subtools-20060508alpha.tar.gz) = e07dab5951d787ab8d364f8c72d726ddfcfffb660ca3d90e36b23ad0a9a64da5
+-SIZE (subtools-20060508alpha.tar.gz) = 94411
++SHA256 (subtools-20081026.tar.bz2) = 373add3a9cb4bfe53144f757f6daaa99d4c6e7731ad513573bccaf0d685eb3c1
++SIZE (subtools-20081026.tar.bz2) = 2112351
+===> Done

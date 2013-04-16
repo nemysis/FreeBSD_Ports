@@ -1,0 +1,190 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	shirk
+#	shirk/files
+#	shirk/files/shirk.in
+#	shirk/files/pkg-message.in
+#	shirk/pkg-plist
+#	shirk/Makefile
+#	shirk/pkg-descr
+#	shirk/distinfo
+#
+echo c - shirk
+mkdir -p shirk > /dev/null 2>&1
+echo c - shirk/files
+mkdir -p shirk/files > /dev/null 2>&1
+echo x - shirk/files/shirk.in
+sed 's/^X//' >shirk/files/shirk.in << '576472a22937f7da0022a8d10e322341'
+X#!/bin/sh
+X#
+X# $FreeBSD$
+X#
+X
+Xcd "%%DATADIR%%"
+Xexec /usr/bin/env python ./shirk.py "${@}"
+576472a22937f7da0022a8d10e322341
+echo x - shirk/files/pkg-message.in
+sed 's/^X//' >shirk/files/pkg-message.in << '67715b0ee1fc26816ce521cc265a8f3c'
+X===============================================================================
+X
+XShirk has been installed.
+X
+XAll options are given only in the config file.
+X
+XPlease adjust it for your needs
+X
+X     %%DATADIR%%/conf.json
+X
+X===============================================================================
+67715b0ee1fc26816ce521cc265a8f3c
+echo x - shirk/pkg-plist
+sed 's/^X//' >shirk/pkg-plist << '04b1c0cc7e68e76f05b0cb71b435266f'
+X@unexec if cmp -s %D/%%DATADIR%%/conf.json %D/%%DATADIR%%/conf-example.json ; then rm -f %D/%%DATADIR%%/conf.json ; else echo If permanently deleting this package, %D/%%DATADIR%%/conf.json must be removed manually ; fi
+Xbin/shirk
+X@exec if [ ! -f %D/%%DATADIR%%/conf.json ] ; then cp %D/%%DATADIR%%/conf-example.json %D/%%DATADIR%%/conf.json ; fi
+X%%DATADIR%%/conf-example.json
+X%%DATADIR%%/plugconf/README
+X%%DATADIR%%/plugs/Auth/Auth-example.json
+X%%DATADIR%%/plugs/Auth/__init__.py
+X%%DATADIR%%/plugs/Auth/__init__.pyc
+X%%DATADIR%%/plugs/Auth/__init__.pyo
+X%%DATADIR%%/plugs/Core/__init__.py
+X%%DATADIR%%/plugs/Core/__init__.pyc
+X%%DATADIR%%/plugs/Core/__init__.pyo
+X%%DATADIR%%/plugs/Core/core.py
+X%%DATADIR%%/plugs/Core/core.pyc
+X%%DATADIR%%/plugs/Core/core.pyo
+X%%DATADIR%%/plugs/Guard/guard.py
+X%%DATADIR%%/plugs/Guard/guard.pyc
+X%%DATADIR%%/plugs/Guard/guard.pyo
+X%%DATADIR%%/plugs/Guard/recover.log
+X%%DATADIR%%/plugs/Wiggly/Wiggly-example.json
+X%%DATADIR%%/plugs/Wiggly/__init__.py
+X%%DATADIR%%/plugs/Wiggly/__init__.pyc
+X%%DATADIR%%/plugs/Wiggly/__init__.pyo
+X%%DATADIR%%/plugs/Wiggly/interro/LICENSE
+X%%DATADIR%%/plugs/Wiggly/interro/README.md
+X%%DATADIR%%/plugs/Wiggly/interro/__init__.py
+X%%DATADIR%%/plugs/Wiggly/interro/__init__.pyc
+X%%DATADIR%%/plugs/Wiggly/interro/__init__.pyo
+X%%DATADIR%%/plugs/Wiggly/interro/interro.py
+X%%DATADIR%%/plugs/Wiggly/interro/interro.pyc
+X%%DATADIR%%/plugs/Wiggly/interro/interro.pyo
+X%%DATADIR%%/plugs/Wiggly/interro/questions.py
+X%%DATADIR%%/plugs/Wiggly/interro/questions.pyc
+X%%DATADIR%%/plugs/Wiggly/interro/questions.pyo
+X%%DATADIR%%/plugs/Wiggly/mailtemplate.txt
+X%%DATADIR%%/plugs/Wiggly/newuser.sh
+X%%DATADIR%%/plugs/Wiggly/wiggly.py
+X%%DATADIR%%/plugs/Wiggly/wiggly.pyc
+X%%DATADIR%%/plugs/Wiggly/wiggly.pyo
+X%%DATADIR%%/plugs/__init__.py
+X%%DATADIR%%/plugs/__init__.pyc
+X%%DATADIR%%/plugs/__init__.pyo
+X%%DATADIR%%/shirk.py
+X%%DATADIR%%/shirk.pyc
+X%%DATADIR%%/users.py
+X%%DATADIR%%/users.pyc
+X@dirrm %%DATADIR%%/plugs/Wiggly/interro
+X@dirrm %%DATADIR%%/plugs/Wiggly
+X@dirrm %%DATADIR%%/plugs/Guard
+X@dirrm %%DATADIR%%/plugs/Core
+X@dirrm %%DATADIR%%/plugs/Auth
+X@dirrm %%DATADIR%%/plugs
+X@dirrm %%DATADIR%%/plugconf
+X@dirrm %%DATADIR%%
+04b1c0cc7e68e76f05b0cb71b435266f
+echo x - shirk/Makefile
+sed 's/^X//' >shirk/Makefile << '90cc93ca8421e2feda7ce10c717142cb'
+X# Created by:	nemysis@gmx.ch
+X# $FreeBSD$
+X
+XPORTNAME=	shirk
+XPORTVERSION=	0.5
+XCATEGORIES=	irc
+XMASTER_SITES=	GITHUB
+XDIST_SUBDIR=	python
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	Modular IRC bot based on the Twisted framework
+X
+XLICENSE=	MIT
+X
+XUSE_GITHUB=	yes
+XGH_ACCOUNT=	frank001
+XGH_PROJECT=	${PORTNAME}
+XGH_TAGNAME=	wigglytuff
+XGH_COMMIT=	1f21873
+X
+XUSE_PYTHON=	yes
+XUSE_TWISTED=	framework words
+X
+XPORTDOCS=	README.md
+X
+XSUB_FILES=	${PORTNAME} \
+X		pkg-message
+X
+X.include <bsd.port.options.mk>
+X
+Xpost-patch:
+X	@${REINPLACE_CMD} \
+X	-e 's|python2.7|${PYTHON_CMD}|' \
+X		${WRKSRC}/shirk.py
+X	@${FIND} ${WRKSRC} -name "*.bak" -delete
+X
+Xdo-build:
+X	@${PYTHON_CMD} -m compileall ${WRKSRC}
+X	@${PYTHON_CMD} -O -m compileall ${WRKSRC}
+X
+Xdo-install:
+X	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin
+X	${MKDIR} ${DATADIR}
+X.for d in *.py *.pyc *.pyo
+X	@(cd ${WRKSRC} && ${INSTALL_SCRIPT} ${d} ${DATADIR})
+X.endfor
+X	@(cd ${WRKSRC} && ${COPYTREE_SHARE} "plugconf plugs" ${DATADIR})
+X	${INSTALL_DATA} ${WRKSRC}/conf-example.json ${DATADIR}
+X
+X	@for file in conf.json ; do \
+X		if [ ! -e "${DATADIR}/$$file" ]; then \
+X			${ECHO_MSG} "   Installing local configuration file: ${DATADIR}/$$file"; \
+X			${CP} -a ${DATADIR}/conf-example.json ${DATADIR}/$$file; \
+X				else \
+X					${ECHO_MSG} "Preserving local configuration file: ${DATADIR}/$$file"; \
+X		fi; \
+X	done
+X
+X	@${CHMOD} 644 ${DATADIR}/conf.json
+X
+X.if ${PORT_OPTIONS:MDOCS}
+X	${MKDIR} ${DOCSDIR}
+X	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+X.endif
+X
+X	@${ECHO_CMD}
+X	@${CAT} ${PKGMESSAGE}
+X	@${ECHO_CMD}
+X
+X.include <bsd.port.mk>
+90cc93ca8421e2feda7ce10c717142cb
+echo x - shirk/pkg-descr
+sed 's/^X//' >shirk/pkg-descr << 'de8d117c81325bd91637ac82b3456f13'
+XShirk is a modular IRC bot based on the Twisted framework. It is designed
+Xto be easy to write modules for so you can focus on the things you actually
+Xwant to do. After all, if you wanted to mess with IRC internals you wouldn't
+Xbe using someone else's bot.
+X
+XWWW: https://github.com/frank001/shirk/tree/wigglytuff
+de8d117c81325bd91637ac82b3456f13
+echo x - shirk/distinfo
+sed 's/^X//' >shirk/distinfo << '207c934ba8a72c91cacd7d5a03e6faf0'
+XSHA256 (python/shirk-0.5.tar.gz) = c04abd323cbad8917acab853c06c463ecdbe61fd342a0fc85cac94b3dd4beb13
+XSIZE (python/shirk-0.5.tar.gz) = 20208
+207c934ba8a72c91cacd7d5a03e6faf0
+exit
+

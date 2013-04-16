@@ -1,0 +1,26 @@
+--- Makefile.orig	2013-01-25 15:02:54.000000000 +0900
++++ Makefile	2013-01-27 02:37:02.000000000 +0900
+@@ -6,10 +6,6 @@
+ 
+ DESTDIR = 
+ 
+-CC = gcc
+-RPM_OPT_FLAGS = -Os -Wall -g
+-CFLAGS = $(RPM_OPT_FLAGS) $(EXTRA_CFLAGS)
+-CFLAGS_OPT = $(CFLAGS) -O3
+ INSTALL = install
+ INSTALLFLAGS = -s
+ prefix = $(DESTDIR)/usr
+@@ -26,12 +22,6 @@
+ DEFINES = -DVERSION=\"$(VERSION)\"  -D__COMPILER__="\"$(COMPILER)\""
+ OUT = -o $@
+ 
+-ifeq ($(CC),wcl386)
+-  CFLAGS = "-ox -wx $(EXTRA_CFLAGS)"
+-  DEFINES = -dMISS_STRSIGNAL -dMISS_PREAD -dVERSION=\"$(VERSION)\" -d__COMPILER__="\"$(COMPILER)\""
+-  OUT = ""
+-endif
+-
+ default: $(TARGETS)
+ 
+ frandom.o: frandom.c

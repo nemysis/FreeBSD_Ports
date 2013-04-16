@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# $FreeBSD$
+#
+
+if [ "$2" != "POST-DEINSTALL" ]; then
+	exit 0
+fi
+
+cd %%PREFIX%%/lib/X11/fonts/misc ; mkfontdir

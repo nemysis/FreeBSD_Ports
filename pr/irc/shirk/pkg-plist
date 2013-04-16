@@ -1,0 +1,56 @@
+@unexec if cmp -s %D/%%DATADIR%%/conf.json %D/%%DATADIR%%/conf-example.json ; then rm -f %D/%%DATADIR%%/conf.json ; else echo If permanently deleting this package, %D/%%DATADIR%%/conf.json must be removed manually ; fi
+bin/shirk
+@exec if [ ! -f %D/%%DATADIR%%/conf.json ] ; then cp %D/%%DATADIR%%/conf-example.json %D/%%DATADIR%%/conf.json ; fi
+%%DATADIR%%/conf-example.json
+%%DATADIR%%/plugconf/README
+%%DATADIR%%/plugs/Auth/Auth-example.json
+%%DATADIR%%/plugs/Auth/__init__.py
+%%DATADIR%%/plugs/Auth/__init__.pyc
+%%DATADIR%%/plugs/Auth/__init__.pyo
+%%DATADIR%%/plugs/Core/__init__.py
+%%DATADIR%%/plugs/Core/__init__.pyc
+%%DATADIR%%/plugs/Core/__init__.pyo
+%%DATADIR%%/plugs/Core/core.py
+%%DATADIR%%/plugs/Core/core.pyc
+%%DATADIR%%/plugs/Core/core.pyo
+%%DATADIR%%/plugs/Guard/guard.py
+%%DATADIR%%/plugs/Guard/guard.pyc
+%%DATADIR%%/plugs/Guard/guard.pyo
+%%DATADIR%%/plugs/Guard/recover.log
+%%DATADIR%%/plugs/Wiggly/Wiggly-example.json
+%%DATADIR%%/plugs/Wiggly/__init__.py
+%%DATADIR%%/plugs/Wiggly/__init__.pyc
+%%DATADIR%%/plugs/Wiggly/__init__.pyo
+%%DATADIR%%/plugs/Wiggly/interro/LICENSE
+%%DATADIR%%/plugs/Wiggly/interro/README.md
+%%DATADIR%%/plugs/Wiggly/interro/__init__.py
+%%DATADIR%%/plugs/Wiggly/interro/__init__.pyc
+%%DATADIR%%/plugs/Wiggly/interro/__init__.pyo
+%%DATADIR%%/plugs/Wiggly/interro/interro.py
+%%DATADIR%%/plugs/Wiggly/interro/interro.pyc
+%%DATADIR%%/plugs/Wiggly/interro/interro.pyo
+%%DATADIR%%/plugs/Wiggly/interro/questions.py
+%%DATADIR%%/plugs/Wiggly/interro/questions.pyc
+%%DATADIR%%/plugs/Wiggly/interro/questions.pyo
+%%DATADIR%%/plugs/Wiggly/mailtemplate.txt
+%%DATADIR%%/plugs/Wiggly/newuser.sh
+%%DATADIR%%/plugs/Wiggly/wiggly.py
+%%DATADIR%%/plugs/Wiggly/wiggly.pyc
+%%DATADIR%%/plugs/Wiggly/wiggly.pyo
+%%DATADIR%%/plugs/__init__.py
+%%DATADIR%%/plugs/__init__.pyc
+%%DATADIR%%/plugs/__init__.pyo
+%%DATADIR%%/shirk.py
+%%DATADIR%%/shirk.pyc
+%%DATADIR%%/shirk.pyo
+%%DATADIR%%/users.py
+%%DATADIR%%/users.pyc
+%%DATADIR%%/users.pyo
+@dirrm %%DATADIR%%/plugs/Wiggly/interro
+@dirrm %%DATADIR%%/plugs/Wiggly
+@dirrm %%DATADIR%%/plugs/Guard
+@dirrm %%DATADIR%%/plugs/Core
+@dirrm %%DATADIR%%/plugs/Auth
+@dirrm %%DATADIR%%/plugs
+@dirrm %%DATADIR%%/plugconf
+@dirrm %%DATADIR%%

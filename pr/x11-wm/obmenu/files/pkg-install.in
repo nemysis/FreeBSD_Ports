@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# $FreeBSD$
+#
+
+echo ""
+echo "Do you have for Openbox menu.xml?"
+echo ""
+
+ls -lh /home/*/.config/openbox | grep menu.xml
+echo ""

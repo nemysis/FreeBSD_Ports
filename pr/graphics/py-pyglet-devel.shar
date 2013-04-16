@@ -1,0 +1,625 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	py-pyglet-devel
+#	py-pyglet-devel/Makefile
+#	py-pyglet-devel/distinfo
+#	py-pyglet-devel/pkg-descr
+#	py-pyglet-devel/pkg-plist
+#
+echo c - py-pyglet-devel
+mkdir -p py-pyglet-devel > /dev/null 2>&1
+echo x - py-pyglet-devel/Makefile
+sed 's/^X//' >py-pyglet-devel/Makefile << '3affff6b8c1a8c0e68203b8bda750172'
+X# Created by:   nemysis@gmx.ch
+X#
+X# $FreeBSD$
+X#
+X
+XPORTNAME=	pyglet
+XPORTVERSION=	1.2
+XCATEGORIES=	graphics multimedia x11-toolkits python
+XMASTER_SITES=	GOOGLE_CODE
+XPKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+XPKGNAMESUFFIX=	-devel
+XDISTNAME=	${PORTNAME}-${DISTVERSION}alpha1
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	Cross-platform windowing and multimedia library for Python
+X
+XLICENSE=	BSD
+X
+XLIB_DEPENDS=	freetype:${PORTSDIR}/print/freetype2 \
+X		fontconfig:${PORTSDIR}/x11-fonts/fontconfig
+X
+XUSE_PYTHON=	yes
+XUSE_PYDISTUTILS=	yes
+XUSE_GL=		gl glu
+XUSE_OPENAL=	al
+XCONFLICTS=	py-pyglet-[0-9]*
+X
+XPORTDOCS=	CHANGELOG NOTICE README
+XPYDISTUTILS_EGGINFO=	${DISTNAME}-py${PYTHON_VER}.egg-info
+X
+X.include <bsd.port.options.mk>
+X
+Xpost-patch:
+X	@${FIND} ${WRKSRC} -name '*.py' | ${XARGS} \
+X		${REINPLACE_CMD} -e 's|/usr/include|${PREFIX}/include|g'
+X	@${FIND} ${WRKSRC} -name "*.bak" -delete
+X
+Xpost-install:
+X.if ${PORT_OPTIONS:MDOCS}
+X	${MKDIR} ${DOCSDIR}
+X	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+X.endif
+X
+X.if ${PORT_OPTIONS:MEXAMPLES}
+X	@cd ${WRKSRC}/examples && ${COPYTREE_SHARE} \* ${EXAMPLESDIR}
+X.endif
+X
+X.include <bsd.port.mk>
+3affff6b8c1a8c0e68203b8bda750172
+echo x - py-pyglet-devel/distinfo
+sed 's/^X//' >py-pyglet-devel/distinfo << 'ba40a72ce709ecf0bde1eb13b28ea55b'
+XSHA256 (pyglet-1.2alpha1.tar.gz) = 3192cdadd032baf1361136ec05a30471b514566edda5b9db3a6f7a76ac5aff34
+XSIZE (pyglet-1.2alpha1.tar.gz) = 2014080
+ba40a72ce709ecf0bde1eb13b28ea55b
+echo x - py-pyglet-devel/pkg-descr
+sed 's/^X//' >py-pyglet-devel/pkg-descr << 'de757cb42bf41a655cf596a1332b9d34'
+Xpyglet provides an object-oriented programming interface for
+Xdeveloping games and other visually-rich applications for
+XWindows, Mac OS X and Linux. Some of the features of pyglet are: 
+X
+X * No external dependencies or installation requirements.
+X   For most application and game requirements, pyglet needs nothing
+X   else besides Python, simplifying distribution and installation.
+X * Take advantage of multiple windows and multi-monitor desktops.
+X   pyglet allows you to use as many windows as you need, and is fully
+X   aware of multi-monitor setups for use with fullscreen games.
+X * Load images, sound, music and video in almost any format.
+X   pyglet can optionally use AVbin to play back audio formats such as
+X   MP3, OGG/Vorbis and WMA, and video formats such as DivX, MPEG-2,
+X   H.264, WMV and Xvid.
+X
+Xpyglet is provided under the BSD open-source license, allowing you
+Xto use it for both commerical and other open-source projects with
+Xvery little restriction.
+X
+XWWW: http://pyglet.org/
+de757cb42bf41a655cf596a1332b9d34
+echo x - py-pyglet-devel/pkg-plist
+sed 's/^X//' >py-pyglet-devel/pkg-plist << 'a28253697c450727c115f05cc38ff9dc'
+X%%PYTHON_SITELIBDIR%%/pyglet/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/app/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/app/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/app/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/app/base.py
+X%%PYTHON_SITELIBDIR%%/pyglet/app/base.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/app/base.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/app/carbon.py
+X%%PYTHON_SITELIBDIR%%/pyglet/app/carbon.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/app/carbon.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/app/cocoa.py
+X%%PYTHON_SITELIBDIR%%/pyglet/app/cocoa.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/app/cocoa.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/app/win32.py
+X%%PYTHON_SITELIBDIR%%/pyglet/app/win32.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/app/win32.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/app/xlib.py
+X%%PYTHON_SITELIBDIR%%/pyglet/app/xlib.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/app/xlib.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/base.py
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/base.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/base.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/carbon.py
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/carbon.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/carbon.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/cocoa.py
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/cocoa.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/cocoa.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/win32.py
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/win32.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/win32.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/xlib.py
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/xlib.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/xlib.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/xlib_vidmoderestore.py
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/xlib_vidmoderestore.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/canvas/xlib_vidmoderestore.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/clock.py
+X%%PYTHON_SITELIBDIR%%/pyglet/clock.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/clock.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/com.py
+X%%PYTHON_SITELIBDIR%%/pyglet/com.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/com.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/compat.py
+X%%PYTHON_SITELIBDIR%%/pyglet/compat.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/compat.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/event.py
+X%%PYTHON_SITELIBDIR%%/pyglet/event.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/event.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/font/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/font/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/font/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/font/base.py
+X%%PYTHON_SITELIBDIR%%/pyglet/font/base.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/font/base.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/font/carbon.py
+X%%PYTHON_SITELIBDIR%%/pyglet/font/carbon.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/font/carbon.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/font/freetype.py
+X%%PYTHON_SITELIBDIR%%/pyglet/font/freetype.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/font/freetype.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/font/freetype_lib.py
+X%%PYTHON_SITELIBDIR%%/pyglet/font/freetype_lib.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/font/freetype_lib.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/font/quartz.py
+X%%PYTHON_SITELIBDIR%%/pyglet/font/quartz.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/font/quartz.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/font/ttf.py
+X%%PYTHON_SITELIBDIR%%/pyglet/font/ttf.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/font/ttf.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/font/win32.py
+X%%PYTHON_SITELIBDIR%%/pyglet/font/win32.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/font/win32.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/agl.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/agl.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/agl.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/base.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/base.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/base.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/carbon.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/carbon.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/carbon.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/cocoa.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/cocoa.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/cocoa.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/gl.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/gl.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/gl.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/gl_info.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/gl_info.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/gl_info.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glext_arb.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glext_arb.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glext_arb.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glext_nv.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glext_nv.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glext_nv.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glu.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glu.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glu.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glu_info.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glu_info.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glu_info.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glx.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glx.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glx.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glx_info.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glx_info.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glx_info.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glxext_arb.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glxext_arb.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glxext_arb.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glxext_mesa.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glxext_mesa.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glxext_mesa.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glxext_nv.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glxext_nv.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/glxext_nv.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/lib.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/lib.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/lib.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/lib_agl.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/lib_agl.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/lib_agl.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/lib_glx.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/lib_glx.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/lib_glx.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/lib_wgl.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/lib_wgl.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/lib_wgl.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/wgl.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/wgl.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/wgl.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/wgl_info.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/wgl_info.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/wgl_info.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/wglext_arb.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/wglext_arb.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/wglext_arb.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/wglext_nv.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/wglext_nv.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/wglext_nv.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/win32.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/win32.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/win32.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/xlib.py
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/xlib.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/gl/xlib.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/allocation.py
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/allocation.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/allocation.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/vertexattribute.py
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/vertexattribute.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/vertexattribute.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/vertexbuffer.py
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/vertexbuffer.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/vertexbuffer.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/vertexdomain.py
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/vertexdomain.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/graphics/vertexdomain.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/atlas.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/atlas.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/atlas.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/bmp.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/bmp.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/bmp.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/dds.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/dds.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/dds.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/gdiplus.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/gdiplus.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/gdiplus.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/gdkpixbuf2.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/gdkpixbuf2.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/gdkpixbuf2.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/gif.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/gif.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/gif.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/pil.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/pil.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/pil.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/png.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/png.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/png.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/pypng.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/pypng.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/pypng.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/quartz.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/quartz.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/quartz.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/quicktime.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/quicktime.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/quicktime.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/s3tc.py
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/s3tc.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/image/codecs/s3tc.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/info.py
+X%%PYTHON_SITELIBDIR%%/pyglet/info.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/info.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/input/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/input/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/input/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/input/base.py
+X%%PYTHON_SITELIBDIR%%/pyglet/input/base.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/input/base.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/input/carbon_hid.py
+X%%PYTHON_SITELIBDIR%%/pyglet/input/carbon_hid.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/input/carbon_hid.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/input/carbon_tablet.py
+X%%PYTHON_SITELIBDIR%%/pyglet/input/carbon_tablet.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/input/carbon_tablet.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/input/darwin_hid.py
+X%%PYTHON_SITELIBDIR%%/pyglet/input/darwin_hid.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/input/darwin_hid.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/input/directinput.py
+X%%PYTHON_SITELIBDIR%%/pyglet/input/directinput.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/input/directinput.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/input/evdev.py
+X%%PYTHON_SITELIBDIR%%/pyglet/input/evdev.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/input/evdev.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/input/evdev_constants.py
+X%%PYTHON_SITELIBDIR%%/pyglet/input/evdev_constants.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/input/evdev_constants.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/input/wintab.py
+X%%PYTHON_SITELIBDIR%%/pyglet/input/wintab.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/input/wintab.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/input/x11_xinput.py
+X%%PYTHON_SITELIBDIR%%/pyglet/input/x11_xinput.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/input/x11_xinput.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/input/x11_xinput_tablet.py
+X%%PYTHON_SITELIBDIR%%/pyglet/input/x11_xinput_tablet.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/input/x11_xinput_tablet.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/lib.py
+X%%PYTHON_SITELIBDIR%%/pyglet/lib.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/lib.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy/cocoalibs.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy/cocoalibs.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy/cocoalibs.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy/cocoatypes.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy/cocoatypes.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy/cocoatypes.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy/runtime.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy/runtime.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy/runtime.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/constants.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/constants.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/constants.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/quartzkey.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/quartzkey.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/quartzkey.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/types.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/types.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/types.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/constants.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/constants.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/constants.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/dinput.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/dinput.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/dinput.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/libwintab.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/libwintab.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/libwintab.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/types.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/types.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/types.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/winkey.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/winkey.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/win32/winkey.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/cursorfont.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/cursorfont.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/cursorfont.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xf86vmode.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xf86vmode.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xf86vmode.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xinerama.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xinerama.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xinerama.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xinput.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xinput.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xinput.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xlib.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xlib.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xlib.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xsync.py
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xsync.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/libs/x11/xsync.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/avbin.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/avbin.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/avbin.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/directsound/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/directsound/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/directsound/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/directsound/lib_dsound.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/directsound/lib_dsound.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/directsound/lib_dsound.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/openal/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/openal/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/openal/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/openal/lib_alc.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/openal/lib_alc.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/openal/lib_alc.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/openal/lib_openal.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/openal/lib_openal.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/openal/lib_openal.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/pulse/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/pulse/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/pulse/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/pulse/lib_pulseaudio.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/pulse/lib_pulseaudio.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/pulse/lib_pulseaudio.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/silent.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/silent.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/drivers/silent.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/procedural.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/procedural.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/procedural.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/media/riff.py
+X%%PYTHON_SITELIBDIR%%/pyglet/media/riff.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/media/riff.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/resource.py
+X%%PYTHON_SITELIBDIR%%/pyglet/resource.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/resource.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/sprite.py
+X%%PYTHON_SITELIBDIR%%/pyglet/sprite.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/sprite.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/text/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/text/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/text/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/text/caret.py
+X%%PYTHON_SITELIBDIR%%/pyglet/text/caret.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/text/caret.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/text/document.py
+X%%PYTHON_SITELIBDIR%%/pyglet/text/document.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/text/document.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/attributed.py
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/attributed.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/attributed.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/html.py
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/html.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/html.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/plaintext.py
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/plaintext.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/plaintext.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/structured.py
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/structured.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/text/formats/structured.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/text/layout.py
+X%%PYTHON_SITELIBDIR%%/pyglet/text/layout.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/text/layout.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/text/runlist.py
+X%%PYTHON_SITELIBDIR%%/pyglet/text/runlist.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/text/runlist.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/carbon/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/carbon/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/carbon/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/pyglet_delegate.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/pyglet_delegate.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/pyglet_delegate.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/pyglet_textview.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/pyglet_textview.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/pyglet_textview.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/pyglet_view.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/pyglet_view.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/pyglet_view.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/pyglet_window.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/pyglet_window.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/pyglet_window.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/systemcursor.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/systemcursor.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/cocoa/systemcursor.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/event.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/event.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/event.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/key.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/key.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/key.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/mouse.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/mouse.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/mouse.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/win32/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/win32/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/win32/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyglet/window/xlib/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyglet/window/xlib/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyglet/window/xlib/__init__.pyo
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/apple_remote.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/apple_remote_demo.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/README
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/assets/app.icns
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/assets/app.ico
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/assets/ship.svg
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/astraea.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/res/asteroid1.png
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/res/asteroid2.png
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/res/asteroid3.png
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/res/bullet.png
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/res/bullet.wav
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/res/explosion.png
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/res/explosion.wav
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/res/pointer.png
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/res/ship.png
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/res/smoke.png
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/res/starfield.jpg
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/setup.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/events.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/fixed_resolution.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/graphics.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/html_label.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/image_convert.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/image_display.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/input.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/joystick.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/media_info.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/media_player.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/multiple_windows.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/noisy/README
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/noisy/ball.png
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/noisy/ball.wav
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/noisy/noisy.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/opengl.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/opengl_3.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/programming_guide/animation.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/programming_guide/dinosaur.gif
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/programming_guide/events.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/programming_guide/hello_world.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/programming_guide/image_viewer.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/programming_guide/kitten.jpg
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/programming_guide/window_subclass.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/pyglet.png
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/show_input.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/soundspace/README
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/soundspace/reader.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/soundspace/res/bass.ogg
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/soundspace/res/drums.ogg
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/soundspace/res/guitar.ogg
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/soundspace/res/piano.ogg
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/soundspace/res/space.txt
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/soundspace/soundspace.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/tablet.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/text_input.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/timer.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/video.py
+X%%PORTEXAMPLES%%%%EXAMPLESDIR%%/window_platform_event.py
+X%%PORTEXAMPLES%%@dirrm %%PORTEXAMPLES%%%%EXAMPLESDIR%%/soundspace/res
+X%%PORTEXAMPLES%%@dirrm %%PORTEXAMPLES%%%%EXAMPLESDIR%%/soundspace
+X%%PORTEXAMPLES%%@dirrm %%PORTEXAMPLES%%%%EXAMPLESDIR%%/programming_guide
+X%%PORTEXAMPLES%%@dirrm %%PORTEXAMPLES%%%%EXAMPLESDIR%%/noisy
+X%%PORTEXAMPLES%%@dirrm %%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/res
+X%%PORTEXAMPLES%%@dirrm %%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea/assets
+X%%PORTEXAMPLES%%@dirrm %%PORTEXAMPLES%%%%EXAMPLESDIR%%/astraea
+X%%PORTEXAMPLES%%@dirrm %%PORTEXAMPLES%%%%EXAMPLESDIR%%
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/window/xlib
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/window/win32
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/window/cocoa
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/window/carbon
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/window
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/text/formats
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/text
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/media/drivers/pulse
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/media/drivers/openal
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/media/drivers/directsound
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/media/drivers
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/media
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/libs/x11
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/libs/win32
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/libs/darwin/cocoapy
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/libs/darwin
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/libs
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/input
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/image/codecs
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/image
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/graphics
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/gl
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/font
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/canvas
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet/app
+X@dirrm %%PYTHON_SITELIBDIR%%/pyglet
+X@dirrmtry %%PYTHON_SITELIBDIR%%
+X@dirrmtry lib/python2.7
+a28253697c450727c115f05cc38ff9dc
+exit
+

@@ -1,0 +1,11 @@
+==========================================================================
+
+Once everything is finally installed set the JAVA_HOME variable to
+${LOCALBASE}/ where are OpenJDK or Diablo JDK installed and run
+the Tomcat server.
+The JetSpeed portal files are copied to ${LOCALBASE}/apache-tomcat*/webapps,
+where Tomcat resides.
+
+For more information on how it works look at JetSpeed homepage.
+
+==========================================================================

@@ -1,0 +1,83 @@
+# New ports collection makefile for:	pysolfc
+# Date created:		2009-03-13
+# Whom:			Marcus von Appen
+#
+# $FreeBSD: head/games/pysolfc/Makefile 301684 2012-07-29 11:17:02Z cs $
+#
+
+PORTNAME=	pysolfc
+PORTVERSION=	2.0
+PORTREVISION=	3
+CATEGORIES=	games python
+MASTER_SITES=	SF/${PORTNAME}/PySolFC/PySolFC-${PORTVERSION} \
+		SF/${PORTNAME}/PySolFC-Cardsets/PySolFC-Cardsets-${PORTVERSION}:cardsets
+DISTFILES=	PySolFC-${DISTVERSION}${EXTRACT_SUFX}
+DIST_SUBDIR=	${PORTNAME}
+
+MAINTAINER=	mva@FreeBSD.org
+COMMENT=	Solitaire game, written in Python and the successor of PySol
+
+LICENSE=	GPLv3
+
+RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}tkinter>=0:${PORTSDIR}/x11-toolkits/py-tkinter \
+		${PYTHON_PKGNAMEPREFIX}imaging>=0:${PORTSDIR}/graphics/py-imaging
+
+WRKSRC=		${WRKDIR}/PySolFC-${PORTVERSION}
+
+USE_BZIP2=	yes
+USE_PYTHON=	yes
+USE_PYDISTUTILS=yes
+PYDISTUTILS_PKGNAME=	PySolFC
+
+DATADIR=	${PREFIX}/share/PySolFC
+
+PORTDOCS=	AUTHORS README
+
+OPTIONS_DEFINE=	CARDSETS
+CARDSETS_DESC=	Install additional cardsets
+
+.include <bsd.port.options.mk>
+
+.if ${PORT_OPTIONS:MNLS}
+USE_GETTEXT=	yes
+PLIST_SUB+=	NLS=""
+.else
+PLIST_SUB+=	NLS="@comment "
+.endif
+
+.if ${PORT_OPTIONS:MCARDSETS}
+DISTFILES+=		PySolFC-Cardsets-${DISTVERSION}${EXTRACT_SUFX}:cardsets
+PLIST_SUB+=	CARDSETS=""
+.else
+PLIST_SUB+=	CARDSETS="@comment "
+.endif
+
+post-patch:
+	@${MV} ${WRKSRC}/pysol.py ${WRKSRC}/pysolfc
+	@${REINPLACE_CMD} -e 's|pysol.py|pysolfc|' ${WRKSRC}/setup.py
+	@${REINPLACE_CMD} -e 's|^Icon.*|Icon=${PORTNAME}|' \
+		-e 's|^Exec.*|Exec=${PORTNAME}|' \
+		${WRKSRC}/data/pysol.desktop
+
+.if !${PORT_OPTIONS:MNLS}
+	@${REINPLACE_CMD} -e "s|for l in ('ru', 'ru_RU')|for l in ()|" ${WRKSRC}/setup.py
+.endif
+
+	@${FIND} ${WRKDIR} -name .thumbnails -or -name .xvpics | ${XARGS} ${RM} -rf
+#	@${FIND} ${WRKDIR} -type d -name .thumbnails -or -name .xvpics -delete
+#	@${FIND} ${WRKDIR} -type d -name .thumbnails -or -name .xvpics -exec ${RM} -rf {} +
+	@${FIND} ${WRKSRC} -name "*.bak" -delete
+
+post-install:
+	${LN} -sf ${PREFIX}/share/icons/pysol01.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
+
+.if ${PORT_OPTIONS:MDOCS}
+	${INSTALL} -d ${DOCSDIR}/
+	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+.endif
+
+.if ${PORT_OPTIONS:MCARDSETS}
+	@cd ${WRKDIR}/PySolFC-Cardsets-${PORTVERSION} && ${COPYTREE_SHARE} \* ${DATADIR}
+.endif
+
+.include <bsd.port.mk>

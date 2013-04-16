@@ -1,0 +1,20 @@
+bin/sabcmd
+bin/sablot-config
+include/sabcfg.h
+include/sabdbg.h
+include/sablot.h
+include/sdom.h
+include/shandler.h
+include/sxpath.h
+lib/libsablot.a
+lib/libsablot.la
+lib/libsablot.so
+lib/libsablot.so.70
+%%PORTDOCS%%%%DOCSDIR%%/README
+%%PORTDOCS%%%%DOCSDIR%%/README_JS
+%%PORTDOCS%%%%DOCSDIR%%/RELEASE
+%%PORTDOCS%%%%DOCSDIR%%/doc/misc/DEBUGGER
+%%PORTDOCS%%%%DOCSDIR%%/doc/misc/NOTES
+%%PORTDOCS%%@dirrm %%DOCSDIR%%/doc/misc
+%%PORTDOCS%%@dirrm %%DOCSDIR%%/doc
+%%PORTDOCS%%@dirrm %%DOCSDIR%%

@@ -1,0 +1,64 @@
+# Created by: Will Andrews <andrews@technologist.com>
+# $FreeBSD: head/games/gno3dtet/Makefile 315433 2013-03-28 03:28:30Z eadler $
+
+PORTNAME=	gno3dtet
+PORTVERSION=	1.96.1
+PORTREVISION=	11
+CATEGORIES=	games gnome
+MASTER_SITES=	http://eseb.net/ftp/${PORTNAME}/
+EXTRACT_SUFX=	.tgz
+
+MAINTAINER=	ports@FreeBSD.org
+COMMENT=	GNOME version of the classic 3D-ified T*tris
+
+EXTRACT_DEPENDS=intltoolize:${PORTSDIR}/textproc/intltool
+
+USES=		pathfix
+USE_PKGCONFIG=	build
+USE_GNOME=	desktopfileutils gnomeprefix intlhack libgnomeui librsvg2
+INSTALLS_OMF=	yes
+USE_GMAKE=	yes
+USE_AUTOTOOLS=	autoheader automake aclocal autoconf
+ACLOCAL_ARGS=	-I m4 -I ${ACLOCAL_DIR} -I ${LOCALBASE}/share/aclocal
+AUTOMAKE_ARGS=	-a -c -f
+CPPFLAGS+=	-I${LOCALBASE}/include
+LDFLAGS+=	-L${LOCALBASE}/lib
+
+OPTIONS_DEFINE=	NLS
+
+.include <bsd.port.options.mk>
+
+.if ${PORT_OPTIONS:MNLS}
+USE_GETTEXT=	yes
+PLIST_SUB+=	NLS=""
+.else
+CONFIGURE_ARGS+=	--disable-nls
+PLIST_SUB+=	NLS="@comment "
+.endif
+
+run-autotools:: run-autotools-aclocal run-autotools-autoheader \
+		run-autotools-automake run-autotools-autoconf
+
+post-extract:
+	@cd ${WRKSRC} && ${LOCALBASE}/bin/intltoolize -c -f
+
+post-patch:
+	@${REINPLACE_CMD} -e '/LIBTOOL/d ; \
+		s|gnome-games|gno3dtet|g' ${WRKSRC}/configure.in
+
+.if ! ${PORT_OPTIONS:MNLS}
+	@${REINPLACE_CMD} -e '/^always_built_SUBDIRS/s|po||g' ${WRKSRC}/Makefile.am
+.endif
+
+pre-configure:
+	@${INSTALL_SCRIPT} ${AUTOMAKE_DIR}/mkinstalldirs ${WRKSRC}
+
+post-install:
+	${CHOWN} root:games ${PREFIX}/bin/gno3dtet
+	${CHMOD} 2555 ${PREFIX}/bin/gno3dtet
+	${CHOWN} root:games ${PREFIX}/share/games/gno3dtet.hof
+	${CHMOD} 664 ${PREFIX}/share/games/gno3dtet.hof
+
+	@-update-desktop-database -q
+
+.include <bsd.port.mk>

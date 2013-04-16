@@ -1,0 +1,20 @@
+# $FreeBSD$
+
+SSL_DEPEND=	# In base
+OSS_DEPEND=	# In base
+V4L_DEPEND=	v4l2:${PORTSDIR}/multimedia/libv4l
+FFMPEG_DEPEND=	avformat:${PORTSDIR}/multimedia/ffmpeg
+SPEEX_DEPEND=	speex:${PORTSDIR}/audio/speex
+ILBC_DEPEND=	ilbc:${PORTSDIR}/net/ilbc
+GSM_DEPEND=	gsm:${PORTSDIR}/audio/gsm
+G711_DEPEND=	${LOCALBASE}/include/spandsp/g711.h:${PORTSDIR}/comms/spandsp-devel
+G722_DEPEND=	${LOCALBASE}/include/spandsp/g722.h:${PORTSDIR}/comms/spandsp-devel
+G722_1_DEPEND=	# nonexistent
+L16_DEPEND=	# nonexistent
+SDL_DEPEND=	# Handled with USE_SDL in Makefile
+SAMPLERATE_DEPEND=	samplerate:${PORTSDIR}/audio/libsamplerate
+OPENCORE_DEPEND=	opencore-amrnb:${PORTSDIR}/audio/opencore-amr
+DOXYGEN_DEPEND=		doxygen:${PORTSDIR}/devel/doxygen
+HTML_DEPEND=	# In Doxygen
+LATEX_DEPEND=	# In Doxygen
+SRTP_DEPEND=	srtp:${PORTSDIR}/net/libsrtp

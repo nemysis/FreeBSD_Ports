@@ -1,0 +1,65 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/devel/pure-stldict/Makefile ./Makefile
+--- /usr/ports/devel/pure-stldict/Makefile	2013-01-14 17:53:52.000000000 +0100
++++ ./Makefile	2013-04-05 22:55:01.000000000 +0200
+@@ -1,23 +1,40 @@
+-# New ports collection makefile for:	pure-stldict
+-# Date created:		2011-12-05
+-# Whom:			Zhihao Yuan <lichray@gmail.com>
+-#
++# Created by: Zhihao Yuan <lichray@gmail.com>
+ # $FreeBSD: head/devel/pure-stldict/Makefile 300896 2012-07-14 13:54:48Z beat $
+-#
+ 
+ PORTNAME=	pure-stldict
+ PORTVERSION=	0.5
++PORTREVISION=	1
+ CATEGORIES=	devel
++#MASTER_SITES=	https://cdn.bitbucket.org/purelang/pure-lang/downloads/
++MASTER_SITES=	https://pure-lang.googlecode.com/files/
++DIST_SUBDIR=	pure
+ 
+ MAINTAINER=	lichray@gmail.com
+ COMMENT=	Pure interface to C++ STL map/unordered_map
+ 
+-USE_PURE=	yes
++LICENSE=	GPLv3 LGPL3
++LICENSE_COMB=	dual
++
++USES=		pure
+ 
+ USE_GCC=	4.6+
+ CXX=		g++${GCC_DEFAULT_V}
+ CXXFLAGS+=	-std=c++0x -DHAVE_STD_IS_PERMUTATION
+ 
+-.include <bsd.port.pre.mk>
+-.include "${PORTSDIR}/lang/pure/bsd.pure.mk"
+-.include <bsd.port.post.mk>
++PORTDOCS=	README
++PORTEXAMPLES=	*
++
++.include <bsd.port.options.mk>
++
++post-install:
++.if ${PORT_OPTIONS:MDOCS}
++	@${MKDIR} ${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
++.endif
++
++.if ${PORT_OPTIONS:MEXAMPLES}
++	@${MKDIR} ${EXAMPLESDIR}
++	@(cd ${WRKSRC}/examples/ && ${COPYTREE_SHARE} . ${EXAMPLESDIR})
++.endif
++
++.include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/devel/pure-stldict/pkg-descr ./pkg-descr
+--- /usr/ports/devel/pure-stldict/pkg-descr	2013-01-14 17:53:52.000000000 +0100
++++ ./pkg-descr	2013-04-05 21:58:49.000000000 +0200
+@@ -3,4 +3,4 @@
+ these data structures available in Pure land and equips them with a
+ (more or less) idiomatic Pure container interface.
+ 
+-WWW:	http://docs.pure-lang.googlecode.com/hg/pure-stldict.html
++WWW: http://docs.pure-lang.googlecode.com/hg/pure-stldict.html
+===> Done

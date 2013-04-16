@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# $FreeBSD$
+#
+
+echo "This samples in %%DATADIR%% you can use with PJSIP:"
+echo ""
+
+ls -x %%DATADIR%%
+echo ""

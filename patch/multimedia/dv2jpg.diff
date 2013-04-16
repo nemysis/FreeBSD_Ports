@@ -1,0 +1,182 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/multimedia/dv2jpg/Makefile ./Makefile
+--- /usr/ports/multimedia/dv2jpg/Makefile	2013-01-14 17:54:56.000000000 +0100
++++ ./Makefile	2013-03-31 14:09:33.000000000 +0200
+@@ -1,50 +1,56 @@
+-# New ports collection makefile for:	dv2jpg
+-# Date created:				24 February 2003
+-# Whom:					Anders Nordby <anders@FreeBSD.org>
+-#
++# Created by: Anders Nordby <anders@FreeBSD.org>
+ # $FreeBSD: head/multimedia/dv2jpg/Makefile 300896 2012-07-14 13:54:48Z beat $
+-#
+ 
+ PORTNAME=	dv2jpg
+ PORTVERSION=	1.1
+-PORTREVISION=	10
++PORTREVISION=	11
+ CATEGORIES=	multimedia
+ MASTER_SITES=	SF
+ 
+ MAINTAINER=	ports@FreeBSD.org
+ COMMENT=	Convert Type-2 DV codec-encoded AVI streams to mjpeg-encoded AVI
+ 
+-LIB_DEPENDS=	dv.4:${PORTSDIR}/multimedia/libdv
++LIB_DEPENDS=	dv:${PORTSDIR}/multimedia/libdv
+ 
+ USE_GNOME=	gdkpixbuf
+ MAKEFILE=	makefile
+ 
+-.if defined(WITH_PAL_VIDEO)
+-VID_FORMAT=	PAL
+-.else
+-VID_FORMAT=	NTSC
+-.endif
++PLIST_FILES=	bin/avijoin \
++		bin/dv2jpg
++
++PORTDOCS=	README.avilib README.dv2jpg.html
++
++OPTIONS_SINGLE=	VIDEO-FORMAT
++OPTIONS_SINGLE_VIDEO-FORMAT=	NTSC PAL
++OPTIONS_DEFAULT=	NTSC
++
++VIDEO-FORMAT_DESC=	Use default video format
++NTSC_DESC=	Default video format NTSC
++PAL_DESC=	Default video format PAL
+ 
+-pre-everything::
+-	@${ECHO_MSG} "===> The default video format is NTSC"
+-	@${ECHO_MSG} "===> You can change this to PAL by defining"
+-	@${ECHO_MSG} "===> WITH_PAL_VIDEO"
++.include <bsd.port.options.mk>
+ 
+ post-extract:
+-	${RM} ${WRKSRC}/avijoin ${WRKSRC}/dv2jpg ${WRKSRC}/*.o
++	${INSTALL_DATA} ${FILESDIR}/makefile ${WRKSRC}
++	${RM} -f ${WRKSRC}/avijoin ${WRKSRC}/dv2jpg ${WRKSRC}/*.o
+ 
+ post-patch:
+-	@${REINPLACE_CMD} -e 's|%%VID_FORMAT%%|${VID_FORMAT}|' \
++	@${REINPLACE_CMD} -e 's|/opt/vidpb/lib/avilib.h|avilib.h|' \
++		${WRKSRC}/avijoin.c
++
++.if ${PORT_OPTIONS:MPAL}
++	@${REINPLACE_CMD} -e 's|VIDEO=NTSC|# VIDEO=NTSC|' \
++		-e 's|# VIDEO=PAL|VIDEO=PAL|' \
+ 		${WRKSRC}/${MAKEFILE}
++.endif
+ 
+ do-install:
+-	${INSTALL_PROGRAM} ${WRKSRC}/avijoin ${PREFIX}/bin/
+-	${INSTALL_PROGRAM} ${WRKSRC}/dv2jpg ${PREFIX}/bin/
+-.if !defined(NOPORTDOCS)
++	${INSTALL_PROGRAM} ${WRKSRC}/avijoin ${PREFIX}/bin
++	${INSTALL_PROGRAM} ${WRKSRC}/dv2jpg ${PREFIX}/bin
++
++.if ${PORT_OPTIONS:MDOCS}
+ 	@${MKDIR} ${DOCSDIR}
+-.for f in README.avilib	README.dv2jpg.html
+-	${INSTALL_DATA} ${WRKSRC}/${f} ${DOCSDIR}/
+-.endfor
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/multimedia/dv2jpg/files/makefile ./files/makefile
+--- /usr/ports/multimedia/dv2jpg/files/makefile	1970-01-01 01:00:00.000000000 +0100
++++ ./files/makefile	2013-03-31 13:08:35.000000000 +0200
+@@ -0,0 +1,27 @@
++
++INC=`${GDK_PIXBUF_CONFIG} --cflags` -I${PREFIX}/include/libdv
++LIBS=-ljpeg -lm -ldv `${GDK_PIXBUF_CONFIG} --libs` -L${LOCALBASE}/lib
++
++# what type of video do you want?
++VIDEO=NTSC
++# VIDEO=PAL
++
++all: dv2jpg avijoin
++	
++dv2jpg: dv2jpg.o avilib.o dvavilib.o
++	$(CC) $(CFLAGS) -o dv2jpg dv2jpg.o avilib.o dvavilib.o $(LIBS) $(LDFLAGS)
++
++dv2jpg.o: dv2jpg.c
++	$(CC) $(CFLAGS) $(INC) -D$(VIDEO) -c dv2jpg.c
++
++avilib.o: avilib.c
++	$(CC) $(CFLAGS) -c avilib.c
++
++dvavilib.o: dvavilib.c
++	$(CC) $(CFLAGS) -c dvavilib.c
++
++clean: 
++	/bin/rm -f *.o dv2jpg core avijoin
++
++avijoin: avijoin.c avilib.o
++	$(CC) $(CFLAGS) -o avijoin avijoin.c avilib.o $(LDFLAGS)
+diff -ruN --exclude=CVS /usr/ports/multimedia/dv2jpg/files/patch-avijoin.c ./files/patch-avijoin.c
+--- /usr/ports/multimedia/dv2jpg/files/patch-avijoin.c	2013-01-14 17:54:56.000000000 +0100
++++ ./files/patch-avijoin.c	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+---- avijoin.c.orig	Sun Jun 24 02:04:47 2001
+-+++ avijoin.c	Sun Feb 16 01:24:49 2003
+-@@ -1,5 +1,5 @@
+- #include <stdio.h>
+--#include "/opt/vidpb/lib/avilib.h"
+-+#include "avilib.h"
+- 
+- #define MAX_FILES 255
+- #define OURBUFSIZ 4096000
+diff -ruN --exclude=CVS /usr/ports/multimedia/dv2jpg/files/patch-makefile ./files/patch-makefile
+--- /usr/ports/multimedia/dv2jpg/files/patch-makefile	2013-01-14 17:54:56.000000000 +0100
++++ ./files/patch-makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,38 +0,0 @@
+---- makefile.orig	Sat Jun 23 22:04:47 2001
+-+++ makefile	Fri Sep 24 12:05:35 2004
+-@@ -1,27 +1,27 @@
+- 
+--INC=-I/opt/gdk-pixbuf/lib -I/usr/include -I/usr/include/libdv 
+--LIBS=-ljpeg -lm -lgdk_pixbuf /usr/lib/libdv.a
+-+INC=`${GDK_PIXBUF_CONFIG} --cflags` -I${PREFIX}/include/libdv 
+-+LIBS=-ljpeg -lm -ldv `${GDK_PIXBUF_CONFIG} --libs` -L${LOCALBASE}/lib
+- 
+- # what type of video do you want?
+--VIDEO=NTSC
+-+VIDEO=%%VID_FORMAT%%
+- # VIDEO=PAL
+- 
+- all: dv2jpg avijoin
+- 	
+- dv2jpg: dv2jpg.o avilib.o dvavilib.o
+--	gcc -o dv2jpg dv2jpg.o avilib.o dvavilib.o $(LIBS) `glib-config --libs` `gtk-config --libs`
+-+	$(CC) $(CFLAGS) -o dv2jpg dv2jpg.o avilib.o dvavilib.o $(LIBS) $(LDFLAGS)
+- 
+- dv2jpg.o: dv2jpg.c
+--	gcc -g $(INC) `glib-config --cflags` `gtk-config --cflags` -D$(VIDEO) -g -c dv2jpg.c 
+-+	$(CC) $(CFLAGS) $(INC) -D$(VIDEO) -c dv2jpg.c 
+- 
+- avilib.o: avilib.c
+--	gcc -g -c avilib.c
+-+	$(CC) $(CFLAGS) -c avilib.c
+- 
+- dvavilib.o: dvavilib.c
+--	gcc -g -c dvavilib.c
+-+	$(CC) $(CFLAGS) -c dvavilib.c
+- 
+- clean: 
+- 	/bin/rm -f *.o dv2jpg core avijoin
+- 
+- avijoin: avijoin.c avilib.o
+--	gcc -g -o avijoin avijoin.c avilib.o
+-+	$(CC) $(CFLAGS) -o avijoin avijoin.c avilib.o $(LDFLAGS)
+diff -ruN --exclude=CVS /usr/ports/multimedia/dv2jpg/pkg-plist ./pkg-plist
+--- /usr/ports/multimedia/dv2jpg/pkg-plist	2013-01-14 17:54:56.000000000 +0100
++++ ./pkg-plist	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-bin/avijoin
+-bin/dv2jpg
+-%%PORTDOCS%%%%DOCSDIR%%/README.avilib
+-%%PORTDOCS%%%%DOCSDIR%%/README.dv2jpg.html
+-%%PORTDOCS%%@dirrm %%DOCSDIR%%
+===> Done

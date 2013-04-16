@@ -1,0 +1,52 @@
+Original version does not exist at /usr/ports/japanese/ja-font-ume
+Using /usr/ports/japanese/font-ume instead
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/japanese/font-ume/Makefile ./Makefile
+--- /usr/ports/japanese/font-ume/Makefile	2013-02-02 20:13:11.000000000 +0100
++++ ./Makefile	2013-04-11 19:10:05.000000000 +0200
+@@ -1,7 +1,7 @@
+ # $FreeBSD: head/japanese/font-ume/Makefile 311437 2013-02-02 18:02:21Z hrs $
+ 
+ PORTNAME=	ume
+-PORTVERSION=	0.0.447
++PORTVERSION=	0.0.449
+ CATEGORIES=	japanese x11-fonts
+ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE_JP}
+ MASTER_SITE_SUBDIR=	ume-font/22212
+@@ -26,6 +26,8 @@
+ LOCAL_FONTSDIR=	share/fonts
+ X_FONTSDIR=	lib/X11/fonts
+ 
++.include <bsd.port.options.mk>
++
+ do-install:
+ 	${MKDIR} ${DATADIR}
+ 	${INSTALL_DATA} ${WRKSRC}/*.ttf ${DATADIR}
+@@ -42,12 +44,13 @@
+ 		${PREFIX}/etc/fonts/conf.d/20-unhint-ume.conf
+ 	${LN} -s -f ../conf.avail/62-fonts-ume.conf \
+ 		${PREFIX}/etc/fonts/conf.d/62-fonts-ume.conf
+-.if !defined(NOPORTDOCS)
+-	${MKDIR} ${DOCSDIR}
+-	cd ${WRKSRC} && ${INSTALL_DATA} ${PORTDOCS} ${DOCSDIR}
+-.endif
+ 
+ post-install:
++.if ${PORT_OPTIONS:MDOCS}
++	@${MKDIR} ${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
++.endif
++
+ 	${LOCALBASE}/bin/fc-cache -s -f -v ${PREFIX}/${X_FONTSDIR}/TTF
+ 	${SETENV} PKG_PREFIX=${PREFIX} ${SH} ${PKGINSTALL} ${PKGNAME} POST-INSTALL
+ 
+diff -ruN --exclude=CVS /usr/ports/japanese/font-ume/distinfo ./distinfo
+--- /usr/ports/japanese/font-ume/distinfo	2013-02-02 20:13:11.000000000 +0100
++++ ./distinfo	2013-04-11 18:18:37.000000000 +0200
+@@ -1,2 +1,2 @@
+-SHA256 (umefont_447.tar.xz) = 4def94fddd21f1a938ba6fdf1a70e27345b6932480c914c22c0240bed6c7ad72
+-SIZE (umefont_447.tar.xz) = 5714864
++SHA256 (umefont_449.tar.xz) = 71d92b980718080c266b7bb3b80693779671e6248f8c2547bdf2fba3fddff835
++SIZE (umefont_449.tar.xz) = 5656444
+===> Done

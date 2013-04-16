@@ -1,0 +1,26 @@
+===============================================================================
+
+PJSIP has been installed.
+
+Now you can use PJSIP command line SIP user agent (softphone) pjsua
+
+    http://www.pjsip.org/pjsua.htm
+
+
+The config file basicly are the same command line arguments, saved in a file!
+
+For example, to specify above command line in the file called alice.cfg:
+
+    # This is a comment in the config file.
+    --id sip:alice@example.com
+    --registrar sip:example.com
+    --realm *
+    --username alice
+    --password secret
+
+
+And to use the config file:
+
+    pjsua --config-file alice.cfg
+
+===============================================================================

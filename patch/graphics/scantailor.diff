@@ -1,0 +1,104 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/graphics/scantailor/Makefile ./Makefile
+--- /usr/ports/graphics/scantailor/Makefile	2013-03-23 02:42:31.000000000 +0100
++++ ./Makefile	2013-04-10 23:34:03.000000000 +0200
+@@ -2,18 +2,18 @@
+ # $FreeBSD: head/graphics/scantailor/Makefile 314960 2013-03-22 20:06:14Z makc $
+ 
+ PORTNAME=	scantailor
+-PORTVERSION=	0.9.11
++PORTVERSION=	0.9.11.1
+ CATEGORIES=	graphics
+ MASTER_SITES=	SF
+ 
+ MAINTAINER=	g.veniamin@googlemail.com
+-COMMENT=	Scan Tailor is an interactive post-processing tool for scanned pages
++COMMENT=	Interactive post-processing tool for scanned pages
+ 
+ LICENSE=	GPLv3
+ 
+-LIB_DEPENDS=	jpeg.11:${PORTSDIR}/graphics/jpeg \
+-		tiff.4:${PORTSDIR}/graphics/tiff \
+-		jbig.1:${PORTSDIR}/graphics/jbigkit \
++LIB_DEPENDS=	jpeg:${PORTSDIR}/graphics/jpeg \
++		tiff:${PORTSDIR}/graphics/tiff \
++		jbig:${PORTSDIR}/graphics/jbigkit \
+ 		png15:${PORTSDIR}/graphics/png
+ BUILD_DEPENDS=	${LOCALBASE}/include/boost/shared_ptr.hpp:${PORTSDIR}/devel/boost-libs
+ 
+@@ -24,7 +24,41 @@
+ 		linguist_build
+ MAKE_JOBS_SAFE=	yes
+ 
+-DESKTOP_ENTRIES="Scan Tailor" "Interactive post-processing tool for scanned pages" \
+-		"" "${PORTNAME}" "Graphics;Scanning;" false
++DESKTOP_ENTRIES="Scan Tailor" "${COMMENT}" "${PORTNAME}" \
++		"${PORTNAME}" "Graphics;Scanning;" false
++
++PORTDOCS=	*
++
++OPTIONS_GROUP=	DOXYGEN
++
++OPTIONS_GROUP_DOXYGEN=	HTML LATEX
++
++OPTIONS_DEFAULT=	HTML
++
++HTML_DESC=	Install HTML Doxygen files
++LATEX_DESC=	Install LaTeX Doxygen files
++
++.include <bsd.port.options.mk>
++
++.if ${PORT_OPTIONS:MHTML} || ${PORT_OPTIONS:MLATEX}
++BUILD_DEPENDS+=	doxygen:${PORTSDIR}/devel/doxygen
++.endif
++
++post-install:
++	${INSTALL_DATA} ${WRKSRC}/resources/icons/appicon-about.png \
++		${PREFIX}/share/pixmaps/${PORTNAME}.png
++
++.if ${PORT_OPTIONS:MHTML} || ${PORT_OPTIONS:MLATEX}
++	@cd ${WRKSRC} && doxygen .
++	@${MKDIR} ${DOCSDIR}
++.endif
++
++.if ${PORT_OPTIONS:MDOCS} && ${PORT_OPTIONS:MHTML}
++	@(cd ${WRKSRC} && ${COPYTREE_SHARE} html ${DOCSDIR})
++.endif
++
++.if ${PORT_OPTIONS:MDOCS} && ${PORT_OPTIONS:MLATEX}
++	@(cd ${WRKSRC} && ${COPYTREE_SHARE} latex ${DOCSDIR})
++.endif
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/graphics/scantailor/distinfo ./distinfo
+--- /usr/ports/graphics/scantailor/distinfo	2013-02-01 13:15:23.000000000 +0100
++++ ./distinfo	2013-04-10 10:02:29.000000000 +0200
+@@ -1,2 +1,2 @@
+-SHA256 (scantailor-0.9.11.tar.gz) = e158fa5c38b1c34dec47e611e27d74a0508bc2b6818b84f0d05f98ba184c9c11
+-SIZE (scantailor-0.9.11.tar.gz) = 1175866
++SHA256 (scantailor-0.9.11.1.tar.gz) = 881647a4172c55a067a7b6687965441cf21176d79d93075b22a373ea9accd8d3
++SIZE (scantailor-0.9.11.1.tar.gz) = 1190198
+diff -ruN --exclude=CVS /usr/ports/graphics/scantailor/pkg-plist ./pkg-plist
+--- /usr/ports/graphics/scantailor/pkg-plist	2013-01-14 17:57:12.000000000 +0100
++++ ./pkg-plist	2013-04-10 10:05:10.000000000 +0200
+@@ -1,14 +1,18 @@
+ bin/scantailor
+ bin/scantailor-cli
++share/pixmaps/scantailor.png
+ %%DATADIR%%/translations/scantailor_bg.qm
+ %%DATADIR%%/translations/scantailor_cs.qm
+ %%DATADIR%%/translations/scantailor_de.qm
++%%DATADIR%%/translations/scantailor_es.qm
+ %%DATADIR%%/translations/scantailor_fr.qm
+ %%DATADIR%%/translations/scantailor_it.qm
+ %%DATADIR%%/translations/scantailor_ja.qm
+ %%DATADIR%%/translations/scantailor_pl.qm
++%%DATADIR%%/translations/scantailor_pt_BR.qm
+ %%DATADIR%%/translations/scantailor_ru.qm
+ %%DATADIR%%/translations/scantailor_sk.qm
++%%DATADIR%%/translations/scantailor_uk.qm
+ %%DATADIR%%/translations/scantailor_zh_TW.qm
+ @dirrm %%DATADIR%%/translations
+ @dirrm %%DATADIR%%
+===> Done

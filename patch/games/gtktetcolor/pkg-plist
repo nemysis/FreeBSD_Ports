@@ -1,0 +1,16 @@
+bin/gtktetcolor
+etc/sound/events/gtktetcolor.soundlist
+share/applications/gtktetcolor.desktop
+share/games/gtktetcolor.scores
+%%NLS%%share/locale/de/LC_MESSAGES/gtktetcolor.mo
+%%NLS%%share/locale/fr/LC_MESSAGES/gtktetcolor.mo
+%%NLS%%share/locale/ru/LC_MESSAGES/gtktetcolor.mo
+share/pixmaps/gtktetcolor.xpm
+share/sounds/gtktetcolor/bonus.wav
+share/sounds/gtktetcolor/gameover.wav
+share/sounds/gtktetcolor/linerem.wav
+@dirrm share/sounds/gtktetcolor
+@dirrmtry share/games
+@dirrmtry share/applications
+@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
+@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true

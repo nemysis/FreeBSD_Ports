@@ -1,0 +1,28 @@
+bin/cargocarrier
+%%DATADIR%%/cargo_carrier.pyw
+%%DATADIR%%/ccfuncs.py
+%%DATADIR%%/ccsprites.py
+%%DATADIR%%/colors.py
+%%DATADIR%%/data/boom.wav
+%%DATADIR%%/data/crate.png
+%%DATADIR%%/data/crate.wav
+%%DATADIR%%/data/falcon.png
+%%DATADIR%%/data/falcon_shield.png
+%%DATADIR%%/data/icon.ico
+%%DATADIR%%/data/laser.png
+%%DATADIR%%/data/laser.wav
+%%DATADIR%%/data/laser_empty.wav
+%%DATADIR%%/data/lg_explode.gif
+%%DATADIR%%/data/lg_rock.png
+%%DATADIR%%/data/lg_rock2.png
+%%DATADIR%%/data/nuke_laser.png
+%%DATADIR%%/data/s_battery.png
+%%DATADIR%%/data/s_battery.wav
+%%DATADIR%%/data/screenshot.png
+%%DATADIR%%/data/shield_hit.wav
+%%DATADIR%%/data/sm_explode.gif
+%%DATADIR%%/data/sm_rock.png
+%%DATADIR%%/data/tiny_rock.png
+share/pixmaps/cargocarrier.png
+@dirrm %%DATADIR%%/data
+@dirrm %%DATADIR%%
