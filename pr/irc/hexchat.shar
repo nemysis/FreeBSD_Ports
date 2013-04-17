@@ -16,6 +16,7 @@
 #	hexchat/files/patch-src-fe-gtk-Makefile.am
 #	hexchat/files/patch-configure.ac
 #	hexchat/files/patch-src-fe-gtk-custom-list.h
+#	hexchat/files/patch-src__common__dbus__dbus-client.c
 #
 echo c - hexchat
 mkdir -p hexchat > /dev/null 2>&1
@@ -32,8 +33,7 @@ X
 XPORTNAME=	hexchat
 XPORTVERSION=	2.9.5
 XCATEGORIES=	irc gnome ipv6
-XMASTER_SITES=	http://dl.hexchat.org/hexchat/
-XEXTRACT_SUFX=	.tar.xz
+XMASTER_SITES=	http://dl.hexchat.org/${PORTNAME}/
 X
 XMAINTAINER=	nemysis@gmx.ch
 XCOMMENT=	IRC chat program with GTK and Text Frontend
@@ -42,8 +42,8 @@ XLICENSE=	GPLv2
 X
 XLIB_DEPENDS=	proxy:${PORTSDIR}/net/libproxy
 X
+XUSE_XZ=		yes
 XUSE_PKGCONFIG=	build
-XUSES=		pathfix
 XUSE_GNOME=	gtk20 desktopfileutils libxml2
 XWANT_PERL=	yes
 XUSE_AUTOTOOLS=	automake autoconf libtool
@@ -189,7 +189,6 @@ X.endif
 X
 Xpost-install:
 X	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
-X	${INSTALL_MAN} ${WRKSRC}/man/${MAN1} ${MAN1PREFIX}/man/man1
 X
 X.if ${PORT_OPTIONS:MDOCS}
 X	@${MKDIR} ${DOCSDIR}
@@ -406,5 +405,24 @@ X /* Some boilerplate GObject defines. 'klass' is used
 X  *   instead of 'class', because 'class' is a C++ keyword */
 X 
 f59ec0e51ddd9a2123283e0dfff37dd0
+echo x - hexchat/files/patch-src__common__dbus__dbus-client.c
+sed 's/^X//' >hexchat/files/patch-src__common__dbus__dbus-client.c << 'cfe0a9831c8a5e1da7527cc454dc9175'
+X--- ./src/common/dbus/dbus-client.c.orig	2013-04-02 01:07:55.000000000 +0000
+X+++ ./src/common/dbus/dbus-client.c	2013-04-13 13:50:32.000000000 +0000
+X@@ -53,11 +53,13 @@
+X 	GError *error = NULL;
+X 	char *command = NULL;
+X 
+X+#if !GLIB_CHECK_VERSION (2, 32, 0)
+X 	/* GnomeVFS >=2.15 uses D-Bus and threads, so threads should be
+X 	 * initialised before opening for the first time a D-Bus connection */
+X 	if (!g_thread_supported ()) {
+X 		g_thread_init (NULL);
+X 	}
+X+#endif
+X 	dbus_g_thread_init ();
+X 
+X 	/* if there is nothing to do, return now. */
+cfe0a9831c8a5e1da7527cc454dc9175
 exit
 

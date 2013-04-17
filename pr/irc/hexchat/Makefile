@@ -4,8 +4,7 @@
 PORTNAME=	hexchat
 PORTVERSION=	2.9.5
 CATEGORIES=	irc gnome ipv6
-MASTER_SITES=	http://dl.hexchat.org/hexchat/
-EXTRACT_SUFX=	.tar.xz
+MASTER_SITES=	http://dl.hexchat.org/${PORTNAME}/
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	IRC chat program with GTK and Text Frontend
@@ -14,8 +13,8 @@ LICENSE=	GPLv2
 
 LIB_DEPENDS=	proxy:${PORTSDIR}/net/libproxy
 
+USE_XZ=		yes
 USE_PKGCONFIG=	build
-USES=		pathfix
 USE_GNOME=	gtk20 desktopfileutils libxml2
 WANT_PERL=	yes
 USE_AUTOTOOLS=	automake autoconf libtool
@@ -161,7 +160,6 @@ PLIST_SUB+=	NOTIFY="@comment "
 
 post-install:
 	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
-	${INSTALL_MAN} ${WRKSRC}/man/${MAN1} ${MAN1PREFIX}/man/man1
 
 .if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}
