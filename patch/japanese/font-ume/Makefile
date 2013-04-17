@@ -1,4 +1,4 @@
-# $FreeBSD: head/japanese/font-ume/Makefile 311437 2013-02-02 18:02:21Z hrs $
+# $FreeBSD: head/japanese/font-ume/Makefile 315800 2013-04-15 12:04:32Z hrs $
 
 PORTNAME=	ume
 PORTVERSION=	0.0.449
