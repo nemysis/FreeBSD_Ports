@@ -4,9 +4,9 @@
 PORTNAME=	q4wine
 PORTVERSION=	1.0
 CATEGORIES=	deskutils emulators
-MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}%20${PORTVERSION}
+MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}%20${PORTVERSION}/
 
-MAINTAINER=	sergey.dyatko@gmail.com
+MAINTAINER=	nemysis@gmx.ch
 COMMENT=	QT4 front-end for WINE
 
 LICENSE=	GPLv3
@@ -28,7 +28,7 @@ ONLY_FOR_ARCHS=	i386 amd64
 
 MAN1=		q4wine-cli.1 q4wine-helper.1 q4wine.1
 
-OPTIONS_DEFINE=	DBUS
+OPTIONS_DEFINE=	NLS DBUS
 OPTIONS_DEFAULT=	DBUS
 
 .include <bsd.port.options.mk>
@@ -37,10 +37,21 @@ OPTIONS_DEFAULT=	DBUS
 RUN_DEPENDS+=	wine:${PORTSDIR}/emulators/wine-devel
 .endif
 
+.if ${PORT_OPTIONS:MNLS}
+PLIST_SUB+=	NLS=""
+.else
+PLIST_SUB+=	NLS="@comment "
+.endif
+
 .if ${PORT_OPTIONS:MDBUS}
 USE_QT4+=	dbus
 .else
 CMAKE_ARGS+=	-DWITH_DBUS:BOOL=OFF
+.endif
+
+post-patch:
+.if ! ${PORT_OPTIONS:MNLS}
+	@${REINPLACE_CMD} -e 's|install(FILES|#install(FILES|' ${WRKSRC}/src/i18n/CMakeLists.txt
 .endif
 
 post-install:

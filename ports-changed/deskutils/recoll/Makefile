@@ -2,17 +2,16 @@
 # $FreeBSD: head/deskutils/recoll/Makefile 312669 2013-02-20 20:34:54Z sunpoet $
 
 PORTNAME=	recoll
-PORTVERSION=	1.18.1
-PORTREVISION=	1
+PORTVERSION=	1.18.2
 CATEGORIES=	deskutils
-MASTER_SITES=	http://www.lesbonscomptes.com/recoll/
+MASTER_SITES=	http://www.lesbonscomptes.com/${PORTNAME}/
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Personal full text search package, based on Xapian
 
 LICENSE=	GPLv2
 
-LIB_DEPENDS=	xapian:${PORTSDIR}/databases/xapian-core
+BUILD_DEPENDS=	xapian-core>=0:${PORTSDIR}/databases/xapian-core
 
 USE_ICONV=	yes
 USE_GMAKE=	yes
@@ -26,8 +25,8 @@ MAN1=		recollindex.1
 MAN5=		recoll.conf.5
 
 OPTIONS_DEFINE=	QT4 ASPELL PYTHON X11MON
-OPTIONS_DEFAULT=QT4 ASPELL PYTHON X11MON
 X11MON_DESC=	X11 session monitoring support
+OPTIONS_DEFAULT=QT4 ASPELL PYTHON X11MON
 
 .include <bsd.port.options.mk>
 
