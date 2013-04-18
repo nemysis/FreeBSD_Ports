@@ -22,6 +22,7 @@ DATADIRLIB=	${PREFIX}/lib/${PORTNAME}
 
 FETCH_ARGS?=	-Fpr
 USE_PYTHON=	yes
+USE_GNOME=	desktopfileutils
 NO_BUILD=	yes
 ONLY_FOR_ARCHS=	i386 amd64
 
@@ -60,5 +61,7 @@ do-install:
 	@${ECHO_CMD}
 	@${CAT} ${PKGMESSAGE}
 	@${ECHO_CMD}
+
+	@-update-desktop-database -q
 
 .include <bsd.port.mk>

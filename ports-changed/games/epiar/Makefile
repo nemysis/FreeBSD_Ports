@@ -1,8 +1,9 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/games/epiar/Makefile 310449 2013-01-15 16:11:41Z ak $
+# $FreeBSD: head/games/epiar/Makefile 315926 2013-04-17 03:25:10Z ak $
 
 PORTNAME=	epiar
 PORTVERSION=	0.5.1
+PORTREVISION=	1
 CATEGORIES=	games
 MASTER_SITES=	http://epiar.net/files/epiar/releases/0.5/
 
@@ -26,14 +27,14 @@ USE_GL=		glu
 GNU_CONFIGURE=	yes
 USE_AUTOTOOLS=	aclocal
 USE_GMAKE=	yes
-USE_GNOME=	desktopfileutils
 USE_PKGCONFIG=	build
 MAKE_JOBS_SAFE=	yes
 
 PORTDOCS=	AUTHORS ChangeLog README
 
 pre-configure:
-	@${REINPLACE_CMD} -e 's|9.22|2.4|' ${WRKSRC}/configure.in
+	@${REINPLACE_CMD} -e 's|9.22|0|' ${WRKSRC}/configure.in
+#	@${REINPLACE_CMD} -e 's|9.22|2.4|' ${WRKSRC}/configure.in
 	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./autogen.sh)
 
 .include <bsd.port.options.mk>
@@ -46,7 +47,5 @@ post-install:
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
-
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

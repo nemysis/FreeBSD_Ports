@@ -2,8 +2,7 @@
 # $FreeBSD: head/astro/viking/Makefile 314141 2013-03-14 08:17:39Z pclin $
 
 PORTNAME=	viking
-PORTVERSION=	1.4
-PORTREVISION=	1
+PORTVERSION=	1.4.1
 CATEGORIES=	astro
 MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTVERSION}/
 
@@ -40,10 +39,12 @@ LDFLAGS+=	-L${LOCALBASE}/lib -pthread
 
 PORTDOCS=	AUTHORS ChangeLog NEWS README TODO
 
-OPTIONS_DEFINE=	GEOTAG GPSD
-OPTIONS_DEFAULT=	GEOTAG
+OPTIONS_DEFINE=	NLS GEOTAG GPSD
+
 GEOTAG_DESC=	Geotag support
 GPSD_DESC=	Realtime GPS tracking
+
+OPTIONS_DEFAULT=	GEOTAG
 
 .include <bsd.port.options.mk>
 
@@ -69,6 +70,7 @@ CONFIGURE_ARGS+=	--disable-realtime-gps-tracking
 
 post-patch:
 	@${REINPLACE_CMD} -e '/^AM_CFLAGS/s| -g | |' ${WRKSRC}/src/Makefile.in
+	@${REINPLACE_CMD} -e 's|Science;|Education;Science;|' ${WRKSRC}/src/viking.desktop.in
 
 post-install:
 # Port not install in figures jpg and png, this is cleaner as patch
@@ -77,7 +79,7 @@ post-install:
 	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps/
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 	@-update-desktop-database -q
