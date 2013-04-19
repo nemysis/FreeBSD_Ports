@@ -1,4 +1,0 @@
-libdata/pkgconfig/mobile-broadband-provider-info.pc
-%%DATADIR%%/serviceproviders.2.dtd
-%%DATADIR%%/serviceproviders.xml
-@dirrm %%DATADIR%%
