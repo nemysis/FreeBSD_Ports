@@ -36,8 +36,9 @@ RUN_DEPENDS+=	wine:${PORTSDIR}/emulators/wine-devel
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|' ${WRKSRC}/version.sh
-	@${REINPLACE_CMD} -e 's|/usr/share/swine/images/swine32.png|${PORTNAME}|' \
-		-e 's|Wine;|Application;|' ${WRKSRC}/resources/${PORTNAME}.desktop
+	@${REINPLACE_CMD} -e 's|^Icon.*|Icon=${PORTNAME}|' \
+		-e 's|^Categories=.*|Categories=Utility;Game;|' \
+		${WRKSRC}/resources/${PORTNAME}.desktop
 	@${FIND} ${WRKSRC} -name "*.bak" -delete
 
 do-install:

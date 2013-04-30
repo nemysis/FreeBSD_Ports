@@ -18,7 +18,7 @@ GH_COMMIT=	6d23595
 
 USE_GL=		glut
 USE_SDL=	mixer sdl
-USE_GNOME=	desktopfileutils gtk20
+USE_GNOME=	gtk20
 USE_XORG=	xmu
 INSTALLS_ICONS=	yes
 USES=		cmake
@@ -32,6 +32,5 @@ post-install:
 	${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

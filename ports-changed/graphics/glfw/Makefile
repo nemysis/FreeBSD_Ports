@@ -23,7 +23,6 @@ INSTALL_TARGET=	x11-install
 USE_XORG=	x11 xau xdamage xdmcp xext xfixes xrandr xrender xxf86vm
 USE_GL=		glu
 USE_LDCONFIG=	yes
-USE_PKGCONFIG=	build
 MAKE_JOBS_UNSAFE=	yes
 
 PLIST_FILES=	include/GL/glfw.h \

@@ -1,5 +1,5 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/games/epiar/Makefile 315926 2013-04-17 03:25:10Z ak $
+# $FreeBSD: head/games/epiar/Makefile 316169 2013-04-21 07:07:18Z ak $
 
 PORTNAME=	epiar
 PORTVERSION=	0.5.1
@@ -33,8 +33,7 @@ MAKE_JOBS_SAFE=	yes
 PORTDOCS=	AUTHORS ChangeLog README
 
 pre-configure:
-	@${REINPLACE_CMD} -e 's|9.22|0|' ${WRKSRC}/configure.in
-#	@${REINPLACE_CMD} -e 's|9.22|2.4|' ${WRKSRC}/configure.in
+	@${REINPLACE_CMD} -e 's|9.22|2.4|' ${WRKSRC}/configure.in
 	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./autogen.sh)
 
 .include <bsd.port.options.mk>

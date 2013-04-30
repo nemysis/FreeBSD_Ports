@@ -21,7 +21,7 @@ PORTDOCS=	README
 SUB_FILES=	pkg-install \
 		pkg-message
 
-DESKTOP_ENTRIES="Obmenu" "Menu manager for Openbox" {PORTNAME} \
+DESKTOP_ENTRIES="Obmenu" "Menu manager for Openbox" ${PORTNAME} \
 		"${PORTNAME}" "Settings;" false
 
 .include <bsd.port.options.mk>

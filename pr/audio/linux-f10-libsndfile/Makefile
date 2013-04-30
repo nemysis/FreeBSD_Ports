@@ -1,4 +1,4 @@
-# Created by	nemysis@gmx.ch
+# Created by: nemysis <nemysis@gmx.ch>
 # $FreeBSD$
 
 PORTNAME=	libsndfile
