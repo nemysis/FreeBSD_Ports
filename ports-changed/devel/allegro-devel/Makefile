@@ -10,6 +10,8 @@ PKGNAMESUFFIX=	-devel
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Cross-platform library for games and multimedia programming
 
+LICENSE=	ZLIB
+
 USE_GMAKE=	yes
 USES=		cmake
 USE_XORG=	x11 xpm xext xcursor xxf86vm xxf86dga

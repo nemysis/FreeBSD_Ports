@@ -11,6 +11,8 @@ EXTRACT_SUFX=	.tgz
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	DSP library and software FAX machine
 
+LICENSE=	LGPL21
+
 LIB_DEPENDS=	tiff:${PORTSDIR}/graphics/tiff
 
 WRKSRC=		${WRKDIR}/spandsp-${DISTVERSION:C/pre.*//}

@@ -14,8 +14,8 @@ LICENSE=	GPLv2
 LIB_DEPENDS=	proxy:${PORTSDIR}/net/libproxy
 
 USE_XZ=		yes
-USE_PKGCONFIG=	build
-USE_GNOME=	gtk20 desktopfileutils libxml2
+USES=		desktop-file-utils pkgconfig
+USE_GNOME=	gtk20 libxml2
 WANT_PERL=	yes
 USE_AUTOTOOLS=	automake autoconf libtool
 GNU_CONFIGURE=	yes
@@ -30,7 +30,7 @@ MAN1=		hexchat.1
 
 PORTDOCS=	*
 
-OPTIONS_DEFINE=		SOCKS XFT OPENSSL TEXTFE PYTHON PERL DOAT DBUS NOTIFY
+OPTIONS_DEFINE=		NLS SOCKS XFT OPENSSL TEXTFE PYTHON PERL DOAT DBUS NOTIFY
 
 OPTIONS_RADIO=		SPELL
 OPTIONS_RADIO_SPELL=	LIBSEXY GTKSPELL STATIC
@@ -45,14 +45,8 @@ GTKSPELL_DESC=		Enable Spell checking through GTKSpell
 
 .include <bsd.port.options.mk>
 
-post-patch:
-	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|g' ${WRKSRC}/autogen.sh
-
-pre-configure:
-	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./autogen.sh)
-
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 CONFIGURE_ARGS+=--disable-nls
@@ -158,6 +152,12 @@ CONFIGURE_ARGS+=--disable-libnotify
 PLIST_SUB+=	NOTIFY="@comment "
 .endif
 
+post-patch:
+	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|g' ${WRKSRC}/autogen.sh
+
+pre-configure:
+	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./autogen.sh)
+
 post-install:
 	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
@@ -166,7 +166,5 @@ post-install:
 	${INSTALL_DATA} ${WRKSRC}/share/doc/*.md ${DOCSDIR}
 .endif
 	@(cd ${PREFIX}/lib/hexchat/plugins/ && ${RM} -f *.a)
-
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

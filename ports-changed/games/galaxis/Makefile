@@ -9,6 +9,8 @@ MASTER_SITES=	http://www.catb.org/~esr/galaxis/
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Clone of the nifty little Macintosh game
 
+LICENSE=	BSD
+
 MAKE_ARGS=	CC="${CC}" CFLAGS="${CFLAGS} -DNDEBUG"
 ALL_TARGET=	${PORTNAME}
 USE_GMAKE=	yes

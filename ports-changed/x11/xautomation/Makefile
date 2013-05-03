@@ -9,6 +9,8 @@ MASTER_SITES=	http://hoopajoo.net/static/projects/
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Control X from the command line for scripts
 
+LICENSE=	GPLv2
+
 LIB_DEPENDS=	png15:${PORTSDIR}/graphics/png
 
 USE_XORG=	xtst

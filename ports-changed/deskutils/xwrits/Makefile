@@ -9,6 +9,8 @@ MASTER_SITES=	http://www.lcdf.org/${PORTNAME}/
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Reminds you to take wrist breaks
 
+LICENSE=	GPLv2
+
 GNU_CONFIGURE=	yes
 
 USE_XORG=	ice sm x11 xau xdmcp xext xinerama

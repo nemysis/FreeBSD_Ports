@@ -10,7 +10,7 @@ PKGNAMESUFFIX=	-devel
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Cross-platform library for games and multimedia programming
 
-LICENSE=	BSD
+LICENSE=	ZLIB
 
 LIB_DEPENDS+=	asound:${PORTSDIR}/audio/alsa-lib \
 		png15:${PORTSDIR}/graphics/png \

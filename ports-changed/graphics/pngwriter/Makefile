@@ -10,6 +10,8 @@ MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}-${PORTVERSION}
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	C++ library for creating PNG images
 
+LICENSE=	GPLv2
+
 LIB_DEPENDS=	png15:${PORTSDIR}/graphics/png \
 		freetype:${PORTSDIR}/print/freetype2
 

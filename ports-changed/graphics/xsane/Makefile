@@ -12,6 +12,8 @@ MASTER_SITES=	http://www.xsane.org/download/ \
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Gtk-based X11 frontend for SANE (Scanner Access Now Easy)
 
+LICENSE=	GPLv2
+
 LIB_DEPENDS=	jpeg:${PORTSDIR}/graphics/jpeg \
 		png15:${PORTSDIR}/graphics/png \
 		tiff:${PORTSDIR}/graphics/tiff

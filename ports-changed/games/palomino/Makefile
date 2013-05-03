@@ -15,6 +15,8 @@ DISTFILES=	${PORTNAME}_src_${PORTVERSION}.txz \
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Action flight simulation computer program using OSG
 
+LICENSE=	GPLv2
+
 LIB_DEPENDS=	osg:${PORTSDIR}/graphics/osg
 
 USE_BZIP2=	yes

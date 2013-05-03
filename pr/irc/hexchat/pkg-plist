@@ -74,5 +74,3 @@ share/pixmaps/hexchat.png
 @dirrmtry share/applications
 @dirrm lib/hexchat/plugins
 @dirrm lib/hexchat
-@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true

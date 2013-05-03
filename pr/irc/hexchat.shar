@@ -43,8 +43,8 @@ X
 XLIB_DEPENDS=	proxy:${PORTSDIR}/net/libproxy
 X
 XUSE_XZ=		yes
-XUSE_PKGCONFIG=	build
-XUSE_GNOME=	gtk20 desktopfileutils libxml2
+XUSES=		desktop-file-utils pkgconfig
+XUSE_GNOME=	gtk20 libxml2
 XWANT_PERL=	yes
 XUSE_AUTOTOOLS=	automake autoconf libtool
 XGNU_CONFIGURE=	yes
@@ -59,7 +59,7 @@ XMAN1=		hexchat.1
 X
 XPORTDOCS=	*
 X
-XOPTIONS_DEFINE=		SOCKS XFT OPENSSL TEXTFE PYTHON PERL DOAT DBUS NOTIFY
+XOPTIONS_DEFINE=		NLS SOCKS XFT OPENSSL TEXTFE PYTHON PERL DOAT DBUS NOTIFY
 X
 XOPTIONS_RADIO=		SPELL
 XOPTIONS_RADIO_SPELL=	LIBSEXY GTKSPELL STATIC
@@ -74,14 +74,8 @@ XGTKSPELL_DESC=		Enable Spell checking through GTKSpell
 X
 X.include <bsd.port.options.mk>
 X
-Xpost-patch:
-X	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|g' ${WRKSRC}/autogen.sh
-X
-Xpre-configure:
-X	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./autogen.sh)
-X
 X.if ${PORT_OPTIONS:MNLS}
-XUSE_GETTEXT=	yes
+XUSES+=		gettext
 XPLIST_SUB+=	NLS=""
 X.else
 XCONFIGURE_ARGS+=--disable-nls
@@ -187,6 +181,12 @@ XCONFIGURE_ARGS+=--disable-libnotify
 XPLIST_SUB+=	NOTIFY="@comment "
 X.endif
 X
+Xpost-patch:
+X	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|g' ${WRKSRC}/autogen.sh
+X
+Xpre-configure:
+X	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./autogen.sh)
+X
 Xpost-install:
 X	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
 X
@@ -195,8 +195,6 @@ X	@${MKDIR} ${DOCSDIR}
 X	${INSTALL_DATA} ${WRKSRC}/share/doc/*.md ${DOCSDIR}
 X.endif
 X	@(cd ${PREFIX}/lib/hexchat/plugins/ && ${RM} -f *.a)
-X
-X	@-update-desktop-database -q
 X
 X.include <bsd.port.mk>
 665bfd2316f69ebc6d10d8e912c9733e
@@ -290,8 +288,6 @@ X%%NLS%%@dirrmtry share/locale/ast
 X@dirrmtry share/applications
 X@dirrm lib/hexchat/plugins
 X@dirrm lib/hexchat
-X@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-X@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
 ed6c86b5c09fa6a00e52c7a7de014458
 echo c - hexchat/files
 mkdir -p hexchat/files > /dev/null 2>&1
