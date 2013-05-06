@@ -1,5 +1,5 @@
 # Created by: Robert Gogolok <gogo@cs.uni-sb.de>
-# $FreeBSD: head/games/xye/Makefile 310871 2013-01-23 15:00:18Z makc $
+# $FreeBSD: head/games/xye/Makefile 317258 2013-05-03 21:09:22Z bapt $
 
 PORTNAME=	xye
 PORTVERSION=	0.12.1
