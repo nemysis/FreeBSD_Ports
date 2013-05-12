@@ -20,10 +20,10 @@ USE_ZIP=	yes
 EXTRACT_AFTER_ARGS=	-d ${WRKSRC}
 USE_GMAKE=	yes
 USE_DOS2UNIX=	*.cpp *.h *.ini Makefile* *.txt *.desktop
+USES=		desktop-file-utils
 ALL_TARGET=	${PORTNAME}
 USE_SDL=	sdl image mixer ttf
 USE_GL=		glu
-USE_GNOME=	desktopfileutils
 MAKE_JOBS_SAFE=	yes
 
 pre-extract:
@@ -53,7 +53,5 @@ post-install:
 	${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
-
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

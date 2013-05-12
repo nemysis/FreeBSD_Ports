@@ -15,6 +15,8 @@ COMMENT=	Display Control Panel for X NVidia driver
 
 LICENSE=	GPLv2
 
+LIB_DEPENDS=   vdpau:${PORTSDIR}/multimedia/libvdpau
+
 .include "${.CURDIR}/../nvidia-driver/Makefile.common"
 
 USE_BZIP2=	yes
