@@ -38,7 +38,6 @@ post-patch:
 
 post-install:
 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin
-	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${DATADIR}
 	${LN} -sf ${DATADIR}/Data/Textures/Lugaru.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
 
 .if ${PORT_OPTIONS:MDOCS}

@@ -541,7 +541,5 @@ share/mime/text/x-kfcom.xml
 @dirrm share/gnome/help/kupfer/C
 @dirrm share/gnome/help/kupfer
 @dirrmtry share/applications
-@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@exec %%LOCALBASE%%/bin/update-mime-database %D/share/mime
-@unexec %%LOCALBASE%%/bin/update-mime-database %D/share/mime
+@dirrmtry share/Thunar/sendto
+@dirrmtry share/Thunar

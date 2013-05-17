@@ -2,9 +2,10 @@
 # $FreeBSD: head/deskutils/q4wine/Makefile 315248 2013-03-25 21:47:11Z jgh $
 
 PORTNAME=	q4wine
-PORTVERSION=	1.0
+PORTVERSION=	1.0.r3
 CATEGORIES=	deskutils emulators
-MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}%20${PORTVERSION}/
+MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}%20$${PORTVERSION:S/.r/-r/}/
+DISTNAME=	${PORTNAME}-${PORTVERSION:S/.r/-r/}
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	QT4 front-end for WINE
@@ -17,9 +18,8 @@ RUN_DEPENDS=	sudo:${PORTSDIR}/security/sudo \
 		cabextract:${PORTSDIR}/archivers/cabextract \
 		icotool:${PORTSDIR}/graphics/icoutils
 
-USES=		cmake
+USES=		cmake desktop-file-utils
 CMAKE_ARGS+=	-DMANPAGE_ENTRY_PATH=${MANPREFIX}/man
-USE_GNOME=	desktopfileutils
 USE_LDCONFIG=	yes
 INSTALLS_ICONS=	yes
 USE_QT4=	qmake_build rcc_build moc_build uic_build \
@@ -50,13 +50,14 @@ CMAKE_ARGS+=	-DWITH_DBUS:BOOL=OFF
 .endif
 
 post-patch:
+	@${REINPLACE_CMD} -e 's|^Categories=.*|Categories=Qt;System;Emulator;Utility;Game;|' \
+		${WRKSRC}/${PORTNAME}.desktop
+
 .if ! ${PORT_OPTIONS:MNLS}
 	@${REINPLACE_CMD} -e 's|install(FILES|#install(FILES|' ${WRKSRC}/src/i18n/CMakeLists.txt
 .endif
 
 post-install:
-	@-update-desktop-database -q
-
 	@${ECHO_CMD}
 	@${CAT} ${PKGMESSAGE}
 	@${ECHO_CMD}

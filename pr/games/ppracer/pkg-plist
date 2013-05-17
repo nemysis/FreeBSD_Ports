@@ -373,5 +373,3 @@ share/pixmaps/ppracer.png
 @dirrm %%DATADIR%%/courses/doing
 @dirrm %%DATADIR%%/courses
 @dirrm %%DATADIR%%
-@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true

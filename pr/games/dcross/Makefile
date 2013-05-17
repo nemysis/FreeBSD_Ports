@@ -42,6 +42,6 @@ post-install:
 	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}_${s}.png \
 		${PREFIX}/share/icons/hicolor/${s}/apps/${PORTNAME}.png
 .endfor
-	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps/
+	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
 .include <bsd.port.mk>

@@ -32,15 +32,14 @@ DOC_FILES2=	*.gif *.png *.jpg *.html
 
 SUB_FILES=	${PORTNAME}
 
-DESKTOP_ENTRIES="Vodovod" "${COMMENT}" \
-		"${PREFIX}/share/pixmaps/${PORTNAME}.png" \
+DESKTOP_ENTRIES="Vodovod" "${COMMENT}" ${PORTNAME} \
 		"${PORTNAME}" "Game;LogicGame;" false
 
 .include <bsd.port.options.mk>
 
 do-install:
 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin/
-	${MKDIR} ${DATADIR}
+	@${MKDIR} ${DATADIR}
 	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${DATADIR}
 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} "data icon.ico" ${DATADIR})
 

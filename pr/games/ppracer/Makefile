@@ -18,7 +18,7 @@ LIB_DEPENDS=	png15:${PORTSDIR}/graphics/png \
 USE_BZIP2=	yes
 USE_SDL=	mixer sdl
 USE_GL=		gl
-USE_GNOME=		desktopfileutils
+USES=		desktop-file-utils
 GNU_CONFIGURE=	yes
 USE_GMAKE=	yes
 USE_DOS2UNIX=	yes
@@ -38,7 +38,5 @@ post-install:
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
-
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

@@ -22,7 +22,7 @@ DATADIRLIB=	${PREFIX}/lib/${PORTNAME}
 
 FETCH_ARGS?=	-Fpr
 USE_PYTHON=	yes
-USE_GNOME=	desktopfileutils
+USES=		desktop-file-utils
 NO_BUILD=	yes
 ONLY_FOR_ARCHS=	i386 amd64
 
@@ -37,7 +37,7 @@ RUN_DEPENDS+=	wine:${PORTSDIR}/emulators/wine-devel
 post-patch:
 	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|' ${WRKSRC}/version.sh
 	@${REINPLACE_CMD} -e 's|^Icon.*|Icon=${PORTNAME}|' \
-		-e 's|^Categories=.*|Categories=Utility;Game;|' \
+		-e 's|^Categories=.*|Categories=System;Emulator;Utility;Game;|' \
 		${WRKSRC}/resources/${PORTNAME}.desktop
 	@${FIND} ${WRKSRC} -name "*.bak" -delete
 

@@ -12,10 +12,13 @@ share/icons/hicolor/32x32/apps/q4wine.png
 share/icons/hicolor/48x48/apps/q4wine.png
 share/icons/hicolor/64x64/apps/q4wine.png
 share/icons/hicolor/96x96/apps/q4wine.png
+share/icons/hicolor/scalable/apps/q4wine.svg
+%%NLS%%%%DATADIR%%/i18n/q4wine_af_za.qm
 %%NLS%%%%DATADIR%%/i18n/q4wine_cs_cz.qm
 %%NLS%%%%DATADIR%%/i18n/q4wine_de_de.qm
 %%NLS%%%%DATADIR%%/i18n/q4wine_en_us.qm
 %%NLS%%%%DATADIR%%/i18n/q4wine_es_es.qm
+%%NLS%%%%DATADIR%%/i18n/q4wine_fa_ir.qm
 %%NLS%%%%DATADIR%%/i18n/q4wine_he_il.qm
 %%NLS%%%%DATADIR%%/i18n/q4wine_it_it.qm
 %%NLS%%%%DATADIR%%/i18n/q4wine_pl_pl.qm
@@ -64,5 +67,3 @@ share/icons/hicolor/96x96/apps/q4wine.png
 @dirrm %%DATADIR%%
 @dirrmtry share/applications
 @dirrm lib/q4wine
-@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true

@@ -22,14 +22,13 @@ NO_BUILD=	yes
 
 SUB_FILES=	${PORTNAME}
 
-DESKTOP_ENTRIES="Cargo Carrier" "${COMMENT} "${PORTNAME}. \
+DESKTOP_ENTRIES="Cargo Carrier" "${COMMENT}" "${PORTNAME}" \
 		"${PORTNAME}" "Game;ArcadeGame;" false
 
 do-install:
-	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin/
-	${MKDIR} ${DATADIR}
-	${INSTALL_SCRIPT} ${WRKSRC}/*.py* ${DATADIR}
+	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin
 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} data ${DATADIR})
+	${INSTALL_SCRIPT} ${WRKSRC}/*.py* ${DATADIR}
 	${LN} -sf ${DATADIR}/data/falcon.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
 
 .include <bsd.port.mk>
