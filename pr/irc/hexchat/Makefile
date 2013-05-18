@@ -23,9 +23,7 @@ CONFIGURE_ARGS+=--enable-gtkfe --disable-sysinfo
 USE_GMAKE=	yes
 INSTALLS_ICONS=	yes
 
-#CPPFLAGS+=	-I${LOCALBASE}/include ${PTHREAD_CFLAGS}
-#LDFLAGS+=	-L${LOCALBASE}/lib ${PTHREAD_LIBS}
-#LDFLAGS+=	-pthread
+LDFLAGS+=	-pthread
 
 MAN1=		hexchat.1
 
