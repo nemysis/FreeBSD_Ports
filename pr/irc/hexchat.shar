@@ -52,8 +52,7 @@ XCONFIGURE_ARGS+=--enable-gtkfe --disable-sysinfo
 XUSE_GMAKE=	yes
 XINSTALLS_ICONS=	yes
 X
-XCPPFLAGS+=	-I${LOCALBASE}/include ${PTHREAD_CFLAGS}
-XLDFLAGS+=	-L${LOCALBASE}/lib ${PTHREAD_LIBS}
+XLDFLAGS+=	-pthread
 X
 XMAN1=		hexchat.1
 X

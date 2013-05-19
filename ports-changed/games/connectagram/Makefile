@@ -15,7 +15,7 @@ LICENSE=	GPLv3
 
 USE_BZIP2=	yes
 USE_QT4=	moc_build qmake_build rcc_build gui network iconengines imageformats
-USE_GNOME=	desktopfileutils
+USES=		desktop-file-utils
 INSTALLS_ICONS=	yes
 MAKE_JOBS_SAFE=	yes
 
