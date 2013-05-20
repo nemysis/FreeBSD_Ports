@@ -57,14 +57,14 @@ do-build:
 do-install:
 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin
 
-	${MKDIR} ${DATADIR}
+	@${MKDIR} ${DATADIR}
 	@(cd ${WRKSRC} && ${CP} -r Messages .DirIcon AppInfo.xml AppRun AppletRun \
 		Options.xml Messages python *.py *.pyc *.pyo ${DATADIR})
 
 	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/Help/|} ${DOCSDIR}
 .endif
 

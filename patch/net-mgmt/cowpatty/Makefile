@@ -10,7 +10,9 @@ EXTRACT_SUFX=	.tgz
 MAINTAINER=	dhn@FreeBSD.org
 COMMENT=	Brute-force dictionary attack against WPA-PSK
 
-PORTDOCS=	FAQ README
+LICENSE=	GPLv2
+
+PORTDOCS=	AUTHORS CHANGELOG FAQ README
 SUB_FILES=	pkg-message
 
 USE_OPENSSL=	yes
