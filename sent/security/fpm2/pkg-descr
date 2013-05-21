@@ -5,8 +5,8 @@ passwords using GTK2 interface. Features include:
 - If the password is for a web site, FPM2 can keep track of the URLs of your
   login screens and can automatically launch your browser. In this capacity,
   FPM2 acts as a kind of bookmark manager.
-- You can teach FPM2 to launch other applications, and optionally pass hostnames,
-  usernames or passwords to the command line.
+- You can teach FPM2 to launch other applications, and optionally pass
+  hostnames,   usernames or passwords to the command line.
 - FPM2 also has a password generator that can choose passwords for you. It
   allows you to determine how long the password should be, and what types of
   characters (lower case, upper case, numbers and symbols) should be used.
