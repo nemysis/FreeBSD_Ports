@@ -705,7 +705,3 @@ share/pixmaps/gnofract4d-logo.png
 @dirrm %%PYTHON_SITELIBDIR%%/fractutils
 @dirrm %%PYTHON_SITELIBDIR%%/fract4dgui
 @dirrm %%PYTHON_SITELIBDIR%%/fract4d
-@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@exec %%LOCALBASE%%/bin/update-mime-database %D/share/mime
-@unexec %%LOCALBASE%%/bin/update-mime-database %D/share/mime

@@ -31,7 +31,7 @@ PORTDOCS=	README
 .include <bsd.port.options.mk>
 
 .if ${ARCH} == "i386"
-RUN_DEPENDS+=	wine:${PORTSDIR}/emulators/wine-devel
+RUN_DEPENDS+=	wine:${PORTSDIR}/emulators/wine
 .endif
 
 post-patch:
@@ -62,7 +62,5 @@ do-install:
 	@${ECHO_CMD}
 	@${CAT} ${PKGMESSAGE}
 	@${ECHO_CMD}
-
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

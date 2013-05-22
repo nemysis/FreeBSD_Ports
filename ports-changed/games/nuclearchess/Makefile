@@ -25,7 +25,7 @@ MAKE_JOBS_SAFE=	yes
 
 PORTDOCS=	AUTHORS ChangeLog
 
-DESKTOP_ENTRIES="NuclearChess" "${COMMENT}" "${PORTNAME}"  \
+DESKTOP_ENTRIES="NuclearChess" "${COMMENT}" "${PORTNAME}" \
 		"${PORTNAME}" "Game;BoardGame;" false
 
 .include <bsd.port.options.mk>

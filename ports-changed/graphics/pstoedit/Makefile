@@ -1,9 +1,8 @@
 # Created by: Thomas Gellekum <tg@FreeBSD.org>
-# $FreeBSD: head/graphics/pstoedit/Makefile 314640 2013-03-19 13:04:30Z eadler $
+# $FreeBSD: head/graphics/pstoedit/Makefile 316343 2013-04-23 10:47:02Z bapt $
 
 PORTNAME=	pstoedit
-PORTVERSION=	3.61
-PORTREVISION=	2
+PORTVERSION=	3.62
 CATEGORIES=	graphics print
 MASTER_SITES=	SF
 
@@ -20,9 +19,8 @@ EMF_DESC=	Enable emf interface
 MING_DESC=	Enable swf interface
 PLOTUTILS_DESC=	Enable libplot interface
 
-USES=	pathfix
+USES=		pathfix pkgconfig
 USE_GHOSTSCRIPT=	yes
-USE_PKGCONFIG=	build
 USE_AUTOTOOLS=	libtool
 USE_LDCONFIG=	yes
 MAKE_JOBS_SAFE=yes

@@ -17,7 +17,7 @@ COMMENT=	Vector-based rock-shooting game similar to the Asteroids
 LICENSE=	GPLv2
 
 USE_XORG=	x11
-USE_GNOME=	desktopfileutils
+USES		desktop-file-utils
 MAKE_JOBS_SAFE=	yes
 
 PLIST_FILES=	bin/${PORTNAME} \
@@ -27,17 +27,16 @@ PORTDOCS=	CHANGES.txt README.txt TODO.txt
 
 INSTALLS_ICONS=	yes
 
-DESKTOP_ENTRIES="Agendaroids" "${COMMENT}" \
-		"${PREFIX}/share/pixmaps/${PORTNAME}.png" \
+DESKTOP_ENTRIES="Agendaroids" "${COMMENT}" ${PORTNAME} \
 		"${PORTNAME}" "Game;ArcadeGame;" false
 
 .include <bsd.port.options.mk>
 
 post-patch:
 	@${REINPLACE_CMD} \
-	-e 's|/usr/include|/usr/local/include|' \
-	-e 's|agendaroids.host|agendaroids|g' \
-	-e 's|/usr/X11R6/lib|/usr/local/lib|' \
+		-e 's|/usr/include|/usr/local/include|' \
+		-e 's|agendaroids.host|agendaroids|g' \
+		-e 's|/usr/X11R6/lib|/usr/local/lib|' \
 		${WRKSRC}/Makefile
 
 do-build:
@@ -48,11 +47,8 @@ do-install:
 	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
-
-post-install:
-	@-update-desktop-database
 
 .include <bsd.port.mk>

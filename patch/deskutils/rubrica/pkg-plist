@@ -120,5 +120,3 @@ share/pixmaps/rubrica2/scalable/query.svg
 @dirrm lib/libral
 @dirrm include/libral-1.0/libral
 @dirrm include/libral-1.0
-@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true

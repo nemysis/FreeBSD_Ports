@@ -22,7 +22,7 @@ WRKSRC=		${WRKDIR}/Bombz
 
 USE_ZIP=	yes
 USE_SDL=	sdl image mixer
-USE_GNOME=	desktopfileutils
+USES=		desktop-file-utils
 INSTALLS_ICONS=	yes
 USE_PYTHON=	yes
 NO_BUILD=	yes
@@ -54,8 +54,5 @@ do-install:
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
-
-post-install:
-	@-update-desktop-database
 
 .include <bsd.port.mk>

@@ -1,5 +1,7 @@
 bin/cmail
 bin/xboard
+etc/xboard.conf
+etc/xboard.conf.dist
 share/applications/xboard-config.desktop
 share/applications/xboard-fen-viewer.desktop
 share/applications/xboard-pgn-viewer.desktop
@@ -141,26 +143,30 @@ share/icons/hicolor/scalable/apps/xboard.svg
 %%NLS%%share/locale/zh_CN/LC_MESSAGES/xboard.mo
 %%NLS%%share/locale/zh_HK/LC_MESSAGES/xboard.mo
 %%NLS%%share/locale/zh_TW/LC_MESSAGES/xboard.mo
+share/mime/application/x-chess-fen.xml
+share/mime/application/x-chess-pgn.xml
+share/mime/application/x-xboard-opt.xml
+share/mime/application/x-xboard-trn.xml
 share/mime/packages/xboard.xml
-@dirrmtry share/mime/packages
-@dirrmtry share/mime
 %%NLS%%@dirrmtry share/locale/zh_HK/LC_MESSAGES
 %%NLS%%@dirrmtry share/locale/zh_HK
-@dirrm %%DATADIR%%/themes/xiangqi
-@dirrm %%DATADIR%%/themes/textures
-@dirrm %%DATADIR%%/themes/shogi
-@dirrm %%DATADIR%%/themes/default
-@dirrm %%DATADIR%%/themes
-@dirrm %%DATADIR%%/sounds
-@dirrm %%DATADIR%%/pixmaps/textures
-@dirrm %%DATADIR%%/pixmaps
-@dirrm %%DATADIR%%
+@dirrmtry share/icons/hicolor/scalable/apps
+@dirrmtry share/icons/hicolor/scalable
+@dirrmtry share/icons/hicolor/48x48/apps
+@dirrmtry share/icons/hicolor/48x48
+@dirrmtry share/icons/hicolor
+@dirrmtry share/icons
+@dirrmtry %%DATADIR%%/themes/xiangqi
+@dirrmtry %%DATADIR%%/themes/textures
+@dirrmtry %%DATADIR%%/themes/shogi
+@dirrmtry %%DATADIR%%/themes/default
+@dirrmtry %%DATADIR%%/themes
+@dirrmtry %%DATADIR%%/sounds
+@dirrmtry %%DATADIR%%/pixmaps/textures
+@dirrmtry %%DATADIR%%/pixmaps
+@dirrmtry %%DATADIR%%
 @dirrmtry share/games
 @dirrmtry share/applications
 @unexec if cmp -s %D/etc/xboard.conf.dist %D/etc/xboard.conf; then rm -f %D/etc/xboard.conf; fi
 etc/xboard.conf.dist
-@exec cp -pn %D/%F %B/orbit.conf
-@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@exec %%LOCALBASE%%/bin/update-mime-database %D/share/mime
-@unexec %%LOCALBASE%%/bin/update-mime-database %D/share/mime
+@exec cp -pn %D/%F %B/xboard.conf

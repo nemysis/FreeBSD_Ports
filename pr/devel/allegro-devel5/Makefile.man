@@ -134,6 +134,7 @@ al_convert_mask_to_alpha.3 \
 al_copy_transform.3 \
 al_create_audio_stream.3 \
 al_create_bitmap.3 \
+al_create_builtin_font.3 \
 al_create_cond.3 \
 al_create_config.3 \
 al_create_display.3 \
@@ -464,6 +465,7 @@ al_init.3 \
 al_init_acodec_addon.3 \
 al_init_font_addon.3 \
 al_init_image_addon.3 \
+al_init_native_dialog_addon.3 \
 al_init_primitives_addon.3 \
 al_init_timeout.3 \
 al_init_ttf_addon.3 \
@@ -526,6 +528,7 @@ al_open_directory.3 \
 al_open_fs_entry.3 \
 al_open_memfile.3 \
 al_open_native_text_log.3 \
+al_osx_get_window.3 \
 al_path_cstr.3 \
 al_peek_next_event.3 \
 al_play_sample.3 \
@@ -594,6 +597,7 @@ al_set_current_opengl_context.3 \
 al_set_default_mixer.3 \
 al_set_display_flag.3 \
 al_set_display_icon.3 \
+al_set_display_icons.3 \
 al_set_errno.3 \
 al_set_event_source_data.3 \
 al_set_exe_name.3 \
@@ -649,6 +653,7 @@ al_show_native_file_dialog.3 \
 al_show_native_message_box.3 \
 al_shutdown_font_addon.3 \
 al_shutdown_image_addon.3 \
+al_shutdown_native_dialog_addon.3 \
 al_shutdown_primitives_addon.3 \
 al_shutdown_ttf_addon.3 \
 al_signal_cond.3 \

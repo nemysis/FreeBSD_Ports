@@ -1,5 +1,5 @@
 # Created by: J.F. Dockes <jean-francois.dockes@wanadoo.fr>
-# $FreeBSD: head/deskutils/recoll/Makefile 312669 2013-02-20 20:34:54Z sunpoet $
+# $FreeBSD: head/deskutils/recoll/Makefile 316654 2013-04-27 08:50:46Z mva $
 
 PORTNAME=	recoll
 PORTVERSION=	1.18.2
@@ -27,6 +27,9 @@ MAN5=		recoll.conf.5
 OPTIONS_DEFINE=	QT4 ASPELL PYTHON X11MON
 X11MON_DESC=	X11 session monitoring support
 OPTIONS_DEFAULT=QT4 ASPELL PYTHON X11MON
+
+# Wrong versioning upstream
+PORTSCOUT=	skipv:1.19
 
 .include <bsd.port.options.mk>
 

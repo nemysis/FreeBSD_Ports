@@ -12,8 +12,7 @@ MAINTAINER=	kwm@FreeBSD.org
 COMMENT=	Canvas widget for GTK+
 
 USE_BZIP2=	yes
-USES=		pathfix
-USE_PKGCONFIG=	build
+USES=		pathfix pkgconfig
 USE_GNOME=	gtk20 gdkpixbuf2 ltverhack
 USE_AUTOTOOLS=	libtool
 USE_LDCONFIG=	yes
@@ -31,7 +30,7 @@ OPTIONS_DEFINE=	NLS
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 PLIST_SUB+=	NLS="@comment "

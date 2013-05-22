@@ -1,5 +1,5 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/graphics/viewnior/Makefile 305213 2012-10-03 17:46:09Z madpilot $
+# $FreeBSD: head/graphics/viewnior/Makefile 316464 2013-04-24 18:10:30Z ak $
 
 PORTNAME=	viewnior
 PORTVERSION=	1.3
@@ -12,27 +12,25 @@ COMMENT=	Fast and simple image viewer
 
 LICENSE=	GPLv3
 
-BUILD_DEPENDS=	update-mime-database:${PORTSDIR}/misc/shared-mime-info
-RUN_DEPENDS=	update-mime-database:${PORTSDIR}/misc/shared-mime-info
+BUILD_DEPENDS=	p5-XML-Parser>=0:${PORTSDIR}/textproc/p5-XML-Parser
 
+USES=		pkgconfig
+USE_GNOME=	glib20 gtk20
 GNU_CONFIGURE=	yes
 USE_AUTOTOOLS=	autoconf
 USE_GMAKE=	yes
-USE_PKGCONFIG=	build
-USE_GNOME=	glib20 gtk20
 INSTALLS_ICONS=	yes
 
-MAN1=		viewnior.1
+MAN1=		${PORTNAME}.1
 
 PORTDOCS=	AUTHORS ChangeLog NEWS README TODO
 
 OPTIONS_DEFINE=	NLS
-OPTIONS_DEFAULT=	NLS
 
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 CONFIGURE_ARGS+=	--disable-nls

@@ -1,5 +1,5 @@
 # Created by: David Le Brun <david@trucs.org>
-# $FreeBSD: head/astro/viking/Makefile 314141 2013-03-14 08:17:39Z pclin $
+# $FreeBSD: head/astro/viking/Makefile 316684 2013-04-27 18:31:47Z mva $
 
 PORTNAME=	viking
 PORTVERSION=	1.4.1
@@ -22,13 +22,12 @@ LIB_DEPENDS=	pthread-stubs:${PORTSDIR}/devel/libpthread-stubs \
 		xcb:${PORTSDIR}/x11/libxcb
 RUN_DEPENDS=	gpsbabel:${PORTSDIR}/astro/gpsbabel
 
-USE_GMAKE=	yes
-GNU_CONFIGURE=	yes
-USE_ICONV=	yes
+USES=		iconv desktop-file-utils pkgconfig
 USE_XORG=	pixman x11 xau xcomposite xcursor xdamage xdmcp xext \
 		xfixes xi xinerama xrandr xrender
-USE_GNOME=	desktopfileutils gnomedocutils gtk20
-USE_PKGCONFIG=	build
+USE_GNOME=	gnomedocutils gtk20
+GNU_CONFIGURE=	yes
+USE_GMAKE=	yes
 USE_PERL5_RUN=	yes
 INSTALLS_ICONS=	yes
 INSTALLS_OMF=	yes
@@ -49,7 +48,7 @@ OPTIONS_DEFAULT=	GEOTAG
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 CONFIGURE_ARGS+=	--disable-nls
@@ -82,6 +81,5 @@ post-install:
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

@@ -8,10 +8,14 @@ share/applications/connectagram.desktop
 %%DATADIR%%/patterns/3.png
 %%DATADIR%%/patterns/4.png
 %%DATADIR%%/patterns/5.png
+%%DATADIR%%/translations/connectagram_cs.qm
+%%DATADIR%%/translations/connectagram_de.qm
+%%DATADIR%%/translations/connectagram_el.qm
 %%DATADIR%%/translations/connectagram_en.qm
 %%DATADIR%%/translations/connectagram_fr.qm
 %%DATADIR%%/translations/connectagram_ro.qm
 %%DATADIR%%/translations/connectagram_ru.qm
+%%DATADIR%%/translations/connectagram_tr.qm
 share/icons/hicolor/128x128/apps/connectagram.png
 share/icons/hicolor/16x16/apps/connectagram.png
 share/icons/hicolor/22x22/apps/connectagram.png
@@ -30,5 +34,3 @@ share/pixmaps/connectagram.xpm
 @dirrm %%DATADIR%%/data
 @dirrm %%DATADIR%%
 @dirrmtry share/applications
-@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true

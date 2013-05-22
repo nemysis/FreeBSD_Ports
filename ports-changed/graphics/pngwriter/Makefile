@@ -1,5 +1,5 @@
 # Created by: ijliao
-# $FreeBSD: head/graphics/pngwriter/Makefile 307730 2012-11-24 20:50:04Z wxs $
+# $FreeBSD: head/graphics/pngwriter/Makefile 316343 2013-04-23 10:47:02Z bapt $
 
 PORTNAME=	pngwriter
 PORTVERSION=	0.5.4
@@ -15,7 +15,7 @@ LICENSE=	GPLv2
 LIB_DEPENDS=	png15:${PORTSDIR}/graphics/png \
 		freetype:${PORTSDIR}/print/freetype2
 
-USE_PKGCONFIG=	yes
+USES=		pkgconfig
 
 WRKSRC=		${WRKDIR}/${DISTNAME}
 
@@ -47,12 +47,12 @@ do-install:
 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} fonts ${DATADIR})
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	@(cd ${WRKSRC}/doc && ${COPYTREE_SHARE} . ${DOCSDIR})
 .endif
 
 .if ${PORT_OPTIONS:MEXAMPLES}
-	${MKDIR} ${EXAMPLESDIR}
+	@${MKDIR} ${EXAMPLESDIR}
 	@(cd ${WRKSRC}/examples && ${COPYTREE_SHARE} . ${EXAMPLESDIR})
 .endif
 

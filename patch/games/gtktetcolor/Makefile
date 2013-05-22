@@ -13,11 +13,10 @@ LICENSE=	GPLv2 GPLv3
 LICENSE_COMB=	dual
 
 USE_BZIP2=	yes
-USES=		pathfix
-USE_PKGCONFIG=	build
-USE_GNOME=	desktopfileutils gnomeprefix intlhack libgnomeui
-USE_GMAKE=	yes
+USES=		desktop-file-utils pathfix pkgconfig
+USE_GNOME=	gnomeprefix intlhack libgnomeui
 GNU_CONFIGURE=	yes
+USE_GMAKE=	yes
 MAKE_JOBS_SAFE=	yes
 
 CPPFLAGS+=	-I${LOCALBASE}/include
@@ -30,7 +29,7 @@ OPTIONS_DEFINE=	NLS
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 CONFIGURE_ARGS+=	--disable-nls
@@ -52,7 +51,5 @@ post-install:
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
-
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

@@ -14,7 +14,7 @@ LICENSE=	GPLv2
 
 USE_GMAKE=	yes
 USE_SDL=	image mixer sdl
-USE_GNOME=	desktopfileutils
+USES=		desktop-file-utils
 
 PORTDOCS=	AUTHORS.txt CHANGES.txt README.txt TODO.txt
 

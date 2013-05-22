@@ -1,5 +1,5 @@
 # Created by: Yinghong Liu <relaxbsd@gmail.com>
-# $FreeBSD: head/games/lianliankan/Makefile 305333 2012-10-06 04:27:07Z jhale $
+# $FreeBSD: head/games/lianliankan/Makefile 316596 2013-04-26 10:44:28Z ak $
 
 PORTNAME=	lianliankan
 DISTVERSION=	2.3beta1
@@ -13,7 +13,7 @@ COMMENT=	Tile matching game
 
 LICENSE=	GPLv2
 
-USE_PKGCONFIG=	build
+USES=		pkgconfig
 USE_GNOME=	gtk20 esound
 USE_AUTOTOOLS=	aclocal automake autoconf libtool
 MAKE_JOBS_SAFE=	yes
@@ -30,20 +30,19 @@ DOCSDIR=	${PREFIX}/share/doc/llk_linux
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 PLIST_SUB+=	NLS="@comment "
 .endif
 
 post-patch:
-.if empty(PORT_OPTIONS:MNLS)
-	@${REINPLACE_CMD} -e '/^SUBDIRS/s|po||' \
-		${WRKSRC}/Makefile.am
+.if ! ${PORT_OPTIONS:MNLS}
+	@${REINPLACE_CMD} -e '/^SUBDIRS/s|po||' ${WRKSRC}/Makefile.am
 .endif
 
 post-install:
-	${MKDIR} ${PREFIX}/share/applications
-	${INSTALL_DATA} ${FILESDIR}/lianliankan.desktop ${PREFIX}/share/applications
+	@${MKDIR} ${PREFIX}/share/applications
+	${INSTALL_DATA} ${FILESDIR}/${PORTNAME}.desktop ${PREFIX}/share/applications
 
 .include <bsd.port.mk>

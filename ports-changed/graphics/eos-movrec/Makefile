@@ -1,5 +1,5 @@
 # Created by: Alexey Dokuchaev <danfe@FreeBSD.org>
-# $FreeBSD: head/graphics/eos-movrec/Makefile 310871 2013-01-23 15:00:18Z makc $
+# $FreeBSD: head/graphics/eos-movrec/Makefile 314960 2013-03-22 20:06:14Z makc $
 
 PORTNAME=	eos-movrec
 DISTVERSION=	0.3.1_beta
@@ -20,14 +20,13 @@ LICENSE=	GPLv2
 LIB_DEPENDS=	gphoto2:${PORTSDIR}/graphics/libgphoto2
 
 USE_BZIP2=	yes
-USE_CMAKE=	yes
+USES=		cmake
 USE_QT4=	qmake_build moc_build rcc_build uic_build gui
 
 PLIST_FILES=	bin/eos_movrec \
 		share/pixmaps/${PORTNAME}.png
 
-DESKTOP_ENTRIES=	"eos_movrec" "EOS Camera Movie Recorder" \
-			"${PREFIX}/share/pixmaps/${PORTNAME}.png" \
+DESKTOP_ENTRIES=	"eos_movrec" "EOS Camera Movie Recorder" ${PORTNAME} \
 			"eos_movrec" "Graphics;Photography;Qt;" false
 
 post-patch:

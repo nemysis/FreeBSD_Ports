@@ -1,5 +1,5 @@
 # Created by: Michael Johnson <ahze@ahze.net>
-# $FreeBSD: head/multimedia/gavl/Makefile 315474 2013-03-28 15:51:16Z eadler $
+# $FreeBSD: head/multimedia/gavl/Makefile 316355 2013-04-23 14:20:25Z bapt $
 
 PORTNAME=	gavl
 PORTVERSION=	1.4.0
@@ -11,9 +11,8 @@ COMMENT=	Library for handling uncompressed video and audio data
 
 LICENSE=	GPLv3
 
-USES=		pathfix
+USES=		pathfix pkgconfig
 USE_LDCONFIG=	yes
-USE_PKGCONFIG=	build
 MAKE_JOBS_SAFE=	yes
 GNU_CONFIGURE=	yes
 CPPFLAGS+=	-I${LOCALBASE}/include

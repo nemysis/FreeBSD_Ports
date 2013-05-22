@@ -2,120 +2,84 @@
 # $FreeBSD$
 
 PORTNAME=	allegro
-DISTVERSION=	5.0.7
+DISTVERSION=	5.0.9
 CATEGORIES=	devel
 MASTER_SITES=	SF/alleg/allegro/${PORTVERSION}
-PKGNAMESUFFIX=	-devel5
+PKGNAMESUFFIX=	-devel
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Cross-platform library for games and multimedia programming
 
-LICENSE=	BSD
+LICENSE=	ZLIB
 
-LIB_DEPENDS+=	png15:${PORTSDIR}/graphics/png \
-		jpeg:${PORTSDIR}/graphics/jpeg
-BUILD_DEPENDS=	${LOCALBASE}/bin/pandoc:${PORTSDIR}/textproc/hs-pandoc
+LIB_DEPENDS+=	asound:${PORTSDIR}/audio/alsa-lib \
+		png15:${PORTSDIR}/graphics/png \
+		jpeg:${PORTSDIR}/graphics/jpeg \
+		vorbis:${PORTSDIR}/audio/libvorbis \
+		FLAC:${PORTSDIR}/audio/flac \
+		physfs:${PORTSDIR}/devel/physfs
+# Disabled because install allegro-devel-4*  and then is conflict, but is needed
+#BUILD_DEPENDS+=	${LOCALBASE}/include/dumb.h:${PORTSDIR}/audio/dumb-allegro
 
+USE_GMAKE=	yes
+USES=		cmake pkgconfig
+USE_XORG=	x11 xpm xext xcursor xxf86vm xxf86dga
+USE_LDCONFIG=	yes
+WANT_GNOME=	yes
+USE_OPENAL=	soft
 USE_GL=		gl glu
 USE_FREETYPE=	yes
-USE_LDCONFIG=	yes
-USE_PKGCONFIG=	build
-WANT_GNOME=	yes
-USE_XORG=	x11 xpm xext xcursor xxf86vm xxf86dga
-USE_GMAKE=	yes
-USE_CMAKE=	yes
-MAKE_JOBS_UNSAFE=	yes
-CFLAGS+=	-I${LOCALBASE}/include -L${LOCALBASE}/lib
 
-CONFLICTS=	allegro-[0-9]*
+MAKE_JOBS_UNSAFE=	yes
+
+CONFLICTS=	allegro-devel-4*
 LATEST_LINK=	${PORTNAME}${PKGNAMESUFFIX}
 PLIST_SUB=	SHLIB_VER="${SHLIB_VER}"
-CMAKE_ARGS+=	-DDOCDIR="${DOCSDIR}"
 
-SHLIB_VER=	5.0.7
+SHLIB_VER=	5.0.9
 
-PORTSCOUT=	limit:^4\.3\.[0-9]*
+CFLAGS+=	-I${LOCALBASE}/include -L${LOCALBASE}/lib
 
-PORTDOCS=	*
-DOCSRCDIR1=	${WRKSRC}
-DOC_FILES1=	CHANGES-5.0.txt CONTRIBUTORS.txt README.txt README_packaging.txt README_pkgconfig.txt
-
-OPTIONS_DEFINE=	VORBIS FLAC OPENAL PHYSFS DEMOS
-OPTIONS_DEFAULT=VORBIS FLAC OPENAL PHYSFS
-PHYSFS_DESC=	Support for PhysicsFS
-DEMOS_DESC=	Install Demos programs
+OPTIONS_DEFINE=	PULSEAUDIO
 
 .include <bsd.port.options.mk>
 .include "Makefile.man"
 
-.if ${PORT_OPTIONS:MDEMOS}
-CMAKE_ARGS+=	-DWANT_DEMO=on
-PLIST_SUB+=	DEMOS=""
-.else
-CMAKE_ARGS+=-DWANT_TESTS=off
-.endif
-
-.if ${PORT_OPTIONS:MVORBIS}
-CMAKE_ARGS+=	-DWANT_VORBIS=ON
-LIB_DEPENDS+=	vorbis:${PORTSDIR}/audio/libvorbis \
-		ogg:${PORTSDIR}/audio/libogg
-.else
-CMAKE_ARGS+=	-DWANT_VORBIS=OFF
-.endif
-
-.if ${PORT_OPTIONS:MFLAC}
-CMAKE_ARGS+=	-DWANT_FLAC=ON
-LIB_DEPENDS+=	FLAC:${PORTSDIR}/audio/flac
-.else
-CMAKE_ARGS+=	-DWANT_FLAC=OFF
-.endif
-
-.if ${PORT_OPTIONS:MOPENAL}
-CMAKE_ARGS+=	-DWANT_OPENAL=ON
-USE_OPENAL=	soft
-.else
-CMAKE_ARGS+=	-DWANT_OPENAL=OFF
-.endif
-
-.if ${PORT_OPTIONS:MPHYSFS}
-CMAKE_ARGS+=	-DWANT_PHYSFS=ON
-LIB_DEPENDS+=	physfs:${PORTSDIR}/devel/physfs
-.else
-CMAKE_ARGS+=	-DWANT_PHYSFS=OFF
-.endif
-
-.if defined(WITH_PHYSFS)
-PLIST_SUB+=	PHYSFS=""
-.else
-PLIST_SUB+=	PHYSFS="@comment "
-.endif
-
-.if defined(WITH_DEMOS)
-PLIST_SUB+=	DEMOS=""
-.else
-PLIST_SUB+=	DEMOS="@comment "
-.endif
-
-post-install:
-	@${CP} -p ${WRKSRC}/allegro5.cfg ${PREFIX}/etc/allegro5.cfg.sample
-
-.if ${PORT_OPTIONS:MEXAMPLES}
-	@(cd ${WRKSRC}/examples && ${COPYTREE_SHARE} \* ${EXAMPLESDIR})
-.endif
-
-.if ${PORT_OPTIONS:MDEMOS}
-	@(cd ${WRKSRC} && ${COPYTREE_SHARE} demos ${EXAMPLESDIR})
-.endif
-
-.if ${PORT_OPTIONS:MMANPAGES}
-	@cd ${WRKSRC}/docs/man/ && \
-		${FIND} . -type f -and -name "*.3" -exec ${INSTALL_MAN} {} ${PREFIX}/man/man3/{} \;
+.if ${PORT_OPTIONS:MPULSEAUDIO}
+LIB_DEPENDS+=	pulse:${PORTSDIR}/audio/pulseaudio
 .endif
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+BUILD_DEPENDS+=	${LOCALBASE}/bin/pandoc:${PORTSDIR}/textproc/hs-pandoc
+.endif
+
+PORTDOCS=	*
+PORTEXAMPLES=	*
+EXAMPLESDIR=	${PREFIX}/share/examples/allegro
+
+DOCSRCDIR1=	${WRKSRC}
+DOC_FILES1=	README.txt
+DOCSRCDIR2=	${WRKSRC}/docs
+
+.include <bsd.port.options.mk>
+
+post-patch:
+	@${REINPLACE_CMD} -e 's|lib$${LIB_SUFFIX}/pkgconfig|libdata/pkgconfig|' \
+		${WRKSRC}/CMakeLists.txt
+	@${REINPLACE_CMD} -e 's|malloc.h|stdlib.h|' \
+		${WRKSRC}/addons/audio/pulseaudio.c
+
+post-install:
+	@${INSTALL_MAN} ${WRKSRC}/docs/man/* ${MAN3PREFIX}/man/man3
+
+.if ${PORT_OPTIONS:MDOCS}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${DOCSDIR}
-	@(cd ${WRKSRC}/docs && ${COPYTREE_SHARE} "src html" ${DOCSDIR})
+	@(cd ${DOCSRCDIR2} && ${COPYTREE_SHARE} "html src" ${DOCSDIR})
+.endif
+
+.if ${PORT_OPTIONS:MEXAMPLES}
+	@cd ${WRKSRC}/examples && ${COPYTREE_SHARE} . ${EXAMPLESDIR}
 .endif
 
 .include <bsd.port.mk>

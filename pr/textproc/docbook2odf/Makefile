@@ -18,14 +18,14 @@ RUN_DEPENDS=	convert:${PORTSDIR}/graphics/ImageMagick \
 		zip:${PORTSDIR}/archivers/zip \
 		p5-Archive-Zip>=0:${PORTSDIR}/archivers/p5-Archive-Zip
 
+USES=		desktop-file-utils
 USE_PERL5=	yes
 USE_PERL5_RUN=	yes
-USE_GNOME=	desktopfileutils
 NO_BUILD=	yes
 
 PORTEXAMPLES=	*
 
-MAN1=		docbook2odf.1
+MAN1=		${PORTNAME}.1
 
 .include <bsd.port.options.mk>
 
@@ -42,18 +42,16 @@ post-patch:
 
 do-install:
 	${LN} -sf ${DATADIR}/utils/${PORTNAME} ${PREFIX}/bin
-	${MKDIR} ${DATADIR}
+	@${MKDIR} ${DATADIR}
 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} "tests utils xsl" ${DATADIR})
 	@(cd ${DATADIR}/utils && ${CHMOD} 555 *)
-	${MKDIR} ${PREFIX}/share/applications
+	@${MKDIR} ${PREFIX}/share/applications
 	${INSTALL_DATA} ${WRKSRC}/bindings/desktop/${PORTNAME}.desktop ${PREFIX}/share/applications
+	${LN} -sf ${EXAMPLESDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
 	${INSTALL_MAN} ${WRKSRC}/docs/${PORTNAME}.1 ${MAN1PREFIX}/man/man1
 
 .if ${PORT_OPTIONS:MEXAMPLES}
 	@(cd ${WRKSRC}/examples && ${COPYTREE_SHARE} . ${EXAMPLESDIR})
 .endif
-
-	${LN} -sf ${EXAMPLESDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

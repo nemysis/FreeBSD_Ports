@@ -19,7 +19,7 @@ USE_GMAKE=	yes
 USE_DOS2UNIX=	*.cpp *.h *.ini Makefile
 ALL_TARGET=	battle
 USE_SDL=	sdl image mixer
-USE_GNOME=	desktopfileutils
+USES=		desktop-file-utils
 MAKE_JOBS_SAFE=	yes
 
 pre-extract:
@@ -41,8 +41,5 @@ do-install:
 	${LN} -sf ${DATADIR}/gfx/SB.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
 	@${MKDIR} ${PREFIX}/share/applications
 	${INSTALL_DATA} ${WRKSRC}/linux/*.desktop ${PREFIX}/share/applications
-
-post-install:
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

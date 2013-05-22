@@ -2,8 +2,7 @@
 # $FreeBSD: head/games/connectagram/Makefile 312757 2013-02-22 09:17:37Z pclin $
 
 PORTNAME=	connectagram
-PORTVERSION=	1.1.0
-PORTREVISION=	1
+PORTVERSION=	1.1.1
 CATEGORIES=	games
 MASTER_SITES=	http://gottcode.org/${PORTNAME}/
 EXTRACT_SUFX=	-src.tar.bz2
@@ -14,8 +13,8 @@ COMMENT=	Word unscrambling game
 LICENSE=	GPLv3
 
 USE_BZIP2=	yes
-USE_QT4=	moc_build qmake_build rcc_build gui network iconengines imageformats
 USES=		desktop-file-utils
+USE_QT4=	moc_build qmake_build rcc_build gui network iconengines imageformats
 INSTALLS_ICONS=	yes
 MAKE_JOBS_SAFE=	yes
 
@@ -37,7 +36,5 @@ post-install:
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
-
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

@@ -2,8 +2,7 @@
 # $FreeBSD: head/games/domination/Makefile 313844 2013-03-10 21:50:38Z beech $
 
 PORTNAME=	domination
-PORTVERSION=	1.1.1.3
-PORTREVISION=	1
+PORTVERSION=	1.1.1.4
 CATEGORIES=	games java
 MASTER_SITES=	SF/${PORTNAME}/${PORTNAME:S/d/D/}/${PORTVERSION}/:game  \
 		http://domination.sourceforge.net/maps/

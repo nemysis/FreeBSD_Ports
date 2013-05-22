@@ -22,5 +22,3 @@ share/sounds/gno3dtet/screwd.wav
 @dirrm share/gnome/help/gno3dtet
 @dirrmtry share/games
 @dirrmtry share/applications
-@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true

@@ -1,4 +1,4 @@
-# $FreeBSD: head/net-p2p/qbittorrent/Makefile 311354 2013-02-01 06:59:21Z rm $
+# $FreeBSD: head/net-p2p/qbittorrent/Makefile 316355 2013-04-23 14:20:25Z bapt $
 
 PORTNAME=	qbittorrent
 PORTVERSION=	3.0.9
@@ -15,11 +15,10 @@ LICENSE=	GPLv2
 LIB_DEPENDS=	torrent-rasterbar.7:${PORTSDIR}/net-p2p/libtorrent-rasterbar-16 \
 		execinfo:${PORTSDIR}/devel/libexecinfo \
 
+USES=		pkgconfig
 HAS_CONFIGURE=	yes
-USE_PKGCONFIG=	build
 USE_QT4=	corelib network qmake_build moc_build rcc_build
 QT_NONSTANDARD=	yes
-
 MAKE_JOBS_SAFE=	yes
 
 MAN1?=		qbittorrent.1

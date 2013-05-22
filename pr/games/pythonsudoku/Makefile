@@ -1,4 +1,4 @@
-# Created by:	nemysis@gmx.ch
+# Created by: nemysis <nemysis@gmx.ch>
 # $FreeBSD$
 
 PORTNAME=	pythonsudoku
@@ -22,7 +22,8 @@ RUN_DEPENDS=	${PYGAME} \
 		${PYTHON_PKGNAMEPREFIX}reportlab>=0:${PORTSDIR}/print/py-reportlab
 
 USE_BZIP2=	yes
-USE_GNOME=	pygtk2 desktopfileutils
+USES=		desktop-file-utils
+USE_GNOME=	pygtk2
 USE_PYTHON=	yes
 USE_PYDISTUTILS=yes
 NO_BUILD=	yes
@@ -39,8 +40,7 @@ DOCSRCDIR2=	${WRKSRC}/doc
 DOCSDIR2=	${DOCSDIR}/doc
 DOC_FILES2=	*.png *.html *.txt *.css
 
-DESKTOP_ENTRIES="Python Sudoku" "${COMMENT}" \
-		"${PREFIX}/share/pixmaps/${PORTNAME}.png" \
+DESKTOP_ENTRIES="Python Sudoku" "${COMMENT}" ${PORTNAME} \
 		"${PORTNAME}" "Game;LogicGame;" false
 
 OPTIONS_DEFINE=	NLS
@@ -56,26 +56,26 @@ PLIST_SUB+=	NLS="@comment "
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|/usr/games|${PREFIX}/bin|' \
-	-e 's|/usr/share/games|${PREFIX}/share|' \
+		-e 's|/usr/share/games|${PREFIX}/share|' \
 		${WRKSRC}/setup.cfg
 	@${REINPLACE_CMD} -e 's|#localedir = "DIRECTORY"|localedir = "${PREFIX}/share/locale"|' \
 		${WRKSRC}/pythonsudoku/config.py
 
 .if ! ${PORT_OPTIONS:MNLS}
-	@${REINPLACE_CMD} -i '' '/for lingua in linguas():/,/\["locale\/%s\/LC_MESSAGES\/pythonsudoku.mo" % lingua\]))/s/^/#/' ${WRKSRC}/setup.py
+	@${REINPLACE_CMD} -i '' '/for lingua in linguas():/,/\["locale\/%s\/LC_MESSAGES\/pythonsudoku.mo" % lingua\]))/s/^/#/' \
+		${WRKSRC}/setup.py
 .endif
 
 post-install:
 	@cd ${PREFIX}/bin && ${LN} -sf pysdk-gui.py ${PORTNAME}
-	@cd ${WRKSRC}/doc && ${INSTALL_MAN} *.6 ${MAN6PREFIX}/man/man6/
-	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps/
+	cd ${WRKSRC}/doc && ${INSTALL_MAN} *.6 ${MAN6PREFIX}/man/man6
+	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${DOCSDIR}
-	${MKDIR} ${DOCSDIR2}
+	@${MKDIR} ${DOCSDIR2}
 	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${DOCSDIR2}
 .endif
-	@-update-desktop-database
 
 .include <bsd.port.mk>

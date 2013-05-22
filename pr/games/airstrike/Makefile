@@ -16,13 +16,13 @@ LICENSE=	GPLv2
 WRKSRC=		${WRKDIR}/${PORTNAME}-pre6a-src
 
 USE_SDL=	image mixer sdl
-USE_GNOME=	desktopfileutils
+USES=		desktop-file-utils
 USE_GMAKE=	yes
 ALL_TARGET=
 MAKE_JOBS_SAFE=	yes
 INSTALLS_ICONS=	yes
 
-MAN6=		airstrike.6
+MAN6=		${PORTNAME}.6
 
 PORTDOCS=	*
 
@@ -31,9 +31,8 @@ DOC_FILES1=	ChangeLog README
 
 DOCSRCDIR2=	${WRKSRC}/doc
 DOCSDIR2=	${DOCSDIR}/doc
-DOC_FILES2=	1.0-features 33fps.out BUGS TODO WHISHLIST animations.txt \
-		code.txt collisions.tm design.dia design.pdf fun.ps guide.txt \
-		how-it-works.txt levels.txt performance.txt physics.txt release-plan.txt
+DOC_FILES2=	1.0-features 33fps.out BUGS TODO WHISHLIST *.txt \
+		collisions.tm design.dia design.pdf fun.ps
 
 SUB_FILES=	${PORTNAME} \
 		pkg-message
@@ -61,7 +60,6 @@ do-install:
 	${INSTALL_MAN} ${WRKSRC}/doc/${MAN6} ${MAN6PREFIX}/man/man6
 
 post-install:
-
 .if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${DOCSDIR}

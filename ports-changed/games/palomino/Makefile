@@ -1,5 +1,5 @@
 # Created by: Andrew Pantyukhin <infofarmer@FreeBSD.org>
-# $FreeBSD: head/games/palomino/Makefile 310871 2013-01-23 15:00:18Z makc $
+# $FreeBSD: head/games/palomino/Makefile 316786 2013-04-29 08:57:12Z bapt $
 
 PORTNAME=	palomino
 PORTVERSION=	20121026
@@ -22,7 +22,7 @@ LIB_DEPENDS=	osg:${PORTSDIR}/graphics/osg
 USE_BZIP2=	yes
 USE_XZ=		yes
 USE_GL=		gl
-USE_CMAKE=	yes
+USES=		cmake
 USE_LUA=	5.1
 LUA_COMPS=	lua:build
 MAKE_JOBS_SAFE=	yes
@@ -42,8 +42,10 @@ SDL_DESC=	SDL support for input and sound
 PLIB_DESC=	Enable sound support through plib
 GUI_DESC=	Enable FLTK GUI
 
+PORTDOCS=	*
+
 DESKTOP_ENTRIES=	"Palomino" "${COMMENT}" "${PORTNAME}" \
-			"${PORTNAME}" "Game;ArcadeGame;" ${FALSE}
+			"${PORTNAME}" "Game;ArcadeGame;" false
 
 .include <bsd.port.options.mk>
 
@@ -63,18 +65,6 @@ BUILD_DEPENDS+=	${LOCALBASE}/lib/libplibsl.a:${PORTSDIR}/x11-toolkits/plib
 .if ${PORT_OPTIONS:MGUI}
 LIB_DEPENDS+=	fltk:${PORTSDIR}/x11-toolkits/fltk
 .endif
-
-do-extract:
-	@${RM} -rf ${WRKDIR}
-	@${MKDIR} ${WRKDIR}
-	@cd ${WRKDIR}; \
-	for distfile in ${DISTFILES}; do \
-		if ${ECHO_CMD} $$distfile | ${GREP} -q txz$$; then \
-			${XZ_CMD} ${EXTRACT_BEFORE_ARGS} ${_DISTDIR}/$$distfile ${EXTRACT_AFTER_ARGS}; \
-		else \
-			${BZIP2_CMD} ${EXTRACT_BEFORE_ARGS} ${_DISTDIR}/$$distfile ${EXTRACT_AFTER_ARGS}; \
-		fi; \
-	done
 
 post-patch:
 	@${FIND} ${WRKSRC}/CMakeModules -type f -print0 | ${XARGS} -0 \
@@ -104,10 +94,10 @@ post-patch:
 	@${REINPLACE_CMD} -e 's|doc/html/|${DOCSDIR}/|' ${WRKSRC}/src/gui/gui.cc
 
 post-install:
-	${MKDIR} ${DATADIR}
+	@${MKDIR} ${DATADIR}
 	cd ${WRKSRC}/ && ${COPYTREE_SHARE} "data scripts" ${DATADIR}
 # docs are used from within the game, so this is unconditional
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	cd ${WRKSRC}/doc/html && ${COPYTREE_SHARE} . ${DOCSDIR}
 
 	${LN} -sf ${DOCSDIR}/images/palominoLogo.png \

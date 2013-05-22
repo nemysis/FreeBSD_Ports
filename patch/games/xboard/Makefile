@@ -1,18 +1,17 @@
 # Created by: xaa@stack.nl
-# $FreeBSD: head/games/xboard/Makefile 312811 2013-02-23 13:07:32Z johans $
+# $FreeBSD: head/games/xboard/Makefile 318248 2013-05-15 16:58:53Z johans $
 
 PORTNAME=	xboard
-PORTVERSION=	4.7.0
+PORTVERSION=	4.7.1
+PORTREVISION=	1
 CATEGORIES=	games
 MASTER_SITES=	GNU
-MASTER_SITE_SUBDIR=	xboard
 
 MAINTAINER=	johans@FreeBSD.org
 COMMENT=	X frontend for Crafty, GNUChess, Chess Servers, or e-mail chess
 
 LICENSE=	GPLv3
 
-BUILD_DEPENDS=	update-mime-database:${PORTSDIR}/misc/shared-mime-info
 LIB_DEPENDS=	cairo:${PORTSDIR}/graphics/cairo
 
 OPTIONS_DEFINE=	CRAFTY FAIRYMAX GNUCHESS KNIGHTCAP PHALANX
@@ -23,16 +22,20 @@ GNUCHESS_DESC=	Install GnuChess engine
 KNIGHTCAP_DESC=	Install KnightCap engine
 PHALANX_DESC=	Install phalanx engine
 
+USES=		desktop-file-utils pkgconfig shared-mime-info
 USE_XORG=	xt xpm xaw
-USE_GNOME=	desktopfileutils librsvg2
-USE_PKGCONFIG=	build
+USE_GNOME=	librsvg2
 GNU_CONFIGURE=	yes
-CONFIGURE_ARGS+=CFLAGS="-I${LOCALBASE}/include -L${LOCALBASE}/lib" \
-		MKDIR_P="${MKDIR}"
-MAN6=		xboard.6
-INFO=		xboard
 USE_PERL5_BUILD=yes
 INSTALLS_ICONS=	yes
+
+CONFIGURE_ARGS+=CFLAGS="-I${LOCALBASE}/include -L${LOCALBASE}/lib" \
+		MKDIR_P="${MKDIR}"
+
+MAN6=		xboard.6
+
+INFO=		xboard
+
 DATADIR=	${PREFIX}/share/games/${PORTNAME}
 
 .include <bsd.port.options.mk>
@@ -58,7 +61,7 @@ RUN_DEPENDS+=	phalanx:${PORTSDIR}/games/phalanx
 .endif
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 CONFIGURE_ARGS+=	--disable-nls
@@ -81,8 +84,5 @@ post-patch:
 post-install:
 	@${INSTALL_SCRIPT} ${WRKSRC}/cmail ${PREFIX}/bin/
 	@${CP} -pn ${PREFIX}/etc/xboard.conf.dist ${PREFIX}/etc/xboard.conf
-
-	@-update-desktop-database -q
-	@-update-mime-database ${PREFIX}/share/mime
 
 .include <bsd.port.post.mk>

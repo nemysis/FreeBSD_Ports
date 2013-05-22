@@ -17,8 +17,8 @@ RUN_DEPENDS=	gnome-icon-theme>=0:${PORTSDIR}/misc/gnome-icon-theme
 
 FETCH_ARGS?=	-Fpr
 USE_BZIP2=	yes
-USES=		pathfix
-USE_GNOME=	desktopfileutils gconf2 gnomeprefix libglade2
+USES=		desktop-file-utils pathfix
+USE_GNOME=	gconf2 gnomeprefix libglade2
 USE_GMAKE=	yes
 USE_AUTOTOOLS=	libtool
 USE_LDCONFIG=	yes
@@ -43,7 +43,7 @@ OPTIONS_DEFINE=	NLS
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 CONFIGURE_ARGS+=--disable-nls
@@ -73,7 +73,5 @@ post-install:
 	@${MKDIR} ${DOCSDIR2}
 	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${DOCSDIR2}
 .endif
-
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

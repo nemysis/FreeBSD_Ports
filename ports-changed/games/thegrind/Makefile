@@ -1,5 +1,5 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/games/thegrind/Makefile 312837 2013-02-23 16:16:37Z miwi $
+# $FreeBSD: head/games/thegrind/Makefile 316343 2013-04-23 10:47:02Z bapt $
 
 PORTNAME=	thegrind
 PORTVERSION=	0.1.2
@@ -18,11 +18,12 @@ LIB_DEPENDS=	radius:${PORTSDIR}/graphics/radius-engine \
 		physfs.1:${PORTSDIR}/devel/physfs
 RUN_DEPENDS=	zip:${PORTSDIR}/archivers/zip
 
-GNU_CONFIGURE=	yes
-USE_PKGCONFIG=	build
-ALL_TARGET=	${PORTNAME}
 USE_SDL=	sdl sound
 USE_GL=		glu
+USES=		pkgconfig 
+GNU_CONFIGURE=	yes
+ALL_TARGET=	${PORTNAME}
+
 MAKE_JOBS_SAFE=	yes
 
 PLIST_FILES=	bin/${PORTNAME} \
@@ -38,7 +39,7 @@ PORTDOCS=	ChangeLog
 
 post-install:
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

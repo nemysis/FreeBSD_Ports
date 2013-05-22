@@ -1,5 +1,5 @@
 # Created by: nork@FreeBSD.org
-# $FreeBSD: head/graphics/OpenEXR/Makefile 310533 2013-01-17 03:25:07Z swills $
+# $FreeBSD: head/graphics/OpenEXR/Makefile 316343 2013-04-23 10:47:02Z bapt $
 
 PORTNAME=	OpenEXR
 PORTVERSION=	1.7.1
@@ -16,8 +16,8 @@ LIB_DEPENDS=	Imath:${PORTSDIR}/graphics/ilmbase
 
 WRKSRC=		${WRKDIR}/${DISTNAME}
 
+USES=		pathfix pkgconfig
 USE_GMAKE=	yes
-USE_PKGCONFIG=	build
 USE_LDCONFIG=	yes
 USE_AUTOTOOLS=	libtool
 GNU_CONFIGURE=	YES
@@ -48,9 +48,6 @@ post-patch:
 	@${REINPLACE_CMD} \
 		-e 's|examplesdir = $$(datadir)/doc/OpenEXR-@OPENEXR_VERSION@/examples|examplesdir = $$(prefix)/share/examples/OpenEXR-@OPENEXR_VERSION@|' \
 		${WRKSRC}/IlmImfExamples/Makefile.in
-
-	@${REINPLACE_CMD} -e 's|pkgconfigdir = $$(libdir)/pkgconfig|pkgconfigdir = $$(prefix)/libdata/pkgconfig|' \
-		${WRKSRC}/Makefile.in
 
 .if ! ${PORT_OPTIONS:MDOCS}
 	@${REINPLACE_CMD} -i '' '/EXTRA_DIST =/,/MultiViewOpenEXR.pdf/s/^/#/' \

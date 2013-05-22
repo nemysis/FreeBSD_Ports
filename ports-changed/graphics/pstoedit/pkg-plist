@@ -46,7 +46,9 @@ share/aclocal/pstoedit.m4
 %%DATADIR%%/safer.ps
 %%DATADIR%%/svg.fmp
 %%DATADIR%%/swffonts/default.fdb
+%%DATADIR%%/unix.fmp
 %%DATADIR%%/wemf.fmp
+%%DATADIR%%/windows.fmp
 @dirrm %%DATADIR%%/swffonts
 @dirrm %%DATADIR%%
 @dirrm lib/pstoedit

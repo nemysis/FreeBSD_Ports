@@ -1,5 +1,5 @@
 # Created by: ijliao
-# $FreeBSD: head/graphics/cbrpager/Makefile 310871 2013-01-23 15:00:18Z makc $
+# $FreeBSD: head/graphics/cbrpager/Makefile 316596 2013-04-26 10:44:28Z ak $
 
 PORTNAME=	cbrpager
 PORTVERSION=	0.9.22
@@ -18,7 +18,7 @@ COMMENT=	Viewer for cbr (comic book archive) files
 LICENSE=	GPLv3
 
 GNU_CONFIGURE=	yes
-USE_PKGCONFIG=	build
+USES=		pkgconfig
 USE_GNOME=	libgnomeui
 MAKE_JOBS_SAFE=	yes
 
@@ -38,7 +38,7 @@ DESKTOP_ENTRIES="cbrPager" "Comic book viewer" "${PORTNAME}" \
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 PLIST_FILES+=	share/locale/es/LC_MESSAGES/${PORTNAME}.mo \
 		share/locale/fr/LC_MESSAGES/${PORTNAME}.mo

@@ -81,5 +81,3 @@ share/pixmaps/swine.png
 @dirrm %%DATADIR%%
 @dirrmtry share/applications
 @dirrm lib/swine
-@exec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true
-@unexec %%LOCALBASE%%/bin/update-desktop-database -q || /usr/bin/true

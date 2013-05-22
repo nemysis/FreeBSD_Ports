@@ -17,7 +17,7 @@ WRKSRC=		${WRKDIR}/${PORTNAME}-${PORTVERSION}
 
 USE_BZIP2=	yes
 USE_QT4=	moc_build qmake_build rcc_build uic_build iconengines imageformats
-USE_GNOME=	desktopfileutils
+Uses=		desktop-file-utils
 INSTALLS_ICONS=	yes
 MAKE_JOBS_SAFE=	yes
 
@@ -30,17 +30,15 @@ post-extract:
 
 do-configure:
 	@cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} \
-		${QMAKE} ${QMAKEFLAGS} PREFIX=${PREFIX} ${WRKSRC}/${PORTNAME}.pro
+		${QMAKE} ${QMAKEFLAGS} PREFIX=${PREFIX}
 
 post-install:
 	@(cd ${WRKSRC}/icons && ${COPYTREE_SHARE} oxygen ${PREFIX}/share/icons)
-	${INSTALL_DATA} ${WRKSRC}/icons/${PORTNAME}.png ${PREFIX}/share/pixmaps
+	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
 .if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
-
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

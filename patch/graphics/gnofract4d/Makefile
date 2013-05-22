@@ -13,16 +13,15 @@ LICENSE=	BSD
 
 LIB_DEPENDS=	jpeg:${PORTSDIR}/graphics/jpeg \
 		png15:${PORTSDIR}/graphics/png
-BUILD_DEPENDS=	update-mime-database:${PORTSDIR}/misc/shared-mime-info
 
-Uses=	pathfix
-USE_GNOME=	desktopfileutils gnomeprefix intlhack \
+Uses=		desktop-file-utils pathfix shared-mime-info
+USE_GNOME=	gnomeprefix intlhack \
 		libgnomeui lthack pygtk2
 USE_PYTHON=	yes
 USE_PYDISTUTILS=yes
 
 CFLAGS+=	-I${LOCALBASE}/include
-PORTDOCS=	README COPYING
+PORTDOCS=	README
 INSTALLS_EGGINFO=	yes
 
 .include <bsd.port.options.mk>
@@ -34,7 +33,7 @@ post-patch:
 		${REINPLACE_CMD} \
 		-e "s,\([\"']\)share/\([^/]*\)/gnofract4d\1,\1${DATADIR:C/${PREFIX}\///}/\2\1," {} \;
 
-	# fix NOPORTDOCS
+	# fix PORTDOCS
 	${REINPLACE_CMD} -e '249,251d' ${WRKSRC}/setup.py
 
 	# fixup library detection
@@ -48,8 +47,5 @@ post-install:
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
-
-	@-update-desktop-database -q
-	@-update-mime-database ${PREFIX}/share/mime
 
 .include <bsd.port.mk>

@@ -25,8 +25,7 @@ SUB_FILES=	pkg-message
 USE_AUTOTOOLS=	libltdl
 GNU_CONFIGURE=	yes
 CONFIGURE_ARGS=	--with-libgmp-prefix=${LOCALBASE} --enable-release
-USES=		pure pathfix
-USE_PKGCONFIG=	build
+USES=		pure pathfix pkgconfig
 USE_LDCONFIG=	yes
 MAKE_JOBS_SAFE=	yes
 

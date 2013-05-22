@@ -13,9 +13,8 @@ COMMENT=	GNOME version of the classic 3D-ified T*tris
 
 EXTRACT_DEPENDS=intltoolize:${PORTSDIR}/textproc/intltool
 
-USES=		pathfix
-USE_PKGCONFIG=	build
-USE_GNOME=	desktopfileutils gnomeprefix intlhack libgnomeui librsvg2
+USES=		desktop-file-utils pathfix pkgconfig
+USE_GNOME=	gnomeprefix intlhack libgnomeui librsvg2
 INSTALLS_OMF=	yes
 USE_GMAKE=	yes
 USE_AUTOTOOLS=	autoheader automake aclocal autoconf
@@ -29,7 +28,7 @@ OPTIONS_DEFINE=	NLS
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 CONFIGURE_ARGS+=	--disable-nls
@@ -58,7 +57,5 @@ post-install:
 	${CHMOD} 2555 ${PREFIX}/bin/gno3dtet
 	${CHOWN} root:games ${PREFIX}/share/games/gno3dtet.hof
 	${CHMOD} 664 ${PREFIX}/share/games/gno3dtet.hof
-
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

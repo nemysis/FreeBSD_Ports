@@ -18,11 +18,10 @@ LICENSE_PERMS_CCbyNCSA3=dist-mirror pkg-mirror auto-accept
 
 USE_GMAKE=	yes
 USE_SDL=	image mixer sdl
-USE_GNOME=	desktopfileutils
+USES=		desktop-file-utils
+INSTALLS_ICONS=	yes
 
 PORTDOCS=	AUTHORS.txt CHANGES.txt README.txt TODO.txt
-
-INSTALLS_ICONS=	yes
 
 DESKTOP_ENTRIES="Pop Star" "${COMMENT}" ${PORTNAME} \
 		"${PORTNAME}" "Game;ArcadeGame;" false
@@ -31,7 +30,7 @@ DESKTOP_ENTRIES="Pop Star" "${COMMENT}" ${PORTNAME} \
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${PREFIX}/bin
-	(cd ${WRKSRC}/data && ${COPYTREE_SHARE} "images music sounds" ${DATADIR})
+	@(cd ${WRKSRC}/data && ${COPYTREE_SHARE} "images music sounds" ${DATADIR})
 	${LN} -sf ${WRKSRC}/data/images/title.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
 
 .if ${PORT_OPTIONS:MDOCS}

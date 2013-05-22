@@ -1,5 +1,5 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/games/glightoff/Makefile 309484 2012-12-25 14:28:20Z mva $
+# $FreeBSD: head/games/glightoff/Makefile 316464 2013-04-24 18:10:30Z ak $
 
 PORTNAME=	glightoff
 PORTVERSION=	1.0.0
@@ -14,7 +14,8 @@ LICENSE=	GPLv2
 
 GNU_CONFIGURE=	yes
 USE_GMAKE=	yes
-USE_GNOME=	desktopfileutils glib20 gtk20
+USES=		desktop-file-utils
+USE_GNOME=	glib20 gtk20
 USE_XORG=	x11
 
 CFLAGS+=	-I${LOCALBASE}/include
@@ -27,7 +28,7 @@ OPTIONS_DEFINE=	NLS
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 PLIST_SUB+=	NLS="@comment "
@@ -40,10 +41,8 @@ post-configure:
 
 post-install:
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
-
-	@-update-desktop-database -q
 
 .include <bsd.port.mk>

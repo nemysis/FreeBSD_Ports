@@ -1,4 +1,4 @@
-# $FreeBSD: head/devel/allegro-devel/Makefile 314960 2013-03-22 20:06:14Z makc $
+# $FreeBSD: head/devel/allegro-devel/Makefile 316333 2013-04-23 10:13:19Z bapt $
 
 PORTNAME=	allegro
 DISTVERSION=	4.4.2
@@ -13,10 +13,9 @@ COMMENT=	Cross-platform library for games and multimedia programming
 LICENSE=	ZLIB
 
 USE_GMAKE=	yes
-USES=		cmake
+USES=		cmake pkgconfig
 USE_XORG=	x11 xpm xext xcursor xxf86vm xxf86dga
 USE_LDCONFIG=	yes
-USE_PKGCONFIG=	build
 WANT_GNOME=	yes
 USE_GL=		gl glu
 

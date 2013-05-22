@@ -16,7 +16,7 @@ WRKSRC=		${WRKDIR}/fop-${DISTVERSION}
 
 USE_GMAKE=	yes
 USE_SDL=	image mixer sdl
-USE_GNOME=	desktopfileutils
+USES=		desktop-file-utils
 MAKE_JOBS_SAFE=	yes
 
 PORTDOCS=	CHANGES.txt README.txt TODO.txt

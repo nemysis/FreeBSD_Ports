@@ -26,11 +26,12 @@ DESKTOP_ENTRIES="Brickout" "${COMMENT}" "${PORTNAME}" \
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|brickout.sdl brickout.sdl|brickout brickout|' \
-	-e 's|IMAGEDIR=images/|IMAGEDIR=${DATADIR}/images/|' \
-	-e 's|IMAGEDIR=images-sdl/|IMAGEDIR=${DATADIR}/images-sdl/|' \
-	-e 's|SOUNDDIR=sounds/|SOUNDDIR=${DATADIR}/sounds/|' \
-	-e 's|MUSICDIR=music/|MUSICDIR=${DATADIR}/music/|' \
-	-e 's|CFLAGS=-O2 -Wall -I/usr/include|CFLAGS+=-I${PREFIX}/include|' ${WRKSRC}/Makefile
+		-e 's|IMAGEDIR=images/|IMAGEDIR=${DATADIR}/images/|' \
+		-e 's|IMAGEDIR=images-sdl/|IMAGEDIR=${DATADIR}/images-sdl/|' \
+		-e 's|SOUNDDIR=sounds/|SOUNDDIR=${DATADIR}/sounds/|' \
+		-e 's|MUSICDIR=music/|MUSICDIR=${DATADIR}/music/|' \
+		-e 's|CFLAGS=-O2 -Wall -I/usr/include|CFLAGS+=-I${PREFIX}/include|' \
+		${WRKSRC}/Makefile
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${PREFIX}/bin

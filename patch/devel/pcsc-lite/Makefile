@@ -17,14 +17,13 @@ USE_BZIP2=	yes
 GNU_CONFIGURE=	yes
 USE_GMAKE=	yes
 USE_PERL5_BUILD=yes
-USES=		pathfix
-USE_PKGCONFIG=	build
+USES=		pathfix pkgconfig
 USE_RC_SUBR=	pcscd
 
 USE_LDCONFIG=	yes
 CONFIGURE_ARGS=	--enable-usbdropdir=${PREFIX}/lib/pcsc/drivers/
 
-SUB_FILES=	 pkg-message
+SUB_FILES=	pkg-message
 
 MAN1=		pcsc-spy.1
 MAN5=		reader.conf.5
