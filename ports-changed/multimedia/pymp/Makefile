@@ -1,8 +1,9 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/multimedia/pymp/Makefile 307680 2012-11-23 15:03:34Z pawel $
+# $FreeBSD: head/multimedia/pymp/Makefile 310871 2013-01-23 15:00:18Z makc $
 
 PORTNAME=	pymp
 PORTVERSION=	1.1
+PORTREVISION=	1
 CATEGORIES=	multimedia python
 MASTER_SITES=	http://jdolan.dyndns.org/files/
 DIST_SUBDIR=	python
@@ -21,13 +22,13 @@ USE_GNOME=	pygtk2
 PORTDOCS=	CHANGELOG README
 
 DESKTOP_ENTRIES="Pymp" "${COMMENT}" "${PORTNAME}" \
-		"${PORTNAME}" "Application;AudioVideo;" false
+		"${PORTNAME}" "AudioVideo;Player;" false
 
 .include <bsd.port.options.mk>
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|' \
-	-e 's|PREFIX/lib/pymp|${DATADIR}|' ${WRKSRC}/${PORTNAME}
+		-e 's|PREFIX/lib/pymp|${DATADIR}|' ${WRKSRC}/${PORTNAME}
 	${RM} -f ${WRKSRC}/build.py
 
 do-build:
@@ -37,7 +38,7 @@ do-build:
 do-install:
 	${INSTALL_SCRIPT} ${WRKSRC}/${PORTNAME} ${PREFIX}/bin
 
-	${MKDIR} ${DATADIR}
+	@${MKDIR} ${DATADIR}
 .for d in *.py *.pyc *.pyo
 	${INSTALL_DATA} ${WRKSRC}/${d} ${DATADIR}
 .endfor
@@ -45,7 +46,7 @@ do-install:
 	${INSTALL_DATA} ${WRKSRC}/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

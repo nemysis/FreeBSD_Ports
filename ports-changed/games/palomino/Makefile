@@ -75,30 +75,35 @@ post-patch:
 	@${REINPLACE_CMD} -e '/FIND_PACKAGE(/ s|)| REQUIRED)|' \
 		${WRKSRC}/CMakeModules/libraries.cmake
 	@${REINPLACE_CMD} -e '/COMPILE_WITH_OSSIM/ d' ${WRKSRC}/CMakeLists.txt
-.if empty(PORT_OPTIONS:MJOYSTICK)
+
+.if ! ${PORT_OPTIONS:MJOYSTICK}
 	@${REINPLACE_CMD} -e '/COMPILE_WITH_LINUX_JOYSTICK/ d' ${WRKSRC}/CMakeLists.txt
 .endif
-.if empty(PORT_OPTIONS:MSDL)
+
+.if ! ${PORT_OPTIONS:MSDL}
 	@${REINPLACE_CMD} -e '/COMPILE_WITH_SDL/ d' ${WRKSRC}/CMakeLists.txt
 .endif
-.if empty(PORT_OPTIONS:MPLIB)
+
+.if ! ${PORT_OPTIONS:MPLIB}
 	@${REINPLACE_CMD} -e '/COMPILE_WITH_PLIB/ d' ${WRKSRC}/CMakeLists.txt
 .endif
-.if empty(PORT_OPTIONS:MGUI)
+
+.if ! ${PORT_OPTIONS:MGUI}
 	@${REINPLACE_CMD} -e '/COMPILE_WITH_FLTK/ d' ${WRKSRC}/CMakeLists.txt
 .endif
+
 	@${REINPLACE_CMD} -e 's|string sDataDir|&="${DATADIR}/data/"|'\
-	       	${WRKSRC}/src/base/conf.cc
+		${WRKSRC}/src/base/conf.cc
 	@${REINPLACE_CMD} -e '/LUABIND_SCRIPTS_DIR/ s|"scripts"|"${DATADIR}/scripts"|' \
-	       	${WRKSRC}/src/lua_bind/defs.hh
+		${WRKSRC}/src/lua_bind/defs.hh
 	@${REINPLACE_CMD} -e 's|doc/html/|${DOCSDIR}/|' ${WRKSRC}/src/gui/gui.cc
 
 post-install:
 	@${MKDIR} ${DATADIR}
-	cd ${WRKSRC}/ && ${COPYTREE_SHARE} "data scripts" ${DATADIR}
+	@(cd ${WRKSRC} && ${COPYTREE_SHARE} "data scripts" ${DATADIR})
 # docs are used from within the game, so this is unconditional
 	@${MKDIR} ${DOCSDIR}
-	cd ${WRKSRC}/doc/html && ${COPYTREE_SHARE} . ${DOCSDIR}
+	@(cd ${WRKSRC}/doc/html && ${COPYTREE_SHARE} . ${DOCSDIR})
 
 	${LN} -sf ${DOCSDIR}/images/palominoLogo.png \
 		${PREFIX}/share/pixmaps/${PORTNAME}.png

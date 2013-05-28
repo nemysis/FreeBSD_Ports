@@ -45,7 +45,7 @@ do-install:
 	${LN} -sf ${DATADIR}/html/gfx/anchor.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

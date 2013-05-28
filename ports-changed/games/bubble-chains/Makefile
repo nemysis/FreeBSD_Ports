@@ -1,5 +1,5 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/games/bubble-chains/Makefile 314012 2013-03-13 01:38:56Z beech $
+# $FreeBSD: head/games/bubble-chains/Makefile 316755 2013-04-28 21:38:56Z beech $
 
 PORTNAME=	bubble-chains
 PORTVERSION=	0.1.1
@@ -59,7 +59,7 @@ do-install:
 		${PREFIX}/share/pixmaps/${PORTNAME}.ico
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

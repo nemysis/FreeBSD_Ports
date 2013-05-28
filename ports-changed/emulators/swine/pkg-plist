@@ -71,12 +71,12 @@ share/pixmaps/swine.png
 %%DATADIR%%/images/world_go.png
 %%DATADIR%%/images/wrench.png
 %%DATADIR%%/images/wrench_orange.png
-%%DATADIR%%/translations/de.qm
-%%DATADIR%%/translations/en.qm
-%%DATADIR%%/translations/es.qm
-%%DATADIR%%/translations/fr.qm
-%%DATADIR%%/translations/he.qm
-@dirrm %%DATADIR%%/translations
+%%NLS%%%%DATADIR%%/translations/de.qm
+%%NLS%%%%DATADIR%%/translations/en.qm
+%%NLS%%%%DATADIR%%/translations/es.qm
+%%NLS%%%%DATADIR%%/translations/fr.qm
+%%NLS%%%%DATADIR%%/translations/he.qm
+%%NLS%%@dirrm %%DATADIR%%/translations
 @dirrm %%DATADIR%%/images
 @dirrm %%DATADIR%%
 @dirrmtry share/applications

@@ -31,7 +31,7 @@ post-patch:
 	@${FIND} ${WRKDIR} -name .xvpics | ${XARGS} ${RM} -rf
 
 do-install:
-	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${PREFIX}/bin/
+	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${PREFIX}/bin
 
 .  for d in embedded images music sounds
 	@(cd ${WRKSRC}/data && ${COPYTREE_SHARE} ${d} ${DATADIR})
@@ -40,7 +40,7 @@ do-install:
 	${LN} -sf ${PREFIX}/share/bugsquish/embedded/images/icon.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

@@ -1,5 +1,5 @@
 # Created by: Andrew Pantyukhin <infofarmer@FreeBSD.org>
-# $FreeBSD: head/games/anki/Makefile 310922 2013-01-24 10:09:30Z zeising $
+# $FreeBSD: head/games/anki/Makefile 316434 2013-04-24 13:36:18Z ak $
 
 PORTNAME=	anki
 PORTVERSION=	2.0.8
@@ -25,7 +25,7 @@ RUN_DEPENDS:=	${BUILD_DEPENDS} \
 
 USE_PYTHON=	-2.7
 USE_QT4=	network_run webkit_run
-USE_GETTEXT=	run
+USES=		gettext:run
 
 MAN1=		${PORTNAME}.1
 

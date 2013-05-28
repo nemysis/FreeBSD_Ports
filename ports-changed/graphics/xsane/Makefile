@@ -1,13 +1,10 @@
 # Created by: Dominik Brettnacher <domi@nonsensss.de>
-# $FreeBSD: head/graphics/xsane/Makefile 311563 2013-02-04 02:58:12Z amdmi3 $
+# $FreeBSD: head/graphics/xsane/Makefile 316464 2013-04-24 18:10:30Z ak $
 
 PORTNAME=	xsane
-PORTVERSION=	0.998
-PORTREVISION=	3
+PORTVERSION=	0.999
 CATEGORIES=	graphics
-MASTER_SITES=	http://www.xsane.org/download/ \
-		http://gd.tuwien.ac.at/hci/sane/xsane/ \
-		ftp://ftp.mostang.com/pub/sane/xsane/
+MASTER_SITES=	http://www.xsane.org/download/
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Gtk-based X11 frontend for SANE (Scanner Access Now Easy)
@@ -16,17 +13,23 @@ LICENSE=	GPLv2
 
 LIB_DEPENDS=	jpeg:${PORTSDIR}/graphics/jpeg \
 		png15:${PORTSDIR}/graphics/png \
-		tiff:${PORTSDIR}/graphics/tiff
+		tiff:${PORTSDIR}/graphics/tiff \
+		freetype:${PORTSDIR}/print/freetype2 \
+		lcms.1:${PORTSDIR}/graphics/lcms
 BUILD_DEPENDS=	scanimage:${PORTSDIR}/graphics/sane-backends
 RUN_DEPENDS:=	${BUILD_DEPENDS}
 
-USE_GMAKE=	yes
+USES=		desktop-file-utils
+USE_GNOME=	gtk20 gdkpixbuf2
 GNU_CONFIGURE=	yes
-USE_GNOME=	gtk20
+USE_GMAKE=	yes
+
 CPPFLAGS+=	-I${LOCALBASE}/include
 LDFLAGS+=	-L${LOCALBASE}/lib
 
-MAN1=		xsane.1
+MAN1=		${PORTNAME}.1
+
+PORTDOCS=	*.html *.jpg
 
 OPTIONS_DEFINE=	GIMP NLS
 GIMP_DESC=	GIMP plugin support
@@ -34,7 +37,7 @@ GIMP_DESC=	GIMP plugin support
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 CONFIGURE_ENV+=	LIBS="-L${LOCALBASE}/lib -lintl"
 PLIST_SUB+=	NLS=""
 .else
@@ -44,17 +47,25 @@ PLIST_SUB+=	NLS="@comment "
 
 .if ${PORT_OPTIONS:MGIMP}
 SUB_FILES+=	pkg-message
-LIB_DEPENDS+=	gimp:${PORTSDIR}/graphics/gimp-app
+RUN_DEPENDS+=	${LOCALBASE}/bin/gimp:${PORTSDIR}/graphics/gimp-app
 CONFIGURE_ARGS+=--enable-gimp2
 .else
 CONFIGURE_ARGS+=--disable-gimp
 .endif
 
-pre-patch:
-	@${FIND} ${WRKSRC} -name 'Makefile.in' | ${XARGS} ${REINPLACE_CMD} \
-		-i "" -e 's|\$$(DESTDIR)\$$(sbindir)||g'
+post-patch:
+	@${REINPLACE_CMD} -e 's| $$(DESTDIR)$$(sbindir)||' \
+		-e 's|$$(DESTDIR)$$(xsanedocdir)||' ${WRKSRC}/src/Makefile.in
+	@${REINPLACE_CMD} -e 's|@POSUB@ doc|@POSUB@|' ${WRKSRC}/Makefile.in
 
 post-install:
+	${INSTALL_MAN} ${WRKSRC}/doc/${PORTNAME}.man ${MAN1PREFIX}/man/man1/${PORTNAME}.1
+
+.if ${PORT_OPTIONS:MDOCS}
+	@${MKDIR} ${DOCSDIR}
+	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/doc/|} ${DOCSDIR}
+.endif
+
 .if ${PORT_OPTIONS:MGIMP}
 	@${ECHO_CMD}
 	@${CAT} ${PKGMESSAGE}

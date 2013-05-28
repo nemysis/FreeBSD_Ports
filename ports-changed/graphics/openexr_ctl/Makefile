@@ -1,5 +1,5 @@
 # Created by: nork@FreeBSD.org
-# $FreeBSD: head/graphics/openexr_ctl/Makefile 310535 2013-01-17 03:26:55Z swills $
+# $FreeBSD: head/graphics/openexr_ctl/Makefile 316343 2013-04-23 10:47:02Z bapt $
 
 PORTNAME=	openexr_ctl
 PORTVERSION=	1.0.1
@@ -14,7 +14,7 @@ LICENSE=	BSD
 LIB_DEPENDS=	IlmImf:${PORTSDIR}/graphics/OpenEXR \
 		IlmCtl:${PORTSDIR}/graphics/ampasCTL
 
-USE_PKGCONFIG=	build
+USES=		pathfix pkgconfig
 USE_LDCONFIG=	yes
 GNU_CONFIGURE=	yes
 USE_AUTOTOOLS=	libtool
@@ -23,10 +23,6 @@ USE_LDCONFIG=	yes
 PORTDOCS=	AUTHORS ChangeLog README
 
 .include <bsd.port.options.mk>
-
-post-patch:
-	@${REINPLACE_CMD} -e 's|$$(libdir)/pkgconfig|$$(prefix)/libdata/pkgconfig|' \
-		${WRKSRC}/Makefile.in
 
 test check:	build
 	@(cd ${WRKSRC}; ${SETENV} ${MAKE_ENV} ${MAKE} ${MAKE_FLAGS} ${MAKEFILE} ${MAKE_ARGS} check)
@@ -37,7 +33,7 @@ pre-install:	test
 
 post-install:
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

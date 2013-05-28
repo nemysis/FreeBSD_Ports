@@ -14,14 +14,14 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	chazomaticus
 GH_PROJECT=	asteroid
 GH_TAGNAME=	master
-GH_COMMIT=	6d23595
+GH_COMMIT=	ffeb0fd
 
+USES=		cmake desktop-file-utils
 USE_GL=		glut
 USE_SDL=	mixer sdl
 USE_GNOME=	gtk20
 USE_XORG=	xmu
 INSTALLS_ICONS=	yes
-USES=		cmake
 
 PORTDOCS=	AUTHORS NEWS README.md
 

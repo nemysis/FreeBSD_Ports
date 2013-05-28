@@ -10,9 +10,7 @@ share/pixmaps/pycadia.png
 %%DATADIR%%/gd_numbers.py
 %%DATADIR%%/gd_objects.py
 %%DATADIR%%/glade/pycadia.glade
-%%DATADIR%%/glade/pycadia.glade.bak
 %%DATADIR%%/glade/pycadia.gladep
-%%DATADIR%%/glade/pycadia.gladep.bak
 %%DATADIR%%/glade2.py
 %%DATADIR%%/hiscores.py
 %%DATADIR%%/msg_test.py

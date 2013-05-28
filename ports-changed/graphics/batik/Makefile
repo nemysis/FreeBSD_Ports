@@ -29,11 +29,11 @@ PORTDOCS=	CHANGES NOTICE README
 .include <bsd.port.options.mk>
 
 do-install:
-	cd ${INSTALL_WRKSRC} && ${COPYTREE_SHARE} . ${DATADIR}
+	@(cd ${INSTALL_WRKSRC} && ${COPYTREE_SHARE} . ${DATADIR})
 
 post-install:
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

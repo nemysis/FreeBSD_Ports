@@ -18,9 +18,9 @@ LIB_DEPENDS=	radius:${PORTSDIR}/graphics/radius-engine \
 		physfs.1:${PORTSDIR}/devel/physfs
 RUN_DEPENDS=	zip:${PORTSDIR}/archivers/zip
 
+USES=		pkgconfig
 USE_SDL=	sdl sound
 USE_GL=		glu
-USES=		pkgconfig 
 GNU_CONFIGURE=	yes
 ALL_TARGET=	${PORTNAME}
 

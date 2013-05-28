@@ -1,5 +1,5 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/games/bombherman/Makefile 312642 2013-02-20 18:05:17Z makc $
+# $FreeBSD: head/games/bombherman/Makefile 316464 2013-04-24 18:10:30Z ak $
 
 PORTNAME=	bomb-her-man
 PORTVERSION=	0.3
@@ -51,7 +51,7 @@ PORTSCOUT=	 ignore:1
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 CONFIGURE_ARGS+=	--disable-nls
@@ -75,7 +75,7 @@ post-install:
 	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

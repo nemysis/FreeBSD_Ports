@@ -1,5 +1,5 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: ports/games/cretan-hubris/Makefile,v 1.3 2012/08/29 02:14:30 avilla Exp $
+# $FreeBSD: head/games/cretan-hubris/Makefile 303307 2012-08-29 02:14:30Z avilla $
 
 PORTNAME=	cretan-hubris
 PORTVERSION=	0.2
@@ -23,9 +23,9 @@ LIB_DEPENDS=	lua-5.1:${PORTSDIR}/lang/lua \
 		physfs.1:${PORTSDIR}/devel/physfs
 RUN_DEPENDS=	zip:${PORTSDIR}/archivers/zip
 
+USES=		pkgconfig
 USE_SDL=	sdl sound
 USE_GL=		glu
-USES=	pkgconfig
 GNU_CONFIGURE=	yes
 ALL_TARGET=	${PORTNAME}
 MAKE_JOBS_SAFE=	yes

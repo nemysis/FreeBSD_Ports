@@ -16,10 +16,10 @@ COMMENT=	Platform game as Super Mario Bros
 
 WRKSRC=		${WRKDIR}/${PORTNAME}
 
+USE_SDL=	sdl gfx image mixer ttf
 USE_GMAKE=	yes
 USE_DOS2UNIX=	*.txt
 ALL_TARGET=	${PORTNAME}
-USE_SDL=	sdl gfx image mixer ttf
 MAKE_JOBS_SAFE=	yes
 
 MAKE_ENV=	GAMEDATA="${DATADIR}"

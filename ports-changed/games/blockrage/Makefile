@@ -40,8 +40,8 @@ post-patch:
 		${WRKSRC}/configure
 
 do-install:
-	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin/
-	${MKDIR} ${DATADIR}
+	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin
+	@${MKDIR} ${DATADIR}
 	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${DATADIR}
 
 .for d in data blockrage-fhs.rc blockrage.cfg blockrage.rc
@@ -58,7 +58,7 @@ post-install:
 	${INSTALL_MAN} ${WRKSRC}/${MAN6} ${MAN6PREFIX}/man/man6
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

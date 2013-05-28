@@ -1,5 +1,5 @@
 # Created by: Andrey Zakhvatov
-# $FreeBSD: ports/games/galaxis/Makefile,v 1.20 2012/09/07 23:35:52 amdmi3 Exp $
+# $FreeBSD: head/games/galaxis/Makefile 303843 2012-09-07 23:35:52Z amdmi3 $
 
 PORTNAME=	galaxis
 PORTVERSION=	1.8

@@ -1,4 +1,4 @@
-# $FreeBSD: head/comms/spandsp-devel/Makefile 312303 2013-02-15 18:41:22Z pawel $
+# $FreeBSD: head/comms/spandsp-devel/Makefile 318957 2013-05-24 10:46:51Z bapt $
 
 PORTNAME=	spandsp
 DISTVERSION=	0.0.6pre21
@@ -16,15 +16,14 @@ LICENSE=	LGPL21
 LIB_DEPENDS=	tiff:${PORTSDIR}/graphics/tiff
 
 WRKSRC=		${WRKDIR}/spandsp-${DISTVERSION:C/pre.*//}
+
+USES=		pathfix
 USE_AUTOTOOLS=	libtool autoconf
 USE_GMAKE=	yes
-USE_GNOME=	gnomehack
-
 GNU_CONFIGURE=	yes
 CONFIGURE_ARGS=	CPPFLAGS="-I${LOCALBASE}/include" \
 		LDFLAGS="-L${LOCALBASE}/lib" \
 		-C
-
 USE_LDCONFIG=	yes
 
 CONFLICTS=	spandsp-[0-9]*
@@ -46,7 +45,7 @@ CONFIGURE_ARGS+=--disable-doc
 
 post-install:
 .if ${PORT_OPTIONS:MDOXYGEN} && ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	(cd ${WRKSRC}/doc && \
 		${COPYTREE_SHARE} . ${DOCSDIR} "-type d -or -mindepth 1")
 .endif

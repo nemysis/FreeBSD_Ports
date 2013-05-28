@@ -18,12 +18,12 @@ WRKSRC=		${WRKDIR}/${DISTNAME}
 FETCH_ARGS?=	-Fpr
 USE_ZIP=	yes
 EXTRACT_AFTER_ARGS=	-d ${WRKSRC}
-USE_GMAKE=	yes
-USE_DOS2UNIX=	*.cpp *.h *.ini Makefile* *.txt *.desktop
 USES=		desktop-file-utils
-ALL_TARGET=	${PORTNAME}
 USE_SDL=	sdl image mixer ttf
 USE_GL=		glu
+USE_GMAKE=	yes
+USE_DOS2UNIX=	*.cpp *.h *.ini Makefile* *.txt *.desktop
+ALL_TARGET=	${PORTNAME}
 MAKE_JOBS_SAFE=	yes
 
 pre-extract:
@@ -46,11 +46,11 @@ post-patch:
 post-install:
 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} "help mp3music screens" ${DATADIR})
 	${INSTALL_DATA} ${WRKSRC}/${PORTNAME}.png ${PREFIX}/share/pixmaps
-	${MKDIR} ${PREFIX}/share/applications
+	@${MKDIR} ${PREFIX}/share/applications
 	${INSTALL_DATA} ${WRKSRC}/${PORTNAME}.desktop ${PREFIX}/share/applications
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

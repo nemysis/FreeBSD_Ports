@@ -13,10 +13,10 @@ LICENSE=	MIT
 
 LIB_DEPENDS+=	sndfile:${PORTSDIR}/audio/libsndfile
 
-USE_OPENAL=	soft
-USE_LDCONFIG=	yes
 USES=		cmake
+USE_OPENAL=	soft
 CMAKE_VERBOSE=	yes
+USE_LDCONFIG=	yes
 
 CFLAGS+=	-I${LOCALBASE}/include -L${LOCALBASE}/lib
 
@@ -113,7 +113,7 @@ post-patch:
 
 post-install:
 .if ${PORT_OPTIONS:MEXAMPLES}
-	${MKDIR} ${EXAMPLESDIR}
+	@${MKDIR} ${EXAMPLESDIR}
 	@(cd ${WRKSRC}/examples && ${COPYTREE_SHARE} . ${EXAMPLESDIR})
 .endif
 

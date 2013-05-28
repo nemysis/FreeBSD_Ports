@@ -1,5 +1,5 @@
 # Created by: Alejandro Pulver <alejandro@varnet.biz>
-# $FreeBSD: head/games/starfighter/Makefile 310871 2013-01-23 15:00:18Z makc $
+# $FreeBSD: head/games/starfighter/Makefile 316654 2013-04-27 08:50:46Z mva $
 
 PORTNAME=	starfighter
 PORTVERSION=	1.2

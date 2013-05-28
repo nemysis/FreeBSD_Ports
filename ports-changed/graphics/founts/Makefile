@@ -9,7 +9,6 @@ MASTER_SITES=	http://www.linuxmotors.com/founts/downloads/ \
 		SF/nemysisfreebsdp/:icons
 DISTFILES=	${PORTNAME}-${DISTVERSION}.tgz \
 		${PORTNAME}.png:icons
-DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}.tgz
 
 MAINTAINER=	nemysis@gmx.ch
@@ -17,7 +16,6 @@ COMMENT=	Demo/program inspired by Erics cascade
 
 LICENSE=	GPLv2
 
-FETCH_ARGS?=	-Fpr
 USE_SDL=	sdl
 
 PLIST_FILES=	bin/${PORTNAME} \
@@ -39,7 +37,7 @@ do-install:
 	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

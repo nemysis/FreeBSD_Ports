@@ -13,9 +13,9 @@ LICENSE=	GPLv2
 
 BUILD_DEPENDS=	xapian-core>=0:${PORTSDIR}/databases/xapian-core
 
-USE_ICONV=	yes
-USE_GMAKE=	yes
+USES=		iconv
 GNU_CONFIGURE=	yes
+USE_GMAKE=	yes
 MAKE_JOBS_SAFE=	yes
 
 CPPFLAGS+=	-I${LOCALBASE}/include
@@ -86,7 +86,7 @@ post-patch:
 post-configure:
 .if ${PORT_OPTIONS:MQT4}
 	@cd ${WRKSRC}/qtgui && ${SETENV} ${CONFIGURE_ENV} \
-	${QMAKE} ${QMAKEFLAGS} PREFIX=${PREFIX}
+		${QMAKE} ${QMAKEFLAGS} PREFIX=${PREFIX}
 .endif
 
 .include <bsd.port.mk>

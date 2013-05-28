@@ -25,8 +25,8 @@ NO_BUILD=	yes
 
 USE_TK_WRAPPER=	yes
 
-DESKTOP_ENTRIES="SecPanel" "${COMMENT}" "${PREFIX}/share/pixmaps/${PORTNAME}.png" \
-		"${PORTNAME}" "" "false"
+DESKTOP_ENTRIES="SecPanel" "${COMMENT}" "${PORTNAME}" \
+		"${PORTNAME}" "Network;Security;" false
 
 post-patch:
 	@${REINPLACE_CMD} \
@@ -38,6 +38,6 @@ do-install:
 	@(cd ${WRKSRC}/lib/secpanel && ${COPYTREE_SHARE} . ${DATADIR})
 	@${CHMOD} u+rw ${DATADIR}/default.config
 
-	${INSTALL_DATA} ${DISTDIR}/${DIST_SUBDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
+	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
 .include <bsd.port.mk>

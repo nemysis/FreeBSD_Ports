@@ -1,5 +1,5 @@
 # Created by: Tobias Roth <ports@fsck.ch>
-# $FreeBSD: head/x11/fbpanel/Makefile 313805 2013-03-10 05:47:05Z beech $
+# $FreeBSD: head/x11/fbpanel/Makefile 316355 2013-04-23 14:20:25Z bapt $
 
 PORTNAME=	fbpanel
 PORTVERSION=	6.1
@@ -14,23 +14,23 @@ COMMENT=	Lightweight, NETWM compliant X11 desktop panel
 LICENSE=	MIT
 
 USE_BZIP2=	yes
+USES=		pkgconfig
+USE_GNOME=	gtk20
 HAS_CONFIGURE=	yes
 CONFIGURE_ARGS=	--prefix=${PREFIX}
 USE_GMAKE=	yes
-USE_GNOME=	gtk20
-USE_PKGCONFIG=	build
 
 MAN1=		${PORTNAME}.1
 
 PORTDOCS=	CHANGELOG CREDITS NOTES README
 
-DESKTOP_ENTRIES="${PORTNAME}" "${PORTNAME} NETWM compliant X11 desktop panel" "${PORTNAME}" \
-		"${PORTNAME}" "System;" false
+DESKTOP_ENTRIES="${PORTNAME}" "${PORTNAME} NETWM compliant X11 desktop panel" \
+		"${PORTNAME}" "${PORTNAME}" "System;" false
 
 .include <bsd.port.options.mk>
 
 post-patch:
-	@${REINPLACE_CMD} -e 's|bash|sh|' ${WRKSRC}/scripts/install.sh
+	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|' ${WRKSRC}/scripts/install.sh
 	@${REINPLACE_CMD} -e 's|@DATADIR@|${DATADIR}|' \
 		${WRKSRC}/data/man/${MAN1}.in
 
@@ -39,7 +39,7 @@ post-install:
 	${LN} -sf ${DATADIR}/images/logo.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

@@ -1,6 +1,5 @@
-# Created by:			Douglas Carmichael <dcarmich@mcs.com>
-#
-# $FreeBSD: ports/graphics/photopc/Makefile,v 1.13 2012/10/04 16:52:30 jgh Exp $
+# Created by: Douglas Carmichael <dcarmich@mcs.com>
+# $FreeBSD: head/graphics/photopc/Makefile 305267 2012-10-04 16:52:30Z jgh $
 
 PORTNAME=	photopc
 PORTVERSION=	3.07
@@ -26,7 +25,7 @@ PORTDOCS=	README protocol.htm usage.htm
 
 post-install:
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

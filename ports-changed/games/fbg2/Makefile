@@ -3,7 +3,7 @@
 
 PORTNAME=	fbg2
 PORTVERSION=	0.4
-PORTREVISION=	3
+PORTREVISION=	2
 CATEGORIES=	games
 MASTER_SITES=	SF/fbg/
 
@@ -23,9 +23,9 @@ LIB_DEPENDS=	lua-5.1:${PORTSDIR}/lang/lua \
 		physfs.1:${PORTSDIR}/devel/physfs
 RUN_DEPENDS=	zip:${PORTSDIR}/archivers/zip
 
+USES=		pkgconfig
 USE_SDL=	sdl sound
 USE_GL=		glu
-USES=		pkgconfig
 GNU_CONFIGURE=	yes
 ALL_TARGET=	${PORTNAME}
 MAKE_JOBS_SAFE=	yes

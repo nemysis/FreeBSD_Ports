@@ -21,14 +21,23 @@ RUN_DEPENDS=	xterm:${PORTSDIR}/x11/xterm \
 DATADIRLIB=	${PREFIX}/lib/${PORTNAME}
 
 FETCH_ARGS?=	-Fpr
-USE_PYTHON=	yes
 USES=		desktop-file-utils
+USE_PYTHON=	yes
 NO_BUILD=	yes
 ONLY_FOR_ARCHS=	i386 amd64
 
 PORTDOCS=	README
 
+OPTIONS_DEFINE=	NLS
+
 .include <bsd.port.options.mk>
+
+.if ${PORT_OPTIONS:MNLS}
+USES+=		gettext
+PLIST_SUB+=	NLS=""
+.else
+PLIST_SUB+=	NLS="@comment "
+.endif
 
 .if ${ARCH} == "i386"
 RUN_DEPENDS+=	wine:${PORTSDIR}/emulators/wine
@@ -48,11 +57,15 @@ do-install:
 	${LN} -sf ${DATADIRLIB}/${PORTNAME}cli.py ${PREFIX}/bin/${PORTNAME}cli
 	${LN} -sf ${DATADIRLIB}/${PORTNAME}run.py ${PREFIX}/bin/${PORTNAME}run
 	@${MKDIR} ${DATADIR}
-	@(cd ${WRKSRC} && ${COPYTREE_SHARE} "translations images" ${DATADIR})
+	@(cd ${WRKSRC} && ${COPYTREE_SHARE} "images" ${DATADIR})
 
 	${LN} -sf ${DATADIR}/images/swine32.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
 	@${MKDIR} ${PREFIX}/share/applications
 	${INSTALL_DATA} ${WRKSRC}/resources/*.desktop ${PREFIX}/share/applications
+
+.if ${PORT_OPTIONS:MNLS}
+	@(cd ${WRKSRC} && ${COPYTREE_SHARE} translations ${DATADIR})
+.endif
 
 .if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}

@@ -1,5 +1,5 @@
 # Created by: Thierry Thomas <thierry@pompo.net>
-# $FreeBSD: ports/graphics/barbecue/Makefile,v 1.9 2012/10/30 15:43:53 jhale Exp $
+# $FreeBSD: head/graphics/barbecue/Makefile 308604 2012-12-10 13:18:28Z bapt $
 
 PORTNAME=	barbecue
 DISTVERSION=	1.5-beta1
@@ -15,7 +15,7 @@ LICENSE=	BSD
 RUN_DEPENDS=	${JAVALIBDIR}/jdom.jar:${PORTSDIR}/java/jdom
 
 USE_JAVA=	yes
-JAVA_VERSION=	1.5+
+JAVA_VERSION=	1.6+
 NO_BUILD=	yes
 
 JARFILES=	${PORTNAME}-${DISTVERSION}.jar
@@ -49,7 +49,7 @@ RUN_DEPENDS+=	${APPHOME}/bin/bootstrap.jar:${PORTSDIR}/www/tomcat7
 
 post-extract:
 	${MV} ${WRKSRC}/${JARFILES} ${WRKSRC}/${JARFILES:S|-${DISTVERSION}||}
-	${MKDIR} ${WRKDIR}/${PORTNAME}
+	@${MKDIR} ${WRKDIR}/${PORTNAME}
 	${TAR} xf ${WRKSRC}/${PORTNAME}.war -C ${WRKDIR}/${PORTNAME}
 
 do-install:
@@ -62,7 +62,7 @@ do-install:
 .endif
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${WRKSRC}/readme.txt ${DOCSDIR}
 	@(cd ${WRKSRC}/docs && ${COPYTREE_SHARE} . ${DOCSDIR})
 .endif

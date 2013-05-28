@@ -1,4 +1,4 @@
-# Created By: Eric P. Scott <eps+pbug0703@ana.com>
+# Created by: Eric P. Scott <eps+pbug0703@ana.com>
 # $FreeBSD: head/graphics/lcdtest/Makefile 314006 2013-03-12 22:54:45Z beech $
 
 PORTNAME=	lcdtest

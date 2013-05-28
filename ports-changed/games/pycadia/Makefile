@@ -33,6 +33,7 @@ SUB_FILES=	${PORTNAME}.sh
 
 do-install:
 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME}.sh ${PREFIX}/bin/${PORTNAME}
+	@${FIND} ${WRKSRC} -name "*.bak" -delete
 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} "glade pixmaps sounds *.py *.ico *.cfg" ${DATADIR})
 	@(cd ${DATADIR} && ${CHMOD} 555 ${PORTNAME}.py spacewarpy.py vektoroids.py)
 	${INSTALL_DATA} ${FILESDIR}/${PORTNAME}.conf ${DATADIR}

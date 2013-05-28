@@ -1,5 +1,5 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/games/netwalk/Makefile 314121 2013-03-14 00:11:57Z beech $
+# $FreeBSD: head/games/netwalk/Makefile 316654 2013-04-27 08:50:46Z mva $
 
 PORTNAME=	netwalk
 PORTVERSION=	0.4.10
@@ -56,7 +56,7 @@ post-install:
 	${INSTALL_DATA} ${_DISTDIR}/screenshot-0.4.8.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

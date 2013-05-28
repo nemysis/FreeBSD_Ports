@@ -35,7 +35,7 @@ do-install:
 	${INSTALL_DATA} ${WRKSRC}/empire-logo.png ${PREFIX}/share/pixmaps/empire.png
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

@@ -2,9 +2,9 @@
 # $FreeBSD: head/graphics/ilmbase/Makefile 312101 2013-02-12 11:33:04Z bapt $
 
 PORTNAME=	ilmbase
-PORTVERSION=	1.0.3
+PORTVERSION=	2.0.0
 CATEGORIES=	graphics devel
-MASTER_SITES=	http://cloud.github.com/downloads/openexr/openexr/
+MASTER_SITES=	SAVANNAH/openexr/
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	ILM Base libraries a.k.a. Half, IlmThread, Imath, and Iex
@@ -13,37 +13,21 @@ LICENSE=	BSD
 
 CONFLICTS=	OpenEXR-1.[0-4].*
 
-USE_PKGCONFIG=	build
+USES=		cmake pkgconfig
+CMAKE_VERBOSE=	yes
 USE_LDCONFIG=	yes
-GNU_CONFIGURE=	yes
-USE_AUTOTOOLS=	libtool
 
 PORTDOCS=	AUTHORS ChangeLog README
 
-OPTIONS_DEFINE=		THREAD
-OPTIONS_DEFAULT=	THREAD
-THREAD_DESC=		Enable multithreaded file I/O support
-
 .include <bsd.port.options.mk>
 
-.if ${PORT_OPTIONS:MTHREAD}
-CONFIGURE_ARGS+=--enable-threading
-CONFIGURE_ENV+=	PTHREAD_CFLAGS="${PTHREAD_CFLAGS}" \
-		PTHREAD_LIBS="${PTHREAD_LIBS}"
-.else
-CONFIGURE_ARGS+=--disable-threading
-.endif
-
 post-patch:
-	@${REINPLACE_CMD} -e 's|$$(libdir)/pkgconfig|$$(prefix)/libdata/pkgconfig|' \
-		${WRKSRC}/Makefile.in
-
-regression-test regression test check:	build
-	@(cd ${WRKSRC}; ${SETENV} ${MAKE_ENV} ${MAKE} ${MAKE_FLAGS} ${MAKEFILE} ${MAKE_ARGS} check)
+	@${REINPLACE_CMD} -e 's|lib/pkgconfig|libdata/pkgconfig|' \
+		${WRKSRC}/CMakeLists.txt
 
 post-install:
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

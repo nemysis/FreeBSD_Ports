@@ -1,6 +1,6 @@
 %%GTK2%%bin/gtk-youtube-viewer
 %%CLI%%bin/youtube-viewer
-%%CLI%%bin/youtube-viewer-perl-v5.10+
+%%CLI%%bin/youtube-viewer-stable
 %%SITE_PERL%%/WWW/YoutubeViewer.pm
 %%SITE_PERL%%/WWW/YoutubeViewer/GetCaption.pm
 %%SITE_PERL%%/WWW/YoutubeViewer/Itags.pm

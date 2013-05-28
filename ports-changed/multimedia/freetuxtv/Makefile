@@ -1,5 +1,5 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/multimedia/freetuxtv/Makefile 308630 2012-12-10 19:11:11Z mm $
+# $FreeBSD: head/multimedia/freetuxtv/Makefile 319055 2013-05-25 14:37:02Z zeising $
 
 PORTNAME=	freetuxtv
 PORTVERSION=	0.6.5
@@ -12,6 +12,7 @@ COMMENT=	WebTV player based on GTK2+ and LibVLC
 
 LICENSE=	GPLv3
 
+BUILD_DEPENDS=	p5-XML-Parser>=0:${PORTSDIR}/textproc/p5-XML-Parser
 LIB_DEPENDS=	vlc:${PORTSDIR}/multimedia/vlc \
 		dbus-glib:${PORTSDIR}/devel/dbus-glib \
 		sqlite3:${PORTSDIR}/databases/sqlite3 \
@@ -23,19 +24,16 @@ LIB_DEPENDS=	vlc:${PORTSDIR}/multimedia/vlc \
 		png15:${PORTSDIR}/graphics/png \
 		freetype:${PORTSDIR}/print/freetype2 \
 		expat:${PORTSDIR}/textproc/expat2 \
-		fontconfig:${PORTSDIR}/x11-fonts/fontconfig \
-		xcb:${PORTSDIR}/x11/libxcb
+		fontconfig:${PORTSDIR}/x11-fonts/fontconfig
 
+USES=		iconv pkgconfig
 USE_GNOME=	glib20 gtk20
-USE_XORG=	pixman x11 xau xcomposite xcursor xdamage xdmcp xext xfixes \
+USE_XORG=	pixman x11 xau xcb xcomposite xcursor xdamage xdmcp xext xfixes \
 		xi xinerama xrandr xrender
 GNU_CONFIGURE=	yes
-USE_GMAKE=	yes
-USE_PKGCONFIG=	build
-USE_ICONV=	yes
-INSTALLS_ICONS=	yes
-
 CONFIGURE_ARGS+=--with-gtk=2.0
+USE_GMAKE=	yes
+INSTALLS_ICONS=	yes
 
 PORTDOCS=	AUTHORS ChangeLog README
 
@@ -44,7 +42,7 @@ OPTIONS_DEFINE=	NLS
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 CONFIGURE_ARGS+=	--disable-nls

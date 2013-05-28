@@ -12,8 +12,8 @@ COMMENT=	Cross-platform library for games and multimedia programming
 
 LICENSE=	ZLIB
 
-USE_GMAKE=	yes
 USES=		cmake pkgconfig
+USE_GMAKE=	yes
 USE_XORG=	x11 xpm xext xcursor xxf86vm xxf86dga
 USE_LDCONFIG=	yes
 WANT_GNOME=	yes

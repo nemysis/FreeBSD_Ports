@@ -1,5 +1,5 @@
 # Created by: pb@FreeBSD.org
-# $FreeBSD: head/multimedia/dvdauthor/Makefile 305215 2012-10-03 18:24:05Z pawel $
+# $FreeBSD: head/multimedia/dvdauthor/Makefile 316662 2013-04-27 11:59:28Z mva $
 
 PORTNAME=	dvdauthor
 PORTVERSION=	0.7.1
@@ -20,11 +20,10 @@ LIB_DEPENDS=	dvdread:${PORTSDIR}/multimedia/libdvdread \
 
 WRKSRC=		${WRKDIR}/${PORTNAME}
 
+USES=		iconv pkgconfig
 USE_GNOME=	libxml2
 GNU_CONFIGURE=	yes
 USE_GMAKE=	yes
-USE_PKGCONFIG=	build
-USE_ICONV=	yes
 CFLAGS+=	-I${LOCALBASE}/include -L${LOCALBASE}/lib
 
 PORTDOCS=	*

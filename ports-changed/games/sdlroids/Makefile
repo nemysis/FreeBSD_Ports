@@ -18,10 +18,10 @@ COMMENT=	Enhanced shoot-the-asteroids game
 LICENSE=	GPLv2
 
 USE_BZIP2=	yes
+USE_SDL=	mixer sdl
 GNU_CONFIGURE=	yes
 USE_GMAKE=	yes
 USE_CSTD=	gnu89
-USE_SDL=	mixer sdl
 
 MAN6=		sdlroids.6
 
@@ -36,7 +36,7 @@ post-install:
 	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

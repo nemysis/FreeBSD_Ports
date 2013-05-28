@@ -1,8 +1,0 @@
-#!/bin/sh
-#
-# $FreeBSD: head/graphics/aoi/files/aoi.in 306827 2012-11-01 23:09:41Z jkim $
-
-export JAVA_VERSION="%%JAVA_VERSION%%"
-
-cd "%%DATADIR%%" && exec "%%LOCALBASE%%/bin/java" \
--Djava.ext.dirs="%%DATADIR%%" -jar "%%DATADIR%%/ArtOfIllusion.jar" "${@}"

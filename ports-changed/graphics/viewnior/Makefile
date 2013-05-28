@@ -20,7 +20,6 @@ GNU_CONFIGURE=	yes
 USE_AUTOTOOLS=	autoconf
 USE_GMAKE=	yes
 INSTALLS_ICONS=	yes
-
 MAN1=		${PORTNAME}.1
 
 PORTDOCS=	AUTHORS ChangeLog NEWS README TODO
@@ -41,8 +40,13 @@ post-patch:
 	@${REINPLACE_CMD} -e 's|$$(prefix)/$$(DATADIRNAME)/locale|$$(datarootdir)/locale|' \
 		${WRKSRC}/po/Makefile.in.in
 
+.if ! ${PORT_OPTIONS:MNLS}
+	@${REINPLACE_CMD} -e 's|install: install-data|install: |' ${WRKSRC}/po/Makefile.in.in
+.endif
+
 post-install:
 	${INSTALL_MAN} ${WRKSRC}/man/${MAN1} ${MAN1PREFIX}/man/man1
+
 .if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}

@@ -15,11 +15,11 @@ WRKSRC=		${WRKDIR}/${DISTNAME}/battle/Battle
 
 USE_ZIP=	yes
 EXTRACT_AFTER_ARGS=	-d ${WRKDIR}/${DISTNAME}
+USES=		desktop-file-utils
+USE_SDL=	sdl image mixer
 USE_GMAKE=	yes
 USE_DOS2UNIX=	*.cpp *.h *.ini Makefile
 ALL_TARGET=	battle
-USE_SDL=	sdl image mixer
-USES=		desktop-file-utils
 MAKE_JOBS_SAFE=	yes
 
 pre-extract:

@@ -1,3 +1,4 @@
+# Created by: nemysis <nemysis@gmx.ch>
 # $FreeBSD: head/textproc/unoconv/Makefile 304580 2012-09-20 14:22:09Z pawel $
 
 PORTNAME=	unoconv
@@ -38,7 +39,7 @@ SUB_FILES=	${PORTNAME} pkg-message
 
 do-install:
 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin
-	${MKDIR} ${DATADIR}/tests
+	@${MKDIR} ${DATADIR}/tests
 	${INSTALL_SCRIPT} ${WRKSRC}/${PORTNAME} ${DATADIR}
 
 .for f in *.gif *.odt *.csv
@@ -49,9 +50,9 @@ do-install:
 	${INSTALL_MAN} ${WRKSRC}/doc/${PORTNAME}.1 ${MAN1PREFIX}/man/man1
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${DOCSDIR}
-	${MKDIR} ${DOCSDIR2}
+	@${MKDIR} ${DOCSDIR2}
 	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${DOCSDIR2}
 .endif
 

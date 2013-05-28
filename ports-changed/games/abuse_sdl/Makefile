@@ -1,4 +1,4 @@
-# $FreeBSD: head/games/abuse_sdl/Makefile 304219 2012-09-13 14:17:00Z swills $
+# $FreeBSD: head/games/abuse_sdl/Makefile 316767 2013-04-28 23:01:27Z beech $
 
 PORTNAME=	abuse_sdl
 PORTVERSION=	0.8
@@ -13,7 +13,7 @@ COMMENT=	SDL port of the Abuse game engine
 
 LICENSE=	GPLv2
 
-USE_GNOME=	gnomehack
+USES=		pathfix
 USE_GL=		gl
 USE_SDL=	mixer sdl
 GNU_CONFIGURE=	yes
@@ -28,7 +28,7 @@ LDFLAGS+=	-L${LOCALBASE}/lib
 PORTDOCS=	AUTHORS ChangeLog NEWS README TODO
 
 DESKTOP_ENTRIES="Abuse-SDL" "${COMMENT}" "abuse" \
-		"abuse" "Game;StrategyGame;" ${FALSE}
+		"abuse" "Game;StrategyGame;" false
 
 .include <bsd.port.options.mk>
 
@@ -36,7 +36,7 @@ post-install:
 	${INSTALL_DATA} ${WRKSRC}/doc/abuse.png ${PREFIX}/share/pixmaps
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

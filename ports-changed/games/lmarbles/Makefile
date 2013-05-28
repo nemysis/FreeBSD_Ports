@@ -45,12 +45,14 @@ post-install:
 	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}*.png ${PREFIX}/share/pixmaps
 	@if [ ! -f ${ETCDIR}/lmarbles.prfs ] ; then \
 		${INSTALL_DATA} ${ETCDIR}/lmarbles.prfs.sample ${ETCDIR}/lmarbles.prfs ; \
+		${CHMOD} 664 ${ETCDIR}/lmarbles.prfs ; \
+		${CHOWN} root:games ${ETCDIR}/lmarbles.prfs ; \
 	fi
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${DOCSDIR}
-	${MKDIR} ${DOCSDIR2}
+	@${MKDIR} ${DOCSDIR2}
 	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${DOCSDIR2}
 .endif
 

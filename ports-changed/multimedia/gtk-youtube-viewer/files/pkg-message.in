@@ -15,6 +15,6 @@ for Perl 5.16
 
 for Perl 5.14
 
-    %%PREFIX%%/bin/youtube-viewer-perl-v5.10+
+    %%PREFIX%%/bin/youtube-viewer-stable
 
 ===============================================================================

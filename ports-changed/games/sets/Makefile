@@ -16,9 +16,9 @@ COMMENT=	Implementation of the sets game
 
 LICENSE=	GPLv3
 
+USE_SDL=	sdl image
 USE_GMAKE=	yes
 ALL_TARGET=	${PORTNAME}
-USE_SDL=	sdl image
 
 PLIST_FILES=	bin/${PORTNAME} \
 		share/pixmaps/${PORTNAME}.png

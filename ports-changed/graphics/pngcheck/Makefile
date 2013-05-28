@@ -1,9 +1,5 @@
-# New ports collection makefile for:	pngcheck
-# Date created:				Tue 04 Jul 2000
-# Whom:					will
-#
+# Created by: will
 # $FreeBSD: head/graphics/pngcheck/Makefile 307724 2012-11-24 19:28:55Z wxs $
-#
 
 PORTNAME=	pngcheck
 PORTVERSION=	2.3.0
@@ -16,15 +12,17 @@ COMMENT=	Checks the integrity of PNG images
 MAKEFILE=	Makefile.unx
 MAKE_ARGS=	CC="${CC}" LD="${CC}" CFLAGS="${CFLAGS} -DUSE_ZLIB" LIBS="-lz"
 
+PLIST_FILES=	bin/${PORTNAME}
+
 PORTDOCS=	CHANGELOG README
-PLIST_FILES=	bin/pngcheck
 
 .include <bsd.port.options.mk>
 
 do-install:
-	${INSTALL_PROGRAM} ${WRKSRC}/pngcheck ${PREFIX}/bin
+	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${PREFIX}/bin
+
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

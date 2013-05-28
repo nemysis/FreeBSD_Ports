@@ -1,5 +1,4 @@
 # Created by: trasz <trasz@pin.if.uz.zgora.pl>
-# Whom:			trasz <trasz@pin.if.uz.zgora.pl>
 # $FreeBSD: head/audio/hexter/Makefile 308445 2012-12-07 20:03:33Z beech $
 
 PORTNAME=	hexter
@@ -17,9 +16,9 @@ LIB_DEPENDS=	dssialsacompat:${PORTSDIR}/audio/libdssialsacompat \
 		jack:${PORTSDIR}/audio/jack
 BUILD_DEPENDS=	${LOCALBASE}/include/dssi.h:${PORTSDIR}/audio/dssi
 
+USE_GNOME=	gtk20
 GNU_CONFIGURE=	yes
 USE_GMAKE=	yes
-USE_GNOME=	gtk20
 
 PORTDOCS=	AUTHORS ChangeLog README TODO
 
@@ -27,7 +26,7 @@ PORTDOCS=	AUTHORS ChangeLog README TODO
 
 post-install:
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

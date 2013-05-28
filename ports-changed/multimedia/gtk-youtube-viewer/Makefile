@@ -51,8 +51,8 @@ SUB_FILES=	pkg-message \
 
 OPTIONS_DEFINE=	GCAP
 
-OPTIONS_MULTI=	UI
-OPTIONS_MULTI_UI=	CLI GTK2
+OPTIONS_MULTI=	USER_INTERFACE
+OPTIONS_MULTI_USER_INTERFACE=	CLI GTK2
 
 OPTIONS_DEFAULT=	GTK2 GCAP
 
@@ -98,6 +98,14 @@ post-patch:
 .endif
 
 post-install:
+.if ${PORT_OPTIONS:MCLI}
+	@(cd ${WRKDIR} && ${PERL} ./yv_5.16_to_5.10.pl ${WRKSRC}/bin/youtube-viewer > youtube-viewer-stable)
+	${INSTALL_SCRIPT} ${WRKDIR}/youtube-viewer-stable ${PREFIX}/bin
+	@${ECHO_CMD}
+	@${CAT} ${PKGMESSAGE}
+	@${ECHO_CMD}
+.endif
+
 .if ${PORT_OPTIONS:MGTK2}
 	@${MKDIR} ${PREFIX}/share/applications
 	${INSTALL_DATA} ${WRKSRC}/share/gtk-youtube-viewer.desktop ${PREFIX}/share/applications
@@ -110,14 +118,6 @@ post-install:
 .if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
-.endif
-
-.if ${PORT_OPTIONS:MCLI}
-	@(cd ${WRKDIR} && ${PERL} ./yv_5.16_to_5.10.pl ${WRKSRC}/bin/youtube-viewer > youtube-viewer-perl-v5.10+)
-	${INSTALL_SCRIPT} ${WRKDIR}/youtube-viewer-perl-v5.10+ ${PREFIX}/bin
-	@${ECHO_CMD}
-	@${CAT} ${PKGMESSAGE}
-	@${ECHO_CMD}
 .endif
 
 regression-test: build
