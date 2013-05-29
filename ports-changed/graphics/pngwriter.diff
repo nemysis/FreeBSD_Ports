@@ -1,0 +1,33 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/graphics/pngwriter/Makefile ./Makefile
+--- /usr/ports/graphics/pngwriter/Makefile	2013-04-26 16:36:25.000000000 +0200
++++ ./Makefile	2013-05-22 01:33:27.000000000 +0200
+@@ -10,6 +10,8 @@
+ MAINTAINER=	nemysis@gmx.ch
+ COMMENT=	C++ library for creating PNG images
+ 
++LICENSE=	GPLv2
++
+ LIB_DEPENDS=	png15:${PORTSDIR}/graphics/png \
+ 		freetype:${PORTSDIR}/print/freetype2
+ 
+@@ -45,13 +47,13 @@
+ 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} fonts ${DATADIR})
+ 
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
+-	@(cd ${WRKSRC}/doc && ${COPYTREE_SHARE} \* ${DOCSDIR})
++	@${MKDIR} ${DOCSDIR}
++	@(cd ${WRKSRC}/doc && ${COPYTREE_SHARE} . ${DOCSDIR})
+ .endif
+ 
+ .if ${PORT_OPTIONS:MEXAMPLES}
+-	${MKDIR} ${EXAMPLESDIR}
+-	@(cd ${WRKSRC}/examples && ${COPYTREE_SHARE} \* ${EXAMPLESDIR})
++	@${MKDIR} ${EXAMPLESDIR}
++	@(cd ${WRKSRC}/examples && ${COPYTREE_SHARE} . ${EXAMPLESDIR})
+ .endif
+ 
+ .include <bsd.port.mk>
+===> Done

@@ -1,0 +1,53 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/fbg2/Makefile ./Makefile
+--- /usr/ports/games/fbg2/Makefile	2013-01-14 17:55:29.000000000 +0100
++++ ./Makefile	2013-05-25 17:17:58.000000000 +0200
+@@ -1,9 +1,5 @@
+-# New Ports collection makefile for:	Falling Block Game
+-# Date created:		2012-05-18
+-# Whom:			nemysis@gmx.ch
+-#
++# Created by: nemysis <nemysis@gmx.ch>
+ # $FreeBSD: head/games/fbg2/Makefile 303308 2012-08-29 02:18:03Z avilla $
+-#
+ 
+ PORTNAME=	fbg2
+ PORTVERSION=	0.4
+@@ -27,26 +23,28 @@
+ 		physfs.1:${PORTSDIR}/devel/physfs
+ RUN_DEPENDS=	zip:${PORTSDIR}/archivers/zip
+ 
+-GNU_CONFIGURE=	yes
+-ALL_TARGET=	${PORTNAME}
++USES=		pkgconfig
+ USE_SDL=	sdl sound
+ USE_GL=		glu
++GNU_CONFIGURE=	yes
++ALL_TARGET=	${PORTNAME}
+ MAKE_JOBS_SAFE=	yes
+ 
+ PLIST_FILES=	bin/${PORTNAME} \
+ 		share/applications/${PORTNAME}.desktop \
+-		share/pixmaps/${PORTNAME}.png
+-PLIST_DIRSTRY=	share/applications
++		share/pixmaps/${PORTNAME}.png \
++		%%DATADIR%%/${PORTNAME}.zip
++PLIST_DIRSTRY=	share/applications \
++		%%DATADIR%%
+ 
+-PORTDATA=	*
+ PORTDOCS=	ChangeLog
+ 
+ .include <bsd.port.options.mk>
+ 
+ post-install:
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
+-	${INSTALL_DATA} ${WRKSRC}/ChangeLog ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+ .include <bsd.port.mk>
+===> Done

@@ -1,0 +1,122 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/multimedia/gtk-youtube-viewer/Makefile ./Makefile
+--- /usr/ports/multimedia/gtk-youtube-viewer/Makefile	2013-03-23 02:42:29.000000000 +0100
++++ ./Makefile	2013-05-28 17:57:55.000000000 +0200
+@@ -3,7 +3,7 @@
+ 
+ PORTNAME=	gtk-youtube-viewer
+ PORTVERSION=	3.0.7
+-PORTREVISION=	1
++PORTREVISION=	2
+ CATEGORIES=	multimedia perl5
+ 
+ MAINTAINER=	nemysis@gmx.ch
+@@ -46,6 +46,9 @@
+ 
+ PORTDOCS=	Changes README
+ 
++SUB_FILES=	pkg-message \
++		yv_5.16_to_5.10.pl
++
+ OPTIONS_DEFINE=	GCAP
+ 
+ OPTIONS_MULTI=	USER_INTERFACE
+@@ -78,17 +81,6 @@
+ RUN_DEPENDS+=	${LOCALBASE}/bin/gcap:${PORTSDIR}/multimedia/gcap
+ .endif
+ 
+-post-extract:
+-.if ! exists(${LOCALBASE}/bin/per5.16.2)
+-	@${ECHO_CMD}
+-	@${ECHO_MSG} "GTK Youtube Viewer 3.07 requires lang/perl5.16 to use CLI version"
+-	@${ECHO_MSG}
+-	@${ECHO_MSG} "Please read /usr/ports/UPDATING"
+-	@${ECHO_MSG}
+-	@${ECHO_MSG} "Hit ^c now if you don't wish to do this."
+-	@${ECHO_MSG}
+-.endif
+-
+ post-patch:
+ 	@${REINPLACE_CMD} -n '1,/create_build_script()/p' \
+ 			${WRKSRC}/Build.PL
+@@ -106,6 +98,14 @@
+ .endif
+ 
+ post-install:
++.if ${PORT_OPTIONS:MCLI}
++	@(cd ${WRKDIR} && ${PERL} ./yv_5.16_to_5.10.pl ${WRKSRC}/bin/youtube-viewer > youtube-viewer-stable)
++	${INSTALL_SCRIPT} ${WRKDIR}/youtube-viewer-stable ${PREFIX}/bin
++	@${ECHO_CMD}
++	@${CAT} ${PKGMESSAGE}
++	@${ECHO_CMD}
++.endif
++
+ .if ${PORT_OPTIONS:MGTK2}
+ 	@${MKDIR} ${PREFIX}/share/applications
+ 	${INSTALL_DATA} ${WRKSRC}/share/gtk-youtube-viewer.desktop ${PREFIX}/share/applications
+diff -ruN --exclude=CVS /usr/ports/multimedia/gtk-youtube-viewer/files/pkg-message.in ./files/pkg-message.in
+--- /usr/ports/multimedia/gtk-youtube-viewer/files/pkg-message.in	1970-01-01 01:00:00.000000000 +0100
++++ ./files/pkg-message.in	2013-05-28 17:59:17.000000000 +0200
+@@ -0,0 +1,20 @@
++===============================================================================
++
++GTK Youtube Viewer has been installed.
++
++This package needs Perl 5.16 or Perl 5.14.
++
++Please read UPDATING entry from 20120630 after installation.
++
++
++Youtube Viewer (CLI Version) can use either Perl version, please use
++
++for Perl 5.16
++
++    %%PREFIX%%/bin/youtube-viewer
++
++for Perl 5.14
++
++    %%PREFIX%%/bin/youtube-viewer-stable
++
++===============================================================================
+diff -ruN --exclude=CVS /usr/ports/multimedia/gtk-youtube-viewer/files/yv_5.16_to_5.10.pl.in ./files/yv_5.16_to_5.10.pl.in
+--- /usr/ports/multimedia/gtk-youtube-viewer/files/yv_5.16_to_5.10.pl.in	1970-01-01 01:00:00.000000000 +0100
++++ ./files/yv_5.16_to_5.10.pl.in	2012-12-16 16:59:39.000000000 +0100
+@@ -0,0 +1,12 @@
++#!/usr/bin/perl
++
++# usage: ./script.pl /usr/bin/youtube-viewer > new-youtube-viewer
++
++my $sub = '';
++while(<>){
++    s{^use 5.01\K\d}{0};
++    $sub = $1 if /^sub\s+(\w+)/;
++    s{^\s+(?:or)?\s*\K__SUB__->\(}{$sub(};
++    s{\b__SUB__\b}{\\&$sub};
++    print;
++}
+diff -ruN --exclude=CVS /usr/ports/multimedia/gtk-youtube-viewer/pkg-plist ./pkg-plist
+--- /usr/ports/multimedia/gtk-youtube-viewer/pkg-plist	2013-03-23 02:42:29.000000000 +0100
++++ ./pkg-plist	2013-05-28 17:58:07.000000000 +0200
+@@ -1,5 +1,6 @@
+ %%GTK2%%bin/gtk-youtube-viewer
+ %%CLI%%bin/youtube-viewer
++%%CLI%%bin/youtube-viewer-stable
+ %%SITE_PERL%%/WWW/YoutubeViewer.pm
+ %%SITE_PERL%%/WWW/YoutubeViewer/GetCaption.pm
+ %%SITE_PERL%%/WWW/YoutubeViewer/Itags.pm
+@@ -20,13 +21,4 @@
+ %%GTK2%%@dirrm %%DATADIR%%
+ %%GTK2%%@dirrmtry share/applications
+ %%GTK2%%@dirrm %%SITE_PERL%%/mach/auto/WWW/YoutubeViewer
+-%%GTK2%%@dirrm %%SITE_PERL%%/mach/auto/WWW
+-%%GTK2%%@dirrm %%SITE_PERL%%/mach/auto
+-%%GTK2%%@dirrm %%SITE_PERL%%/mach
+ @dirrm %%SITE_PERL%%/WWW/YoutubeViewer
+-@dirrm %%SITE_PERL%%/WWW
+-@dirrm %%SITE_PERL%%
+-@dirrmtry lib/perl5/site_perl
+-@dirrmtry lib/perl5/5.14.2/man
+-@dirrmtry lib/perl5/5.14.2
+-@dirrmtry lib/perl5
+===> Done

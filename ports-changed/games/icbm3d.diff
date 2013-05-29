@@ -1,0 +1,71 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/icbm3d/Makefile ./Makefile
+--- /usr/ports/games/icbm3d/Makefile	2013-01-14 17:55:29.000000000 +0100
++++ ./Makefile	2013-03-26 23:35:49.000000000 +0100
+@@ -1,19 +1,15 @@
+-# New ports collection makefile for:	icbm3d
+-# Date created:				20 March 1998
+-# Whom:					Andrey Zakhvatov
+-#
++# Created by: Andrey Zakhvatov
+ # $FreeBSD: head/games/icbm3d/Makefile 304016 2012-09-10 02:53:42Z swills $
+-#
+ 
+ PORTNAME=	icbm3d
+ PORTVERSION=	0.4
+-PORTREVISION=	3
++PORTREVISION=	4
+ CATEGORIES=	games
+ MASTER_SITES=	ftp://ftp.tuxpaint.org/unix/x/icbm3d/  \
+ 		ftp://ftp.billsgames.com/unix/x/icbm3d/ \
+-		http://www.newbreedsoftware.com/images/prodicons/:icons
++		SF/nemysisfreebsdp/:icons
+ DISTFILES=	${PORTNAME}.${DISTVERSION}${EXTRACT_SUFX} \
+-		${PORTNAME}.gif:icons
++		${PORTNAME}.png:icons
+ EXTRACT_ONLY=	${PORTNAME}.${DISTVERSION}${EXTRACT_SUFX}
+ 
+ MAINTAINER=	nemysis@gmx.ch
+@@ -26,23 +22,22 @@
+ ALL_TARGET=	${PORTNAME}
+ 
+ PLIST_FILES=	bin/${PORTNAME} \
+-		share/pixmaps/${PORTNAME}.gif
++		share/pixmaps/${PORTNAME}.png
+ 
+ PORTDOCS=	README.txt
+ 
++DESKTOP_ENTRIES="Inter-Continental Ballistic Missiles, 3D" "${COMMENT}" "${PORTNAME}" \
++		"${PORTNAME}" "Game;ArcadeGame;" false
++
+ .include <bsd.port.options.mk>
+ 
+ do-install:
+-# Executable
+ 	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${PREFIX}/bin
++	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
+ 
+-# Pixmaps
+-	${INSTALL_DATA} ${DISTDIR}/${PORTNAME}.gif ${PREFIX}/share/pixmaps/
+-
+-# Documentation
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
+-	${INSTALL_DATA} ${WRKSRC}/README.txt ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/games/icbm3d/distinfo ./distinfo
+--- /usr/ports/games/icbm3d/distinfo	2013-01-14 17:55:29.000000000 +0100
++++ ./distinfo	2013-03-26 23:30:34.000000000 +0100
+@@ -1,4 +1,4 @@
+ SHA256 (icbm3d.0.4.tar.gz) = 9ad41c154ef47695771a26875d5415bcedcb139352b1e2175f386d206b0038fd
+ SIZE (icbm3d.0.4.tar.gz) = 31187
+-SHA256 (icbm3d.gif) = e5d6d45ee11ff669414ac2e22943a0786b62b72035884a06abd5f12dcd0d5f15
+-SIZE (icbm3d.gif) = 1024
++SHA256 (icbm3d.png) = a7aae8d18e4699da7e7b2661b624c2b9355290759aac3ccdc9b6ec935fc5d4a0
++SIZE (icbm3d.png) = 890
+===> Done

@@ -1,0 +1,28 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/abuse_sdl/Makefile ./Makefile
+--- /usr/ports/games/abuse_sdl/Makefile	2013-04-29 12:53:30.000000000 +0200
++++ ./Makefile	2013-05-25 15:20:03.000000000 +0200
+@@ -13,7 +13,7 @@
+ 
+ LICENSE=	GPLv2
+ 
+-USES=	pathfix
++USES=		pathfix
+ USE_GL=		gl
+ USE_SDL=	mixer sdl
+ GNU_CONFIGURE=	yes
+@@ -33,10 +33,10 @@
+ .include <bsd.port.options.mk>
+ 
+ post-install:
+-	${INSTALL_DATA} ${WRKSRC}/doc/abuse.png ${PREFIX}/share/pixmaps/
++	${INSTALL_DATA} ${WRKSRC}/doc/abuse.png ${PREFIX}/share/pixmaps
+ 
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
+ 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+===> Done

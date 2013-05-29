@@ -1,0 +1,71 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/graphics/box/Makefile ./Makefile
+--- /usr/ports/graphics/box/Makefile	2013-01-14 17:57:06.000000000 +0100
++++ ./Makefile	2013-05-27 23:51:36.000000000 +0200
+@@ -25,6 +25,7 @@
+ MAN1=		${PORTNAME}.1
+ 
+ PORTDOCS=	AUTHORS ChangeLog README STYLE TODO
++PORTEXAMPLES=	*
+ 
+ PLIST_SUB+=	PLIST_VER="0.3"
+ 
+@@ -38,13 +39,13 @@
+ 
+ post-install:
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
+ 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+ .if ${PORT_OPTIONS:MEXAMPLES}
+-	${MKDIR} ${EXAMPLESDIR}
+-	@(cd ${WRKSRC}/examples && ${COPYTREE_SHARE} \* ${EXAMPLESDIR})
++	@${MKDIR} ${EXAMPLESDIR}
++	@(cd ${WRKSRC}/examples && ${COPYTREE_SHARE} . ${EXAMPLESDIR})
+ .endif
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/graphics/box/pkg-plist ./pkg-plist
+--- /usr/ports/graphics/box/pkg-plist	2013-01-14 17:57:06.000000000 +0100
++++ ./pkg-plist	2013-03-25 05:10:19.000000000 +0100
+@@ -90,36 +90,6 @@
+ lib/libboxcore%%PLIST_VER%%.la
+ lib/libboxcore%%PLIST_VER%%.so
+ lib/libboxcore%%PLIST_VER%%.so.0
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/Makefile
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/Makefile.am
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/Makefile.in
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/box-logo.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/cairo.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/curved_arrow.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/cycloid.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/fractree.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/gradient.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/multivibrator.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/mysin.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/pythagoras.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/smileys/Makefile
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/smileys/Makefile.am
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/smileys/Makefile.in
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/smileys/bouncing.bash
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/smileys/bouncing.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/smileys/losing_eyes.bash
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/smileys/losing_eyes.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/smileys/shy.bash
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/smileys/shy.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/smileys/washing_machine.bash
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/smileys/washing_machine.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/snake.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/text.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/translucency.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/wheatstone.box
+-%%PORTEXAMPLES%%%%EXAMPLESDIR%%/yin-yang.box
+-%%PORTEXAMPLES%%@dirrm %%EXAMPLESDIR%%/smileys
+-%%PORTEXAMPLES%%@dirrm %%EXAMPLESDIR%%
+ @dirrm lib/box%%PLIST_VER%%/pkg/g
+ @dirrm lib/box%%PLIST_VER%%/pkg
+ @dirrm lib/box%%PLIST_VER%%/lib
+===> Done

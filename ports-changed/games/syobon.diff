@@ -1,0 +1,124 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/syobon/Makefile ./Makefile
+--- /usr/ports/games/syobon/Makefile	2013-01-14 17:55:38.000000000 +0100
++++ ./Makefile	2013-05-26 15:17:36.000000000 +0200
+@@ -1,50 +1,44 @@
+-# New Ports collection makefile for:	Syobon Action
+-# Date created:		2012-05-06
+-# Whom:			nemysis@gmx.ch
+-#
++# Created by: nemysis <nemysis@gmx.ch>
+ # $FreeBSD: head/games/syobon/Makefile 303158 2012-08-25 21:45:11Z jgh $
+-#
+ 
+ PORTNAME=	syobon
+ PORTVERSION=	1.0.1
+-PORTREVISION=	1
++PORTREVISION=	2
+ CATEGORIES=	games
+-MASTER_SITES=	http://download.zapek.com/software/${PORTNAME}/
+-DISTNAME=	${PORTNAME}_${PORTVERSION}
+-EXTRACT_SUFX=	_src.tar.gz
++MASTER_SITES=	http://download.zapek.com/software/${PORTNAME}/ \
++		SF/nemysisfreebsdp/:icons
++DISTFILES=	${PORTNAME}_${DISTVERSION}_src${EXTRACT_SUFX} \
++		${PORTNAME}.png:icons
++EXTRACT_ONLY=	${PORTNAME}_${DISTVERSION}_src${EXTRACT_SUFX}
+ 
+ MAINTAINER=	nemysis@gmx.ch
+-COMMENT=	Syobon Action is a platform game as Super Mario Bros
++COMMENT=	Platform game as Super Mario Bros
+ 
+ WRKSRC=		${WRKDIR}/${PORTNAME}
+ 
++USE_SDL=	sdl gfx image mixer ttf
+ USE_GMAKE=	yes
+ USE_DOS2UNIX=	*.txt
+ ALL_TARGET=	${PORTNAME}
+-USE_SDL=	sdl gfx image mixer ttf
+ MAKE_JOBS_SAFE=	yes
+ 
+-PLIST_FILES=	bin/${PORTNAME}
++MAKE_ENV=	GAMEDATA="${DATADIR}"
+ 
+ PORTDOCS=	README.txt
+-PORTDATA=	*
+ 
+-MAKE_ENV=	GAMEDATA="${DATADIR}"
++DESKTOP_ENTRIES="Syobon Action" "${COMMENT}" "${PORTNAME}" \
++		"${PORTNAME}" "Game;ArcadeGame;" false
+ 
+ .include <bsd.port.options.mk>
+ 
+ do-install:
+-# Executable
+ 	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${PREFIX}/bin
+-
+-# Data
+-	${MKDIR} ${DATADIR}
+ 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} "BGM SE res" ${DATADIR})
++	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
+ 
+-# Documentation
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
+-	${INSTALL_DATA} ${WRKSRC}/README.txt ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/games/syobon/distinfo ./distinfo
+--- /usr/ports/games/syobon/distinfo	2013-01-14 17:55:38.000000000 +0100
++++ ./distinfo	2013-03-28 14:33:04.000000000 +0100
+@@ -1,2 +1,4 @@
+ SHA256 (syobon_1.0.1_src.tar.gz) = e7aaf73098e6bd748ae682aab4e959e887a742647124aac813f864e5106b943a
+ SIZE (syobon_1.0.1_src.tar.gz) = 2721153
++SHA256 (syobon.png) = ef9c5d27c855ef4d83da98562e8f7d4515d232ca4352ecdbf75b0725490f4111
++SIZE (syobon.png) = 1760
+diff -ruN --exclude=CVS /usr/ports/games/syobon/pkg-plist ./pkg-plist
+--- /usr/ports/games/syobon/pkg-plist	1970-01-01 01:00:00.000000000 +0100
++++ ./pkg-plist	2013-03-28 14:27:19.000000000 +0100
+@@ -0,0 +1,40 @@
++bin/syobon
++share/pixmaps/syobon.png
++%%DATADIR%%/BGM/castle.ogg
++%%DATADIR%%/BGM/dungeon.ogg
++%%DATADIR%%/BGM/field.ogg
++%%DATADIR%%/BGM/puyo.ogg
++%%DATADIR%%/BGM/star4.ogg
++%%DATADIR%%/SE/4-clear.ogg
++%%DATADIR%%/SE/Pswitch.ogg
++%%DATADIR%%/SE/allclear.ogg
++%%DATADIR%%/SE/brockbreak.ogg
++%%DATADIR%%/SE/brockcoin.ogg
++%%DATADIR%%/SE/brockkinoko.ogg
++%%DATADIR%%/SE/coin.ogg
++%%DATADIR%%/SE/death.ogg
++%%DATADIR%%/SE/dokan.ogg
++%%DATADIR%%/SE/gameover.ogg
++%%DATADIR%%/SE/goal.ogg
++%%DATADIR%%/SE/hintBlock.ogg
++%%DATADIR%%/SE/humi.ogg
++%%DATADIR%%/SE/jump.ogg
++%%DATADIR%%/SE/jumpBlock.ogg
++%%DATADIR%%/SE/kirra.ogg
++%%DATADIR%%/SE/koura.ogg
++%%DATADIR%%/SE/powerup.ogg
++%%DATADIR%%/SE/tekifire.ogg
++%%DATADIR%%/res/DejaVuSans.ttf
++%%DATADIR%%/res/brock.PNG
++%%DATADIR%%/res/brock2.PNG
++%%DATADIR%%/res/haikei.PNG
++%%DATADIR%%/res/item.PNG
++%%DATADIR%%/res/omake.PNG
++%%DATADIR%%/res/omake2.PNG
++%%DATADIR%%/res/player.PNG
++%%DATADIR%%/res/syobon3.PNG
++%%DATADIR%%/res/teki.PNG
++@dirrm %%DATADIR%%/res
++@dirrm %%DATADIR%%/SE
++@dirrm %%DATADIR%%/BGM
++@dirrm %%DATADIR%%
+===> Done

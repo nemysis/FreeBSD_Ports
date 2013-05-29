@@ -1,0 +1,122 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/textproc/unoconv/Makefile ./Makefile
+--- /usr/ports/textproc/unoconv/Makefile	2013-01-14 17:56:04.000000000 +0100
++++ ./Makefile	2013-05-27 21:42:40.000000000 +0200
+@@ -1,10 +1,16 @@
++# Created by: nemysis <nemysis@gmx.ch>
+ # $FreeBSD: head/textproc/unoconv/Makefile 304580 2012-09-20 14:22:09Z pawel $
+ 
+ PORTNAME=	unoconv
+ PORTVERSION=	0.6
++PORTREVISION=	1
+ CATEGORIES=	textproc python
+-MASTER_SITES=	http://dag.wieers.com/home-made/unoconv/
++MASTER_SITES=	http://dag.wieers.com/home-made/unoconv/ \
++		SF/nemysisfreebsdp/:icons
++DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
++		${PORTNAME}.png:icons
+ DIST_SUBDIR=	python
++EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
+ 
+ MAINTAINER=	nemysis@gmx.ch
+ COMMENT=	Convert any document from and to any LibreOffice supported format
+@@ -16,15 +22,14 @@
+ USE_PYTHON=	yes
+ NO_BUILD=	yes
+ 
+-PORTDATA=	 *
++PORTDOCS=	*
+ 
+ DOCSRCDIR1=	${WRKSRC}
+ DOC_FILES1=	AUTHORS ChangeLog README.asciidoc WISHLIST
+ 
+ DOCSRCDIR2=	${WRKSRC}/doc
+ DOCSDIR2=	${DOCSDIR}/doc
+-DOC_FILES2=	errcode.txt filters.txt formats.txt office-installations.txt \
+-		selinux.txt unoconv.1.txt
++DOC_FILES2=	*.txt
+ 
+ MAN1=		${PORTNAME}.1
+ 
+@@ -33,31 +38,24 @@
+ .include <bsd.port.options.mk>
+ 
+ do-install:
+-# Scripts
+ 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin
+-
+-# Executable
+-	${MKDIR} ${DATADIR}/tests
++	@${MKDIR} ${DATADIR}/tests
+ 	${INSTALL_SCRIPT} ${WRKSRC}/${PORTNAME} ${DATADIR}
+ 
+-# Data
+-.for f in *.odt *.csv
++.for f in *.gif *.odt *.csv
+ 	@(cd ${WRKSRC}/tests && ${INSTALL_DATA} ${f} ${DATADIR}/tests)
+ .endfor
+ 
+-# Pixmaps
+-	${INSTALL_DATA} ${WRKSRC}/tests/dag.gif ${PREFIX}/share/pixmaps/${PORTNAME}.gif
++	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
++	${INSTALL_MAN} ${WRKSRC}/doc/${PORTNAME}.1 ${MAN1PREFIX}/man/man1
+ 
+-# Documentation
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
+ 	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${DOCSDIR}
+-	${MKDIR} ${DOCSDIR2}
++	@${MKDIR} ${DOCSDIR2}
+ 	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${DOCSDIR2}
+-	${INSTALL_MAN} ${WRKSRC}/doc/${PORTNAME}.1 ${MAN1PREFIX}/man/man1
+ .endif
+ 
+-# pkg-message
+ 	@${ECHO_CMD}
+ 	@${CAT} ${PKGMESSAGE}
+ 	@${ECHO_CMD}
+diff -ruN --exclude=CVS /usr/ports/textproc/unoconv/distinfo ./distinfo
+--- /usr/ports/textproc/unoconv/distinfo	2013-01-14 17:56:04.000000000 +0100
++++ ./distinfo	2013-03-26 01:34:42.000000000 +0100
+@@ -1,2 +1,4 @@
+ SHA256 (python/unoconv-0.6.tar.gz) = 790e614b8615217ef4588b187f0018b526ec2bb480c6b9b2ffb9b82f48da73d4
+ SIZE (python/unoconv-0.6.tar.gz) = 91578
++SHA256 (python/unoconv.png) = 459f7dbc60e34ccce5c9d46a7317be02dd3c8275e7f7588b7b3885c67b6738eb
++SIZE (python/unoconv.png) = 744
+diff -ruN --exclude=CVS /usr/ports/textproc/unoconv/files/unoconv.in ./files/unoconv.in
+--- /usr/ports/textproc/unoconv/files/unoconv.in	2013-01-14 17:56:04.000000000 +0100
++++ ./files/unoconv.in	2013-03-26 01:41:34.000000000 +0100
+@@ -4,4 +4,4 @@
+ #
+ 
+ cd "%%DATADIR%%"
+-./unoconv "$@"
++./unoconv "${@}"
+diff -ruN --exclude=CVS /usr/ports/textproc/unoconv/pkg-plist ./pkg-plist
+--- /usr/ports/textproc/unoconv/pkg-plist	2013-01-14 17:56:04.000000000 +0100
++++ ./pkg-plist	2013-03-26 01:35:40.000000000 +0100
+@@ -1,14 +1,8 @@
+ bin/unoconv
+-%%PORTDOCS%%%%DOCSDIR%%/AUTHORS
+-%%PORTDOCS%%%%DOCSDIR%%/ChangeLog
+-%%PORTDOCS%%%%DOCSDIR%%/README.asciidoc
+-%%PORTDOCS%%%%DOCSDIR%%/WISHLIST
+-%%PORTDOCS%%%%DOCSDIR%%/doc/errcode.txt
+-%%PORTDOCS%%%%DOCSDIR%%/doc/filters.txt
+-%%PORTDOCS%%%%DOCSDIR%%/doc/formats.txt
+-%%PORTDOCS%%%%DOCSDIR%%/doc/office-installations.txt
+-%%PORTDOCS%%%%DOCSDIR%%/doc/selinux.txt
+-%%PORTDOCS%%%%DOCSDIR%%/doc/unoconv.1.txt
+-share/pixmaps/unoconv.gif
+-%%PORTDOCS%%@dirrm %%DOCSDIR%%/doc
+-%%PORTDOCS%%@dirrm %%DOCSDIR%%
++share/pixmaps/unoconv.png
++%%DATADIR%%/tests/dag.gif
++%%DATADIR%%/tests/document-example.odt
++%%DATADIR%%/tests/spreadsheet-example.csv
++%%DATADIR%%/unoconv
++@dirrm %%DATADIR%%/tests
++@dirrm %%DATADIR%%
+===> Done

@@ -1,0 +1,11 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/anki/pkg-descr ./pkg-descr
+--- /usr/ports/games/anki/pkg-descr	2013-01-24 11:57:57.000000000 +0100
++++ ./pkg-descr	2013-02-09 17:55:40.000000000 +0100
+@@ -11,3 +11,4 @@
+ provided for Russian.
+ 
+ WWW: http://ankisrs.net/
++WWW: http://ankisrs.net/anki2.html
+===> Done

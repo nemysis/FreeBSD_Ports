@@ -1,0 +1,97 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/sdl_jewels/Makefile ./Makefile
+--- /usr/ports/games/sdl_jewels/Makefile	2013-01-24 11:57:58.000000000 +0100
++++ ./Makefile	2013-05-26 12:38:23.000000000 +0200
+@@ -1,13 +1,14 @@
++# Created by: nemysis <nemysis@gmx.ch>
+ # $FreeBSD: head/games/sdl_jewels/Makefile 310871 2013-01-23 15:00:18Z makc $
+ 
+ PORTNAME=	sdl_jewels
+ PORTVERSION=	1.1.1
+-PORTREVISION=	2
++PORTREVISION=	3
+ CATEGORIES=	games
+ MASTER_SITES=	http://www.linuxmotors.com/gljewel/downloads/ \
+-		http://www.linuxmotors.com/gljewel/:icons
++		SF/nemysisfreebsdp/:icons
+ DISTFILES=	${PORTNAME:S/sdl/SDL/}-${DISTVERSION}.tgz \
+-		gljewel.gif:icons
++		${PORTNAME}.png:icons
+ DIST_SUBDIR=	${PORTNAME}
+ EXTRACT_ONLY=	${PORTNAME:S/sdl/SDL/}-${DISTVERSION}.tgz
+ 
+@@ -16,8 +17,6 @@
+ 
+ LICENSE=	GPLv2
+ 
+-BUILD_DEPENDS=	giftopnm:${PORTSDIR}/graphics/netpbm
+-
+ WRKSRC=		${WRKDIR}/${PORTNAME:S/sdl/SDL/}-${PORTVERSION}
+ 
+ USE_SDL=	sdl image mixer
+@@ -25,14 +24,10 @@
+ MAKE_JOBS_SAFE=	yes
+ ALL_TARGET=
+ 
+-PLIST_FILES=	bin/sdljewels \
+-		share/pixmaps/sdljewels.png
+-
+-PORTDATA=	*
+ PORTDOCS=	ChangeLog README
+ 
+-DESKTOP_ENTRIES="SDL Jewels" "${COMMENT}" "sdljewels" \
+-		"sdljewels" "Game;ArcadeGame;" ${FALSE}
++DESKTOP_ENTRIES="SDL Jewels" "${COMMENT}" "${PORTNAME}" \
++		"sdljewels" "Game;ArcadeGame;" false
+ 
+ .include <bsd.port.options.mk>
+ 
+@@ -45,18 +40,13 @@
+ 	@${REINPLACE_CMD} -e 's|CFLAGS = -O2 -Wall|CFLAGS+=|' \
+ 	-e 's|LDFLAGS =|LDFLAGS+=|' ${WRKSRC}/Makefile
+ 
+-post-build:
+-	@(cd ${WRKSRC} && \
+-		${LOCALBASE}/bin/giftopnm ${DISTDIR}/${DIST_SUBDIR}/gljewel.gif | \
+-		${LOCALBASE}/bin/pamscale .1 | ${LOCALBASE}/bin/pnmtopng > sdljewels.png)
+-
+ do-install:
+ 	${INSTALL_PROGRAM} ${WRKSRC}/gljewel ${PREFIX}/bin/sdljewels
+ 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} data ${DATADIR})
+-	${INSTALL_DATA} ${WRKSRC}/sdljewels.png ${PREFIX}/share/pixmaps
++	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
+ 
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
+ 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+diff -ruN --exclude=CVS /usr/ports/games/sdl_jewels/distinfo ./distinfo
+--- /usr/ports/games/sdl_jewels/distinfo	2013-01-14 17:55:26.000000000 +0100
++++ ./distinfo	2013-03-28 00:34:06.000000000 +0100
+@@ -1,4 +1,4 @@
+ SHA256 (sdl_jewels/SDL_jewels-1.1.1.tgz) = c9a40b7e18fabb03e4065e656bc2c30f595103bf20dc74a10847c3f3aa138ee7
+ SIZE (sdl_jewels/SDL_jewels-1.1.1.tgz) = 195366
+-SHA256 (sdl_jewels/gljewel.gif) = 73e5cf488e9a7c399b30d72f9920412834386b6eb6c66fdd0e941300e220683d
+-SIZE (sdl_jewels/gljewel.gif) = 57312
++SHA256 (sdl_jewels/sdl_jewels.png) = 0d84c2b23e7a8aee7d485e63d3222bd9188149829ecdea848302bde1f5e7083d
++SIZE (sdl_jewels/sdl_jewels.png) = 5043
+diff -ruN --exclude=CVS /usr/ports/games/sdl_jewels/pkg-plist ./pkg-plist
+--- /usr/ports/games/sdl_jewels/pkg-plist	1970-01-01 01:00:00.000000000 +0100
++++ ./pkg-plist	2013-03-28 00:34:55.000000000 +0100
+@@ -0,0 +1,12 @@
++bin/sdljewels
++share/pixmaps/sdl_jewels.png
++%%DATADIR%%/data/alert.raw
++%%DATADIR%%/data/bigdrop.raw
++%%DATADIR%%/data/bigfont.ppm
++%%DATADIR%%/data/drop.raw
++%%DATADIR%%/data/gameover.raw
++%%DATADIR%%/data/illegal.raw
++%%DATADIR%%/data/row.raw
++%%DATADIR%%/data/swap.raw
++@dirrm %%DATADIR%%/data
++@dirrm %%DATADIR%%
+===> Done

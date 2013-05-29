@@ -1,0 +1,20 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/x11-toolkits/libsexy/Makefile ./Makefile
+--- /usr/ports/x11-toolkits/libsexy/Makefile	2013-04-26 16:36:47.000000000 +0200
++++ ./Makefile	2013-05-27 23:04:27.000000000 +0200
+@@ -16,10 +16,10 @@
+ LIB_DEPENDS=	enchant:${PORTSDIR}/textproc/enchant
+ RUN_DEPENDS:=	${BUILD_DEPENDS}
+ 
++USES=		gettext pathfix pkgconfig
++USE_GNOME=	lthack gtk20 libxml2
+ USE_AUTOTOOLS=	libtool
+-USE_GNOME=	gnomehack lthack gtk20 libxml2
+-USE_LDCONFIG=	yes
+-USES=		pkgconfig gettext
+ GNU_CONFIGURE=	yes
++USE_LDCONFIG=	yes
+ 
+ .include <bsd.port.mk>
+===> Done

@@ -1,0 +1,88 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/tuxfighter/Makefile ./Makefile
+--- /usr/ports/games/tuxfighter/Makefile	2013-01-24 11:57:59.000000000 +0100
++++ ./Makefile	2013-03-28 18:10:27.000000000 +0100
+@@ -1,5 +1,4 @@
+-# Created by:	nemysis@gmx.ch
+-#
++# Created by: nemysis <nemysis@gmx.ch>
+ # $FreeBSD: head/games/tuxfighter/Makefile 310871 2013-01-23 15:00:18Z makc $
+ 
+ PORTNAME=	tuxfighter
+@@ -8,8 +7,8 @@
+ CATEGORIES=	games python
+ MASTER_SITES=	SF/pygamebook/TuxFighter/TuxFighter${PORTVERSION}_source/ \
+ 		SF/nemysisfreebsdp/:icons
+-DISTFILES=	TuxFighter${DISTVERSION}.tar.gz \
+-		${PORTNAME}_icons.tar.gz:icons
++DISTFILES=	TuxFighter${DISTVERSION}${EXTRACT_SUFX} \
++		${PORTNAME}_icons${EXTRACT_SUFX}:icons
+ DIST_SUBDIR=	python
+ 
+ MAINTAINER=	nemysis@gmx.ch
+@@ -33,15 +32,14 @@
+ SUB_FILES=	${PORTNAME}
+ 
+ DESKTOP_ENTRIES="TuxFighter" "${COMMENT}" "${PORTNAME}" \
+-		"${PORTNAME}" "Game;ArcadeGame;" ${FALSE}
++		"${PORTNAME}" "Game;ArcadeGame;" false
+ 
+ .include <bsd.port.options.mk>
+ 
+ do-install:
+ 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin
+-	${MKDIR} ${DATADIR}
++	@(cd ${WRKSRC} && ${COPYTREE_SHARE} data ${DATADIR})
+ 	${INSTALL_SCRIPT} ${WRKSRC}/*.py ${DATADIR}
+-	cd ${WRKSRC} && ${COPYTREE_SHARE} data ${DATADIR}
+ 
+ post-install:
+ .for s in ${ICON_SIZES}
+@@ -52,9 +50,12 @@
+ 	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
+ 
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
+ 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
++
++	@${ECHO_CMD}
+ 	@${CAT} ${PKGMESSAGE}
++	@${ECHO_CMD}
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/games/tuxfighter/pkg-message ./pkg-message
+--- /usr/ports/games/tuxfighter/pkg-message	2013-01-14 17:55:33.000000000 +0100
++++ ./pkg-message	2013-03-28 18:07:09.000000000 +0100
+@@ -1,4 +1,5 @@
+ ========================================================================
++
+ Tuxfighter has been installed.
+ 
+ Python errors will result in the first run of this game.
+@@ -8,4 +9,5 @@
+ 
+ All options are in the config file if you've made changes in the GUI.
+     ~/.TuxFighter/TuxFighter.ini
++
+ ========================================================================
+diff -ruN --exclude=CVS /usr/ports/games/tuxfighter/pkg-plist ./pkg-plist
+--- /usr/ports/games/tuxfighter/pkg-plist	2013-01-14 17:55:33.000000000 +0100
++++ ./pkg-plist	2013-03-28 18:09:47.000000000 +0100
+@@ -56,13 +56,3 @@
+ %%DATADIR%%/data/winlogoh3.png
+ @dirrm %%DATADIR%%/data
+ @dirrm %%DATADIR%%
+-@dirrmtry share/icons/hicolor/96x96/apps
+-@dirrmtry share/icons/hicolor/96x96
+-@dirrmtry share/icons/hicolor/72x72/apps
+-@dirrmtry share/icons/hicolor/72x72
+-@dirrmtry share/icons/hicolor/64x64/apps
+-@dirrmtry share/icons/hicolor/64x64
+-@dirrmtry share/icons/hicolor/48x48/apps
+-@dirrmtry share/icons/hicolor/48x48
+-@dirrmtry share/icons/hicolor
+-@dirrmtry share/icons
+===> Done

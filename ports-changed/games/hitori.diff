@@ -1,0 +1,100 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/hitori/Makefile ./Makefile
+--- /usr/ports/games/hitori/Makefile	2013-04-26 16:36:08.000000000 +0200
++++ ./Makefile	2013-05-25 17:48:21.000000000 +0200
+@@ -43,15 +43,15 @@
+ 
+ post-patch:
+ .if ${PORT_OPTIONS:MNLS}
+-	@${REINPLACE_CMD} -e 's|itlocaledir = $$(prefix)/$$(DATADIRNAME)/locale|itlocaledir = $$(prefix)/share/locale|' \
++	@${REINPLACE_CMD} -e 's|$$(prefix)/$$(DATADIRNAME)/locale|$$(prefix)/share/locale|' \
+ 		${WRKSRC}/po/Makefile.in.in
+ .endif
+ 
+ post-install:
+-	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps/
++	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
+ 
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
+ 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+diff -ruN --exclude=CVS /usr/ports/games/hitori/pkg-plist ./pkg-plist
+--- /usr/ports/games/hitori/pkg-plist	2013-03-17 22:05:16.000000000 +0100
++++ ./pkg-plist	2013-03-26 22:44:24.000000000 +0100
+@@ -108,49 +108,39 @@
+ share/pixmaps/hitori.png
+ %%NLS%%@dirrmtry share/locale/sr@latin/LC_MESSAGES
+ %%NLS%%@dirrmtry share/locale/sr@latin
+-@dirrmtry share/icons/hicolor/48x48/apps
+-@dirrmtry share/icons/hicolor/48x48
+-@dirrmtry share/icons/hicolor/32x32/apps
+-@dirrmtry share/icons/hicolor/32x32
+-@dirrmtry share/icons/hicolor/22x22/apps
+-@dirrmtry share/icons/hicolor/22x22
+-@dirrmtry share/icons/hicolor/16x16/apps
+-@dirrmtry share/icons/hicolor/16x16
+-@dirrmtry share/icons/hicolor
+-@dirrmtry share/icons
+ @dirrm %%DATADIR%%
+-@dirrmtry share/help/zh_CN/hitori/figures
+-@dirrmtry share/help/zh_CN/hitori
++@dirrm share/help/zh_CN/hitori/figures
++@dirrm share/help/zh_CN/hitori
+ @dirrmtry share/help/zh_CN
+-@dirrmtry share/help/sv/hitori/figures
+-@dirrmtry share/help/sv/hitori
++@dirrm share/help/sv/hitori/figures
++@dirrm share/help/sv/hitori
+ @dirrmtry share/help/sv
+-@dirrmtry share/help/sl/hitori/figures
+-@dirrmtry share/help/sl/hitori
++@dirrm share/help/sl/hitori/figures
++@dirrm share/help/sl/hitori
+ @dirrmtry share/help/sl
+-@dirrmtry share/help/ro/hitori/figures
+-@dirrmtry share/help/ro/hitori
++@dirrm share/help/ro/hitori/figures
++@dirrm share/help/ro/hitori
+ @dirrmtry share/help/ro
+-@dirrmtry share/help/fr/hitori/figures
+-@dirrmtry share/help/fr/hitori
++@dirrm share/help/fr/hitori/figures
++@dirrm share/help/fr/hitori
+ @dirrmtry share/help/fr
+-@dirrmtry share/help/es/hitori/figures
+-@dirrmtry share/help/es/hitori
++@dirrm share/help/es/hitori/figures
++@dirrm share/help/es/hitori
+ @dirrmtry share/help/es
+-@dirrmtry share/help/en_GB/hitori/figures
+-@dirrmtry share/help/en_GB/hitori
++@dirrm share/help/en_GB/hitori/figures
++@dirrm share/help/en_GB/hitori
+ @dirrmtry share/help/en_GB
+-@dirrmtry share/help/de/hitori/figures
+-@dirrmtry share/help/de/hitori
++@dirrm share/help/de/hitori/figures
++@dirrm share/help/de/hitori
+ @dirrmtry share/help/de
+-@dirrmtry share/help/da/hitori/figures
+-@dirrmtry share/help/da/hitori
++@dirrm share/help/da/hitori/figures
++@dirrm share/help/da/hitori
+ @dirrmtry share/help/da
+-@dirrmtry share/help/cs/hitori/figures
+-@dirrmtry share/help/cs/hitori
++@dirrm share/help/cs/hitori/figures
++@dirrm share/help/cs/hitori
+ @dirrmtry share/help/cs
+-@dirrmtry share/help/C/hitori/figures
+-@dirrmtry share/help/C/hitori
++@dirrm share/help/C/hitori/figures
++@dirrm share/help/C/hitori
+ @dirrmtry share/help/C
+ @dirrmtry share/help
+ @dirrmtry share/applications
+===> Done

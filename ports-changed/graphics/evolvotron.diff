@@ -1,0 +1,103 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/graphics/evolvotron/Makefile ./Makefile
+--- /usr/ports/graphics/evolvotron/Makefile	2013-03-06 02:18:28.000000000 +0100
++++ ./Makefile	2013-05-26 22:46:58.000000000 +0200
+@@ -3,7 +3,7 @@
+ 
+ PORTNAME=	evolvotron
+ PORTVERSION=	0.6.3
+-PORTREVISION=	1
++PORTREVISION=	2
+ CATEGORIES=	graphics
+ MASTER_SITES=	SF \
+ 		SF/nemysisfreebsdp/:icons
+@@ -17,8 +17,6 @@
+ 
+ LIB_DEPENDS=	boost_thread:${PORTSDIR}/devel/boost-libs
+ 
+-OPTIONS_DEFINE=	DOCS
+-
+ WRKSRC=		${WRKDIR}/${PORTNAME}
+ 
+ USE_QT4=	corelib gui xml moc_build qmake_build
+@@ -34,19 +32,12 @@
+ INSTALLS_ICONS=	yes
+ ICON_SIZES=	32x32 48x48 64x64 72x72 96x96 128x128
+ 
+-DESKTOP_ENTRIES="Evolvotron" "Interactive image generator" \
+-		"${PREFIX}/share/pixmaps/${PORTNAME}.png" \
++DESKTOP_ENTRIES="Evolvotron" "Interactive image generator" "${PORTNAME}" \
+ 		"${PORTNAME}" "Graphics;2DGraphics;" true
+ 
+ .include <bsd.port.pre.mk>
+ .include <bsd.port.options.mk>
+ 
+-.if ${PORT_OPTIONS:MDOCS}
+-PLIST_SUB+=	PORTDOCS=""
+-.else
+-PLIST_SUB+=	PORTDOCS="@comment "
+-.endif
+-
+ .if ${CXX:T:M*clang*} || ${OSVERSION} >= 1000024
+ .for i in libevolvotron libfunction
+ CXXFLAGS+=	-include ${WRKSRC}/${i}/${i}_precompiled.h \
+@@ -71,10 +62,10 @@
+ 
+ do-install:
+ .for i in evolvotron evolvotron_mutate evolvotron_render
+-	${INSTALL_PROGRAM} ${WRKSRC}/${i}/${i} ${PREFIX}/bin/
++	${INSTALL_PROGRAM} ${WRKSRC}/${i}/${i} ${PREFIX}/bin
+ .endfor
+ .for lib in libevolvotron libfunction
+-	${INSTALL_DATA} ${WRKSRC}/${lib}/${lib}.a ${PREFIX}/lib/
++	${INSTALL_DATA} ${WRKSRC}/${lib}/${lib}.a ${PREFIX}/lib
+ .endfor
+ 
+ post-install:
+@@ -83,8 +74,8 @@
+ 	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}_${s}.png \
+ 		${PREFIX}/share/icons/hicolor/${s}/apps/${PORTNAME}.png
+ .endfor
+-	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps/
+-	(cd ${WRKSRC}/man/man1 && ${INSTALL_MAN} ${MAN1} ${MAN1PREFIX}/man/man1/)
++	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
++	(cd ${WRKSRC}/man/man1 && ${INSTALL_MAN} ${MAN1} ${MAN1PREFIX}/man/man1)
+ 
+ .if ${PORT_OPTIONS:MDOCS}
+ 	@${MKDIR} ${DOCSDIR}
+diff -ruN --exclude=CVS /usr/ports/graphics/evolvotron/pkg-plist ./pkg-plist
+--- /usr/ports/graphics/evolvotron/pkg-plist	2013-03-06 02:18:28.000000000 +0100
++++ ./pkg-plist	2013-03-25 01:48:38.000000000 +0100
+@@ -3,11 +3,6 @@
+ bin/evolvotron_render
+ lib/libevolvotron.a
+ lib/libfunction.a
+-%%PORTDOCS%%%%DOCSDIR%%/NEWS
+-%%PORTDOCS%%%%DOCSDIR%%/README
+-%%PORTDOCS%%%%DOCSDIR%%/TODO
+-%%PORTDOCS%%%%DOCSDIR%%/USAGE
+-%%PORTDOCS%%%%DOCSDIR%%/evolvotron.html
+ share/icons/hicolor/128x128/apps/evolvotron.png
+ share/icons/hicolor/32x32/apps/evolvotron.png
+ share/icons/hicolor/48x48/apps/evolvotron.png
+@@ -15,18 +10,3 @@
+ share/icons/hicolor/72x72/apps/evolvotron.png
+ share/icons/hicolor/96x96/apps/evolvotron.png
+ share/pixmaps/evolvotron.png
+-@dirrmtry share/icons/hicolor/96x96/apps
+-@dirrmtry share/icons/hicolor/96x96
+-@dirrmtry share/icons/hicolor/72x72/apps
+-@dirrmtry share/icons/hicolor/72x72
+-@dirrmtry share/icons/hicolor/64x64/apps
+-@dirrmtry share/icons/hicolor/64x64
+-@dirrmtry share/icons/hicolor/48x48/apps
+-@dirrmtry share/icons/hicolor/48x48
+-@dirrmtry share/icons/hicolor/32x32/apps
+-@dirrmtry share/icons/hicolor/32x32
+-@dirrmtry share/icons/hicolor/128x128/apps
+-@dirrmtry share/icons/hicolor/128x128
+-@dirrmtry share/icons/hicolor
+-@dirrmtry share/icons
+-%%PORTDOCS%%@dirrm %%DOCSDIR%%
+===> Done

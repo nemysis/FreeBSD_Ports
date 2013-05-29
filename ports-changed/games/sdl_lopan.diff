@@ -1,0 +1,125 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/sdl_lopan/Makefile ./Makefile
+--- /usr/ports/games/sdl_lopan/Makefile	2013-01-24 11:57:58.000000000 +0100
++++ ./Makefile	2013-05-26 12:52:05.000000000 +0200
+@@ -1,13 +1,14 @@
++# Created by: nemysis <nemysis@gmx.ch>
+ # $FreeBSD: head/games/sdl_lopan/Makefile 310871 2013-01-23 15:00:18Z makc $
+ 
+ PORTNAME=	sdl_lopan
+ PORTVERSION=	10
+-PORTREVISION=	2
++PORTREVISION=	3
+ CATEGORIES=	games
+ MASTER_SITES=	http://www.linuxmotors.com/sdllopan/downloads/ \
+-		http://www.linuxmotors.com/sdllopan/:icons
++		SF/nemysisfreebsdp/:icons
+ DISTFILES=	sdllopan-${DISTVERSION}.tgz \
+-		sdllopan.gif:icons
++		${PORTNAME}.png:icons
+ DIST_SUBDIR=	${PORTNAME}
+ EXTRACT_ONLY=	sdllopan-${DISTVERSION}.tgz
+ 
+@@ -16,8 +17,6 @@
+ 
+ LICENSE=	GPLv2
+ 
+-BUILD_DEPENDS=	giftopnm:${PORTSDIR}/graphics/netpbm
+-
+ WRKSRC=		${WRKDIR}/sdllopan-${PORTVERSION}
+ 
+ USE_SDL=	sdl image mixer
+@@ -26,14 +25,10 @@
+ 
+ ALL_TARGET=
+ 
+-PLIST_FILES=	bin/sdllopan \
+-		share/pixmaps/sdllopan.png
+-
+-PORTDATA=	*
+ PORTDOCS=	Changelog README
+ 
+-DESKTOP_ENTRIES="SDL Lopan" "${COMMENT}" "sdllopan" \
+-		"sdllopan" "Game;ArcadeGame;" ${FALSE}
++DESKTOP_ENTRIES="SDL Lopan" "${COMMENT}" "${PORTNAME}" \
++		"sdllopan" "Game;ArcadeGame;" false
+ 
+ .include <bsd.port.options.mk>
+ 
+@@ -43,18 +38,13 @@
+ 	-e 's|char temp\[64\];|char temp\[256\];|' \
+ 		${WRKSRC}/lopan.c
+ 
+-post-build:
+-	@(cd ${WRKSRC} && \
+-		${LOCALBASE}/bin/giftopnm ${DISTDIR}/${DIST_SUBDIR}/sdllopan.gif | \
+-		${LOCALBASE}/bin/pamscale .1 | ${LOCALBASE}/bin/pnmtopng > sdllopan.png)
+-
+ do-install:
+ 	${INSTALL_PROGRAM} ${WRKSRC}/lopan ${PREFIX}/bin/sdllopan
+ 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} data ${DATADIR})
+-	${INSTALL_DATA} ${WRKSRC}/sdllopan.png ${PREFIX}/share/pixmaps
++	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
+ 
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
+ 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+diff -ruN --exclude=CVS /usr/ports/games/sdl_lopan/distinfo ./distinfo
+--- /usr/ports/games/sdl_lopan/distinfo	2013-01-14 17:55:24.000000000 +0100
++++ ./distinfo	2013-03-28 00:52:16.000000000 +0100
+@@ -1,4 +1,4 @@
+ SHA256 (sdl_lopan/sdllopan-10.tgz) = 386de065bc8c3449c3b0b5e5651cb035cb1bdc242b425c865dd387c54ce708c3
+ SIZE (sdl_lopan/sdllopan-10.tgz) = 380102
+-SHA256 (sdl_lopan/sdllopan.gif) = 390f26f4792e1116b4f4456a1e2b9713bca6b9fd200badb85e4b9be403a0988a
+-SIZE (sdl_lopan/sdllopan.gif) = 45164
++SHA256 (sdl_lopan/sdl_lopan.png) = 2f5847124d95fb56ef027d34968567e10701168731910ab724078289a64f3a94
++SIZE (sdl_lopan/sdl_lopan.png) = 5906
+diff -ruN --exclude=CVS /usr/ports/games/sdl_lopan/pkg-plist ./pkg-plist
+--- /usr/ports/games/sdl_lopan/pkg-plist	1970-01-01 01:00:00.000000000 +0100
++++ ./pkg-plist	2013-03-28 00:53:03.000000000 +0100
+@@ -0,0 +1,40 @@
++bin/sdllopan
++share/pixmaps/sdl_lopan.png
++%%DATADIR%%/data/bg0.pcx
++%%DATADIR%%/data/bg1.pcx
++%%DATADIR%%/data/bg10.pcx
++%%DATADIR%%/data/bg11.pcx
++%%DATADIR%%/data/bg12.pcx
++%%DATADIR%%/data/bg13.pcx
++%%DATADIR%%/data/bg14.pcx
++%%DATADIR%%/data/bg15.pcx
++%%DATADIR%%/data/bg16.pcx
++%%DATADIR%%/data/bg17.pcx
++%%DATADIR%%/data/bg18.pcx
++%%DATADIR%%/data/bg19.pcx
++%%DATADIR%%/data/bg2.pcx
++%%DATADIR%%/data/bg20.pcx
++%%DATADIR%%/data/bg21.pcx
++%%DATADIR%%/data/bg22.pcx
++%%DATADIR%%/data/bg23.pcx
++%%DATADIR%%/data/bg24.pcx
++%%DATADIR%%/data/bg25.pcx
++%%DATADIR%%/data/bg26.pcx
++%%DATADIR%%/data/bg27.pcx
++%%DATADIR%%/data/bg28.pcx
++%%DATADIR%%/data/bg29.pcx
++%%DATADIR%%/data/bg3.pcx
++%%DATADIR%%/data/bg30.pcx
++%%DATADIR%%/data/bg31.pcx
++%%DATADIR%%/data/bg32.pcx
++%%DATADIR%%/data/bg33.pcx
++%%DATADIR%%/data/bg4.pcx
++%%DATADIR%%/data/bg5.pcx
++%%DATADIR%%/data/bg6.pcx
++%%DATADIR%%/data/bg7.pcx
++%%DATADIR%%/data/bg8.pcx
++%%DATADIR%%/data/bg9.pcx
++%%DATADIR%%/data/tiles0.pcx
++%%DATADIR%%/data/tiles1.pcx
++@dirrm %%DATADIR%%/data
++@dirrm %%DATADIR%%
+===> Done

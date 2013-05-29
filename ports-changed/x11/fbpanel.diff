@@ -1,0 +1,75 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/x11/fbpanel/Makefile ./Makefile
+--- /usr/ports/x11/fbpanel/Makefile	2013-04-26 16:36:29.000000000 +0200
++++ ./Makefile	2013-05-27 22:42:59.000000000 +0200
+@@ -14,41 +14,32 @@
+ LICENSE=	MIT
+ 
+ USE_BZIP2=	yes
++USES=		pkgconfig
++USE_GNOME=	gtk20
+ HAS_CONFIGURE=	yes
+ CONFIGURE_ARGS=	--prefix=${PREFIX}
+ USE_GMAKE=	yes
+-USE_GNOME=	gtk20
+-USES=		pkgconfig
+ 
+ MAN1=		${PORTNAME}.1
+ 
+ PORTDOCS=	CHANGELOG CREDITS NOTES README
+ 
+-OPTIONS_DEFINE=	DOCS
+-
+ DESKTOP_ENTRIES="${PORTNAME}" "${PORTNAME} NETWM compliant X11 desktop panel" \
+-		"${PREFIX}/share/pixmaps/${PORTNAME}.png" \
+-		"${PORTNAME}" "System;" false
++		"${PORTNAME}" "${PORTNAME}" "System;" false
+ 
+ .include <bsd.port.options.mk>
+ 
+-.if ${PORT_OPTIONS:MDOCS}
+-PLIST_SUB+=	PORTDOCS=""
+-.else
+-PLIST_SUB+=	PORTDOCS="@comment "
+-.endif
+-
+ post-patch:
+-	@${REINPLACE_CMD} -e 's|bash|sh|' ${WRKSRC}/scripts/install.sh
++	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|' ${WRKSRC}/scripts/install.sh
+ 	@${REINPLACE_CMD} -e 's|@DATADIR@|${DATADIR}|' \
+ 		${WRKSRC}/data/man/${MAN1}.in
+ 
+ post-install:
+-	${INSTALL_MAN} ${WRKSRC}/data/man/${MAN1} ${MAN1PREFIX}/man/man1/
++	${INSTALL_MAN} ${WRKSRC}/data/man/${MAN1} ${MAN1PREFIX}/man/man1
+ 	${LN} -sf ${DATADIR}/images/logo.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
+ 
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
+ 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+diff -ruN --exclude=CVS /usr/ports/x11/fbpanel/pkg-plist ./pkg-plist
+--- /usr/ports/x11/fbpanel/pkg-plist	2013-03-10 18:41:31.000000000 +0100
++++ ./pkg-plist	2013-03-26 01:55:18.000000000 +0100
+@@ -22,10 +22,6 @@
+ lib/fbpanel/volume.so
+ lib/fbpanel/wincmd.so
+ libexec/fbpanel/make_profile
+-%%PORTDOCS%%%%DOCSDIR%%/CHANGELOG
+-%%PORTDOCS%%%%DOCSDIR%%/CREDITS
+-%%PORTDOCS%%%%DOCSDIR%%/NOTES
+-%%PORTDOCS%%%%DOCSDIR%%/README
+ %%DATADIR%%/default
+ %%DATADIR%%/images/battery_0.png
+ %%DATADIR%%/images/battery_1.png
+@@ -55,6 +51,5 @@
+ share/pixmaps/fbpanel.png
+ @dirrm %%DATADIR%%/images
+ @dirrm %%DATADIR%%
+-%%PORTDOCS%%@dirrm %%DOCSDIR%%
+ @dirrm libexec/fbpanel
+ @dirrm lib/fbpanel
+===> Done

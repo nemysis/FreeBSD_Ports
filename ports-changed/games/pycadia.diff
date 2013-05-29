@@ -1,0 +1,127 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/pycadia/Makefile ./Makefile
+--- /usr/ports/games/pycadia/Makefile	2013-01-24 11:57:57.000000000 +0100
++++ ./Makefile	2013-05-26 11:23:09.000000000 +0200
+@@ -1,10 +1,9 @@
+-# Created by:			nemysis@gmx.ch
+-#
++# Created by: nemysis <nemysis@gmx.ch>
+ # $FreeBSD: head/games/pycadia/Makefile 310871 2013-01-23 15:00:18Z makc $
+ 
+ PORTNAME=	pycadia
+ PORTVERSION=	0.5.1
+-PORTREVISION=	2
++PORTREVISION=	3
+ CATEGORIES=	games python
+ MASTER_SITES=	${MASTER_SITE_GENTOO:S/%SUBDIR%/distfiles/} \
+ 		SF/nemysisfreebsdp/
+@@ -23,14 +22,10 @@
+ USE_PYTHON=	yes
+ NO_BUILD=	yes
+ 
+-PLIST_FILES=	bin/${PORTNAME} \
+-		share/pixmaps/${PORTNAME}.png
+-
+-PORTDATA=	*
+ PORTDOCS=	CHANGELOG README TODO gravity.txt
+ 
+ DESKTOP_ENTRIES="Pycadia" "${COMMENT}" "${PORTNAME}" \
+-		"${PORTNAME}" "Game;ArcadeGame;" ${FALSE}
++		"${PORTNAME}" "Game;ArcadeGame;" false
+ 
+ SUB_FILES=	${PORTNAME}.sh
+ 
+@@ -38,16 +33,14 @@
+ 
+ do-install:
+ 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME}.sh ${PREFIX}/bin/${PORTNAME}
+-
+-	${MKDIR} ${DATADIR}
+-	@(cd ${WRKSRC} && ${COPYTREE_SHARE} \* ${DATADIR})
++	@${FIND} ${WRKSRC} -name "*.bak" -delete
++	@(cd ${WRKSRC} && ${COPYTREE_SHARE} "glade pixmaps sounds *.py *.ico *.cfg" ${DATADIR})
+ 	@(cd ${DATADIR} && ${CHMOD} 555 ${PORTNAME}.py spacewarpy.py vektoroids.py)
+ 	${INSTALL_DATA} ${FILESDIR}/${PORTNAME}.conf ${DATADIR}
+-
+-	${INSTALL_DATA} ${WRKSRC}/pixmaps/logo1.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
++	${LN} -sf ${DATADIR}/pixmaps/pysteroids.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
+ 
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
+ 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/doc/|} ${DOCSDIR}
+ .endif
+ 
+diff -ruN --exclude=CVS /usr/ports/games/pycadia/files/pycadia.sh.in ./files/pycadia.sh.in
+--- /usr/ports/games/pycadia/files/pycadia.sh.in	2013-01-14 17:55:40.000000000 +0100
++++ ./files/pycadia.sh.in	2013-03-27 23:38:21.000000000 +0100
+@@ -1,6 +1,7 @@
+ #!/bin/sh
+ #
+ # $FreeBSD: head/games/pycadia/files/pycadia.sh.in 305338 2012-10-06 05:37:29Z jgh $
++#
+ 
+ cd "%%DATADIR%%"
+-./pycadia.py
++exec ./pycadia.py "${@}"
+diff -ruN --exclude=CVS /usr/ports/games/pycadia/pkg-plist ./pkg-plist
+--- /usr/ports/games/pycadia/pkg-plist	1970-01-01 01:00:00.000000000 +0100
++++ ./pkg-plist	2013-05-26 11:24:49.000000000 +0200
+@@ -0,0 +1,55 @@
++bin/pycadia
++share/pixmaps/pycadia.png
++%%DATADIR%%/actor.py
++%%DATADIR%%/asteroid.py
++%%DATADIR%%/config.py
++%%DATADIR%%/constants.py
++%%DATADIR%%/explosion.py
++%%DATADIR%%/game_state.py
++%%DATADIR%%/gd_letters.py
++%%DATADIR%%/gd_numbers.py
++%%DATADIR%%/gd_objects.py
++%%DATADIR%%/glade/pycadia.glade
++%%DATADIR%%/glade/pycadia.gladep
++%%DATADIR%%/glade2.py
++%%DATADIR%%/hiscores.py
++%%DATADIR%%/msg_test.py
++%%DATADIR%%/pixmaps/logo1.png
++%%DATADIR%%/pixmaps/pysteroids.png
++%%DATADIR%%/pixmaps/spacewarpy_msg.png
++%%DATADIR%%/pixmaps/vektoroids_msg.png
++%%DATADIR%%/pixmaps/vektoroids_msg2.png
++%%DATADIR%%/player.py
++%%DATADIR%%/pycadia.conf
++%%DATADIR%%/pycadia.ico
++%%DATADIR%%/pycadia.py
++%%DATADIR%%/pycadia_prefs.py
++%%DATADIR%%/pyg_keys.py
++%%DATADIR%%/saucer.py
++%%DATADIR%%/setup.cfg
++%%DATADIR%%/setup.py
++%%DATADIR%%/shot.py
++%%DATADIR%%/sound.py
++%%DATADIR%%/sounds/big_explode1.wav
++%%DATADIR%%/sounds/big_explode2.wav
++%%DATADIR%%/sounds/explode1.wav
++%%DATADIR%%/sounds/explode2.wav
++%%DATADIR%%/sounds/explode_short.wav
++%%DATADIR%%/sounds/fire1.wav
++%%DATADIR%%/sounds/fire2.wav
++%%DATADIR%%/sounds/idle.wav
++%%DATADIR%%/sounds/pop.wav
++%%DATADIR%%/sounds/thrust1.wav
++%%DATADIR%%/sounds/thrust2.wav
++%%DATADIR%%/sounds/ufo-shot.wav
++%%DATADIR%%/sounds/ufo-shot1.wav
++%%DATADIR%%/sounds/ufo.wav
++%%DATADIR%%/sounds/ufo1.wav
++%%DATADIR%%/spacewarpy.py
++%%DATADIR%%/sun.py
++%%DATADIR%%/vector_text.py
++%%DATADIR%%/vektoroids.py
++@dirrm %%DATADIR%%/sounds
++@dirrm %%DATADIR%%/pixmaps
++@dirrm %%DATADIR%%/glade
++@dirrm %%DATADIR%%
+===> Done

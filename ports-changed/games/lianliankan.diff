@@ -1,0 +1,24 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/lianliankan/Makefile ./Makefile
+--- /usr/ports/games/lianliankan/Makefile	2013-04-26 16:36:09.000000000 +0200
++++ ./Makefile	2013-05-22 00:24:24.000000000 +0200
+@@ -37,13 +37,12 @@
+ .endif
+ 
+ post-patch:
+-.if empty(PORT_OPTIONS:MNLS)
+-	@${REINPLACE_CMD} -e '/^SUBDIRS/s|po||' \
+-		${WRKSRC}/Makefile.am
++.if ! ${PORT_OPTIONS:MNLS}
++	@${REINPLACE_CMD} -e '/^SUBDIRS/s|po||' ${WRKSRC}/Makefile.am
+ .endif
+ 
+ post-install:
+-	${MKDIR} ${PREFIX}/share/applications
+-	${INSTALL_DATA} ${FILESDIR}/lianliankan.desktop ${PREFIX}/share/applications
++	@${MKDIR} ${PREFIX}/share/applications
++	${INSTALL_DATA} ${FILESDIR}/${PORTNAME}.desktop ${PREFIX}/share/applications
+ 
+ .include <bsd.port.mk>
+===> Done

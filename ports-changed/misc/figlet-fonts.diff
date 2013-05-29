@@ -1,0 +1,36 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/misc/figlet-fonts/Makefile ./Makefile
+--- /usr/ports/misc/figlet-fonts/Makefile	2013-01-14 17:56:53.000000000 +0100
++++ ./Makefile	2013-03-25 20:22:49.000000000 +0100
+@@ -1,9 +1,5 @@
+-# New ports collection makefile for:	figlet-fonts
+-# Date created:			11 August 2001
+-# Whom:				dd
+-#
+-# $FreeBSD: head/misc/figlet-fonts/Makefile 308493 2012-12-08 22:19:21Z beech $
+-#
++# Created by: dd
++# $FreeBSD: head/misc/figlet-fonts/Makefile 308411 2012-12-07 04:23:38Z beech $
+ 
+ PORTNAME=	figlet-fonts
+ PORTVERSION=	20121202
+@@ -15,7 +11,7 @@
+ MAINTAINER=	nemysis@gmx.ch
+ COMMENT=	Assorted fonts for the figlet(6) program
+ 
+-RUN_DEPENDS=    figlet:${PORTSDIR}/misc/figlet
++RUN_DEPENDS=	figlet:${PORTSDIR}/misc/figlet
+ 
+ NO_BUILD=	yes
+ NO_WRKSUBDIR=	yes
+@@ -44,7 +40,7 @@
+ 
+ do-install:
+ .for f in contributed international
+-	@cd ${WRKDIR}/${f} && ${COPYTREE_SHARE} \* ${DATADIR}
++	@cd ${WRKDIR}/${f} && ${COPYTREE_SHARE} . ${DATADIR}
+ .endfor
+ 
+ .include <bsd.port.mk>
+===> Done

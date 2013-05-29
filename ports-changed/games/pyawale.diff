@@ -1,0 +1,149 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/pyawale/Makefile ./Makefile
+--- /usr/ports/games/pyawale/Makefile	2013-01-14 17:55:26.000000000 +0100
++++ ./Makefile	2013-03-27 22:39:31.000000000 +0100
+@@ -3,7 +3,7 @@
+ 
+ PORTNAME=	pyawale
+ PORTVERSION=	0.4.0
+-PORTREVISION=	3
++PORTREVISION=	4
+ CATEGORIES=	games python
+ MASTER_SITES=	http://download.gna.org/pyawale/
+ 
+@@ -16,12 +16,6 @@
+ 
+ USE_PYTHON=	yes
+ 
+-PLIST_FILES=	bin/${PORTNAME} \
+-		share/applications/${PORTNAME}.desktop \
+-		share/pixmaps/${PORTNAME}.png
+-PLIST_DIRSTRY=	share/applications
+-
+-PORTDATA=	*
+ PORTDOCS=	*
+ 
+ DOCSRCDIR1=	${WRKSRC}
+@@ -38,6 +32,8 @@
+ post-patch:
+ 	@${FIND} ${WRKSRC} -name '*.py' | ${XARGS} \
+ 		${REINPLACE_CMD} -e 's|/usr/bin/python|${PYTHON_CMD}|'
++	@${REINPLACE_CMD} -e 's|pyawale.png|pyawale|' \
++		${WRKSRC}/docs/pyawale.desktop
+ 	@${FIND} ${WRKSRC} -name "*.bak" -delete
+ 
+ do-build:
+@@ -46,15 +42,16 @@
+ 
+ do-install:
+ 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin
+-	${MKDIR} ${DATADIR}
+-	@(cd ${WRKSRC}/src && ${COPYTREE_SHARE} \* ${DATADIR})
++	@(cd ${WRKSRC}/src && ${COPYTREE_SHARE} . ${DATADIR})
+ 	${INSTALL_DATA} ${WRKSRC}/docs/${PORTNAME}.png ${PREFIX}/share/pixmaps
+-	${MKDIR} ${PREFIX}/share/applications
++	@${MKDIR} ${PREFIX}/share/applications
+ 	${INSTALL_DATA} ${WRKSRC}/docs/${PORTNAME}.desktop ${PREFIX}/share/applications
++
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
+ 	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${DOCSDIR}
+-	${MKDIR} ${DOCSDIR2}
++	@${MKDIR} ${DOCSDIR2}
+ 	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${DOCSDIR2}
+ .endif
++
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/games/pyawale/pkg-plist ./pkg-plist
+--- /usr/ports/games/pyawale/pkg-plist	1970-01-01 01:00:00.000000000 +0100
++++ ./pkg-plist	2012-12-22 20:50:38.000000000 +0100
+@@ -0,0 +1,86 @@
++bin/pyawale
++share/applications/pyawale.desktop
++share/pixmaps/pyawale.png
++%%DATADIR%%/__init__.py
++%%DATADIR%%/__init__.pyc
++%%DATADIR%%/__init__.pyo
++%%DATADIR%%/awale.py
++%%DATADIR%%/awale.pyc
++%%DATADIR%%/awale.pyo
++%%DATADIR%%/images/awale_board_closed.png
++%%DATADIR%%/images/awale_board_empty.png
++%%DATADIR%%/images/awale_north_0.png
++%%DATADIR%%/images/awale_north_1.png
++%%DATADIR%%/images/awale_north_10.png
++%%DATADIR%%/images/awale_north_11.png
++%%DATADIR%%/images/awale_north_12.png
++%%DATADIR%%/images/awale_north_13.png
++%%DATADIR%%/images/awale_north_14.png
++%%DATADIR%%/images/awale_north_15.png
++%%DATADIR%%/images/awale_north_16.png
++%%DATADIR%%/images/awale_north_17.png
++%%DATADIR%%/images/awale_north_18.png
++%%DATADIR%%/images/awale_north_19.png
++%%DATADIR%%/images/awale_north_2.png
++%%DATADIR%%/images/awale_north_20.png
++%%DATADIR%%/images/awale_north_21.png
++%%DATADIR%%/images/awale_north_22.png
++%%DATADIR%%/images/awale_north_23.png
++%%DATADIR%%/images/awale_north_24.png
++%%DATADIR%%/images/awale_north_25.png
++%%DATADIR%%/images/awale_north_3.png
++%%DATADIR%%/images/awale_north_4.png
++%%DATADIR%%/images/awale_north_5.png
++%%DATADIR%%/images/awale_north_6.png
++%%DATADIR%%/images/awale_north_7.png
++%%DATADIR%%/images/awale_north_8.png
++%%DATADIR%%/images/awale_north_9.png
++%%DATADIR%%/images/awale_seed_0.png
++%%DATADIR%%/images/awale_seed_10d.png
++%%DATADIR%%/images/awale_seed_11d.png
++%%DATADIR%%/images/awale_seed_12d.png
++%%DATADIR%%/images/awale_seed_12d_13.png
++%%DATADIR%%/images/awale_seed_14d.png
++%%DATADIR%%/images/awale_seed_15d.png
++%%DATADIR%%/images/awale_seed_1d.png
++%%DATADIR%%/images/awale_seed_2c.png
++%%DATADIR%%/images/awale_seed_3b.png
++%%DATADIR%%/images/awale_seed_4D.png
++%%DATADIR%%/images/awale_seed_5d.png
++%%DATADIR%%/images/awale_seed_6c.png
++%%DATADIR%%/images/awale_seed_7b.png
++%%DATADIR%%/images/awale_seed_8e.png
++%%DATADIR%%/images/awale_seed_9d.png
++%%DATADIR%%/images/awale_south_0.png
++%%DATADIR%%/images/awale_south_1.png
++%%DATADIR%%/images/awale_south_10.png
++%%DATADIR%%/images/awale_south_11.png
++%%DATADIR%%/images/awale_south_12.png
++%%DATADIR%%/images/awale_south_13.png
++%%DATADIR%%/images/awale_south_14.png
++%%DATADIR%%/images/awale_south_15.png
++%%DATADIR%%/images/awale_south_16.png
++%%DATADIR%%/images/awale_south_17.png
++%%DATADIR%%/images/awale_south_18.png
++%%DATADIR%%/images/awale_south_19.png
++%%DATADIR%%/images/awale_south_2.png
++%%DATADIR%%/images/awale_south_20.png
++%%DATADIR%%/images/awale_south_21.png
++%%DATADIR%%/images/awale_south_22.png
++%%DATADIR%%/images/awale_south_23.png
++%%DATADIR%%/images/awale_south_24.png
++%%DATADIR%%/images/awale_south_25.png
++%%DATADIR%%/images/awale_south_3.png
++%%DATADIR%%/images/awale_south_4.png
++%%DATADIR%%/images/awale_south_5.png
++%%DATADIR%%/images/awale_south_6.png
++%%DATADIR%%/images/awale_south_7.png
++%%DATADIR%%/images/awale_south_8.png
++%%DATADIR%%/images/awale_south_9.png
++%%DATADIR%%/images/freesansbold.ttf
++%%DATADIR%%/pyawale.py
++%%DATADIR%%/pyawale.pyc
++%%DATADIR%%/pyawale.pyo
++@dirrm %%DATADIR%%/images
++@dirrm %%DATADIR%%
++@dirrmtry share/applications
+===> Done

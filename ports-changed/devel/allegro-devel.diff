@@ -1,0 +1,29 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/devel/allegro-devel/Makefile ./Makefile
+--- /usr/ports/devel/allegro-devel/Makefile	2013-04-26 16:36:36.000000000 +0200
++++ ./Makefile	2013-05-25 14:16:52.000000000 +0200
+@@ -10,8 +10,10 @@
+ MAINTAINER=	nemysis@gmx.ch
+ COMMENT=	Cross-platform library for games and multimedia programming
+ 
+-USE_GMAKE=	yes
++LICENSE=	ZLIB
++
+ USES=		cmake pkgconfig
++USE_GMAKE=	yes
+ USE_XORG=	x11 xpm xext xcursor xxf86vm xxf86dga
+ USE_LDCONFIG=	yes
+ WANT_GNOME=	yes
+@@ -31,8 +33,8 @@
+ PORTSCOUT=	limit:^4\.3\.[0-9]*
+ 
+ CFLAGS+=	-L${LOCALBASE}/lib
+-LIB_DEPENDS+=	asound.2:${PORTSDIR}/audio/alsa-lib \
+-		jack.0:${PORTSDIR}/audio/jack \
++LIB_DEPENDS+=	asound:${PORTSDIR}/audio/alsa-lib \
++		jack:${PORTSDIR}/audio/jack \
+ 		png15:${PORTSDIR}/graphics/png
+ 
+ .include <bsd.port.options.mk>
+===> Done

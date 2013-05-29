@@ -1,0 +1,170 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/games/pacmanarena/Makefile ./Makefile
+--- /usr/ports/games/pacmanarena/Makefile	2013-01-14 17:55:27.000000000 +0100
++++ ./Makefile	2013-05-25 23:27:35.000000000 +0200
+@@ -1,59 +1,59 @@
++# Created by: nemysis <nemysis@gmx.ch>
+ # $FreeBSD: head/games/pacmanarena/Makefile 303544 2012-09-02 11:37:46Z ak $
+ 
+ PORTNAME=	pacmanarena
+ PORTVERSION=	0.15
++PORTREVISION=	1
+ CATEGORIES=	games
+ MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/v0.0/ \
+-		SF/nemysisfreebsdp/:icons
++		SF/nemysisfreebsdp/pacmanarena/ \
++		SF/nemysisfreebsdp/pacmanarena/:icons
+ DISTFILES=	${DISTNAME:S/na/n-a/}.tar.bz2 \
+ 		${PORTNAME:S/arena/-data/}-0.0.zip \
+-		${PORTNAME}_icons.tar.gz:icons
++		${PORTNAME}_icons.tar.bz2:icons
++DIST_SUBDIR=	${PORTNAME}
+ 
+ MAINTAINER=	nemysis@gmx.ch
+ COMMENT=	Pacman clone in full 3D with a few surprises
+ 
+ LICENSE=	GPLv2
+ 
+-EXTRACT_DEPENDS=	unzip:${PORTSDIR}/archivers/unzip
++EXTRACT_DEPENDS=	${UNZIP_CMD}:${PORTSDIR}/archivers/unzip
+ 
+ WRKSRC=		${WRKDIR}/${PORTNAME:S/arena//}
+ 
+ GNU_CONFIGURE=	yes
+ USE_SDL=	mixer net sdl
+ 
+-PLIST_FILES=	bin/${PORTNAME} \
+-		share/pixmaps/${PORTNAME}_48.png \
+-		share/pixmaps/${PORTNAME}_64.png \
+-		share/pixmaps/${PORTNAME}_72.png \
+-		share/pixmaps/${PORTNAME}_96.png
+-
+-PORTDATA=	*
+ PORTDOCS=	README
+ 
+-post-patch:
+-# Fix data location
+-	@${REINPLACE_CMD} -e 's|@prefix@|${DATADIR}|' \
+-	-e 's|@datadir@/pacman|${DATADIR}|'  ${WRKSRC}/Makefile.in
++INSTALLS_ICONS=	yes
++ICON_SIZES=	32x32 48x48 64x64 72x72 96x96
++
++DESKTOP_ENTRIES="Pacman Arena" "${COMMENT}" "${PORTNAME}" \
++		"${PORTNAME}" "Game;ArcadeGame;" false
+ 
+ .include <bsd.port.options.mk>
+ 
++post-patch:
++	@${REINPLACE_CMD} -e 's|@prefix@|${DATADIR}|' \
++	-e 's|@datadir@/pacman|${DATADIR}|' ${WRKSRC}/Makefile.in
++
+ do-install:
+-# Executable
+ 	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME:S/arena//} ${PREFIX}/bin/${PORTNAME}
++	@(cd ${WRKSRC}/../ && ${COPYTREE_SHARE} "gfx sfx" ${DATADIR})
+ 
+-# Data
+-	${MKDIR} ${DATADIR}
+-.for d in gfx sfx
+-	@(cd ${WRKSRC}/../ && ${COPYTREE_SHARE} ${d} ${DATADIR})
++post-install:
++.for s in ${ICON_SIZES}
++	${MKDIR} ${PREFIX}/share/icons/hicolor/${s}/apps
++	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}_${s}.png \
++		${PREFIX}/share/icons/hicolor/${s}/apps/${PORTNAME}.png
+ .endfor
++	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
+ 
+-# Pixmaps
+-	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}*.png ${PREFIX}/share/pixmaps
+-
+-# Documentation
+ .if ${PORT_OPTIONS:MDOCS}
+-	${MKDIR} ${DOCSDIR}
+-	${INSTALL_DATA} ${WRKSRC}/README ${DOCSDIR}
++	@${MKDIR} ${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+ .endif
+ 
+ .include <bsd.port.mk>
+diff -ruN --exclude=CVS /usr/ports/games/pacmanarena/distinfo ./distinfo
+--- /usr/ports/games/pacmanarena/distinfo	2013-01-14 17:55:27.000000000 +0100
++++ ./distinfo	2013-05-25 23:39:39.000000000 +0200
+@@ -1,6 +1,6 @@
+-SHA256 (pacman-arena-0.15.tar.bz2) = 3f151518f3d4a9595ea03f9ef681e8a8829e88e76fb5d39bab0249906121fc23
+-SIZE (pacman-arena-0.15.tar.bz2) = 100112
+-SHA256 (pacman-data-0.0.zip) = 7949f080ca0ba4c02d737c5bb365856c3e66f103838329be8c1857d6c297b9b8
+-SIZE (pacman-data-0.0.zip) = 11994364
+-SHA256 (pacmanarena_icons.tar.gz) = 55a6e8e4144f4fc3c49597a11bb9482ff980935d43f993da9080db837fdcc3d7
+-SIZE (pacmanarena_icons.tar.gz) = 14848
++SHA256 (pacmanarena/pacman-arena-0.15.tar.bz2) = 3f151518f3d4a9595ea03f9ef681e8a8829e88e76fb5d39bab0249906121fc23
++SIZE (pacmanarena/pacman-arena-0.15.tar.bz2) = 100112
++SHA256 (pacmanarena/pacman-data-0.0.zip) = 7949f080ca0ba4c02d737c5bb365856c3e66f103838329be8c1857d6c297b9b8
++SIZE (pacmanarena/pacman-data-0.0.zip) = 11994364
++SHA256 (pacmanarena/pacmanarena_icons.tar.bz2) = df681daf7299bc50c39eb288ed25d7f163e44a28960ce948525b9e67351aba29
++SIZE (pacmanarena/pacmanarena_icons.tar.bz2) = 12077
+diff -ruN --exclude=CVS /usr/ports/games/pacmanarena/pkg-plist ./pkg-plist
+--- /usr/ports/games/pacmanarena/pkg-plist	1970-01-01 01:00:00.000000000 +0100
++++ ./pkg-plist	2013-05-25 23:48:57.000000000 +0200
+@@ -0,0 +1,59 @@
++bin/pacmanarena
++share/icons/hicolor/32x32/apps/pacmanarena.png
++share/icons/hicolor/48x48/apps/pacmanarena.png
++share/icons/hicolor/64x64/apps/pacmanarena.png
++share/icons/hicolor/72x72/apps/pacmanarena.png
++share/icons/hicolor/96x96/apps/pacmanarena.png
++%%DATADIR%%/gfx/1024-768-high.tga
++%%DATADIR%%/gfx/1024-768-low.tga
++%%DATADIR%%/gfx/1400-1050-high.tga
++%%DATADIR%%/gfx/1400-1050-low.tga
++%%DATADIR%%/gfx/640-480-high.tga
++%%DATADIR%%/gfx/640-480-low.tga
++%%DATADIR%%/gfx/800-600-high.tga
++%%DATADIR%%/gfx/800-600-low.tga
++%%DATADIR%%/gfx/bomb.3d
++%%DATADIR%%/gfx/dot-yellow.tga
++%%DATADIR%%/gfx/dot.tga
++%%DATADIR%%/gfx/exit-high.tga
++%%DATADIR%%/gfx/exit-low.tga
++%%DATADIR%%/gfx/game-over.tga
++%%DATADIR%%/gfx/ghost-green-dying.3d
++%%DATADIR%%/gfx/ghost-green-moving.3d
++%%DATADIR%%/gfx/ghost-green-returning.3d
++%%DATADIR%%/gfx/level-complete.tga
++%%DATADIR%%/gfx/pacman-arena-banner.tga
++%%DATADIR%%/gfx/pacman-dying.3d
++%%DATADIR%%/gfx/pacman-jumping.3d
++%%DATADIR%%/gfx/pacman-moving.3d
++%%DATADIR%%/gfx/pacman-stopped.3d
++%%DATADIR%%/gfx/pacman_arena1.tga
++%%DATADIR%%/gfx/particle.tga
++%%DATADIR%%/gfx/resolution-high.tga
++%%DATADIR%%/gfx/resolution-low.tga
++%%DATADIR%%/gfx/rocket-highlight.tga
++%%DATADIR%%/gfx/rocket.3d
++%%DATADIR%%/gfx/start-game-high.tga
++%%DATADIR%%/gfx/start-game-low.tga
++%%DATADIR%%/gfx/wall-horizontal.3d
++%%DATADIR%%/gfx/wall-ll.3d
++%%DATADIR%%/gfx/wall-lr.3d
++%%DATADIR%%/gfx/wall-ul.3d
++%%DATADIR%%/gfx/wall-ur.3d
++%%DATADIR%%/gfx/wall-vertical.3d
++%%DATADIR%%/gfx/wall.tga
++%%DATADIR%%/sfx/chomp.wav
++%%DATADIR%%/sfx/eat-ghost.wav
++%%DATADIR%%/sfx/explosion.wav
++%%DATADIR%%/sfx/gameover.ogg
++%%DATADIR%%/sfx/ghost-return.wav
++%%DATADIR%%/sfx/glomp.wav
++%%DATADIR%%/sfx/hiscore.ogg
++%%DATADIR%%/sfx/hummingbird.ogg
++%%DATADIR%%/sfx/pacman-die.wav
++%%DATADIR%%/sfx/rocket-launch.wav
++%%DATADIR%%/sfx/tranzy.ogg
++share/pixmaps/pacmanarena.png
++@dirrm %%DATADIR%%/sfx
++@dirrm %%DATADIR%%/gfx
++@dirrm %%DATADIR%%
+===> Done

@@ -1,0 +1,70 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/graphics/lcdtest/Makefile ./Makefile
+--- /usr/ports/graphics/lcdtest/Makefile	2013-03-13 12:33:26.000000000 +0100
++++ ./Makefile	2013-05-26 23:22:48.000000000 +0200
+@@ -1,9 +1,9 @@
+-# Created By: Eric P. Scott <eps+pbug0703@ana.com>
++# Created by: Eric P. Scott <eps+pbug0703@ana.com>
+ # $FreeBSD: head/graphics/lcdtest/Makefile 314006 2013-03-12 22:54:45Z beech $
+ 
+ PORTNAME=	lcdtest
+ PORTVERSION=	1.18
+-PORTREVISION=	5
++PORTREVISION=	6
+ CATEGORIES=	graphics
+ MASTER_SITES=	http://www.brouhaha.com/~eric/software/lcdtest/download/
+ 
+@@ -19,20 +19,17 @@
+ CFLAGS+=	-I${LOCALBASE}/include -DRELEASE=1.18
+ LDFLAGS+=	-L${LOCALBASE}/lib ${PTHREAD_LIBS} -lSDL -lSDL_image -lSDL_ttf
+ 
++PLIST_FILES=	bin/${PORTNAME} \
++		share/pixmaps/${PORTNAME}.svg \
++		share/applications/${PORTNAME}.desktop
++PLIST_DIRSTRY=	share/applications
++
+ PORTDOCS=	README
+ 
+ MAN1=	lcdtest.1
+ 
+-OPTIONS_DEFINE=	DOCS
+-
+ .include <bsd.port.options.mk>
+ 
+-.if ${PORT_OPTIONS:MDOCS}
+-PLIST_SUB+=	PORTDOCS=""
+-.else
+-PLIST_SUB+=	PORTDOCS="@comment "
+-.endif
+-
+ post-patch:
+ 	@${REINPLACE_CMD} -e 's|/usr/share/fonts/liberation/|${LOCALBASE}/lib/X11/fonts/Liberation/|' \
+ 		${WRKSRC}/src/lcdtest.c
+@@ -42,11 +39,11 @@
+ 	(cd ${WRKSRC}/src && ${CC} ${LDFLAGS} -o lcdtest lcdtest.o)
+ 
+ do-install:
+-	${INSTALL_PROGRAM} ${WRKSRC}/src/${PORTNAME} ${PREFIX}/bin/
+-	${INSTALL_MAN} ${WRKSRC}/man/${MAN1} ${MAN1PREFIX}/man/man1/
+-	${INSTALL_DATA} ${WRKSRC}/desktop/${PORTNAME}.svg ${PREFIX}/share/pixmaps/
++	${INSTALL_PROGRAM} ${WRKSRC}/src/${PORTNAME} ${PREFIX}/bin
++	${INSTALL_MAN} ${WRKSRC}/man/${MAN1} ${MAN1PREFIX}/man/man1
++	${INSTALL_DATA} ${WRKSRC}/desktop/${PORTNAME}.svg ${PREFIX}/share/pixmaps
+ 	@${MKDIR} ${PREFIX}/share/applications
+-	${INSTALL_DATA} ${WRKSRC}/desktop/${PORTNAME}.desktop ${PREFIX}/share/applications/
++	${INSTALL_DATA} ${WRKSRC}/desktop/${PORTNAME}.desktop ${PREFIX}/share/applications
+ 
+ .if ${PORT_OPTIONS:MDOCS}
+ 	@${MKDIR} ${DOCSDIR}
+diff -ruN --exclude=CVS /usr/ports/graphics/lcdtest/pkg-plist ./pkg-plist
+--- /usr/ports/graphics/lcdtest/pkg-plist	2013-03-13 12:33:26.000000000 +0100
++++ ./pkg-plist	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-bin/lcdtest
+-share/applications/lcdtest.desktop
+-%%PORTDOCS%%%%DOCSDIR%%/README
+-share/pixmaps/lcdtest.svg
+-%%PORTDOCS%%@dirrm %%DOCSDIR%%
+-@dirrmtry share/applications
+===> Done

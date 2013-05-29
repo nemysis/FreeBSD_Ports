@@ -1,0 +1,122 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN --exclude=CVS /usr/ports/sysutils/gigolo/Makefile ./Makefile
+--- /usr/ports/sysutils/gigolo/Makefile	2013-04-26 16:36:13.000000000 +0200
++++ ./Makefile	2013-05-27 20:49:41.000000000 +0200
+@@ -1,10 +1,16 @@
+-# Created by: nemysis@gmx.ch
++# Created by: nemysis <nemysis@gmx.ch>
+ # $FreeBSD: head/sysutils/gigolo/Makefile 316464 2013-04-24 18:10:30Z ak $
+ 
+ PORTNAME=	gigolo
+ PORTVERSION=	0.4.1
++PORTREVISION=	1
+ CATEGORIES=	sysutils
+-MASTER_SITES=	http://files.uvena.de/gigolo/
++MASTER_SITES=	http://files.uvena.de/gigolo/ \
++		http://www.uvena.de/gigolo/:icons
++DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
++		network.png:icons
++DIST_SUBDIR=	${PORTNAME}
++EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
+ 
+ MAINTAINER=	nemysis@gmx.ch
+ COMMENT=	Frontend to easily manage filesystem connections
+@@ -15,14 +21,33 @@
+ LIB_DEPENDS=	cairo:${PORTSDIR}/graphics/cairo
+ 
+ USE_BZIP2=	yes
++USES=		gettext
+ USE_GNOME=	gtk20 gvfs
+ USE_XORG=	x11
+ USE_PYTHON=	yes
+-USES=		gettext
+ 
+ MAN1=		gigolo.1
+ 
+-PORTDOCS=	AUTHORS ChangeLog NEWS README TODO COPYING
++PORTDOCS=	AUTHORS ChangeLog NEWS README TODO
++
++.include <bsd.port.options.mk>
++.include <bsd.port.pre.mk>
++
++.if ! exists(${LOCALBASE}/libexec/gvfs-fuse-daemon)
++IGNORE=	Enable FUSE support in ${PORTSDIR}/devel/gvfs
++.endif
++
++# Only i386/amd64 due to limitations of fusefs-kmod
++.if ${ARCH} != "i386" && ${ARCH} != "amd64"
++BROKEN=	Does not compile on other than i386/amd64
++.endif
++
++post-patch:
++	@${REINPLACE_CMD} -e 's|COPYING ||' ${WRKSRC}/wscript
++
++.if ! ${PORT_OPTIONS:MDOCS}
++	${REINPLACE_CMD} -e 's|bld.install_files|#bld.install_files|' ${WRKSRC}/wscript
++.endif
+ 
+ do-configure:
+ 	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ./waf configure --mandir=${PREFIX}/man
+@@ -32,5 +57,11 @@
+ 
+ do-install:
+ 	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ./waf install
++	${INSTALL_DATA} ${_DISTDIR}/network.png ${PREFIX}/share/pixmaps/${PORTNAME}.png
++
++.if ${PORT_OPTIONS:MDOCS}
++	@${MKDIR} ${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
++.endif
+ 
+-.include <bsd.port.mk>
++.include <bsd.port.post.mk>
+diff -ruN --exclude=CVS /usr/ports/sysutils/gigolo/distinfo ./distinfo
+--- /usr/ports/sysutils/gigolo/distinfo	2013-01-14 17:55:40.000000000 +0100
++++ ./distinfo	2013-05-27 20:09:44.000000000 +0200
+@@ -1,2 +1,4 @@
+-SHA256 (gigolo-0.4.1.tar.bz2) = 82f3b5f0ce3ff19c1facac1c89117d67bdf1d4fac66e42fb7a98a8b0d74a17f9
+-SIZE (gigolo-0.4.1.tar.bz2) = 194112
++SHA256 (gigolo/gigolo-0.4.1.tar.bz2) = 82f3b5f0ce3ff19c1facac1c89117d67bdf1d4fac66e42fb7a98a8b0d74a17f9
++SIZE (gigolo/gigolo-0.4.1.tar.bz2) = 194112
++SHA256 (gigolo/network.png) = c2307b0ac5b091fefd8d09fa83eae9bae236096d84de31c49a455bfc583807c6
++SIZE (gigolo/network.png) = 5689
+diff -ruN --exclude=CVS /usr/ports/sysutils/gigolo/pkg-plist ./pkg-plist
+--- /usr/ports/sysutils/gigolo/pkg-plist	2013-01-14 17:55:40.000000000 +0100
++++ ./pkg-plist	2013-05-27 20:47:11.000000000 +0200
+@@ -1,5 +1,6 @@
+ bin/gigolo
+ share/applications/gigolo.desktop
++share/locale/ast/LC_MESSAGES/gigolo.mo
+ share/locale/bg/LC_MESSAGES/gigolo.mo
+ share/locale/ca/LC_MESSAGES/gigolo.mo
+ share/locale/cs/LC_MESSAGES/gigolo.mo
+@@ -16,6 +17,7 @@
+ share/locale/id/LC_MESSAGES/gigolo.mo
+ share/locale/it/LC_MESSAGES/gigolo.mo
+ share/locale/ja/LC_MESSAGES/gigolo.mo
++share/locale/kk/LC_MESSAGES/gigolo.mo
+ share/locale/lv/LC_MESSAGES/gigolo.mo
+ share/locale/nl/LC_MESSAGES/gigolo.mo
+ share/locale/pl/LC_MESSAGES/gigolo.mo
+@@ -25,15 +27,15 @@
+ share/locale/sk/LC_MESSAGES/gigolo.mo
+ share/locale/sv/LC_MESSAGES/gigolo.mo
+ share/locale/tr/LC_MESSAGES/gigolo.mo
+-share/locale/uk/LC_MESSAGES/gigolo.mo
+-share/locale/zh_CN/LC_MESSAGES/gigolo.mo
+-share/locale/ast/LC_MESSAGES/gigolo.mo
+-share/locale/kk/LC_MESSAGES/gigolo.mo
+ share/locale/ug/LC_MESSAGES/gigolo.mo
++share/locale/uk/LC_MESSAGES/gigolo.mo
+ share/locale/ur/LC_MESSAGES/gigolo.mo
+ share/locale/ur_PK/LC_MESSAGES/gigolo.mo
++share/locale/zh_CN/LC_MESSAGES/gigolo.mo
++share/pixmaps/gigolo.png
+ @dirrmtry share/locale/ur_PK/LC_MESSAGES
+ @dirrmtry share/locale/ur_PK
++@dirrmtry share/locale/ur/LC_MESSAGES
+ @dirrmtry share/locale/ur
+ @dirrmtry share/locale/ug/LC_MESSAGES
+ @dirrmtry share/locale/ug
+===> Done
