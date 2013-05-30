@@ -14,6 +14,7 @@ COMMENT=	Records MPEG2 streams directly from your Dbox2 over Ethernet
 WRKSRC=		${WRKDIR}/${PORTNAME}-${PORTVERSION}
 
 PLIST_FILES=	bin/ggrab bin/sserver
+
 PORTDOCS=	README
 
 .include <bsd.port.options.mk>

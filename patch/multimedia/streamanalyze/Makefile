@@ -15,6 +15,7 @@ LIB_DEPENDS=	dvdread:${PORTSDIR}/multimedia/libdvdread
 WRKSRC=		${WRKDIR}/StreamAnalyze
 
 PLIST_FILES=	bin/streamanalyze
+
 PORTDOCS=	README
 
 .include <bsd.port.options.mk>
@@ -25,6 +26,7 @@ post-patch:
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/streamanalyze ${PREFIX}/bin
+
 .if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}

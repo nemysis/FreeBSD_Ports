@@ -16,11 +16,11 @@ LICENSE=	LGPL20
 LIB_DEPENDS=	xml\\+\\+-2.6:${PORTSDIR}/textproc/libxml++26 \
 		cairo.2:${PORTSDIR}/graphics/cairo
 
+USES=		pathfix
 USE_AUTOTOOLS=	libtool
 USE_LDCONFIG=	yes
 USE_GMAKE=	yes
 USE_GNOME=	ltverhack
-USES=		pathfix
 CONFIGURE_ENV=	AUTOMAKE="${TRUE}" AUTOCONF="${TRUE}" DOXYGEN="${TRUE}"
 CPPFLAGS+=	-I${LOCALBASE}/include
 LDFLAGS+=	-L${LOCALBASE}/lib

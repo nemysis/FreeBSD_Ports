@@ -18,6 +18,7 @@ RUN_DEPENDS=	mpeg2enc:${PORTSDIR}/multimedia/mjpegtools \
 		transcode:${PORTSDIR}/multimedia/transcode
 
 NO_BUILD=	yes
+
 PLIST_FILES=	bin/mkxvcd
 
 PORTDOCS=	AUTHORS Changelog README TODO

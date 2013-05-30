@@ -18,6 +18,7 @@ MAKE_ARGS=	CC="${CC}" CFLAGS="${CFLAGS}"
 ALL_TARGET=	a.out
 
 PORTDOCS=	CHANGES README
+
 PLIST_FILES=	bin/${PORTNAME}
 
 .include <bsd.port.options.mk>
