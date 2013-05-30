@@ -13,9 +13,7 @@ COMMENT=	Flashcard trainer with spaced repetition
 
 LICENSE=	AGPLv3 # (or later)
 
-BUILD_DEPENDS=	update-mime-database:${PORTSDIR}/misc/shared-mime-info
-RUN_DEPENDS:=	${BUILD_DEPENDS} \
-		${PYTHON_PKGNAMEPREFIX}pyaudio>0:${PORTSDIR}/audio/py-pyaudio \
+RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}pyaudio>0:${PORTSDIR}/audio/py-pyaudio \
 		${PYTHON_PKGNAMEPREFIX}sqlalchemy>0:${PORTSDIR}/databases/py-sqlalchemy \
 		${PYTHON_PKGNAMEPREFIX}sqlite3>0:${PORTSDIR}/databases/py-sqlite3 \
 		${PYTHON_PKGNAMEPREFIX}qt4-network>=4.4:${PORTSDIR}/net/py-qt4-network \
@@ -23,15 +21,17 @@ RUN_DEPENDS:=	${BUILD_DEPENDS} \
 		${PYTHON_PKGNAMEPREFIX}httplib2>0:${PORTSDIR}/www/py-httplib2 \
 		${PYTHON_PKGNAMEPREFIX}qt4-webkit>=4.4:${PORTSDIR}/www/py-qt4-webkit
 
+USES=		desktop-file-utils gettext:run shared-mime-info
 USE_PYTHON=	-2.7
 USE_QT4=	network_run webkit_run
-USES=		gettext:run
 
 MAN1=		${PORTNAME}.1
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|/usr/share/|${PREFIX}/share/|' \
 		${WRKSRC}/runanki
+	@${REINPLACE_CMD} -e 's|^Categories=.*|Categories=Education;Languages;KDE;Qt;Game;|' \
+		${WRKSRC}/${PORTNAME}.desktop
 
 do-build:
 	@${PYTHON_CMD} -m compileall ${WRKSRC}
@@ -56,6 +56,5 @@ post-install:
 	${INSTALL_DATA} ${WRKSRC}/${p} \
 		${PREFIX}/share/pixmaps
 .endfor
-	@-update-mime-database ${PREFIX}/share/mime
 
 .include <bsd.port.mk>

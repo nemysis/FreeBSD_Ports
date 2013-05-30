@@ -673,8 +673,8 @@ bin/anki
 %%DATADIR%%/tests/support/invalid-ords.anki
 %%DATADIR%%/tests/support/media.apkg
 %%DATADIR%%/tests/support/mnemo.db
-%%DATADIR%%/tests/support/suspended12.anki
 %%DATADIR%%/tests/support/supermemo1.xml
+%%DATADIR%%/tests/support/suspended12.anki
 %%DATADIR%%/tests/support/text-2fields.txt
 %%DATADIR%%/tests/support/text-tags.txt
 %%DATADIR%%/tests/support/text-update.txt
@@ -727,8 +727,6 @@ bin/anki
 %%DATADIR%%/tools/build_ui.sh
 %%DATADIR%%/tools/tests.sh
 share/applications/anki.desktop
-share/mime/application/x-anki.xml
-share/mime/application/x-apkg.xml
 share/mime/packages/anki.xml
 share/pixmaps/anki.png
 share/pixmaps/anki.xpm
@@ -848,5 +846,3 @@ share/pixmaps/anki.xpm
 @dirrm %%DATADIR%%/anki/importing
 @dirrm %%DATADIR%%/anki
 @dirrm %%DATADIR%%
-@exec %%LOCALBASE%%/bin/update-mime-database %D/share/mime > /dev/null || /usr/bin/true
-@unexec %%LOCALBASE%%/bin/update-mime-database %D/share/mime > /dev/null || /usr/bin/true
