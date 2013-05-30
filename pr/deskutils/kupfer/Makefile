@@ -16,7 +16,7 @@ BUILD_DEPENDS=	rst2html:${PORTSDIR}/textproc/py-docutils \
 		${PYTHON_PKGNAMEPREFIX}dbus>=0:${PORTSDIR}/devel/py-dbus \
 		${PYTHON_PKGNAMEPREFIX}keyring>=0:${PORTSDIR}/security/py-keyring \
 		p5-XML-Parser>=0:${PORTSDIR}/textproc/p5-XML-Parser
-RUN_DEPENDS=	${PYTHON_SITELIBDIR}/keybinder/_keybinder.so:${PORTSDIR}/x11/keybinder \
+RUN_DEPENDS=	keybinder>=0:${PORTSDIR}/x11/keybinder \
 		${PYTHON_PKGNAMEPREFIX}gdata>=0:${PORTSDIR}/devel/py-gdata
 
 USE_GITHUB=	yes
@@ -49,7 +49,7 @@ RHYTHMBOX_DESC=	Enable Rhythmbox plugins support
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 PLIST_SUB+=	NLS="@comment "

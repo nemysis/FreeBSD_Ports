@@ -17,13 +17,12 @@ LIB_DEPENDS=	pthread-stubs:${PORTSDIR}/devel/libpthread-stubs \
 		png15:${PORTSDIR}/graphics/png \
 		freetype:${PORTSDIR}/print/freetype2 \
 		expat:${PORTSDIR}/textproc/expat2 \
-		fontconfig:${PORTSDIR}/x11-fonts/fontconfig \
-		xcb:${PORTSDIR}/x11/libxcb
+		fontconfig:${PORTSDIR}/x11-fonts/fontconfig
 
 WRKSRC=		${WRKDIR}/CapiCity_${PORTVERSION}
 
 USE_ICONV=	yes
-USE_XORG=	ice sm x11 xau xdmcp xext xrender
+USE_XORG=	ice sm x11 xau xcb xdmcp xext xrender
 USE_QT4=	moc_build qmake_build rcc_build uic_build iconengines imageformats \
 		corelib gui network script xml
 MAKE_JOBS_SAFE=	yes
