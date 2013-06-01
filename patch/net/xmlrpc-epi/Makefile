@@ -1,5 +1,5 @@
 # Created by: Thierry Thomas <thierry@pompo.net>
-# $FreeBSD: head/net/xmlrpc-epi/Makefile 300897 2012-07-14 14:29:18Z beat $
+# $FreeBSD: head/net/xmlrpc-epi/Makefile 316662 2013-04-27 11:59:28Z mva $
 
 PORTNAME=	xmlrpc-epi
 PORTVERSION=	0.54.2
@@ -14,8 +14,8 @@ LICENSE=	MIT
 LIB_DEPENDS=	expat:${PORTSDIR}/textproc/expat2
 
 USE_BZIP2=	yes
+USES=		iconv
 USE_GMAKE=	yes
-USE_ICONV=	yes
 USE_LDCONFIG=	yes
 USE_AUTOTOOLS=	libtool
 CPPFLAGS+=	-I${LOCALBASE}/include

@@ -4,7 +4,7 @@
 PORTNAME=	hexchat
 PORTVERSION=	2.9.5
 CATEGORIES=	irc gnome ipv6
-MASTER_SITES=	http://dl.hexchat.org/${PORTNAME}/
+MASTER_SITES=	GH
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	IRC chat program with GTK and Text Frontend
@@ -13,7 +13,12 @@ LICENSE=	GPLv2
 
 LIB_DEPENDS=	proxy:${PORTSDIR}/net/libproxy
 
-USE_XZ=		yes
+USE_GITHUB=	yes
+GH_ACCOUNT=	hexchat
+GH_PROJECT=	hexchat
+GH_TAGNAME=	master
+GH_COMMIT=	e1ce1c9
+
 USES=		desktop-file-utils pkgconfig
 USE_GNOME=	gtk20 libxml2
 WANT_PERL=	yes
@@ -22,8 +27,6 @@ GNU_CONFIGURE=	yes
 CONFIGURE_ARGS+=--enable-gtkfe --disable-sysinfo
 USE_GMAKE=	yes
 INSTALLS_ICONS=	yes
-
-GUI_CFLAGS="$GUI_CFLAGS $LIBXML2_CFLAGS"
 
 LDFLAGS+=	-pthread
 
@@ -62,7 +65,6 @@ CONFIGURE_ARGS+=--enable-spell=none
 RUN_DEPENDS+=	aspell:${PORTSDIR}/textproc/en-aspell
 .endif
 
-# Issue 632
 .if ${PORT_OPTIONS:MSTATIC}
 CONFIGURE_ARGS+=--enable-spell=static
 .endif
@@ -160,10 +162,6 @@ PLIST_SUB+=	NOTIFY="@comment "
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|g' ${WRKSRC}/autogen.sh
-#	@${REINPLACE_CMD} -e 's|libxml/xmlreader.h|libxml2/libxml/xmlreader.h|' \
-#		${WRKSRC}/src/fe-gtk/sexy-iso-codes.c
-#	@${REINPLACE_CMD} -e 's|/gtk/|gtk-2.0/gtk/|' \
-#		${WRKSRC}/src/fe-gtk/fe-gtk.h
 
 pre-configure:
 	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./autogen.sh)

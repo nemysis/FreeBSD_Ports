@@ -1,5 +1,5 @@
 # Created by: Juan Salaverria <rael@vectorstar.net>
-# $FreeBSD: head/multimedia/quark/Makefile 315433 2013-03-28 03:28:30Z eadler $
+# $FreeBSD: head/multimedia/quark/Makefile 316596 2013-04-26 10:44:28Z ak $
 
 PORTNAME=	quark
 PORTVERSION=	3.24
