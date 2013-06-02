@@ -16,8 +16,7 @@ LICENSE=	GPLv2
 
 MAKEFILE=	Makefile.bsd
 
-PLIST_FILES=	sbin/pathneck \
-		sbin/get-choke
+PLIST_FILES=	sbin/pathneck sbin/get-choke
 
 PORTDOCS=	ChangeLog README
 

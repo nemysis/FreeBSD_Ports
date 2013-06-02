@@ -14,10 +14,11 @@ LICENSE=	GPLv2
 LIB_DEPENDS=	proxy:${PORTSDIR}/net/libproxy
 
 USE_XZ=		yes
-USES=		desktop-file-utils pkgconfig
+USES=		desktop-file-utils pathfix pkgconfig
 USE_GNOME=	gtk20 libxml2
 WANT_PERL=	yes
 USE_AUTOTOOLS=	automake autoconf libtool
+#USE_AUTOTOOLS=	aclocal:env automake:env autoconf:env libtool:env
 GNU_CONFIGURE=	yes
 CONFIGURE_ARGS+=--enable-gtkfe --disable-sysinfo
 USE_GMAKE=	yes
@@ -62,7 +63,7 @@ CONFIGURE_ARGS+=--enable-spell=none
 RUN_DEPENDS+=	aspell:${PORTSDIR}/textproc/en-aspell
 .endif
 
-# Issue 632
+# Clossed Issue 632, fixed on GitHub
 .if ${PORT_OPTIONS:MSTATIC}
 CONFIGURE_ARGS+=--enable-spell=static
 .endif
@@ -160,10 +161,7 @@ PLIST_SUB+=	NOTIFY="@comment "
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|g' ${WRKSRC}/autogen.sh
-#	@${REINPLACE_CMD} -e 's|libxml/xmlreader.h|libxml2/libxml/xmlreader.h|' \
-#		${WRKSRC}/src/fe-gtk/sexy-iso-codes.c
-#	@${REINPLACE_CMD} -e 's|/gtk/|gtk-2.0/gtk/|' \
-#		${WRKSRC}/src/fe-gtk/fe-gtk.h
+#	@${REINPLACE_CMD} -e 's|po intl|po|' ${WRKSRC}/Makefile.am
 
 pre-configure:
 	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./autogen.sh)
@@ -175,6 +173,9 @@ post-install:
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${WRKSRC}/share/doc/*.md ${DOCSDIR}
 .endif
+
+#.if exists(${PREFIX}/lib/hexchat/plugins/)
 	@(cd ${PREFIX}/lib/hexchat/plugins/ && ${RM} -f *.a)
+#.endif
 
 .include <bsd.port.mk>

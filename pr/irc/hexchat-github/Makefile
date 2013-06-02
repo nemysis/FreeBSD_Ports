@@ -19,7 +19,7 @@ GH_PROJECT=	hexchat
 GH_TAGNAME=	master
 GH_COMMIT=	e1ce1c9
 
-USES=		desktop-file-utils pkgconfig
+USES=		desktop-file-utils pathfix pkgconfig
 USE_GNOME=	gtk20 libxml2
 WANT_PERL=	yes
 USE_AUTOTOOLS=	automake autoconf libtool
@@ -173,6 +173,9 @@ post-install:
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${WRKSRC}/share/doc/*.md ${DOCSDIR}
 .endif
+
+.if exists(${PREFIX}/lib/hexchat/plugins)
 	@(cd ${PREFIX}/lib/hexchat/plugins/ && ${RM} -f *.a)
+.endif
 
 .include <bsd.port.mk>

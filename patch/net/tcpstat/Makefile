@@ -13,8 +13,7 @@ LICENSE=	BSD
 
 GNU_CONFIGURE=	yes
 
-PLIST_FILES=	bin/${PORTNAME} \
-		bin/tcpprof
+PLIST_FILES=	bin/tcpstat bin/tcpprof
 
 MAN1=		tcpstat.1 tcpprof.1
 
