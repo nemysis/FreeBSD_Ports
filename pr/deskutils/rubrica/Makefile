@@ -1,5 +1,5 @@
 # Created by: Martin Klaffenboeck <martin.klaffenboeck@gmx.at>
-# $FreeBSD: head/deskutils/rubrica/Makefile 315433 2013-03-28 03:28:30Z eadler $
+# $FreeBSD: head/deskutils/rubrica/Makefile 317994 2013-05-13 04:27:55Z ak $
 
 PORTNAME=	rubrica
 PORTVERSION=	2.0.12
@@ -7,7 +7,7 @@ CATEGORIES=	deskutils gnome
 MASTER_SITES=	BERLIOS
 DISTNAME=	${PORTNAME}2-${PORTVERSION}
 
-MAINTAINER=	ports@FreeBSD.org
+MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Addressbook for the GNOME 2 desktop
 
 LICENSE=	GPLv3

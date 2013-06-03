@@ -28,6 +28,7 @@ MAN1=		mp3info.1
 
 ALL_TARGET=	doc mp3info
 
+.include <bsd.port.pre.mk>
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MGTK2}
@@ -41,10 +42,10 @@ PLIST_SUB+=	WITH_GTK="@comment "
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/mp3info ${PREFIX}/bin
+
 .if ${PORT_OPTIONS:MGTK2}
 	${INSTALL_PROGRAM} ${WRKSRC}/gmp3info ${PREFIX}/bin
 .endif
-
 	${INSTALL_MAN} ${WRKSRC}/${MAN1} ${MAN1PREFIX}/man/man1
 
 .if ${PORT_OPTIONS:MDOCS}
@@ -52,4 +53,4 @@ do-install:
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 
-.include <bsd.port.mk>
+.include <bsd.port.post.mk>

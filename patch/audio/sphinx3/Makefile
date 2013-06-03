@@ -1,8 +1,9 @@
 # Created by: Richard Neese
-# $FreeBSD: head/audio/sphinx3/Makefile 308911 2012-12-14 17:09:21Z eadler $
+# $FreeBSD: head/audio/sphinx3/Makefile 315807 2013-04-15 19:28:45Z bdrewery $
 
 PORTNAME=	sphinx3
 PORTVERSION=	0.8
+PORTREVISION=	1
 CATEGORIES=	audio accessibility
 MASTER_SITES=	SF/cmusphinx/${PORTNAME}/${PORTVERSION}
 
@@ -11,6 +12,7 @@ COMMENT=	Speech recognition system
 
 LIB_DEPENDS=	sphinxbase:${PORTSDIR}/audio/sphinxbase
 
+USES=		pathfix
 USE_LDCONFIG=	yes
 USE_GMAKE=	yes
 USE_AUTOTOOLS=libtool
@@ -25,8 +27,6 @@ MAKE_ENV=	MKDIR="${MKDIR}" \
 		OSVERSION=${OSVERSION}
 
 post-patch:
-	@${REINPLACE_CMD} -e 's|(libdir)/pkgconfig|(prefix)/libdata/pkgconfig|' \
-		 ${WRKSRC}/Makefile.in
 	@${REINPLACE_CMD} -e 's|heap_t h|heap_t* h|' \
 		${WRKSRC}/src/libs3decoder/libsearch/vithist.c
 

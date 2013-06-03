@@ -18,7 +18,6 @@ USES=		desktop-file-utils pathfix pkgconfig
 USE_GNOME=	gtk20 libxml2
 WANT_PERL=	yes
 USE_AUTOTOOLS=	automake autoconf libtool
-#USE_AUTOTOOLS=	aclocal:env automake:env autoconf:env libtool:env
 GNU_CONFIGURE=	yes
 CONFIGURE_ARGS+=--enable-gtkfe --disable-sysinfo
 USE_GMAKE=	yes
@@ -161,7 +160,7 @@ PLIST_SUB+=	NOTIFY="@comment "
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|g' ${WRKSRC}/autogen.sh
-#	@${REINPLACE_CMD} -e 's|po intl|po|' ${WRKSRC}/Makefile.am
+	@${REINPLACE_CMD} -e 's|po intl|po|' ${WRKSRC}/Makefile.am
 
 pre-configure:
 	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./autogen.sh)

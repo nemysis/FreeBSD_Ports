@@ -1,5 +1,5 @@
 # Created by: Mark Reidel <ports@mark.reidle.info>
-# $FreeBSD: head/audio/mpc/Makefile 314853 2013-03-21 17:32:34Z bapt $
+# $FreeBSD: head/audio/mpc/Makefile 316654 2013-04-27 08:50:46Z mva $
 
 PORTNAME=	mpc
 PORTVERSION=	0.22
@@ -33,7 +33,7 @@ PLIST_FILES=	bin/${PORTNAME}
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MICONV}
-USE_ICONV=	yes
+USES=		iconv
 .else
 CONFIGURE_ARGS+=--disable-iconv
 .endif
@@ -43,14 +43,17 @@ post-patch:
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/src/${PORTNAME} ${PREFIX}/bin
+
 .if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
+
 .if ${PORT_OPTIONS:MEXAMPLES}
 	@${MKDIR} ${EXAMPLESDIR}
 	${INSTALL_DATA} ${WRKSRC}/doc/${PORTNAME}-completion.bash ${EXAMPLESDIR}
 .endif
+
 	${INSTALL_MAN} ${WRKSRC}/doc/${PORTNAME}.1 ${MAN1PREFIX}/man/man1
 
 .include <bsd.port.mk>

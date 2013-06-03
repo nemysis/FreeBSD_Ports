@@ -1,5 +1,5 @@
 # Created by: ijliao
-# $FreeBSD: head/devel/dparser/Makefile 310882 2013-01-23 16:49:23Z gahr $
+# $FreeBSD: head/devel/dparser/Makefile 316786 2013-04-29 08:57:12Z bapt $
 
 PORTNAME=	dparser
 PORTVERSION=	1.30
@@ -10,12 +10,12 @@ DISTNAME=	d-${PORTVERSION}-src
 MAINTAINER=	gahr@FreeBSD.org
 COMMENT=	Simple but powerful tool for parsing
 
-OPTIONS_DEFINE=	BOEHM DOCS
+OPTIONS_DEFINE=	BOEHM
 BOEHM_DESC=	Boehm garbage collector support
 
 WRKSRC=		${WRKDIR}/d
 
-EXTRACT_AFTER_ARGS=	|${TAR} -xf - --exclude "*my*"
+EXTRACT_AFTER_ARGS=	--exclude "*my*"
 USE_GMAKE=	yes
 MAKE_ARGS=	CC="${CC}" D_OPTIMIZE= PREFIX=${PREFIX}
 
@@ -49,6 +49,7 @@ do-install:
 	(cd ${WRKSRC} && ${INSTALL_DATA} ${f} ${PREFIX}/include)
 .endfor
 	${INSTALL_DATA} ${WRKSRC}/${LIBDPARSE} ${PREFIX}/lib
+
 .if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${WRKSRC}/*.html ${DOCSDIR}
