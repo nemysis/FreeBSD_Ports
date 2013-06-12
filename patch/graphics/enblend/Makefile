@@ -1,5 +1,5 @@
 # Created by: cartola@openit.com.br
-# $FreeBSD: head/graphics/enblend/Makefile 313180 2013-03-02 02:25:47Z edwin $
+# $FreeBSD: head/graphics/enblend/Makefile 318271 2013-05-16 03:41:15Z grog $
 
 PORTNAME=	enblend
 PORTVERSION=	4.1.1
@@ -14,7 +14,7 @@ COMMENT=	Tool for image blending with multiresolution splines
 LICENSE=	GPLv2
 
 BUILD_DEPENDS=	${LOCALBASE}/bin/makeinfo:${PORTSDIR}/print/texinfo \
-		OpenEXR>=0:${PORTSDIR}/graphics/OpenEXR
+		OpenEXR>=1.0:${PORTSDIR}/graphics/OpenEXR
 LIB_DEPENDS=	jpeg:${PORTSDIR}/graphics/jpeg \
 		lcms2:${PORTSDIR}/graphics/lcms2 \
 		xmi:${PORTSDIR}/graphics/plotutils \
@@ -22,7 +22,7 @@ LIB_DEPENDS=	jpeg:${PORTSDIR}/graphics/jpeg \
 		boost_filesystem:${PORTSDIR}/devel/boost-libs \
 		vigraimpex:${PORTSDIR}/graphics/vigra \
 		gsl:${PORTSDIR}/math/gsl
-RUN_DEPENDS=	OpenEXR>=0:${PORTSDIR}/graphics/OpenEXR
+RUN_DEPENDS=	OpenEXR>=1.0:${PORTSDIR}/graphics/OpenEXR
 
 MAKE_JOBS_SAFE=	yes
 USE_AUTOTOOLS=	automake:env autoconf:env
@@ -43,6 +43,7 @@ CPPFLAGS+=	-I${LOCALBASE}/include
 LDFLAGS+=	-L${LOCALBASE}/lib
 
 MAN1=		enblend.1 enfuse.1
+
 INFO=		enfuse enblend
 
 PLIST_FILES=	bin/enblend bin/enfuse

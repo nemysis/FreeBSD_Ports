@@ -22,6 +22,7 @@ CXX=		g++${GCC_DEFAULT_V}
 CXXFLAGS+=	-std=c++0x -DHAVE_STD_IS_PERMUTATION
 
 PORTDOCS=	README
+
 PORTEXAMPLES=	*
 
 .include <bsd.port.options.mk>

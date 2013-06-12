@@ -1,8 +1,8 @@
 # Created by: Igor Pokrovsky <tiamat@comset.net>
-# $FreeBSD: head/graphics/glfw/Makefile 309114 2012-12-17 17:35:34Z pawel $
+# $FreeBSD: head/graphics/glfw/Makefile 320230 2013-06-08 02:27:06Z miwi $
 
 PORTNAME=	glfw
-PORTVERSION=	2.7.8
+PORTVERSION=	2.7.9
 CATEGORIES=	graphics
 MASTER_SITES=	SF
 
@@ -12,15 +12,14 @@ COMMENT=	Portable framework for OpenGL development
 LICENSE=	ZLIB
 
 LIB_DEPENDS=	pthread-stubs:${PORTSDIR}/devel/libpthread-stubs \
-		drm:${PORTSDIR}/graphics/libdrm \
-		xcb:${PORTSDIR}/x11/libxcb
+		drm:${PORTSDIR}/graphics/libdrm
 
 USE_BZIP2=	yes
 HAS_CONFIGURE=	yes
 CONFIGURE_SCRIPT=	compile.sh
 ALL_TARGET=	x11
 INSTALL_TARGET=	x11-install
-USE_XORG=	x11 xau xdamage xdmcp xext xfixes xrandr xrender xxf86vm
+USE_XORG=	x11 xau xcb xdamage xdmcp xext xfixes xrandr xrender xxf86vm
 USE_GL=		glu
 USE_LDCONFIG=	yes
 MAKE_JOBS_UNSAFE=	yes

@@ -4,7 +4,8 @@
 PORTNAME=	openexr_ctl
 PORTVERSION=	1.0.1
 CATEGORIES=	graphics devel
-MASTER_SITES=	SF/ampasctl/${PORTNAME}/${PORTNAME}-${PORTVERSION}/
+#MASTER_SITES=	SF/ampasctl/${PORTNAME}/${PORTNAME}-${PORTVERSION}/
+MASTER_SITES=	GH
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Simplified OpenEXR interface to CTL
@@ -13,6 +14,11 @@ LICENSE=	BSD
 
 LIB_DEPENDS=	IlmImf:${PORTSDIR}/graphics/OpenEXR \
 		IlmCtl:${PORTSDIR}/graphics/ampasCTL
+
+USE_GITHUB=	yes
+GH_ACCOUNT=	ampas
+GH_PROJECT=	CTL
+GH_COMMIT=	ca179ca
 
 USES=		pathfix pkgconfig
 USE_LDCONFIG=	yes

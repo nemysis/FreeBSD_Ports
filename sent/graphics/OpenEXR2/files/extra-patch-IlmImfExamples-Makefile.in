@@ -1,0 +1,27 @@
+--- IlmImfExamples/Makefile.in.orig	2013-03-26 21:27:05.000000000 +0100
++++ IlmImfExamples/Makefile.in	2013-06-08 23:19:37.000000000 +0200
+@@ -330,15 +330,15 @@
+ distclean-libtool:
+ 	-rm -f libtool
+ uninstall-info-am:
+-install-examplesDATA: $(examples_DATA)
+-	@$(NORMAL_INSTALL)
+-	test -z "$(examplesdir)" || $(mkdir_p) "$(DESTDIR)$(examplesdir)"
+-	@list='$(examples_DATA)'; for p in $$list; do \
+-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+-	  f=$(am__strip_dir) \
+-	  echo " $(examplesDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(examplesdir)/$$f'"; \
+-	  $(examplesDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(examplesdir)/$$f"; \
+-	done
++#install-examplesDATA: $(examples_DATA)
++#	@$(NORMAL_INSTALL)
++#	test -z "$(examplesdir)" || $(mkdir_p) "$(DESTDIR)$(examplesdir)"
++#	@list='$(examples_DATA)'; for p in $$list; do \
++#	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
++#	  f=$(am__strip_dir) \
++#	  echo " $(examplesDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(examplesdir)/$$f'"; \
++#	  $(examplesDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(examplesdir)/$$f"; \
++#	done
+ 
+ uninstall-examplesDATA:
+ 	@$(NORMAL_UNINSTALL)

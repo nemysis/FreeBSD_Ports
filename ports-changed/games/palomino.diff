@@ -1,9 +1,19 @@
 ===> Generating patch
 ===> Viewing diff with more
-diff -ruN --exclude=CVS /usr/ports/games/palomino/Makefile ./Makefile
---- /usr/ports/games/palomino/Makefile	2013-04-29 12:53:30.000000000 +0200
-+++ ./Makefile	2013-05-26 00:38:09.000000000 +0200
-@@ -15,6 +15,8 @@
+diff -ruN /usr/ports/games/palomino/Makefile ./Makefile
+--- /usr/ports/games/palomino/Makefile	2013-06-02 18:54:42.000000000 +0200
++++ ./Makefile	2013-06-05 20:16:44.000000000 +0200
+@@ -2,8 +2,7 @@
+ # $FreeBSD: head/games/palomino/Makefile 316786 2013-04-29 08:57:12Z bapt $
+ 
+ PORTNAME=	palomino
+-PORTVERSION=	20121026
+-PORTREVISION=	2
++PORTVERSION=	20130527
+ CATEGORIES=	games
+ MASTER_SITES=	ftp://ftp.palomino3d.org/sim/
+ DISTFILES=	${PORTNAME}_src_${PORTVERSION}.txz \
+@@ -15,6 +14,8 @@
  MAINTAINER=	nemysis@gmx.ch
  COMMENT=	Action flight simulation computer program using OSG
  
@@ -12,7 +22,16 @@ diff -ruN --exclude=CVS /usr/ports/games/palomino/Makefile ./Makefile
  LIB_DEPENDS=	osg:${PORTSDIR}/graphics/osg
  
  USE_BZIP2=	yes
-@@ -40,8 +42,10 @@
+@@ -32,24 +33,20 @@
+ 
+ WRKSRC=		${WRKDIR}/${PORTNAME}
+ 
+-OPTIONS_DEFINE=	JOYSTICK SDL PLIB GUI
++OPTIONS_DEFINE=	SDL PLIB GUI
+ OPTIONS_DEFAULT=	SDL GUI
+ 
+-JOYSTICK_DESC=	Enable joystick support through linux-js
+ SDL_DESC=	SDL support for input and sound
  PLIB_DESC=	Enable sound support through plib
  GUI_DESC=	Enable FLTK GUI
  
@@ -24,15 +43,23 @@ diff -ruN --exclude=CVS /usr/ports/games/palomino/Makefile ./Makefile
  
  .include <bsd.port.options.mk>
  
-@@ -71,30 +75,35 @@
+-.if ${PORT_OPTIONS:MJOYSTICK}
+-BUILD_DEPENDS+=	${LOCALBASE}/include/linux/joystick.h:${PORTSDIR}/devel/linux-js
+-RUN_DEPENDS+=	${LOCALBASE}/include/linux/joystick.h:${PORTSDIR}/devel/linux-js
+-.endif
+-
+ .if ${PORT_OPTIONS:MSDL}
+ USE_SDL+=	sdl mixer
+ .endif
+@@ -71,30 +68,34 @@
  	@${REINPLACE_CMD} -e '/FIND_PACKAGE(/ s|)| REQUIRED)|' \
  		${WRKSRC}/CMakeModules/libraries.cmake
  	@${REINPLACE_CMD} -e '/COMPILE_WITH_OSSIM/ d' ${WRKSRC}/CMakeLists.txt
 -.if empty(PORT_OPTIONS:MJOYSTICK)
 +
-+.if ! ${PORT_OPTIONS:MJOYSTICK}
++# Please look MOVED 2013-06-04
  	@${REINPLACE_CMD} -e '/COMPILE_WITH_LINUX_JOYSTICK/ d' ${WRKSRC}/CMakeLists.txt
- .endif
+-.endif
 -.if empty(PORT_OPTIONS:MSDL)
 +
 +.if ! ${PORT_OPTIONS:MSDL}
@@ -70,8 +97,19 @@ diff -ruN --exclude=CVS /usr/ports/games/palomino/Makefile ./Makefile
  
  	${LN} -sf ${DOCSDIR}/images/palominoLogo.png \
  		${PREFIX}/share/pixmaps/${PORTNAME}.png
-diff -ruN --exclude=CVS /usr/ports/games/palomino/pkg-plist ./pkg-plist
---- /usr/ports/games/palomino/pkg-plist	2013-01-14 17:55:40.000000000 +0100
+diff -ruN /usr/ports/games/palomino/distinfo ./distinfo
+--- /usr/ports/games/palomino/distinfo	2013-06-02 18:54:42.000000000 +0200
++++ ./distinfo	2013-06-05 18:45:44.000000000 +0200
+@@ -1,5 +1,5 @@
+-SHA256 (palomino_src_20121026.txz) = fee1f1d05c8cb8bb25484d01b03ffdce44b31fac54a68c27f82d017ddee29b76
+-SIZE (palomino_src_20121026.txz) = 572424
++SHA256 (palomino_src_20130527.txz) = ae5be1a8e146030289ec75b2c44f0dde11641809ef57a572038cb746c64bceca
++SIZE (palomino_src_20130527.txz) = 572468
+ SHA256 (palomino_data_misc_20091027.tar.bz2) = f5b7183ae98a7842dcc626de388d396a50c98011745bc6afca7da402c13fdac8
+ SIZE (palomino_data_misc_20091027.tar.bz2) = 632943
+ SHA256 (palomino_data_models_20090615.tar.bz2) = 53acdb00a61cbfe5faca7c30276ae76a2d0c8a169eff292b54fc9701bfbe885a
+diff -ruN /usr/ports/games/palomino/pkg-plist ./pkg-plist
+--- /usr/ports/games/palomino/pkg-plist	2013-06-02 18:54:42.000000000 +0200
 +++ ./pkg-plist	2013-05-21 19:25:26.000000000 +0200
 @@ -1,52 +1,5 @@
  bin/palomino

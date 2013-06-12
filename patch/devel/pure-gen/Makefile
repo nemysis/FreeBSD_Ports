@@ -20,14 +20,16 @@ BUILD_DEPENDS=	ghc:${PORTSDIR}/lang/ghc \
 CC=		gcc
 
 USES=		pure:ffi
+USE_GCC=	4.6+
 
-MAN1=		pure-gen.1
+MAN1=		${PORTNAME}.1
 
 PLIST_FILES=	bin/${PORTNAME} \
-		lib/pure-gen/dump-ast
-PLIST_DIRS=	lib/pure-gen
+		lib/${PORTNAME}/dump-ast
+PLIST_DIRS=	lib/${PORTNAME}
 
 PORTDOCS=	README README.dump-ast
+
 PORTEXAMPLES=	*
 
 .include <bsd.port.options.mk>

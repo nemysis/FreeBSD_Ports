@@ -1,5 +1,5 @@
 # Created by: Wen Heping <wenheping@gmail.com>
-# $FreeBSD: head/graphics/mapnik/Makefile 311310 2013-01-31 13:38:42Z bapt $
+# $FreeBSD: head/graphics/mapnik/Makefile 319806 2013-06-03 20:39:41Z madpilot $
 
 PORTNAME=	mapnik
 PORTVERSION=	2.1.0
@@ -21,17 +21,15 @@ LIB_DEPENDS=	proj:${PORTSDIR}/graphics/proj \
 		boost_system:${PORTSDIR}/devel/boost-libs \
 		boost_python:${PORTSDIR}/devel/boost-python-libs
 BUILD_DEPENDS=	${LOCALBASE}/bin/freetype-config:${PORTSDIR}/print/freetype2 \
-		icu>=4.2:${PORTSDIR}/devel/icu \
-		${PYTHON_PKGNAMEPREFIX}icu>=0.8.1:${PORTSDIR}/devel/py-icu \
-		boost-libs>=1.47:${PORTSDIR}/devel/boost-libs
+		${PYTHON_PKGNAMEPREFIX}icu>=0.8.1:${PORTSDIR}/devel/py-icu
 
 USE_BZIP2=	yes
+USES=		pkgconfig
+USE_GNOME=	libxml2
 USE_PYTHON=	2.6+
 USE_LDCONFIG=	yes
 USE_SCONS=	yes
 USE_AUTOTOOLS=	libltdl
-USES=		pkgconfig
-USE_GNOME=	libxml2
 MAKE_JOBS_SAFE=	yes
 WARNING_CXXFLAGS?=	-w
 
@@ -136,9 +134,7 @@ IGNORE=		does not install: runs out of virtual memory
 SCONS_ARGS+=	WARNING_CXXFLAGS=${WARNING_CXXFLAGS}
 SCONS_ARGS+=	INPUT_PLUGINS="`${ECHO} ${INPUT_PLUGINS} | ${TR} ' ' ,`"
 
-.if defined (MAKE_JOBS_NUMBER)
 SCONS_ARGS+=	JOBS=${MAKE_JOBS_NUMBER}
-.endif
 
 pre-configure:
 .if ${PORT_OPTIONS:MSQLITE3}

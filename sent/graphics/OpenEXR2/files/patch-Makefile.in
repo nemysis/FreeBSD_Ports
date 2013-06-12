@@ -1,0 +1,48 @@
+--- Makefile.in.orig	2013-03-26 21:27:06.000000000 +0100
++++ Makefile.in	2013-06-11 15:21:00.000000000 +0200
+@@ -37,7 +37,7 @@
+ build_triplet = @build@
+ host_triplet = @host@
+ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
+-	$(srcdir)/Makefile.in $(srcdir)/OpenEXR.pc.in \
++	$(srcdir)/Makefile.in $(srcdir)/OpenEXR2.pc.in \
+ 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
+ 	config.guess config.sub depcomp install-sh ltmain.sh missing
+ subdir = .
+@@ -51,7 +51,7 @@
+  configure.lineno configure.status.lineno
+ mkinstalldirs = $(install_sh) -d
+ CONFIG_HEADER = $(top_builddir)/config/OpenEXRConfig.h
+-CONFIG_CLEAN_FILES = OpenEXR.pc
++CONFIG_CLEAN_FILES = OpenEXR2.pc
+ SOURCES =
+ DIST_SOURCES =
+ RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
+@@ -224,14 +224,14 @@
+ EXTRA_DIST = \
+ 	AUTHORS COPYING ChangeLog INSTALL LICENSE NEWS \
+         README README.CVS README.OSX bootstrap README.win32 \
+-	openexr.m4 \
++	openexr2.m4 \
+ 	config.windows/OpenEXRConfig.h \
+         CMakeLists.txt
+ 
+-pkgconfigdir = $(libdir)/pkgconfig
+-pkgconfig_DATA = OpenEXR.pc
++pkgconfigdir = $(prefix)/libdata/pkgconfig
++pkgconfig_DATA = OpenEXR2.pc
+ m4datadir = $(datadir)/aclocal
+-m4data_DATA = openexr.m4
++m4data_DATA = openexr2.m4
+ all: all-recursive
+ 
+ .SUFFIXES:
+@@ -268,7 +268,7 @@
+ 	cd $(srcdir) && $(AUTOCONF)
+ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
+ 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
+-OpenEXR.pc: $(top_builddir)/config.status $(srcdir)/OpenEXR.pc.in
++OpenEXR.pc: $(top_builddir)/config.status $(srcdir)/OpenEXR2.pc.in
+ 	cd $(top_builddir) && $(SHELL) ./config.status $@
+ 
+ mostlyclean-libtool:

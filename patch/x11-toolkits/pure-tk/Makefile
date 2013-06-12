@@ -1,5 +1,5 @@
 # Created by: Zhihao Yuan <lichray@gmail.com>
-# $FreeBSD: head/x11-toolkits/pure-tk/Makefile 308232 2012-12-04 10:43:09Z gahr $
+# $FreeBSD: head/x11-toolkits/pure-tk/Makefile 318162 2013-05-14 14:16:52Z gahr $
 
 PORTNAME=	pure-tk
 PORTVERSION=	0.3
@@ -15,7 +15,7 @@ COMMENT=	Basic interface between Pure and Tcl/Tk
 LICENSE=	BSD
 
 USES=		pure
-USE_TK=		83+
+USE_TK=		86+
 SHORT_TCL_VER=	${TCL_VER:S/8./8/}
 
 MAKE_ARGS+=	tclvers=${TCL_VER}
@@ -32,6 +32,7 @@ post-patch:
 		${WRKSRC}/Makefile
 
 PORTDOCS=	README
+
 PORTEXAMPLES=	*
 
 .include <bsd.port.options.mk>

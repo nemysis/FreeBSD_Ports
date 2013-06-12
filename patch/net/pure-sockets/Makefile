@@ -21,6 +21,7 @@ PLIST_FILES=	lib/pure/sockets.pure \
 		lib/pure/sockets.so
 
 PORTDOCS=	README
+
 PORTEXAMPLES=	*
 
 .include <bsd.port.options.mk>

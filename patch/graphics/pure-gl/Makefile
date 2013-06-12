@@ -20,6 +20,7 @@ USE_GL=		glut
 MAKE_ARGS+=	LinkGL="-lglut -lGLU -lGL"
 
 PORTDOCS=	README
+
 PORTEXAMPLES=	*
 
 .include <bsd.port.options.mk>

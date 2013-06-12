@@ -1,5 +1,5 @@
 # Created by: Will Andrews <andrews@technologist.com>
-# $FreeBSD: head/games/gno3dtet/Makefile 315433 2013-03-28 03:28:30Z eadler $
+# $FreeBSD: head/games/gno3dtet/Makefile 318917 2013-05-24 07:21:23Z erwin $
 
 PORTNAME=	gno3dtet
 PORTVERSION=	1.96.1

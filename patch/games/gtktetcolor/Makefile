@@ -4,7 +4,11 @@
 PORTNAME=	gtktetcolor
 DISTVERSION=	0.6.5pre3
 CATEGORIES=	games gnome
-MASTER_SITES=	ftp://canopus.iacp.dvo.ru/pub/Games/gtktetcolor/
+MASTER_SITES=	ftp://canopus.iacp.dvo.ru/pub/Games/gtktetcolor/ \
+		SF/nemysisfreebsdp/:icons
+DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
+		${PORTNAME}.png:icons
+EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
 
 MAINTAINER=	ports@FreeBSD.org
 COMMENT=	Game for GNOME that resembles well-known Tetris and Columns
@@ -41,12 +45,16 @@ post-patch:
 		's|games\.games|games:games|g' ${WRKSRC}/Makefile.in
 	@${FIND} ${WRKSRC} -name Makefile.in | ${XARGS} ${REINPLACE_CMD} -e \
 		's|-D.*_DISABLE_DEPRECATED||g'
+	@${REINPLACE_CMD} -e 's|^Icon.*|Icon=${PORTNAME}|' \
+		${WRKSRC}/src/gtktetcolor.desktop.in
 
 .if ! ${PORT_OPTIONS:MNLS}
 	@${REINPLACE_CMD} -e '/^SUBDIRS/s|po||g' ${WRKSRC}/Makefile.in
 .endif
 
 post-install:
+	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
+
 .if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}

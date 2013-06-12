@@ -1,5 +1,5 @@
 # Created by: Sylvio Cesar Teixeira <sylvio@FreeBSD.org>
-# $FreeBSD: head/devel/p5-Goo-Canvas/Makefile 300896 2012-07-14 13:54:48Z beat $
+# $FreeBSD: head/devel/p5-Goo-Canvas/Makefile 317794 2013-05-10 13:21:32Z miwi $
 
 PORTNAME=	Goo-Canvas
 PORTVERSION=	0.06
@@ -18,11 +18,12 @@ BUILD_DEPENDS=	p5-Cairo>=0:${PORTSDIR}/graphics/p5-Cairo \
 		p5-ExtUtils-PkgConfig>=1:${PORTSDIR}/devel/p5-ExtUtils-PkgConfig \
 		p5-Glib2>=0:${PORTSDIR}/devel/p5-Glib2 \
 		p5-Gtk2>=0:${PORTSDIR}/x11-toolkits/p5-Gtk2
-LIB_DEPENDS=	goocanvas:${PORTSDIR}/graphics/goocanvas \
-		gdk_pixbuf_xlib.2:${PORTSDIR}/graphics/gdk-pixbuf
+LIB_DEPENDS=	goocanvas:${PORTSDIR}/graphics/goocanvas
 RUN_DEPENDS=	p5-Cairo>=0:${PORTSDIR}/graphics/p5-Cairo \
 		p5-Glib2>=0:${PORTSDIR}/devel/p5-Glib2 \
 		p5-Gtk2>=0:${PORTSDIR}/x11-toolkits/p5-Gtk2
+
+USE_GNOME=	gdkpixbuf
 
 MAKE_JOBS_UNSAFE=	yes
 

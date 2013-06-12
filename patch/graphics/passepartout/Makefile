@@ -4,7 +4,7 @@
 
 PORTNAME=	passepartout
 PORTVERSION=	0.7.1
-PORTREVISION=	5
+PORTREVISION=	4
 CATEGORIES=	graphics gnome
 MASTER_SITES=	GNOME
 DIST_SUBDIR=	gnome2
@@ -20,9 +20,9 @@ LIB_DEPENDS=	xml++-2.6:${PORTSDIR}/textproc/libxml++26 \
 RUN_DEPENDS=	xsltproc:${PORTSDIR}/textproc/libxslt
 
 USE_BZIP2=	yes
-USE_GMAKE=	yes
 USES=		pathfix
 GNU_CONFIGURE=	yes
+USE_GMAKE=	yes
 
 CFLAGS+=	-I${LOCALBASE}/include
 LDFLAGS+=	-L${LOCALBASE}/lib

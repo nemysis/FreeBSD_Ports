@@ -14,7 +14,7 @@ LICENSE=	GPLv3
 
 LIB_DEPENDS=	cairo:${PORTSDIR}/graphics/cairo
 
-OPTIONS_DEFINE=	CRAFTY FAIRYMAX GNUCHESS KNIGHTCAP PHALANX
+OPTIONS_DEFINE=	NLS CRAFTY FAIRYMAX GNUCHESS KNIGHTCAP PHALANX
 OPTIONS_DEFAULT=
 CRAFTY_DESC=	Install crafty engine
 FAIRYMAX_DESC=	Install fairymax engine
@@ -26,15 +26,17 @@ USES=		desktop-file-utils pkgconfig shared-mime-info
 USE_XORG=	xt xpm xaw
 USE_GNOME=	librsvg2
 GNU_CONFIGURE=	yes
-USE_PERL5_BUILD=yes
-INSTALLS_ICONS=	yes
-
 CONFIGURE_ARGS+=CFLAGS="-I${LOCALBASE}/include -L${LOCALBASE}/lib" \
 		MKDIR_P="${MKDIR}"
+
+USE_PERL5_BUILD=yes
+INSTALLS_ICONS=	yes
 
 MAN6=		xboard.6
 
 INFO=		xboard
+
+PORTDOCS=	AUTHORS ChangeLog NEWS README SHORTLOG TODO
 
 DATADIR=	${PREFIX}/share/games/${PORTNAME}
 
@@ -82,7 +84,12 @@ post-patch:
 		${WRKSRC}/Makefile.in
 
 post-install:
-	@${INSTALL_SCRIPT} ${WRKSRC}/cmail ${PREFIX}/bin/
+	@${INSTALL_SCRIPT} ${WRKSRC}/cmail ${PREFIX}/bin
 	@${CP} -pn ${PREFIX}/etc/xboard.conf.dist ${PREFIX}/etc/xboard.conf
+
+.if ${PORT_OPTIONS:MDOCS}
+	@${MKDIR} ${DOCSDIR}
+	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+.endif
 
 .include <bsd.port.post.mk>

@@ -57,10 +57,12 @@ BUILD_DEPENDS+=	doxygen:${PORTSDIR}/devel/doxygen
 .endif
 
 post-patch:
-.for f in BUILD VERSION configure mkdeb mktgz testtgz
+.for f in BUILD VERSION configure
 	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|g' \
 		${WRKSRC}/${f}
 .endfor
+	@${REINPLACE_CMD} -e 's|-lboost_program_options|-lboost_program_options -lGLU|' \
+		${WRKSRC}/fracplanet.pro
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${PREFIX}/bin

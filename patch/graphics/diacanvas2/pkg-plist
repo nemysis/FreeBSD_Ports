@@ -113,11 +113,11 @@ libdata/pkgconfig/diacanvas2.pc
 %%APIDOCS%%share/gtk-doc/html/diacanvas2/style.css
 %%APIDOCS%%share/gtk-doc/html/diacanvas2/up.png
 %%NLS%%share/locale/nl/LC_MESSAGES/diacanvas.mo
+share/pygtk/2.0/defs/dia-boxed.defs
 share/pygtk/2.0/defs/diacanvas.defs
-share/pygtk/2.0/defs/diaview.defs
 share/pygtk/2.0/defs/diageometry.defs
 share/pygtk/2.0/defs/diashape.defs
-share/pygtk/2.0/defs/dia-boxed.defs
+share/pygtk/2.0/defs/diaview.defs
 @dirrm include/diacanvas
-@dirrm %%PYTHON_SITELIBDIR%%/diacanvas
+@dirrmtry %%PYTHON_SITELIBDIR%%/diacanvas
 %%APIDOCS%%@dirrm share/gtk-doc/html/diacanvas2

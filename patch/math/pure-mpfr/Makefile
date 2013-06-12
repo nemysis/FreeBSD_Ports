@@ -17,12 +17,13 @@ LICENSE_COMB=	dual
 
 MAKE_ARGS+=	libdir="${PREFIX}/lib"
 
-USES=		pure
+USES=		pkgconfig pure
 
 PLIST_FILES=	lib/pure/mpfr.pure \
 		lib/pure/mpfr.so
 
 PORTDOCS=	README
+
 PORTEXAMPLES=	*
 
 .include <bsd.port.options.mk>

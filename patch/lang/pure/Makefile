@@ -1,5 +1,5 @@
 # Created by: Zhihao Yuan <lichray@gmail.com>
-# $FreeBSD: nemysis/lang/pure/Makefile 10924 2013-04-05 16:23:34Z nemysis $
+# $FreeBSD: head/lang/pure/Makefile 310792 2013-01-22 02:05:58Z brooks $
 
 PORTNAME=	pure
 PORTVERSION=	0.57
@@ -16,18 +16,28 @@ LICENSE_COMB=	dual
 
 LIB_DEPENDS=	gmp:${PORTSDIR}/math/gmp \
 		mpfr:${PORTSDIR}/math/mpfr
-BUILD_DEPENDS=	llvm>=0:${PORTSDIR}/devel/llvm
-RUN_DEPENDS=	llvm>=0:${PORTSDIR}/devel/llvm
+BUILD_DEPENDS=	llvm>=3.2:${PORTSDIR}/devel/llvm
+RUN_DEPENDS=	llvm>=3.2:${PORTSDIR}/devel/llvm
 
 MAN1=		pure.1
 SUB_FILES=	pkg-message
 
+USES=		pathfix pkgconfig
 USE_AUTOTOOLS=	libltdl
 GNU_CONFIGURE=	yes
 CONFIGURE_ARGS=	--with-libgmp-prefix=${LOCALBASE} --enable-release
-USES=		pure pathfix pkgconfig
+USE_GMAKE=	yes
 USE_LDCONFIG=	yes
 MAKE_JOBS_SAFE=	yes
+
+MAKE_ARGS+=	prefix=${PREFIX} mandir=${PREFIX}/man \
+		CC=${CC} CFLAGS="${CFLAGS}" \
+		CXX=${CXX} CXXFLAGS="${CXXFLAGS}" \
+		CPPFLAGS+=-I${LOCALBASE}/include \
+		LDFLAGS+=-L${LOCALBASE}/lib
+
+PORTDOCS=	*
+PORTEXAMPLES=	*
 
 OPTIONS_DEFINE=	EMACS ETC
 
@@ -36,6 +46,7 @@ ETC_DESC=	Copy Pure syntax highlighting to ${DATADIR}/etc
 
 OPTIONS_DEFAULT=	ETC
 
+.include <bsd.port.pre.mk>
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MEMACS}
@@ -73,11 +84,6 @@ CONFIGURE_ARGS+=	--without-readline
 .if ${ARCH} == "amd64"
 CONFIGURE_TARGET=	x86_64-portbld-freebsd
 .endif
-
-PORTDOCS=	*
-PORTEXAMPLES=	*
-
-.include <bsd.port.pre.mk>
 
 post-install:
 .if ${PORT_OPTIONS:METC}

@@ -1,0 +1,31 @@
+--- Makefile.in.orig	2013-03-14 17:58:22.000000000 +0100
++++ Makefile.in	2013-06-10 01:34:17.000000000 +0200
+@@ -36,7 +36,7 @@
+ POST_UNINSTALL = :
+ build_triplet = @build@
+ host_triplet = @host@
+-DIST_COMMON = README $(am__configure_deps) $(srcdir)/IlmBase.pc.in \
++DIST_COMMON = README $(am__configure_deps) $(srcdir)/IlmBase2.pc.in \
+ 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+ 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
+ 	config.guess config.sub depcomp install-sh ltmain.sh missing
+@@ -50,7 +50,7 @@
+  configure.lineno configure.status.lineno
+ mkinstalldirs = $(install_sh) -d
+ CONFIG_HEADER = $(top_builddir)/config/IlmBaseConfig.h
+-CONFIG_CLEAN_FILES = IlmBase.pc
++CONFIG_CLEAN_FILES = IlmBase2.pc
+ SOURCES =
+ DIST_SOURCES =
+ RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
+@@ -216,8 +216,8 @@
+ 	config.windows/IlmBaseConfig.h \
+         CMakeLists.txt
+ 
+-pkgconfigdir = $(libdir)/pkgconfig
+-pkgconfig_DATA = IlmBase.pc
++pkgconfigdir = $(prefix)/libdata/pkgconfig
++pkgconfig_DATA = IlmBase2.pc
+ all: all-recursive
+ 
+ .SUFFIXES:

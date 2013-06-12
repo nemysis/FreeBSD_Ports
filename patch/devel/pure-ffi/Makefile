@@ -16,12 +16,13 @@ LICENSE_COMB=	dual
 
 LIB_DEPENDS+=	ffi:${PORTSDIR}/devel/libffi
 
-USES=	pure
+USES=		pure
 
 PLIST_FILES=	lib/pure/ffi.pure \
 		lib/pure/ffi.so
 
 PORTDOCS=	README
+
 PORTEXAMPLES=	*
 
 .include <bsd.port.options.mk>

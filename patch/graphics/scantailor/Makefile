@@ -1,5 +1,5 @@
 # Created by: Gvozdikov Veniamin <g.veniamin@googlemail.com>
-# $FreeBSD: head/graphics/scantailor/Makefile 314960 2013-03-22 20:06:14Z makc $
+# $FreeBSD: head/graphics/scantailor/Makefile 318189 2013-05-14 19:13:10Z rakuco $
 
 PORTNAME=	scantailor
 PORTVERSION=	0.9.11.1
@@ -17,9 +17,7 @@ LIB_DEPENDS=	jpeg:${PORTSDIR}/graphics/jpeg \
 		png15:${PORTSDIR}/graphics/png
 BUILD_DEPENDS=	${LOCALBASE}/include/boost/shared_ptr.hpp:${PORTSDIR}/devel/boost-libs
 
-USES=		cmake
-USE_ICONV=	yes
-USE_GETTEXT=	yes
+USES=		cmake gettext iconv
 USE_QT4=	gui xml qmake_build uic_build moc_build rcc_build \
 		linguist_build
 MAKE_JOBS_SAFE=	yes
@@ -27,18 +25,20 @@ MAKE_JOBS_SAFE=	yes
 DESKTOP_ENTRIES="Scan Tailor" "${COMMENT}" "${PORTNAME}" \
 		"${PORTNAME}" "Graphics;Scanning;" false
 
-PORTDOCS=	*
-
 OPTIONS_GROUP=	DOXYGEN
 
 OPTIONS_GROUP_DOXYGEN=	HTML LATEX
 
-OPTIONS_DEFAULT=	HTML
+OPTIONS_DEFAULT=
 
 HTML_DESC=	Install HTML Doxygen files
 LATEX_DESC=	Install LaTeX Doxygen files
 
 .include <bsd.port.options.mk>
+
+.if ${PORT_OPTIONS:MHTML} || ${PORT_OPTIONS:MLATEX}
+PORTDOCS=	*
+.endif
 
 .if ${PORT_OPTIONS:MHTML} || ${PORT_OPTIONS:MLATEX}
 BUILD_DEPENDS+=	doxygen:${PORTSDIR}/devel/doxygen
@@ -50,7 +50,6 @@ post-install:
 
 .if ${PORT_OPTIONS:MHTML} || ${PORT_OPTIONS:MLATEX}
 	@cd ${WRKSRC} && doxygen .
-	@${MKDIR} ${DOCSDIR}
 .endif
 
 .if ${PORT_OPTIONS:MDOCS} && ${PORT_OPTIONS:MHTML}

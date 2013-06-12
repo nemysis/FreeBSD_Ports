@@ -11,6 +11,9 @@ DIST_SUBDIR=	pure
 MAINTAINER=	lichray@gmail.com
 COMMENT=	Readline interface for the Pure language
 
+LICENSE=	BSD GPLv3
+LICENSE_COMB=	dual
+
 USES=		pure
 
 PLIST_FILES=	lib/pure/readline.pure \

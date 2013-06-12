@@ -2,7 +2,7 @@
 # $FreeBSD: head/games/anki/Makefile 316434 2013-04-24 13:36:18Z ak $
 
 PORTNAME=	anki
-PORTVERSION=	2.0.8
+PORTVERSION=	2.0.9
 CATEGORIES=	games python
 MASTER_SITES=	http://ankisrs.net/download/mirror/
 EXTRACT_SUFX=	.tgz

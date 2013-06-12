@@ -1,7 +1,5 @@
 bin/cmail
 bin/xboard
-etc/xboard.conf
-etc/xboard.conf.dist
 share/applications/xboard-config.desktop
 share/applications/xboard-fen-viewer.desktop
 share/applications/xboard-pgn-viewer.desktop
@@ -150,21 +148,15 @@ share/mime/application/x-xboard-trn.xml
 share/mime/packages/xboard.xml
 %%NLS%%@dirrmtry share/locale/zh_HK/LC_MESSAGES
 %%NLS%%@dirrmtry share/locale/zh_HK
-@dirrmtry share/icons/hicolor/scalable/apps
-@dirrmtry share/icons/hicolor/scalable
-@dirrmtry share/icons/hicolor/48x48/apps
-@dirrmtry share/icons/hicolor/48x48
-@dirrmtry share/icons/hicolor
-@dirrmtry share/icons
-@dirrmtry %%DATADIR%%/themes/xiangqi
-@dirrmtry %%DATADIR%%/themes/textures
-@dirrmtry %%DATADIR%%/themes/shogi
-@dirrmtry %%DATADIR%%/themes/default
-@dirrmtry %%DATADIR%%/themes
-@dirrmtry %%DATADIR%%/sounds
-@dirrmtry %%DATADIR%%/pixmaps/textures
-@dirrmtry %%DATADIR%%/pixmaps
-@dirrmtry %%DATADIR%%
+@dirrm %%DATADIR%%/themes/xiangqi
+@dirrm %%DATADIR%%/themes/textures
+@dirrm %%DATADIR%%/themes/shogi
+@dirrm %%DATADIR%%/themes/default
+@dirrm %%DATADIR%%/themes
+@dirrm %%DATADIR%%/sounds
+@dirrm %%DATADIR%%/pixmaps/textures
+@dirrm %%DATADIR%%/pixmaps
+@dirrm %%DATADIR%%
 @dirrmtry share/games
 @dirrmtry share/applications
 @unexec if cmp -s %D/etc/xboard.conf.dist %D/etc/xboard.conf; then rm -f %D/etc/xboard.conf; fi

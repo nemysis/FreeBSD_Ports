@@ -2,8 +2,7 @@
 # $FreeBSD: head/games/palomino/Makefile 316786 2013-04-29 08:57:12Z bapt $
 
 PORTNAME=	palomino
-PORTVERSION=	20121026
-PORTREVISION=	2
+PORTVERSION=	20130527
 CATEGORIES=	games
 MASTER_SITES=	ftp://ftp.palomino3d.org/sim/
 DISTFILES=	${PORTNAME}_src_${PORTVERSION}.txz \
@@ -34,10 +33,9 @@ TERRAIN_VER=	20080206
 
 WRKSRC=		${WRKDIR}/${PORTNAME}
 
-OPTIONS_DEFINE=	JOYSTICK SDL PLIB GUI
+OPTIONS_DEFINE=	SDL PLIB GUI
 OPTIONS_DEFAULT=	SDL GUI
 
-JOYSTICK_DESC=	Enable joystick support through linux-js
 SDL_DESC=	SDL support for input and sound
 PLIB_DESC=	Enable sound support through plib
 GUI_DESC=	Enable FLTK GUI
@@ -48,11 +46,6 @@ DESKTOP_ENTRIES=	"Palomino" "${COMMENT}" "${PORTNAME}" \
 			"${PORTNAME}" "Game;ArcadeGame;" false
 
 .include <bsd.port.options.mk>
-
-.if ${PORT_OPTIONS:MJOYSTICK}
-BUILD_DEPENDS+=	${LOCALBASE}/include/linux/joystick.h:${PORTSDIR}/devel/linux-js
-RUN_DEPENDS+=	${LOCALBASE}/include/linux/joystick.h:${PORTSDIR}/devel/linux-js
-.endif
 
 .if ${PORT_OPTIONS:MSDL}
 USE_SDL+=	sdl mixer
@@ -76,9 +69,8 @@ post-patch:
 		${WRKSRC}/CMakeModules/libraries.cmake
 	@${REINPLACE_CMD} -e '/COMPILE_WITH_OSSIM/ d' ${WRKSRC}/CMakeLists.txt
 
-.if ! ${PORT_OPTIONS:MJOYSTICK}
+# Please look MOVED 2013-06-04
 	@${REINPLACE_CMD} -e '/COMPILE_WITH_LINUX_JOYSTICK/ d' ${WRKSRC}/CMakeLists.txt
-.endif
 
 .if ! ${PORT_OPTIONS:MSDL}
 	@${REINPLACE_CMD} -e '/COMPILE_WITH_SDL/ d' ${WRKSRC}/CMakeLists.txt

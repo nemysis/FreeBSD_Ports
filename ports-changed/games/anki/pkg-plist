@@ -55,6 +55,9 @@ bin/anki
 %%DATADIR%%/anki/importing/noteimp.py
 %%DATADIR%%/anki/importing/noteimp.pyc
 %%DATADIR%%/anki/importing/noteimp.pyo
+%%DATADIR%%/anki/importing/pauker.py
+%%DATADIR%%/anki/importing/pauker.pyc
+%%DATADIR%%/anki/importing/pauker.pyo
 %%DATADIR%%/anki/importing/supermemo_xml.py
 %%DATADIR%%/anki/importing/supermemo_xml.pyc
 %%DATADIR%%/anki/importing/supermemo_xml.pyo
@@ -731,7 +734,6 @@ share/mime/packages/anki.xml
 share/pixmaps/anki.png
 share/pixmaps/anki.xpm
 @dirrmtry share/mime/packages
-@dirrmtry share/mime/application
 @dirrmtry share/mime
 @dirrmtry share/applications
 @dirrm %%DATADIR%%/tools
@@ -842,6 +844,7 @@ share/pixmaps/anki.xpm
 @dirrm %%DATADIR%%/designer
 @dirrm %%DATADIR%%/aqt/forms
 @dirrm %%DATADIR%%/aqt
+@dirrm %%DATADIR%%/anki/~
 @dirrm %%DATADIR%%/anki/template
 @dirrm %%DATADIR%%/anki/importing
 @dirrm %%DATADIR%%/anki

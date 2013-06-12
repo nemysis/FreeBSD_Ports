@@ -22,6 +22,7 @@ post-patch:
 		${WRKSRC}/Makefile
 
 PORTDOCS=	README
+
 PORTEXAMPLES=	*
 
 .include <bsd.port.options.mk>

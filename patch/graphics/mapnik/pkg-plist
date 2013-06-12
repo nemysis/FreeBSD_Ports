@@ -227,6 +227,13 @@ lib/mapnik/input/python.input
 lib/mapnik/input/raster.input
 lib/mapnik/input/shape.input
 %%SQLITE%%lib/mapnik/input/sqlite.input
+%%PYTHON_SITELIBDIR%%/mapnik/__init__.py
+%%PYTHON_SITELIBDIR%%/mapnik/printing.py
+%%PYTHON_SITELIBDIR%%/mapnik/paths.py
+%%PYTHON_SITELIBDIR%%/mapnik/_mapnik.so
+%%PYTHON_SITELIBDIR%%/mapnik2/__init__.py
+@dirrm %%PYTHON_SITELIBDIR%%/mapnik
+@dirrm %%PYTHON_SITELIBDIR%%/mapnik2
 @dirrm lib/mapnik/input
 @dirrm lib/mapnik/fonts
 @dirrm lib/mapnik

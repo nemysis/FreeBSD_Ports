@@ -22,6 +22,7 @@ PLIST_FILES=	lib/pure/xml.pure \
 		lib/pure/xml.so
 
 PORTDOCS=	README
+
 PORTEXAMPLES=	*
 
 .include <bsd.port.options.mk>

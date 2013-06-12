@@ -1,5 +1,5 @@
 # Created by: ijliao
-# $FreeBSD: head/graphics/diacanvas2/Makefile 315433 2013-03-28 03:28:30Z eadler $
+# $FreeBSD: head/graphics/diacanvas2/Makefile 318677 2013-05-21 11:35:49Z kwm $
 
 PORTNAME=	diacanvas2
 PORTVERSION=	0.15.4
@@ -13,7 +13,7 @@ COMMENT=	General drawing canvas from dia dialog editor
 
 LICENSE=	GPLv2
 
-USES=		pathfix
+USES=		pathfix pkgconfig
 USE_GNOME=	pygnome2
 USE_PYTHON=	2.2+
 USE_GMAKE=	yes
@@ -26,7 +26,9 @@ LDFLAGS+=	-L${LOCALBASE}/lib
 
 WRKSRC=		${WRKDIR}/${PORTNAME}-${PORTVERSION}
 
-OPTIONS_DEFINE=	NLS
+OPTIONS_DEFINE=	NLS PRINT
+OPTIONS_DEFAULT=PRINT
+PRINT_DESC=	GNOME print support
 
 .include <bsd.port.options.mk>
 
@@ -37,15 +39,20 @@ PLIST_SUB+=	APIDOCS="@comment "
 .endif
 
 .if ${PORT_OPTIONS:MNLS}
-USE_GETTEXT=	yes
+USES+=		gettext
 PLIST_SUB+=	NLS=""
 .else
 PLIST_SUB+=	NLS="@comment "
 .endif
 
-post-patch:
-	@${REINPLACE_CMD} -e 's|glib/garray.h|glib.h|' ${WRKSRC}/diacanvas/dia-canvas.c
+.if ${PORT_OPTIONS:MPRINT}
+USE_GNOME+=	libgnomeprintui
+CONFIGURE_ARGS+=--enable-gnome-print
+.else
+CONFIGURE_ARGS+=--disable-gnome-print
+.endif
 
+post-patch:
 .if ! ${PORT_OPTIONS:MDOCS}
 	@${REINPLACE_CMD} -e '/SUBDIRS/s|doc||g' ${WRKSRC}/Makefile.in
 .endif

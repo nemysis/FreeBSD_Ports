@@ -21,6 +21,7 @@ USES=		pure:ffi
 USE_GNOME=	glib20 gtk20 atk pango
 
 PORTDOCS=	README
+
 PORTEXAMPLES=	*
 
 .include <bsd.port.options.mk>

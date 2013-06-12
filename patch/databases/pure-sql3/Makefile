@@ -22,6 +22,7 @@ PLIST_FILES=	lib/pure/sql3.pure \
 		lib/pure/sql3util.so
 
 PORTDOCS=	README
+
 PORTEXAMPLES=	*
 
 .include <bsd.port.options.mk>

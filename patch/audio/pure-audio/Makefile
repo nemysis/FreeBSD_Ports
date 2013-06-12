@@ -4,11 +4,14 @@
 PORTNAME=	pure-audio
 PORTVERSION=	0.5
 CATEGORIES=	audio
-MASTER_SITES=	https://cdn.bitbucket.org/purelang/pure-lang/downloads/
+#MASTER_SITES=	https://cdn.bitbucket.org/purelang/pure-lang/downloads/
+MASTER_SITES=	https://pure-lang.googlecode.com/files/
 DIST_SUBDIR=	pure
 
 MAINTAINER=	lichray@gmail.com
 COMMENT=	Digital audio interface for the Pure language
+
+LICENSE=	BSD
 
 LIB_DEPENDS=	portaudio:${PORTSDIR}/audio/portaudio2 \
 		samplerate:${PORTSDIR}/audio/libsamplerate \
@@ -22,9 +25,9 @@ post-patch:
 		-e "s|-lportaudio|-I${LOCALBASE}/include/portaudio2 -L${LOCALBASE}/lib/portaudio2 -lportaudio|" \
 		-e "s|portaudio.h|portaudio2/portaudio.h|g" \
 			${WRKSRC}/Makefile
-	@${REINPLACE_CMD} -e 's|*info|;*info|' ${WRKSRC}/audio.c
 
 PORTDOCS=	README
+
 PORTEXAMPLES=	*
 
 .include <bsd.port.options.mk>
