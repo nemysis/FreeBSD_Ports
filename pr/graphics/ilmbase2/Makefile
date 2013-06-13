@@ -49,11 +49,11 @@ post-patch:
 		-e 's|@exec_prefix@|$${prefix}|' \
 		-e 's|@libdir@|$${exec_prefix}/lib/${PORTNAME}|' \
 		-e 's|@includedir@|$${prefix}/include|' \
-		-e 's|$${prefix}/include/OpenEXR|$${prefix}/include/OpenEXR2|' \
+		-e 's|OpenEXR|OpenEXR2|g' \
 		-e 's|Name: IlmBase|Name: IlmBase2|' \
 		-e 's|@ILMBASE_VERSION@|${PORTVERSION}|' \
-		-e 's| @PTHREAD_LIBS@||' \
-		-e 's| @PTHREAD_CFLAGS@||' \
+		-e 's| @PTHREAD_LIBS@| -pthread|' \
+		-e 's| @PTHREAD_CFLAGS@| -D_THREAD_SAFE|' \
 		${WRKSRC}/IlmBase.pc.in
 	@(cd ${WRKSRC} ; ${CP} -a IlmBase.pc.in IlmBase2.pc)
 

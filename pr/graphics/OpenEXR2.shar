@@ -1,0 +1,432 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	OpenEXR2
+#	OpenEXR2/files
+#	OpenEXR2/files/patch-IlmImf-ImfAutoArray.h
+#	OpenEXR2/files/patch-exrenvmap-main.cpp
+#	OpenEXR2/files/patch-exrmaketiled-main.cpp
+#	OpenEXR2/files/patch-configure
+#	OpenEXR2/files/extra-patch-IlmImfExamples-Makefile.in
+#	OpenEXR2/files/patch-Makefile.in
+#	OpenEXR2/Makefile
+#	OpenEXR2/distinfo
+#	OpenEXR2/pkg-descr
+#	OpenEXR2/pkg-plist
+#
+echo c - OpenEXR2
+mkdir -p OpenEXR2 > /dev/null 2>&1
+echo c - OpenEXR2/files
+mkdir -p OpenEXR2/files > /dev/null 2>&1
+echo x - OpenEXR2/files/patch-IlmImf-ImfAutoArray.h
+sed 's/^X//' >OpenEXR2/files/patch-IlmImf-ImfAutoArray.h << '10e7b96597e188be296dd2b3eaca05f2'
+X--- IlmImf/ImfAutoArray.h.orig	2013-04-09 19:08:02.000000000 +0200
+X+++ IlmImf/ImfAutoArray.h	2013-06-08 18:33:25.000000000 +0200
+X@@ -47,6 +47,10 @@
+X #include "ImfNamespace.h"
+X #include <string.h>
+X 
+X+#if !defined (HAVE_LARGE_STACK)
+X+#include <cstring>
+X+#endif
+X+
+X OPENEXR_IMF_INTERNAL_NAMESPACE_HEADER_ENTER
+X 
+X 
+X@@ -58,7 +62,7 @@
+X     {
+X       public:
+X 
+X-	 AutoArray (): _data (new T [size]) { memset(_data, 0, size*sizeof(T)); }
+X+	 AutoArray (): _data (new T [size]) {::std::memset(_data, 0, size * sizeof(T));}
+X 	~AutoArray () {delete [] _data;}
+X 
+X 	operator T * ()			{return _data;}
+10e7b96597e188be296dd2b3eaca05f2
+echo x - OpenEXR2/files/patch-exrenvmap-main.cpp
+sed 's/^X//' >OpenEXR2/files/patch-exrenvmap-main.cpp << '4b7f3c15d7d4a94cb5820d163fe93027'
+X--- exrenvmap/main.cpp.orig	2013-02-04 19:22:35.000000000 +0100
+X+++ exrenvmap/main.cpp	2013-06-08 16:50:02.000000000 +0200
+X@@ -47,6 +47,7 @@
+X #include <ImfHeader.h>
+X 
+X #include <iostream>
+X+#include <cstring>
+X #include <exception>
+X #include <string>
+X #include <string.h>
+4b7f3c15d7d4a94cb5820d163fe93027
+echo x - OpenEXR2/files/patch-exrmaketiled-main.cpp
+sed 's/^X//' >OpenEXR2/files/patch-exrmaketiled-main.cpp << '7289b9377d2727df17410cb4777fec8b'
+X--- exrmaketiled/main.cpp.orig	2013-04-09 19:08:02.000000000 +0200
+X+++ exrmaketiled/main.cpp	2013-06-08 17:13:05.000000000 +0200
+X@@ -44,6 +44,7 @@
+X 
+X #include <iostream>
+X #include <exception>
+X+#include <cstring>
+X #include <string>
+X #include <string.h>
+X #include <stdlib.h>
+7289b9377d2727df17410cb4777fec8b
+echo x - OpenEXR2/files/patch-configure
+sed 's/^X//' >OpenEXR2/files/patch-configure << 'a22a0cfc9f3275232ae53e1033d954ba'
+X--- configure.orig	2013-03-14 18:03:39.000000000 +0100
+X+++ configure	2013-06-11 15:34:53.000000000 +0200
+X@@ -18895,9 +18895,9 @@
+X else
+X                            if test x$PKG_CONFIG != xno ; then
+X       echo "using pkg-config to set ILMBASE_CXXFLAGS and ILMBASE_LDFLAGS:"
+X-      TEST_CXXFLAGS="`$PKG_CONFIG --cflags IlmBase`"
+X-      TEST_LDFLAGS="`$PKG_CONFIG --libs-only-L IlmBase`"
+X-      TEST_LIBS="`$PKG_CONFIG --libs IlmBase`"
+X+      TEST_CXXFLAGS="`$PKG_CONFIG --cflags IlmBase2`"
+X+      TEST_LDFLAGS="`$PKG_CONFIG --libs-only-L IlmBase2`"
+X+      TEST_LIBS="`$PKG_CONFIG --libs IlmBase2`"
+X    else
+X       echo "Not using pkg-config."
+X       TEST_CXXFLAGS=""
+X@@ -21084,7 +21084,7 @@
+X 
+X 
+X 
+X-                                                                                                                                                                ac_config_files="$ac_config_files Makefile OpenEXR.pc config/Makefile IlmImf/Makefile IlmImfTest/Makefile IlmImfFuzzTest/Makefile exrheader/Makefile exrmaketiled/Makefile IlmImfExamples/Makefile doc/Makefile exrstdattr/Makefile exrmakepreview/Makefile exrenvmap/Makefile exrmultiview/Makefile vc/Makefile exrmultipart/Makefile"
+X+                                                                                                                                                                ac_config_files="$ac_config_files Makefile OpenEXR2.pc config/Makefile IlmImf/Makefile IlmImfTest/Makefile IlmImfFuzzTest/Makefile exrheader/Makefile exrmaketiled/Makefile IlmImfExamples/Makefile doc/Makefile exrstdattr/Makefile exrmakepreview/Makefile exrenvmap/Makefile exrmultiview/Makefile vc/Makefile exrmultipart/Makefile"
+X cat >confcache <<\_ACEOF
+X # This file is a shell script that caches the results of configure
+X # tests run on this system so they can be shared between configure
+X@@ -21684,7 +21684,7 @@
+X   case "$ac_config_target" in
+X   # Handling of arguments.
+X   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+X-  "OpenEXR.pc" ) CONFIG_FILES="$CONFIG_FILES OpenEXR.pc" ;;
+X+  "OpenEXR.pc" ) CONFIG_FILES="$CONFIG_FILES OpenEXR2.pc" ;;
+X   "config/Makefile" ) CONFIG_FILES="$CONFIG_FILES config/Makefile" ;;
+X   "IlmImf/Makefile" ) CONFIG_FILES="$CONFIG_FILES IlmImf/Makefile" ;;
+X   "IlmImfTest/Makefile" ) CONFIG_FILES="$CONFIG_FILES IlmImfTest/Makefile" ;;
+a22a0cfc9f3275232ae53e1033d954ba
+echo x - OpenEXR2/files/extra-patch-IlmImfExamples-Makefile.in
+sed 's/^X//' >OpenEXR2/files/extra-patch-IlmImfExamples-Makefile.in << '4a82b74a074f2a4771429332cc33571d'
+X--- IlmImfExamples/Makefile.in.orig	2013-03-26 21:27:05.000000000 +0100
+X+++ IlmImfExamples/Makefile.in	2013-06-08 23:19:37.000000000 +0200
+X@@ -330,15 +330,15 @@
+X distclean-libtool:
+X 	-rm -f libtool
+X uninstall-info-am:
+X-install-examplesDATA: $(examples_DATA)
+X-	@$(NORMAL_INSTALL)
+X-	test -z "$(examplesdir)" || $(mkdir_p) "$(DESTDIR)$(examplesdir)"
+X-	@list='$(examples_DATA)'; for p in $$list; do \
+X-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+X-	  f=$(am__strip_dir) \
+X-	  echo " $(examplesDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(examplesdir)/$$f'"; \
+X-	  $(examplesDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(examplesdir)/$$f"; \
+X-	done
+X+#install-examplesDATA: $(examples_DATA)
+X+#	@$(NORMAL_INSTALL)
+X+#	test -z "$(examplesdir)" || $(mkdir_p) "$(DESTDIR)$(examplesdir)"
+X+#	@list='$(examples_DATA)'; for p in $$list; do \
+X+#	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+X+#	  f=$(am__strip_dir) \
+X+#	  echo " $(examplesDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(examplesdir)/$$f'"; \
+X+#	  $(examplesDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(examplesdir)/$$f"; \
+X+#	done
+X 
+X uninstall-examplesDATA:
+X 	@$(NORMAL_UNINSTALL)
+4a82b74a074f2a4771429332cc33571d
+echo x - OpenEXR2/files/patch-Makefile.in
+sed 's/^X//' >OpenEXR2/files/patch-Makefile.in << '960cdf7ced1dd4b389547159a87e5c69'
+X--- Makefile.in.orig	2013-03-26 21:27:06.000000000 +0100
+X+++ Makefile.in	2013-06-11 15:21:00.000000000 +0200
+X@@ -37,7 +37,7 @@
+X build_triplet = @build@
+X host_triplet = @host@
+X DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
+X-	$(srcdir)/Makefile.in $(srcdir)/OpenEXR.pc.in \
+X+	$(srcdir)/Makefile.in $(srcdir)/OpenEXR2.pc.in \
+X 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
+X 	config.guess config.sub depcomp install-sh ltmain.sh missing
+X subdir = .
+X@@ -51,7 +51,7 @@
+X  configure.lineno configure.status.lineno
+X mkinstalldirs = $(install_sh) -d
+X CONFIG_HEADER = $(top_builddir)/config/OpenEXRConfig.h
+X-CONFIG_CLEAN_FILES = OpenEXR.pc
+X+CONFIG_CLEAN_FILES = OpenEXR2.pc
+X SOURCES =
+X DIST_SOURCES =
+X RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
+X@@ -224,14 +224,14 @@
+X EXTRA_DIST = \
+X 	AUTHORS COPYING ChangeLog INSTALL LICENSE NEWS \
+X         README README.CVS README.OSX bootstrap README.win32 \
+X-	openexr.m4 \
+X+	openexr2.m4 \
+X 	config.windows/OpenEXRConfig.h \
+X         CMakeLists.txt
+X 
+X-pkgconfigdir = $(libdir)/pkgconfig
+X-pkgconfig_DATA = OpenEXR.pc
+X+pkgconfigdir = $(prefix)/libdata/pkgconfig
+X+pkgconfig_DATA = OpenEXR2.pc
+X m4datadir = $(datadir)/aclocal
+X-m4data_DATA = openexr.m4
+X+m4data_DATA = openexr2.m4
+X all: all-recursive
+X 
+X .SUFFIXES:
+X@@ -268,7 +268,7 @@
+X 	cd $(srcdir) && $(AUTOCONF)
+X $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
+X 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
+X-OpenEXR.pc: $(top_builddir)/config.status $(srcdir)/OpenEXR.pc.in
+X+OpenEXR.pc: $(top_builddir)/config.status $(srcdir)/OpenEXR2.pc.in
+X 	cd $(top_builddir) && $(SHELL) ./config.status $@
+X 
+X mostlyclean-libtool:
+960cdf7ced1dd4b389547159a87e5c69
+echo x - OpenEXR2/Makefile
+sed 's/^X//' >OpenEXR2/Makefile << 'a9833c32cd0b05f5895709d1b11f6b33'
+X# Created by: nemysis <nemysis@gmx.ch>
+X# $FreeBSD$
+X
+XPORTNAME=	OpenEXR2
+XPORTVERSION=	2.0.0
+XCATEGORIES=	graphics devel
+XMASTER_SITES=	SAVANNAH/openexr/
+XDISTNAME=	openexr-${DISTVERSION}
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	High dynamic-range (HDR) image file format
+X
+XLICENSE=	BSD
+X
+XLIB_DEPENDS=	Imath:${PORTSDIR}/graphics/ilmbase2
+X
+XWRKSRC=		${WRKDIR}/${DISTNAME}
+X
+XUSES=		pkgconfig
+XGNU_CONFIGURE=	YES
+XCONFIGURE_ARGS+=--libdir=${PREFIX}/lib/${PORTNAME} --disable-ilmbasetest --enable-imfexamples
+XUSE_GMAKE=	yes
+XUSE_AUTOTOOLS=	libtool
+XUSE_LDCONFIG=	${PREFIX}/lib/${PORTNAME}
+X
+XPORTDOCS=	*
+XPORTEXAMPLES=	*
+X
+XDOCSRCDIR1=	${WRKSRC}
+XDOC_FILES1=	AUTHORS ChangeLog NEWS README
+X
+XDOCSRCDIR2=	${WRKSRC}/doc
+XDOCSDIR2=	${DOCSDIR}/doc
+XDOC_FILES2=	*.pdf
+X
+XBIN=		exrenvmap exrheader exrmakepreview exrmaketiled exrmultipart exrmultiview exrstdattr
+X
+XOPTIONS_DEFINE=		LARGE_STACK
+XLARGE_STACK_DESC=	Enable sys-dependant large stack optimizations
+X
+X.include <bsd.port.options.mk>
+X
+X.if ${PORT_OPTIONS:MLARGE_STACK}
+XCONFIGURE_ARGS+=--enable-large-stack
+X.endif
+X
+Xpost-patch:
+X	@${FIND} ${WRKSRC} -name 'Makefile.in' -or -name 'Makefile.am'| ${XARGS} \
+X		${REINPLACE_CMD} -i '' 's|$$(includedir)/OpenEXR|$$(includedir)/${PORTNAME}|g'
+X
+X	@${REINPLACE_CMD} -e 's|$$(datadir)/doc/OpenEXR-@OPENEXR_VERSION@/examples|$$(prefix)/share/examples/${PORTNAME}|' \
+X		${WRKSRC}/IlmImfExamples/Makefile.in
+X	@${REINPLACE_CMD} -e 's|$$(datadir)/doc/OpenEXR-@OPENEXR_VERSION@|$$(datadir)/doc/${PORTNAME}|' \
+X		-e 's|doc_DATA = $$(EXTRA_DIST)|doc_DATA =|' \
+X		${WRKSRC}/doc/Makefile.am ${WRKSRC}/doc/Makefile.in
+X
+X.for e in ${BIN}
+X	@${REINPLACE_CMD} -e 's|$$(DESTDIR)$$(bindir)|/tmp/${PORTNAME}/bin|' \
+X		${WRKSRC}/${e}/Makefile.in
+X.endfor
+X
+X	@${REINPLACE_CMD} -e 's|$$(libdir)/pkgconfig|$$(prefix)/libdata/pkgconfig|' \
+X		-e 's|OpenEXR.pc|${PORTNAME}.pc|' \
+X		-e 's|openexr.m4|openexr2.m4|' \
+X		${WRKSRC}/Makefile.am
+X	@(cd ${WRKSRC} ; ${CP} -a openexr.m4 openexr2.m4)
+X
+X	@${REINPLACE_CMD} -e 's|OpenEXR|${PORTNAME}|g' \
+X		-e 's|IlmBase|IlmBase2|' \
+X		${WRKSRC}/OpenEXR.pc.in
+X	@(cd ${WRKSRC} ; ${CP} -a OpenEXR.pc.in ${PORTNAME}.pc.in)
+X
+X.if ! ${PORT_OPTIONS:MDOCS}
+X	@${REINPLACE_CMD} -e 's|$$(datadir)/doc/${PORTNAME}||' \
+X		${WRKSRC}/doc/Makefile.am ${WRKSRC}/doc/Makefile.in
+X.endif
+X
+X.if ! ${PORT_OPTIONS:MEXAMPLES}
+XEXTRA_PATCHES+=${FILESDIR}/extra-patch-IlmImfExamples-Makefile.in
+X.endif
+X
+Xregression-test regression test check:	build
+X	@(cd ${WRKSRC}; ${SETENV} ${MAKE_ENV} ${MAKE} ${MAKE_FLAGS} ${MAKEFILE} ${MAKE_ARGS} check)
+X
+Xpost-install:
+X	@(${MKDIR} /tmp/${PORTNAME}/bin)
+X.for e in ${BIN}
+X	${INSTALL_PROGRAM} /tmp/${PORTNAME}/bin/${e} ${PREFIX}/bin/${e}2
+X.endfor
+X	@(${RM} -fr /tmp/${PORTNAME})
+X
+X.if ${PORT_OPTIONS:MDOCS}
+X	@${MKDIR} ${DOCSDIR}
+X	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${DOCSDIR}
+X	@${MKDIR} ${DOCSDIR2}
+X	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${DOCSDIR2}
+X.endif
+X
+X.include <bsd.port.mk>
+a9833c32cd0b05f5895709d1b11f6b33
+echo x - OpenEXR2/distinfo
+sed 's/^X//' >OpenEXR2/distinfo << '368f14517ecfcf53b5691297ff6d2efe'
+XSHA256 (openexr-2.0.0.tar.gz) = 4c3742256ad4546c4c386817a6ab05fe8dc0ad8a548272df4708584440bc492d
+XSIZE (openexr-2.0.0.tar.gz) = 12589533
+368f14517ecfcf53b5691297ff6d2efe
+echo x - OpenEXR2/pkg-descr
+sed 's/^X//' >OpenEXR2/pkg-descr << '09f6e40333d57eefc3c074ce0ed28dfd'
+XOpenEXR is a high dynamic-range (HDR) image file format developed by
+XIndustrial Light & Magic for use in computer imaging applications.
+X
+XOpenEXR is used by ILM on all motion pictures currently in production.
+XThe first movies to employ OpenEXR were Harry Potter and the Sorcerers Stone,
+XMen in Black II, Gangs of New York, and Signs. Since then, OpenEXR has become
+XILM's main image file format.
+X
+XOpenEXR's features include:
+X* Higher dynamic range and color precision than existing 8- and 10-bit
+X  image file formats.
+X* Support for 16-bit floating-point, 32-bit floating-point, and 32-bit
+X  integer pixels. The 16-bit floating-point format, called "half", is compatible
+X  with the half data type in NVIDIA's Cg graphics language and is supported
+X  natively on their new GeForce FX and Quadro FX 3D graphics solutions.
+X* Multiple lossless image compression algorithms. Some of the included codecs
+X  can achieve 2:1 lossless compression ratios on images with film grain.
+X* Extensibility. New compression codecs and image types can easily be added
+X  by extending the C++ classes included in the OpenEXR software distribution.
+X  New image attributes (strings, vectors, integers, etc.) can be added to
+X  OpenEXR image headers without affecting backward compatibility with existing
+X  OpenEXR applications.
+X
+XWWW: http://www.openexr.org/
+09f6e40333d57eefc3c074ce0ed28dfd
+echo x - OpenEXR2/pkg-plist
+sed 's/^X//' >OpenEXR2/pkg-plist << '489fb4e7c227b9f85011fc16b79f7776'
+Xbin/exrenvmap2
+Xbin/exrheader2
+Xbin/exrmakepreview2
+Xbin/exrmaketiled2
+Xbin/exrmultipart2
+Xbin/exrmultiview2
+Xbin/exrstdattr2
+Xinclude/OpenEXR2/ImfAcesFile.h
+Xinclude/OpenEXR2/ImfArray.h
+Xinclude/OpenEXR2/ImfAttribute.h
+Xinclude/OpenEXR2/ImfB44Compressor.h
+Xinclude/OpenEXR2/ImfBoxAttribute.h
+Xinclude/OpenEXR2/ImfCRgbaFile.h
+Xinclude/OpenEXR2/ImfChannelList.h
+Xinclude/OpenEXR2/ImfChannelListAttribute.h
+Xinclude/OpenEXR2/ImfChromaticities.h
+Xinclude/OpenEXR2/ImfChromaticitiesAttribute.h
+Xinclude/OpenEXR2/ImfCompositeDeepScanLine.h
+Xinclude/OpenEXR2/ImfCompression.h
+Xinclude/OpenEXR2/ImfCompressionAttribute.h
+Xinclude/OpenEXR2/ImfConvert.h
+Xinclude/OpenEXR2/ImfDeepCompositing.h
+Xinclude/OpenEXR2/ImfDeepFrameBuffer.h
+Xinclude/OpenEXR2/ImfDeepScanLineInputFile.h
+Xinclude/OpenEXR2/ImfDeepScanLineInputPart.h
+Xinclude/OpenEXR2/ImfDeepScanLineOutputFile.h
+Xinclude/OpenEXR2/ImfDeepScanLineOutputPart.h
+Xinclude/OpenEXR2/ImfDeepTiledInputFile.h
+Xinclude/OpenEXR2/ImfDeepTiledInputPart.h
+Xinclude/OpenEXR2/ImfDeepTiledOutputFile.h
+Xinclude/OpenEXR2/ImfDeepTiledOutputPart.h
+Xinclude/OpenEXR2/ImfDoubleAttribute.h
+Xinclude/OpenEXR2/ImfEnvmap.h
+Xinclude/OpenEXR2/ImfEnvmapAttribute.h
+Xinclude/OpenEXR2/ImfExport.h
+Xinclude/OpenEXR2/ImfFloatAttribute.h
+Xinclude/OpenEXR2/ImfForward.h
+Xinclude/OpenEXR2/ImfFrameBuffer.h
+Xinclude/OpenEXR2/ImfFramesPerSecond.h
+Xinclude/OpenEXR2/ImfGenericInputFile.h
+Xinclude/OpenEXR2/ImfGenericOutputFile.h
+Xinclude/OpenEXR2/ImfHeader.h
+Xinclude/OpenEXR2/ImfHuf.h
+Xinclude/OpenEXR2/ImfIO.h
+Xinclude/OpenEXR2/ImfInputFile.h
+Xinclude/OpenEXR2/ImfInputPart.h
+Xinclude/OpenEXR2/ImfInt64.h
+Xinclude/OpenEXR2/ImfIntAttribute.h
+Xinclude/OpenEXR2/ImfKeyCode.h
+Xinclude/OpenEXR2/ImfKeyCodeAttribute.h
+Xinclude/OpenEXR2/ImfLineOrder.h
+Xinclude/OpenEXR2/ImfLineOrderAttribute.h
+Xinclude/OpenEXR2/ImfLut.h
+Xinclude/OpenEXR2/ImfMatrixAttribute.h
+Xinclude/OpenEXR2/ImfMisc.h
+Xinclude/OpenEXR2/ImfMultiPartInputFile.h
+Xinclude/OpenEXR2/ImfMultiPartOutputFile.h
+Xinclude/OpenEXR2/ImfMultiView.h
+Xinclude/OpenEXR2/ImfName.h
+Xinclude/OpenEXR2/ImfNamespace.h
+Xinclude/OpenEXR2/ImfOpaqueAttribute.h
+Xinclude/OpenEXR2/ImfOutputFile.h
+Xinclude/OpenEXR2/ImfOutputPart.h
+Xinclude/OpenEXR2/ImfPartHelper.h
+Xinclude/OpenEXR2/ImfPartType.h
+Xinclude/OpenEXR2/ImfPixelType.h
+Xinclude/OpenEXR2/ImfPreviewImage.h
+Xinclude/OpenEXR2/ImfPreviewImageAttribute.h
+Xinclude/OpenEXR2/ImfRational.h
+Xinclude/OpenEXR2/ImfRationalAttribute.h
+Xinclude/OpenEXR2/ImfRgba.h
+Xinclude/OpenEXR2/ImfRgbaFile.h
+Xinclude/OpenEXR2/ImfRgbaYca.h
+Xinclude/OpenEXR2/ImfStandardAttributes.h
+Xinclude/OpenEXR2/ImfStringAttribute.h
+Xinclude/OpenEXR2/ImfStringVectorAttribute.h
+Xinclude/OpenEXR2/ImfTestFile.h
+Xinclude/OpenEXR2/ImfThreading.h
+Xinclude/OpenEXR2/ImfTileDescription.h
+Xinclude/OpenEXR2/ImfTileDescriptionAttribute.h
+Xinclude/OpenEXR2/ImfTiledInputFile.h
+Xinclude/OpenEXR2/ImfTiledInputPart.h
+Xinclude/OpenEXR2/ImfTiledOutputFile.h
+Xinclude/OpenEXR2/ImfTiledOutputPart.h
+Xinclude/OpenEXR2/ImfTiledRgbaFile.h
+Xinclude/OpenEXR2/ImfTimeCode.h
+Xinclude/OpenEXR2/ImfTimeCodeAttribute.h
+Xinclude/OpenEXR2/ImfVecAttribute.h
+Xinclude/OpenEXR2/ImfVersion.h
+Xinclude/OpenEXR2/ImfWav.h
+Xinclude/OpenEXR2/ImfXdr.h
+Xinclude/OpenEXR2/OpenEXRConfig.h
+Xlib/OpenEXR2/libIlmImf-Imf_2_0.so
+Xlib/OpenEXR2/libIlmImf-Imf_2_0.so.20
+Xlib/OpenEXR2/libIlmImf.a
+Xlib/OpenEXR2/libIlmImf.la
+Xlib/OpenEXR2/libIlmImf.so
+Xlibdata/pkgconfig/OpenEXR2.pc
+Xshare/aclocal/openexr2.m4
+X@dirrm lib/OpenEXR2
+X@dirrmtry include/OpenEXR2
+489fb4e7c227b9f85011fc16b79f7776
+exit
+

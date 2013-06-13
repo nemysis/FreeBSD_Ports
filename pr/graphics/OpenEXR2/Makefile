@@ -65,7 +65,8 @@ post-patch:
 		${WRKSRC}/Makefile.am
 	@(cd ${WRKSRC} ; ${CP} -a openexr.m4 openexr2.m4)
 
-	@${REINPLACE_CMD} -e 's|Name: OpenEXR|Name: ${PORTNAME}|' \
+	@${REINPLACE_CMD} -e 's|OpenEXR|${PORTNAME}|g' \
+		-e 's|IlmBase|IlmBase2|' \
 		${WRKSRC}/OpenEXR.pc.in
 	@(cd ${WRKSRC} ; ${CP} -a OpenEXR.pc.in ${PORTNAME}.pc.in)
 

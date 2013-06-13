@@ -1,5 +1,5 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/games/bombherman/Makefile 316464 2013-04-24 18:10:30Z ak $
+# $FreeBSD: head/games/bombherman/Makefile 320228 2013-06-07 22:29:01Z bdrewery $
 
 PORTNAME=	bomb-her-man
 PORTVERSION=	0.3
@@ -21,7 +21,7 @@ LIB_DEPENDS=	cairo:${PORTSDIR}/graphics/cairo
 USE_GITHUB=	yes
 GH_ACCOUNT=	Keruspe
 GH_PROJECT=	Bomb-her-man
-GH_TAGNAME=	master
+GH_TAGNAME=	${GH_COMMIT}
 GH_COMMIT=	8f5aa22
 
 USE_SDL=	sdl image mixer ttf
