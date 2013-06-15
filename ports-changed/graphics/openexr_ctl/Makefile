@@ -3,9 +3,11 @@
 
 PORTNAME=	openexr_ctl
 PORTVERSION=	1.0.1
+PORTREVISION=	1
 CATEGORIES=	graphics devel
-#MASTER_SITES=	SF/ampasctl/${PORTNAME}/${PORTNAME}-${PORTVERSION}/
-MASTER_SITES=	GH
+MASTER_SITES=	SF/nemysisfreebsdp/
+#MASTER_SITES=	GH
+DISTNAME=	ctl-${DISTVERSION}
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Simplified OpenEXR interface to CTL
@@ -15,13 +17,16 @@ LICENSE=	BSD
 LIB_DEPENDS=	IlmImf:${PORTSDIR}/graphics/OpenEXR \
 		IlmCtl:${PORTSDIR}/graphics/ampasCTL
 
-USE_GITHUB=	yes
-GH_ACCOUNT=	ampas
-GH_PROJECT=	CTL
+WRKSRC=		${WRKDIR}/ampas-CTL-${GH_COMMIT}/OpenEXR_CTL
+
+#USE_GITHUB=	yes
+#GH_ACCOUNT=	ampas
+#GH_PROJECT=	CTL
+#GH_TAGNAME=	${GH_COMMIT}
 GH_COMMIT=	ca179ca
 
 USES=		pathfix pkgconfig
-USE_LDCONFIG=	yes
+PATHFIX_MAKEFILEIN=	Makefile.am
 GNU_CONFIGURE=	yes
 USE_AUTOTOOLS=	libtool
 USE_LDCONFIG=	yes
@@ -29,6 +34,9 @@ USE_LDCONFIG=	yes
 PORTDOCS=	AUTHORS ChangeLog README
 
 .include <bsd.port.options.mk>
+
+pre-configure:
+	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./bootstrap)
 
 test check:	build
 	@(cd ${WRKSRC}; ${SETENV} ${MAKE_ENV} ${MAKE} ${MAKE_FLAGS} ${MAKEFILE} ${MAKE_ARGS} check)

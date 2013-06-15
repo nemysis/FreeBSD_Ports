@@ -1,8 +1,7 @@
-===> Generating patch
-===> Viewing diff with more
-diff -ruN --exclude=CVS /usr/ports/multimedia/gtk-youtube-viewer/Makefile ./Makefile
---- /usr/ports/multimedia/gtk-youtube-viewer/Makefile	2013-03-23 02:42:29.000000000 +0100
-+++ ./Makefile	2013-05-28 17:57:55.000000000 +0200
+Index: gtk-youtube-viewer/Makefile
+===================================================================
+--- gtk-youtube-viewer/Makefile	(revision 320981)
++++ gtk-youtube-viewer/Makefile	(working copy)
 @@ -3,7 +3,7 @@
  
  PORTNAME=	gtk-youtube-viewer
@@ -12,17 +11,16 @@ diff -ruN --exclude=CVS /usr/ports/multimedia/gtk-youtube-viewer/Makefile ./Make
  CATEGORIES=	multimedia perl5
  
  MAINTAINER=	nemysis@gmx.ch
-@@ -46,6 +46,9 @@
+@@ -35,7 +35,7 @@
+ WRKSRC=		${WRKDIR}/${GH_ACCOUNT}-${GH_PROJECT}-${GH_COMMIT}/WWW-YoutubeViewer
  
- PORTDOCS=	Changes README
+ CONFIGURE_ARGS+=${DATADIR}
+-PERL_MODBUILD=	yes
++PERL_MODBUILD=	5.14+
  
-+SUB_FILES=	pkg-message \
-+		yv_5.16_to_5.10.pl
-+
- OPTIONS_DEFINE=	GCAP
- 
- OPTIONS_MULTI=	USER_INTERFACE
-@@ -78,17 +81,6 @@
+ MAN3=		WWW::YoutubeViewer::RegularExpressions.3 \
+ 		WWW::YoutubeViewer.3 \
+@@ -78,16 +78,7 @@
  RUN_DEPENDS+=	${LOCALBASE}/bin/gcap:${PORTSDIR}/multimedia/gcap
  .endif
  
@@ -36,54 +34,36 @@ diff -ruN --exclude=CVS /usr/ports/multimedia/gtk-youtube-viewer/Makefile ./Make
 -	@${ECHO_MSG} "Hit ^c now if you don't wish to do this."
 -	@${ECHO_MSG}
 -.endif
--
++.include <bsd.port.pre.mk>
+ 
  post-patch:
  	@${REINPLACE_CMD} -n '1,/create_build_script()/p' \
+@@ -97,6 +88,13 @@
  			${WRKSRC}/Build.PL
-@@ -106,6 +98,14 @@
- .endif
- 
- post-install:
-+.if ${PORT_OPTIONS:MCLI}
-+	@(cd ${WRKDIR} && ${PERL} ./yv_5.16_to_5.10.pl ${WRKSRC}/bin/youtube-viewer > youtube-viewer-stable)
-+	${INSTALL_SCRIPT} ${WRKDIR}/youtube-viewer-stable ${PREFIX}/bin
-+	@${ECHO_CMD}
-+	@${CAT} ${PKGMESSAGE}
-+	@${ECHO_CMD}
+ 	@cd ${WRKSRC}/bin && ${REINPLACE_CMD} -e 's|/usr|${PREFIX}|g' \
+ 		gtk-youtube-viewer youtube-viewer
++.if ${PERL_LEVEL} <= 501600
++	@${CP} ${FILESDIR}/yv_5.16_to_5.10.pl ${WRKSRC}
++	@${CP} ${WRKSRC}/bin/youtube-viewer ${WRKSRC}/bin/youtube-viewer-2patch
++	@${PERL} \
++	${WRKSRC}/yv_5.16_to_5.10.pl ${WRKSRC}/bin/youtube-viewer-2patch > ${WRKSRC}/bin/youtube-viewer
++	@${RM} ${WRKSRC}/bin/youtube-viewer-2patch
 +.endif
-+
- .if ${PORT_OPTIONS:MGTK2}
- 	@${MKDIR} ${PREFIX}/share/applications
- 	${INSTALL_DATA} ${WRKSRC}/share/gtk-youtube-viewer.desktop ${PREFIX}/share/applications
-diff -ruN --exclude=CVS /usr/ports/multimedia/gtk-youtube-viewer/files/pkg-message.in ./files/pkg-message.in
---- /usr/ports/multimedia/gtk-youtube-viewer/files/pkg-message.in	1970-01-01 01:00:00.000000000 +0100
-+++ ./files/pkg-message.in	2013-05-28 17:59:17.000000000 +0200
-@@ -0,0 +1,20 @@
-+===============================================================================
-+
-+GTK Youtube Viewer has been installed.
-+
-+This package needs Perl 5.16 or Perl 5.14.
-+
-+Please read UPDATING entry from 20120630 after installation.
-+
-+
-+Youtube Viewer (CLI Version) can use either Perl version, please use
-+
-+for Perl 5.16
-+
-+    %%PREFIX%%/bin/youtube-viewer
-+
-+for Perl 5.14
-+
-+    %%PREFIX%%/bin/youtube-viewer-stable
-+
-+===============================================================================
-diff -ruN --exclude=CVS /usr/ports/multimedia/gtk-youtube-viewer/files/yv_5.16_to_5.10.pl.in ./files/yv_5.16_to_5.10.pl.in
---- /usr/ports/multimedia/gtk-youtube-viewer/files/yv_5.16_to_5.10.pl.in	1970-01-01 01:00:00.000000000 +0100
-+++ ./files/yv_5.16_to_5.10.pl.in	2012-12-16 16:59:39.000000000 +0100
+ 
+ .if ! ${PORT_OPTIONS:MCLI}
+ 	@${REINPLACE_CMD} -e "s|'bin/youtube-viewer',||" \
+@@ -123,4 +121,4 @@
+ regression-test: build
+ 	cd ${WRKSRC} && ${PERL} ./Build test
+ 
+-.include <bsd.port.mk>
++.include <bsd.port.post.mk>
+Index: gtk-youtube-viewer/files/yv_5.16_to_5.10.pl
+===================================================================
+--- gtk-youtube-viewer/files/yv_5.16_to_5.10.pl	(revision 0)
++++ gtk-youtube-viewer/files/yv_5.16_to_5.10.pl	(working copy)
 @@ -0,0 +1,12 @@
-+#!/usr/bin/perl
++#!/usr/local/bin/perl
 +
 +# usage: ./script.pl /usr/bin/youtube-viewer > new-youtube-viewer
 +
@@ -95,17 +75,11 @@ diff -ruN --exclude=CVS /usr/ports/multimedia/gtk-youtube-viewer/files/yv_5.16_t
 +    s{\b__SUB__\b}{\\&$sub};
 +    print;
 +}
-diff -ruN --exclude=CVS /usr/ports/multimedia/gtk-youtube-viewer/pkg-plist ./pkg-plist
---- /usr/ports/multimedia/gtk-youtube-viewer/pkg-plist	2013-03-23 02:42:29.000000000 +0100
-+++ ./pkg-plist	2013-05-28 17:58:07.000000000 +0200
-@@ -1,5 +1,6 @@
- %%GTK2%%bin/gtk-youtube-viewer
- %%CLI%%bin/youtube-viewer
-+%%CLI%%bin/youtube-viewer-stable
- %%SITE_PERL%%/WWW/YoutubeViewer.pm
- %%SITE_PERL%%/WWW/YoutubeViewer/GetCaption.pm
- %%SITE_PERL%%/WWW/YoutubeViewer/Itags.pm
-@@ -20,13 +21,4 @@
+Index: gtk-youtube-viewer/pkg-plist
+===================================================================
+--- gtk-youtube-viewer/pkg-plist	(revision 320981)
++++ gtk-youtube-viewer/pkg-plist	(working copy)
+@@ -20,13 +20,4 @@
  %%GTK2%%@dirrm %%DATADIR%%
  %%GTK2%%@dirrmtry share/applications
  %%GTK2%%@dirrm %%SITE_PERL%%/mach/auto/WWW/YoutubeViewer
@@ -119,4 +93,3 @@ diff -ruN --exclude=CVS /usr/ports/multimedia/gtk-youtube-viewer/pkg-plist ./pkg
 -@dirrmtry lib/perl5/5.14.2/man
 -@dirrmtry lib/perl5/5.14.2
 -@dirrmtry lib/perl5
-===> Done
