@@ -1,0 +1,128 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	glfw3
+#	glfw3/Makefile
+#	glfw3/distinfo
+#	glfw3/pkg-descr
+#	glfw3/pkg-plist
+#
+echo c - glfw3
+mkdir -p glfw3 > /dev/null 2>&1
+echo x - glfw3/Makefile
+sed 's/^X//' >glfw3/Makefile << '9e129e0164ee20b3898e3531993f0ef1'
+X# Created by: nemysis <nemysis@gmx.ch>
+X# $FreeBSD$
+X
+XPORTNAME=	glfw
+XPORTVERSION=	3.0
+XCATEGORIES=	graphics
+XMASTER_SITES=	SF
+XPKGNAMESUFFIX=	3
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	Portable framework for OpenGL development
+X
+XLICENSE=	ZLIB
+X
+XLIB_DEPENDS=	pthread-stubs:${PORTSDIR}/devel/libpthread-stubs \
+X		drm:${PORTSDIR}/graphics/libdrm
+X
+XUSE_BZIP2=	yes
+XUSES=		cmake
+XUSE_XORG=	x11 xau xcb xdamage xdmcp xext xfixes xi xrandr xrender xxf86vm
+XUSE_GL=		glu
+XUSE_LDCONFIG=	yes
+X
+XCPPFLAGS+=	-I${LOCALBASE}/include
+XLDFLAGS+=	-L${LOCALBASE}/lib
+X
+XPORTDOCS=	*
+X
+XDOCSDIR=	${PREFIX}/share/doc/${PORTNAME}${PKGNAMESUFFIX}
+X
+XDOCSRCDIR1=	${WRKSRC}
+XDOC_FILES1=	README.md
+X
+XDOCSRCDIR2=	${WRKSRC}/docs/html/search
+XDOCSDIR2=	${DOCSDIR}/docs/html/search
+XDOC_FILES2=	*
+X
+XDOCSRCDIR3=	${WRKSRC}/docs/html
+XDOCSDIR3=	${DOCSDIR}/docs/html
+XDOC_FILES3=	*.html *.png *.css *.js
+X
+XPORTEXAMPLES=	*
+X
+XEXAMPLESDIR=	${PREFIX}/share/examples/${PORTNAME}${PKGNAMESUFFIX}
+X
+XEXAMPLESSRCDIR1=	${WRKSRC}/examples
+XEXAMPLES_FILES1=	boing gears heightmap simple splitview wave
+X
+XEXAMPLESSRCDIR2=	${WRKSRC}/tests
+XEXAMPLESDIR2=		${EXAMPLESDIR}/tests
+XEXAMPLES_FILES2=	accuracy clipboard defaults events fsaa  gamma glfwinfo iconify \
+X			joysticks modes peter reopen sharing tearing threads title windows
+X
+X.include <bsd.port.options.mk>
+X
+Xpost-patch:
+X	@${REINPLACE_CMD} -e 's|lib$${LIB_SUFFIX}/pkgconfig|libdata/pkgconfig|' \
+X		${WRKSRC}/CMakeLists.txt
+X
+Xpost-install:
+X.if ${PORT_OPTIONS:MDOCS}
+X	@${MKDIR} ${DOCSDIR}
+X	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${DOCSDIR}
+X	@${MKDIR} ${DOCSDIR2}
+X	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${DOCSDIR2}
+X	${INSTALL_DATA} ${DOC_FILES3:S|^|${DOCSRCDIR3}/|} ${DOCSDIR3}
+X.endif
+X
+X.if ${PORT_OPTIONS:MEXAMPLES}
+X	@${MKDIR} ${EXAMPLESDIR}
+X	${INSTALL_PROGRAM} ${EXAMPLES_FILES1:S|^|${EXAMPLESSRCDIR1}/|} ${EXAMPLESDIR}
+X	@${MKDIR} ${EXAMPLESDIR2}
+X	${INSTALL_PROGRAM} ${EXAMPLES_FILES2:S|^|${EXAMPLESSRCDIR2}/|} ${EXAMPLESDIR2}
+X.endif
+X
+X.include <bsd.port.mk>
+9e129e0164ee20b3898e3531993f0ef1
+echo x - glfw3/distinfo
+sed 's/^X//' >glfw3/distinfo << '70da6e782e9aea1a48b2307a50f2c2da'
+XSHA256 (glfw-3.0.tar.bz2) = 81d3cf2874d2308aa33abfffddb586b9df27f6ca1a4449f1951e03b5b7b210c5
+XSIZE (glfw-3.0.tar.bz2) = 410566
+70da6e782e9aea1a48b2307a50f2c2da
+echo x - glfw3/pkg-descr
+sed 's/^X//' >glfw3/pkg-descr << '48f4dce3847645d04ccf950f9d05652e'
+XGLFW is a free, Open Source, portable library for OpenGL and OpenGL ES
+Xapplication development.  It provides a simple, platform-independent API for
+Xcreating windows and contexts, reading input, handling events, etc.
+X
+XVersion 3.0 brings a new API with many new features such as multiple windows
+Xand contexts, multi-monitor support, EGL and OpenGL ES support, clipboard text
+Xsupport, an error description callback, gamma ramp control, layout-independent
+Xkeyboard input and UTF-8 for all strings.
+X
+XWWW: http://www.glfw.org/
+48f4dce3847645d04ccf950f9d05652e
+echo x - glfw3/pkg-plist
+sed 's/^X//' >glfw3/pkg-plist << 'b7b2999cae73711dd4e63f493fda9d3d'
+Xinclude/GLFW/glfw3.h
+Xinclude/GLFW/glfw3native.h
+Xlib/cmake/glfw/glfwConfig.cmake
+Xlib/cmake/glfw/glfwConfigVersion.cmake
+Xlib/cmake/glfw/glfwTargets-release.cmake
+Xlib/cmake/glfw/glfwTargets.cmake
+Xlib/libglfw3.a
+Xlibdata/pkgconfig/glfw3.pc
+X@dirrm lib/cmake/glfw
+X@dirrmtry lib/cmake
+X@dirrm include/GLFW
+b7b2999cae73711dd4e63f493fda9d3d
+exit
+

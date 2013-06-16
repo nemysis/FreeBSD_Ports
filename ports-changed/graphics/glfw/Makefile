@@ -1,5 +1,5 @@
 # Created by: Igor Pokrovsky <tiamat@comset.net>
-# $FreeBSD: head/graphics/glfw/Makefile 320230 2013-06-08 02:27:06Z miwi $
+# $FreeBSD: head/graphics/glfw/Makefile 320929 2013-06-14 14:27:03Z miwi $
 
 PORTNAME=	glfw
 PORTVERSION=	2.7.9
@@ -49,6 +49,9 @@ EXAMPLESSRCDIR2=	${WRKSRC}/tests
 EXAMPLESDIR2=		${EXAMPLESDIR}/tests
 EXAMPLES_FILES2=	accuracy defaults dynamic events fsaa fsinput iconify \
 			joysticks peter reopen tearing version
+
+# Restrict to stable (even) versions, indicated by the second component.
+PORTSCOUT=	limit:^2\..*
 
 .include <bsd.port.options.mk>
 

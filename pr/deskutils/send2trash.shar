@@ -1,0 +1,88 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	send2trash
+#	send2trash/Makefile
+#	send2trash/pkg-descr
+#	send2trash/distinfo
+#	send2trash/pkg-plist
+#
+echo c - send2trash
+mkdir -p send2trash > /dev/null 2>&1
+echo x - send2trash/Makefile
+sed 's/^X//' >send2trash/Makefile << '0031acb1e7917792a38a4071700aeeb2'
+X# Created by: nemysis <nemysis@gmx.ch>
+X# $FreeBSD$
+X
+XPORTNAME=	send2trash
+XPORTVERSION=	1.2.0
+XCATEGORIES=	deskutils
+XMASTER_SITES=	CHEESESHOP
+XPKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+XDISTNAME=	Send2Trash-${PORTVERSION}
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	Small package that sends files to the Trash
+X
+XLICENSE=	BSD
+X
+XUSE_PYTHON=	yes
+XUSE_PYDISTUTILS=easy_install
+X
+XPORTDOCS=	CHANGES README
+X
+X.include <bsd.port.options.mk>
+X
+Xpost-patch:
+X	@${REINPLACE_CMD} -e "s|name='Send2Trash'|name='send2trash'|" \
+X		${WRKSRC}/setup.py
+X
+Xpost-install:
+X.if ${PORT_OPTIONS:MDOCS}
+X	@${MKDIR} ${DOCSDIR}
+X	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+X.endif
+X
+X.include <bsd.port.mk>
+0031acb1e7917792a38a4071700aeeb2
+echo x - send2trash/pkg-descr
+sed 's/^X//' >send2trash/pkg-descr << '39166281ed731a997bd013f3f5e34ca4'
+XSend2Trash is a small package that sends files to the Trash (or Recycle Bin)
+X*natively* and on *all platforms*.
+X
+XWWW: http://hg.hardcoded.net/send2trash/
+39166281ed731a997bd013f3f5e34ca4
+echo x - send2trash/distinfo
+sed 's/^X//' >send2trash/distinfo << '2584d8cc693b6b0d44622e430beb3277'
+XSHA256 (Send2Trash-1.2.0.tar.gz) = 9de6d116218650bf24607175cc8e2c2d8a87898491339c13871b0fd462120d04
+XSIZE (Send2Trash-1.2.0.tar.gz) = 5033
+2584d8cc693b6b0d44622e430beb3277
+echo x - send2trash/pkg-plist
+sed 's/^X//' >send2trash/pkg-plist << 'b234654354c8e71badf3a1314538d919'
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/EGG-INFO/PKG-INFO
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/EGG-INFO/SOURCES.txt
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/EGG-INFO/dependency_links.txt
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/EGG-INFO/not-zip-safe
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/EGG-INFO/top_level.txt
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash/__init__.py
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash/plat_osx.py
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash/plat_osx.pyc
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash/plat_osx.pyo
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash/plat_other.py
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash/plat_other.pyc
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash/plat_other.pyo
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash/plat_win.py
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash/plat_win.pyc
+X%%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash/plat_win.pyo
+X@dirrm %%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/send2trash
+X@dirrm %%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg/EGG-INFO
+X@dirrm %%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py2.7.egg
+b234654354c8e71badf3a1314538d919
+exit
+
