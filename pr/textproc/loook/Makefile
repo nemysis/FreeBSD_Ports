@@ -20,7 +20,7 @@ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}tkinter>=0:${PORTSDIR}/x11-toolkits/py-tkint
 WRKSRC=		${WRKDIR}
 
 USE_ZIP=	yes
-USE_PYTHON=	2.6-2.7
+USE_PYTHON=	2.7
 NO_BUILD=	yes
 CONFLICTS=	loook-devel-[0-9]*
 

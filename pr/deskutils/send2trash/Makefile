@@ -13,12 +13,16 @@ COMMENT=	Small package that sends files to the Trash
 
 LICENSE=	BSD
 
-USE_PYTHON=	yes
+USE_PYTHON=	2.7
 USE_PYDISTUTILS=easy_install
+
+CONFLICTS=	send2trash3k
 
 PORTDOCS=	CHANGES README
 
 .include <bsd.port.options.mk>
+
+SUB_LIST=	PYVER=${PYTHON_VER}
 
 post-patch:
 	@${REINPLACE_CMD} -e "s|name='Send2Trash'|name='send2trash'|" \

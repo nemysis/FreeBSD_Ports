@@ -1,0 +1,79 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN /usr/ports/devel/py-distribute/Makefile ./Makefile
+--- /usr/ports/devel/py-distribute/Makefile	2013-06-16 15:44:18.000000000 +0200
++++ ./Makefile	2013-06-17 00:07:49.000000000 +0200
+@@ -20,8 +20,7 @@
+ USE_PYDISTUTILS=	yes
+ 
+ SUB_FILES=	pkg-install
+-SUB_LIST=	EASYINSTALL_PTH=${EASYINSTALL_PTH} \
+-		IF_DEFAULT=${IF_DEFAULT}
++SUB_LIST=	EASYINSTALL_PTH=${EASYINSTALL_PTH}
+ 
+ EASYINSTALL_PTH=	${PYTHON_SITELIBDIR}/easy-install.pth
+ SITE_PY=	${PYTHON_SITELIBDIR}/site.py
+@@ -42,17 +41,12 @@
+ .endfor
+ .endfor
+ 
+-.if ${PYTHON_VERSION} == ${PYTHON_DEFAULT_VERSION} && !exists(${LOCALBASE}/bin/easy_install)
+-PLIST_SUB+=	IF_DEFAULT=""
+-.else
+-PLIST_SUB+=	IF_DEFAULT="@comment "
+-SUB_FILES+=	pkg-message
+ SUB_LIST+=	PYVER=${PYTHON_VER}
+ 
+ # remove the console script easy_install
+-post-patch:
+-	@${REINPLACE_CMD} -e '/easy_install = / s|".*"||' ${WRKSRC}/setup.py
+-.endif
++#post-patch:
++#	@${REINPLACE_CMD} -e '/easy_install = / s|".*"||' ${WRKSRC}/setup.py
++#.endif
+ 
+ regression-test: build
+ 	@cd ${WRKSRC} && ${PYTHON_CMD} ${PYSETUP} test
+@@ -68,5 +62,6 @@
+ 	${LN} -sf ${EASYINSTALL_PTH}.dist ${PYTHON_SITELIBDIR}/distribute.pth
+ 	PKG_PREFIX=${PREFIX} ${SH} ${PKGINSTALL} ${PKGNAME} POST-INSTALL
+ 	if [ -f ${PKGMESSAGE} ]; then ${CAT} ${PKGMESSAGE}; fi
++	cd ${PREFIX}/bin ; ${LN} -sf easy_install-${PYTHON_VER} easy_install
+ 
+ .include <bsd.port.post.mk>
+diff -ruN /usr/ports/devel/py-distribute/files/patch-setuptools-command-easy_install.py ./files/patch-setuptools-command-easy_install.py
+--- /usr/ports/devel/py-distribute/files/patch-setuptools-command-easy_install.py	2013-06-02 19:00:04.000000000 +0200
++++ ./files/patch-setuptools-command-easy_install.py	2013-06-16 17:49:06.000000000 +0200
+@@ -1,6 +1,6 @@
+---- setuptools/command/easy_install.py	2010-07-15 01:59:21.000000000 +0200
+-+++ setuptools/command/easy_install.py.port	2010-09-15 17:49:35.000000000 +0200
+-@@ -688,7 +688,7 @@
++--- setuptools/command/easy_install.py.orig	2013-02-16 08:07:37.000000000 +0100
+++++ setuptools/command/easy_install.py	2013-06-16 17:44:03.000000000 +0200
++@@ -704,7 +704,7 @@
+              return True
+          if not dist.has_metadata('zip-safe'):
+              return True
+diff -ruN /usr/ports/devel/py-distribute/files/pkg-message.in ./files/pkg-message.in
+--- /usr/ports/devel/py-distribute/files/pkg-message.in	2013-06-02 19:00:04.000000000 +0200
++++ ./files/pkg-message.in	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-@comment $FreeBSD: head/devel/py-distribute/files/pkg-message.in 300896 2012-07-14 13:54:48Z beat $
+-*********************************************************************
+-
+-    The script %%PREFIX%%/bin/easy_install was already installed
+-    on your system, so the only script %%PREFIX%%/bin/easy_install-%%PYVER%%
+-    has been added.
+-
+-*********************************************************************
+diff -ruN /usr/ports/devel/py-distribute/pkg-plist ./pkg-plist
+--- /usr/ports/devel/py-distribute/pkg-plist	2013-06-02 19:00:04.000000000 +0200
++++ ./pkg-plist	2013-06-16 16:18:50.000000000 +0200
+@@ -1,5 +1,5 @@
+ @comment $FreeBSD: head/devel/py-distribute/pkg-plist 313436 2013-03-05 06:20:28Z rm $
+-%%IF_DEFAULT%%bin/easy_install
++bin/easy_install
+ bin/easy_install-%%PYVER%%
+ %%PYTHON_SITELIBDIR%%/distribute-%%VERSION%%-py%%PYVER%%.egg
+ %%PYTHON_SITELIBDIR%%/distribute.pth
+===> Done
