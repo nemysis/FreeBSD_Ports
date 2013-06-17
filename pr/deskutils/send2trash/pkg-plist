@@ -1,4 +1,3 @@
-%%PYTHON_SITELIBDIR%%/easy-install.pth
 %%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py%%PYVER%%.egg/EGG-INFO/PKG-INFO
 %%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py%%PYVER%%.egg/EGG-INFO/SOURCES.txt
 %%PYTHON_SITELIBDIR%%/send2trash-1.2.0-py%%PYVER%%.egg/EGG-INFO/dependency_links.txt
