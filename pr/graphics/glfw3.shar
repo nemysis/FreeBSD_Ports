@@ -19,7 +19,7 @@ X# Created by: nemysis <nemysis@gmx.ch>
 X# $FreeBSD$
 X
 XPORTNAME=	glfw
-XPORTVERSION=	3.0
+XPORTVERSION=	3.0.1
 XCATEGORIES=	graphics
 XMASTER_SITES=	SF
 XPKGNAMESUFFIX=	3
@@ -94,8 +94,8 @@ X.include <bsd.port.mk>
 9e129e0164ee20b3898e3531993f0ef1
 echo x - glfw3/distinfo
 sed 's/^X//' >glfw3/distinfo << '70da6e782e9aea1a48b2307a50f2c2da'
-XSHA256 (glfw-3.0.tar.bz2) = 81d3cf2874d2308aa33abfffddb586b9df27f6ca1a4449f1951e03b5b7b210c5
-XSIZE (glfw-3.0.tar.bz2) = 410566
+XSHA256 (glfw-3.0.1.tar.bz2) = 7ed0b428c0de3dc7c26ef6b8023a68887ed2150741b95213be22d350eac4d530
+XSIZE (glfw-3.0.1.tar.bz2) = 408523
 70da6e782e9aea1a48b2307a50f2c2da
 echo x - glfw3/pkg-descr
 sed 's/^X//' >glfw3/pkg-descr << '48f4dce3847645d04ccf950f9d05652e'
