@@ -2,8 +2,12 @@ bin/lxde-logout
 bin/openbox-lxde
 bin/startlxde
 etc/xdg/lxsession/LXDE/autostart
-etc/xdg/lxsession/LXDE/desktop.conf
-etc/xdg/pcmanfm/LXDE/pcmanfm.conf
+@unexec if cmp -s %D/etc/xdg/lxsession/LXDE/desktop.conf %D/etc/xdg/lxsession/LXDE/desktop.conf.sample; then rm -f %D/etc/xdg/lxsession/LXDE/desktop.conf; fi
+etc/xdg/lxsession/LXDE/desktop.conf.sample
+@exec if [ ! -f %D/etc/xdg/lxsession/LXDE/desktop.conf ] ; then cp -p %D/%F %B/desktop.conf; fi
+@unexec if cmp -s %D/etc/xdg/pcmanfm/LXDE/pcmanfm.conf %D/etc/xdg/pcmanfm/LXDE/pcmanfm.conf.sample; then rm -f %D/etc/xdg/pcmanfm/LXDE/pcmanfm.conf; fi
+etc/xdg/pcmanfm/LXDE/pcmanfm.conf.sample
+@exec if [ ! -f %D/etc/xdg/pcmanfm/LXDE/pcmanfm.conf ] ; then cp -p %D/%F %B/pcmanfm.conf; fi
 share/applications/lxde-logout.desktop
 share/lxde/images/logout-banner.png
 share/lxde/images/lxde-icon.png
