@@ -1,33 +1,36 @@
 # Created by: nemysis <nemysis@gmx.ch>
 # $FreeBSD$
 
-PORTNAME=	gtknetcat
-PORTVERSION=	0.1
-CATEGORIES=	net
-MASTER_SITES=	SF/lxde/GtkNetCat%20%28GUI%20for%20netcat%29/GtkNetCat%20${PORTVERSION}/ \
+PORTNAME=	lxshortcut
+PORTVERSION=	0.1.2
+CATEGORIES=	deskutils
+MASTER_SITES=	SF/lxde/LXShortcut%20%28edit%20app%20shortcut%29/LXShortcut%20${PORTVERSION}/ \
 		SF/nemysisfreebsdp/:icons
-PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
 DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
 		${PORTNAME}.png:icons
 EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
 
 MAINTAINER=	nemysis@gmx.ch
-COMMENT=	GTK GUI for netcat
+COMMENT=	Small utility used to edit easily application shortcuts
 
 LICENSE=	GPLv3
 
-USES=		desktop-file-utils
+USES=		pkgconfig
 USE_GNOME=	gtk20 intlhack
-USE_PYTHON=	yes
 GNU_CONFIGURE=	yes
 USE_GMAKE=	yes
 
-PORTDOCS=	AUTHORS README
+PORTDOCS=	README
 
 OPTIONS_DEFINE=	DOCS NLS
 OPTIONS_SUB=	yes
 
 NLS_USES=	gettext
+
+SUB_FILES=	${PORTNAME}-start
+
+DESKTOP_ENTRIES="LXShortcut" "${COMMENT}" "${PORTNAME}" \
+		"${PORTNAME}-start" "Settings;GTK;DesktopSettings;" true
 
 .include <bsd.port.options.mk>
 
@@ -37,8 +40,7 @@ LDFLAGS+=	-L${LOCALBASE}/lib
 .endif
 
 post-patch:
-	@${REINPLACE_CMD} -e 's|Icon=|Icon=${PORTNAME}|' \
-		${WRKSRC}/${PORTNAME}.desktop
+	@${REINPLACE_CMD} -i '' '/g_thread_init/,/gdk_threads_init/d' ${WRKSRC}/src/lxshortcut.c
 
 .if ! ${PORT_OPTIONS:MNLS}
 	@${REINPLACE_CMD} -e 's|src po|src|' \
@@ -46,6 +48,7 @@ post-patch:
 .endif
 
 post-install:
+	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME}-start ${PREFIX}/bin
 	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
 .if ${PORT_OPTIONS:MDOCS}
