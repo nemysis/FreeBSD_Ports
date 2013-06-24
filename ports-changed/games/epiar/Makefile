@@ -5,7 +5,7 @@ PORTNAME=	epiar
 PORTVERSION=	0.5.1
 PORTREVISION=	2
 CATEGORIES=	games
-MASTER_SITES=	http://epiar.net/files/epiar/releases/0.5/
+MASTER_SITES=	GH
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Space trading/exploring sim with RPG elements
@@ -21,21 +21,32 @@ LIB_DEPENDS=	freetype:${PORTSDIR}/print/freetype2 \
 		xml2:${PORTSDIR}/textproc/libxml2 \
 		physfs:${PORTSDIR}/devel/physfs
 
-USE_BZIP2=	yes
+USE_GITHUB=	yes
+GH_ACCOUNT=	knowknowledge
+GH_PROJECT=	Epiar
+GH_TAGNAME=	${GH_COMMIT}
+GH_COMMIT=	44046e3
+
+USES=		pkgconfig
 USE_SDL=	image mixer sdl
 USE_GL=		glu
+USE_AUTOTOOLS=	aclocal automake autoheader autoconf
 GNU_CONFIGURE=	yes
-USE_AUTOTOOLS=	aclocal
 USE_GMAKE=	yes
-USES=		pkgconfig
 MAKE_JOBS_SAFE=	yes
 
 PORTDOCS=	AUTHORS ChangeLog README
 
-pre-configure:
-	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./autogen.sh)
+OPTIONS_DEFINE=	DOCS
 
 .include <bsd.port.options.mk>
+
+run-autotools:
+	@${DO_NADA}
+
+pre-configure:
+	@${REINPLACE_CMD} -e 's|9.22|2.4|' ${WRKSRC}/configure.in
+	@(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ./autogen.sh)
 
 post-install:
 	@${MKDIR} ${PREFIX}/share/applications

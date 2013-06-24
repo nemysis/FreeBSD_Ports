@@ -1,9 +1,8 @@
 # Created by: spn
-# $FreeBSD: head/x11-wm/fluxbox/Makefile 316683 2013-04-27 18:25:24Z mva $
+# $FreeBSD: head/x11-wm/fluxbox/Makefile 321627 2013-06-23 11:47:09Z beat $
 
 PORTNAME=	fluxbox
 PORTVERSION=	1.3.5
-PORTREVISION=	1
 CATEGORIES=	x11-wm
 MASTER_SITES=	SF
 DISTFILES=	${PORTNAME}-${PORTVERSION}${EXTRACT_SUFX}
@@ -28,15 +27,16 @@ MAN5=		fluxbox-apps.5 fluxbox-keys.5 fluxbox-menu.5 \
 		fluxbox-style.5
 DOCSVERSION=	20060629
 
-OPTIONS_DEFINE=	DOCS DOCHTML PDF DEBUG GNOME IMLIB2 XINERAMA \
+OPTIONS_DEFINE=	DOCS DOCHTML PDFDOCS DEBUG GNOME IMLIB2 XINERAMA \
 		XRENDER NLS SLIT SYSTRAY REMEMBER TOOLBAR
 OPTIONS_DEFAULT=	GNOME IMLIB2 XRENDER SLIT SYSTRAY REMEMBER TOOLBAR
 DOCHTML_DESC=	Install html documentation
-XRENDER_DESC=	Enable xrender support
+PDFDOCS_DESC=	Build and install PDF documentation
+REMEMBER_DESC=	Enable remember feature
 SLIT_DESC=	Enable slit feature
 SYSTRAY_DESC=	Enable systray feature
-REMEMBER_DESC=	Enable remember feature
 TOOLBAR_DESC=	Enable toolbar feature
+XRENDER_DESC=	Enable xrender support
 
 .include <bsd.port.options.mk>
 
@@ -55,7 +55,7 @@ PLIST_SUB+=		DOCHTML=""
 PLIST_SUB+=		DOCHTML="@comment "
 .endif
 
-.if ${PORT_OPTIONS:MPDF}
+.if ${PORT_OPTIONS:MPDFDOCS}
 # http://fluxbox.org/docbook/en/pdf/
 MASTER_SITES+=		${MASTER_SITE_LOCAL:S,%SUBDIR%,mezz,}:pdf \
 			http://people.freebsd.org/~mezz/distfiles/:pdf
@@ -130,8 +130,8 @@ CONFIGURE_ARGS+=	--disable-gnome
 .endif
 
 post-patch:
-	@cd ${WRKSRC}/util && ${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
-		fluxbox-generate_menu.in fbsetbg
+	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
+		${WRKSRC}/util/fluxbox-generate_menu.in ${WRKSRC}/util/fbsetbg
 
 .if ! ${PORT_OPTIONS:MNLS}
 	@${REINPLACE_CMD} -e 's|HAVE_ICONV=yes|HAVE_ICONV=no|g' \
@@ -144,7 +144,7 @@ post-install:
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 
-.if ${PORT_OPTIONS:MPDF}
+.if ${PORT_OPTIONS:MPDFDOCS}
 	@${MKDIR} ${DOCSDIR}/pdf
 	${INSTALL_DATA} ${DISTDIR}/fluxbook-${DOCSVERSION}.pdf \
 		${DOCSDIR}/pdf/

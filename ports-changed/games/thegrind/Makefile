@@ -12,8 +12,8 @@ COMMENT=	Simple game about escaping from work
 
 LICENSE=	GPLv2
 
-LIB_DEPENDS=	radius:${PORTSDIR}/graphics/radius-engine \
-		lua-5.1:${PORTSDIR}/lang/lua \
+BUILD_DEPENDS=	${LOCALBASE}/lib/libradius-engine.a:${PORTSDIR}/graphics/radius-engine
+LIB_DEPENDS=	lua-5.1:${PORTSDIR}/lang/lua \
 		png15:${PORTSDIR}/graphics/png \
 		physfs.1:${PORTSDIR}/devel/physfs
 RUN_DEPENDS=	zip:${PORTSDIR}/archivers/zip
@@ -34,6 +34,8 @@ PLIST_DIRS=	%%DATADIR%%
 PLIST_DIRSTRY=	share/applications
 
 PORTDOCS=	ChangeLog
+
+OPTIONS_DEFINE=	DOCS
 
 .include <bsd.port.options.mk>
 

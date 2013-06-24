@@ -28,13 +28,13 @@ USE_LDCONFIG=	yes
 
 CONFLICTS=	spandsp-[0-9]*
 
-OPTIONS_DEFINE=	DOXYGEN
-
 PORTDOCS=	*
+
+OPTIONS_DEFINE=	DOCS DOXYGEN
 
 .include <bsd.port.options.mk>
 
-.if ${PORT_OPTIONS:MDOXYGEN} && ${PORT_OPTIONS:MDOCS}
+.if ${PORT_OPTIONS:MDOXYGEN} ; ${PORT_OPTIONS:MDOCS}
 CONFIGURE_ARGS+=--enable-doc
 BUILD_DEPENDS+=	doxygen:${PORTSDIR}/devel/doxygen \
 		docbook-xsl>=0:${PORTSDIR}/textproc/docbook-xsl
@@ -44,7 +44,7 @@ CONFIGURE_ARGS+=--disable-doc
 .endif
 
 post-install:
-.if ${PORT_OPTIONS:MDOXYGEN} && ${PORT_OPTIONS:MDOCS}
+.if ${PORT_OPTIONS:MDOXYGEN} ; ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}
 	(cd ${WRKSRC}/doc && \
 		${COPYTREE_SHARE} . ${DOCSDIR} "-type d -or -mindepth 1")

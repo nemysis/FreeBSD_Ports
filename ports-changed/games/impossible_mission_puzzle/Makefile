@@ -27,6 +27,8 @@ PLIST_FILES=	bin/${PORTNAME} \
 
 PORTDOCS=	README
 
+OPTIONS_DEFINE=DOCS
+
 DESKTOP_ENTRIES="Impossible Mission puzzle" "${COMMENT}" "${PORTNAME}" \
 		"${PORTNAME}" "Game;ArcadeGame;" false
 
