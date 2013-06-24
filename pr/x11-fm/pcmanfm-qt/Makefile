@@ -12,8 +12,7 @@ COMMENT=	PCManFM Qt File Manager
 
 LICENSE=	GPLv2
 
-LIB_DEPENDS=	startup-notification-1:${PORTSDIR}/x11/startup-notification \
-		fm-gtk:${PORTSDIR}/x11/libfm
+LIB_DEPENDS=	fm-gtk.4:${PORTSDIR}/x11/libfm
 
 USE_BZIP2=	yes
 USES=		cmake pkgconfig
