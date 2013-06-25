@@ -1,0 +1,147 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	openbubbles
+#	openbubbles/Makefile
+#	openbubbles/pkg-descr
+#	openbubbles/distinfo
+#	openbubbles/pkg-plist
+#
+echo c - openbubbles
+mkdir -p openbubbles > /dev/null 2>&1
+echo x - openbubbles/Makefile
+sed 's/^X//' >openbubbles/Makefile << 'fe5b1f56667a4bac13ed5f5c8bef5046'
+X# Created by: nemysis <nemysis@gmx.ch>
+X# $FreeBSD$
+X
+XPORTNAME=	openbubbles
+XPORTVERSION=	1.2
+XCATEGORIES=	games
+XMASTER_SITES=	http://www.freewebs.com/lasindi/${PORTNAME}/ \
+X		SF/nemysisfreebsdp/:icons
+XDISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
+X		${PORTNAME}.png:icons
+XEXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	Clone of Evan Bailey's game Bubbles
+X
+XLICENSE=	GPLv2
+X
+XUSE_BZIP2=	yes
+XUSE_SDL=	sdl gfx image
+XGNU_CONFIGURE=	yes
+X
+XPORTDOCS=	AUTHORS ChangeLog NEWS README
+X
+XOPTIONS_DEFINE=	DOCS
+X
+XDESKTOP_ENTRIES="OpenBubbles" "${COMMENT}" "${PORTNAME}" \
+X		"${PORTNAME}" "Game;ArcadeGame;" false
+X
+X.include <bsd.port.options.mk>
+X
+Xpost-install:
+X	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
+X
+X.if ${PORT_OPTIONS:MDOCS}
+X	@${MKDIR} ${DOCSDIR}
+X	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+X.endif
+X
+X.include <bsd.port.mk>
+fe5b1f56667a4bac13ed5f5c8bef5046
+echo x - openbubbles/pkg-descr
+sed 's/^X//' >openbubbles/pkg-descr << 'e23b82743cafdec20d254ea58f1d2dac'
+XThis is a clone of Evan Bailey's game Bubbles.
+X
+XWWW: http://www.freewebs.com/lasindi/openbubbles/
+e23b82743cafdec20d254ea58f1d2dac
+echo x - openbubbles/distinfo
+sed 's/^X//' >openbubbles/distinfo << 'ac0143c2544f13860309535bb524dad0'
+XSHA256 (openbubbles-1.2.tar.bz2) = 7d5d4633a4881559f475b0b9e3778d593f856dd1dbf0acf979b79852f8d63dbb
+XSIZE (openbubbles-1.2.tar.bz2) = 1090220
+XSHA256 (openbubbles.png) = 9c86bdb233f35e3c1de168a567b564daea7128a8ef241a8768607fb9e21f24b3
+XSIZE (openbubbles.png) = 1458
+ac0143c2544f13860309535bb524dad0
+echo x - openbubbles/pkg-plist
+sed 's/^X//' >openbubbles/pkg-plist << '4c33d5d0d6de16216d85b9bcf4970055'
+Xbin/openbubbles
+X%%DATADIR%%/abubble.png
+X%%DATADIR%%/blank.png
+X%%DATADIR%%/blankscore.png
+X%%DATADIR%%/bonus1.png
+X%%DATADIR%%/bonus2.png
+X%%DATADIR%%/bounce.wav
+X%%DATADIR%%/bouncer.png
+X%%DATADIR%%/bubble.png
+X%%DATADIR%%/bubble.wav
+X%%DATADIR%%/cancel.png
+X%%DATADIR%%/cancel_hilight.png
+X%%DATADIR%%/cancel_pressed.png
+X%%DATADIR%%/check.png
+X%%DATADIR%%/check_hilight.png
+X%%DATADIR%%/check_pressed.png
+X%%DATADIR%%/checkbox.png
+X%%DATADIR%%/checkbox_hilight.png
+X%%DATADIR%%/checkboxshot.png
+X%%DATADIR%%/checkshot.png
+X%%DATADIR%%/clear.png
+X%%DATADIR%%/clear_hilight.png
+X%%DATADIR%%/clear_pressed.png
+X%%DATADIR%%/clearshot.png
+X%%DATADIR%%/copyright.png
+X%%DATADIR%%/cursor.png
+X%%DATADIR%%/digits.png
+X%%DATADIR%%/enterback.png
+X%%DATADIR%%/fire.wav
+X%%DATADIR%%/font.png
+X%%DATADIR%%/font2.png
+X%%DATADIR%%/gameover.png
+X%%DATADIR%%/gameover.wav
+X%%DATADIR%%/gameshot.png
+X%%DATADIR%%/highback.png
+X%%DATADIR%%/highbanner.png
+X%%DATADIR%%/highscores.png
+X%%DATADIR%%/highscores_hilight.png
+X%%DATADIR%%/highscores_pressed.png
+X%%DATADIR%%/highshot.png
+X%%DATADIR%%/icon.xpm
+X%%DATADIR%%/icon59.png
+X%%DATADIR%%/instructions.png
+X%%DATADIR%%/instructions_button.png
+X%%DATADIR%%/instructions_hilight.png
+X%%DATADIR%%/instructions_pressed.png
+X%%DATADIR%%/instructionsshot.png
+X%%DATADIR%%/labels.png
+X%%DATADIR%%/logo.png
+X%%DATADIR%%/menushot.png
+X%%DATADIR%%/missle.png
+X%%DATADIR%%/ok.png
+X%%DATADIR%%/ok_hilight.png
+X%%DATADIR%%/ok_pressed.png
+X%%DATADIR%%/pi.png
+X%%DATADIR%%/player.png
+X%%DATADIR%%/quit.png
+X%%DATADIR%%/quit_hilight.png
+X%%DATADIR%%/quit_pressed.png
+X%%DATADIR%%/return.png
+X%%DATADIR%%/return_hilight.png
+X%%DATADIR%%/return_pressed.png
+X%%DATADIR%%/returnshot.png
+X%%DATADIR%%/sharky.png
+X%%DATADIR%%/start.png
+X%%DATADIR%%/start_hilight.png
+X%%DATADIR%%/start_pressed.png
+X%%DATADIR%%/version.png
+X%%DATADIR%%/visit.png
+X%%DATADIR%%/youwin.png
+Xshare/pixmaps/openbubbles.png
+X@dirrm %%DATADIR%%
+4c33d5d0d6de16216d85b9bcf4970055
+exit
+
