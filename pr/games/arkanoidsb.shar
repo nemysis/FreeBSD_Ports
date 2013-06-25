@@ -1,0 +1,104 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	arkanoidsb
+#	arkanoidsb/Makefile
+#	arkanoidsb/pkg-descr
+#	arkanoidsb/distinfo
+#	arkanoidsb/files
+#	arkanoidsb/files/arkanoidsb.sh.in
+#	arkanoidsb/pkg-plist
+#
+echo c - arkanoidsb
+mkdir -p arkanoidsb > /dev/null 2>&1
+echo x - arkanoidsb/Makefile
+sed 's/^X//' >arkanoidsb/Makefile << '8bbaae8746e6361a67e750b325911c4e'
+X# Created by: nemysis <nemysis@gmx.ch>
+X# $FreeBSD$
+X
+XPORTNAME=	arkanoidsb
+XPORTVERSION=	1.3.2.10
+XCATEGORIES=	games
+XMASTER_SITES=	http://www.wegroup.org/downloads/
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	Arkanoid and space game
+X
+XWRKSRC=		${WRKDIR}/${PORTNAME}
+X
+XUSE_BZIP2=	yes
+XNO_WRKSUBDIR=	yes
+XNO_BUILD=	yes
+XUSE_LINUX=	yes
+X
+XSUB_FILES=	${PORTNAME}.sh
+X
+XPORTDOCS=	README
+X
+XOPTIONS_DEFINE=	DOC
+X
+XDESKTOP_ENTRIES="Arkanoid: Space Ball" "${COMMENT}" "${PORTNAME}" \
+X		"${PORTNAME}" "Game;ArcadeGame;" false
+X
+X.include <bsd.port.options.mk>
+X
+Xdo-install:
+X	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME}.sh ${PREFIX}/bin/${PORTNAME}
+X	@(cd ${WRKSRC} && ${COPYTREE_SHARE} res ${DATADIR})
+X	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${DATADIR}
+X
+Xpost-install:
+X	${INSTALL_DATA} ${WRKSRC}/${PORTNAME}.png ${PREFIX}/share/pixmaps
+X
+X.if ${PORT_OPTIONS:MDOCS}
+X	@${MKDIR} ${DOCSDIR}
+X	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+X.endif
+X
+X.include <bsd.port.mk>
+8bbaae8746e6361a67e750b325911c4e
+echo x - arkanoidsb/pkg-descr
+sed 's/^X//' >arkanoidsb/pkg-descr << '163f76e2fb5c24cb1295cfe90dcf3613'
+XArkanoid: Space Ball will be a surprise for the amateurs of unusual and
+Xpicturesque games as Arkanoid and space games. Everybody who wishes to spend
+Xtime perfectly will take a pleasure in Arkanoid: Space Ball too. A futuristic
+Xatmosphere, modern techno-style graphics, a dynamical gameplay and an
+Xexcellent soundtrack give this game as a present for all Arkanoids admirers.
+X
+XWWW: http://www.wegroup.org/games/arkanoid-games/arkanoid-space-ball.html
+163f76e2fb5c24cb1295cfe90dcf3613
+echo x - arkanoidsb/distinfo
+sed 's/^X//' >arkanoidsb/distinfo << '0b81b3c9e9ee9754d578f851dcbfbfb1'
+XSHA256 (arkanoidsb-1.3.2.10.tar.bz2) = 4eedf4205f11290e0e168c0224829056f5b5822fa0c99e06de1ed94bd4705669
+XSIZE (arkanoidsb-1.3.2.10.tar.bz2) = 7207164
+0b81b3c9e9ee9754d578f851dcbfbfb1
+echo c - arkanoidsb/files
+mkdir -p arkanoidsb/files > /dev/null 2>&1
+echo x - arkanoidsb/files/arkanoidsb.sh.in
+sed 's/^X//' >arkanoidsb/files/arkanoidsb.sh.in << '9cb1f1a3134f6f972b4f93c18b36c631'
+X#!/bin/sh
+X#
+X# $FreeBSD$
+X#
+X
+Xcd "%%DATADIR%%"
+X./arkanoidsb "${@}"
+9cb1f1a3134f6f972b4f93c18b36c631
+echo x - arkanoidsb/pkg-plist
+sed 's/^X//' >arkanoidsb/pkg-plist << 'a3054a8aab343dfe2e6ccf7dbd4bedcb'
+Xbin/arkanoidsb
+X%%DATADIR%%/arkanoidsb
+X%%DATADIR%%/res/arkanoidsb.pak
+X%%DATADIR%%/res/module01.ogg
+X%%DATADIR%%/res/module02.ogg
+X%%DATADIR%%/res/module03.s3m
+Xshare/pixmaps/arkanoidsb.png
+X@dirrm %%DATADIR%%/res
+X@dirrm %%DATADIR%%
+a3054a8aab343dfe2e6ccf7dbd4bedcb
+exit
+
