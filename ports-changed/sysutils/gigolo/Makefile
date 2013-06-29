@@ -1,5 +1,5 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/sysutils/gigolo/Makefile 316464 2013-04-24 18:10:30Z ak $
+# $FreeBSD: head/sysutils/gigolo/Makefile 321783 2013-06-26 06:59:57Z jgh $
 
 PORTNAME=	gigolo
 PORTVERSION=	0.4.1
@@ -21,7 +21,7 @@ BUILD_DEPENDS=	p5-XML-Parser>=0:${PORTSDIR}/textproc/p5-XML-Parser
 LIB_DEPENDS=	cairo:${PORTSDIR}/graphics/cairo
 
 USE_BZIP2=	yes
-USES=		gettext
+USES=		fuse
 USE_GNOME=	gtk20 gvfs
 USE_XORG=	x11
 USE_PYTHON=	yes
@@ -30,27 +30,25 @@ MAN1=		gigolo.1
 
 PORTDOCS=	AUTHORS ChangeLog NEWS README TODO
 
+OPTIONS_DEFINE=	DOCS NLS
+OPTIONS_SUB=	yes
+
+NLS_USES=	gettext
+
+ONLY_FOR_ARCHS=	i386 amd64
+ONLY_FOR_ARCHS_REASON=	Does not compile
+
 .include <bsd.port.options.mk>
-.include <bsd.port.pre.mk>
-
-.if ! exists(${LOCALBASE}/libexec/gvfs-fuse-daemon)
-IGNORE=	Enable FUSE support in ${PORTSDIR}/devel/gvfs
-.endif
-
-# Only i386/amd64 due to limitations of fusefs-kmod
-.if ${ARCH} != "i386" && ${ARCH} != "amd64"
-BROKEN=	Does not compile on other than i386/amd64
-.endif
 
 post-patch:
-	@${REINPLACE_CMD} -e 's|COPYING ||' ${WRKSRC}/wscript
-
-.if ! ${PORT_OPTIONS:MDOCS}
 	${REINPLACE_CMD} -e 's|bld.install_files|#bld.install_files|' ${WRKSRC}/wscript
+
+.if ! ${PORT_OPTIONS:MNLS}
+	${REINPLACE_CMD} -e "s|= 'po'|= ''|" ${WRKSRC}/wscript
 .endif
 
 do-configure:
-	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ./waf configure --mandir=${PREFIX}/man
+	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ./waf configure --mandir=${MANPREFIX}/man
 
 do-build:
 	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ./waf build
@@ -64,4 +62,4 @@ do-install:
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 
-.include <bsd.port.post.mk>
+.include <bsd.port.mk>

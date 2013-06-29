@@ -9,7 +9,7 @@ MASTER_SITES=	SF/lxde/LXInput%20%28Kbd%20and%20amp_%20mouse%20config%29/LXInput%
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Keyboard and mouse config tool from the LXDE project
 
-USES=		iconv
+USES=		iconv desktop-file-utils
 USE_GNOME=	gtk20 intlhack
 GNU_CONFIGURE=	yes
 USE_LDCONFIG=	yes
@@ -18,23 +18,30 @@ USE_GMAKE=	yes
 
 MAN1=		lxinput.1
 
-OPTIONS_DEFINE=	NLS
+PORTDOCS=	AUTHORS README
+
+OPTIONS_DEFINE=	DOCS NLS
+OPTIONS_SUB=	yes
+
+NLS_USES=	gettext
 
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USES+=		gettext
-PLIST_SUB+=	NLS=""
 CPPFLAGS+=	-I${LOCALBASE}/include
 LDFLAGS+=	-L${LOCALBASE}/lib
-.else
-PLIST_SUB+=	NLS="@comment "
 .endif
 
 post-patch:
 .if ! ${PORT_OPTIONS:MNLS}
 	@${REINPLACE_CMD} -e 's|po man|man|' \
 		${WRKSRC}/Makefile.in
+.endif
+
+post-install:
+.if ${PORT_OPTIONS:MDOCS}
+	@${MKDIR} ${DOCSDIR}
+	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 
 .include <bsd.port.mk>

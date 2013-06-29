@@ -1,0 +1,223 @@
+bin/lostfeathers
+%%DATADIR%%/cocos/__init__.py
+%%DATADIR%%/cocos/actions/__init__.py
+%%DATADIR%%/cocos/actions/base_actions.py
+%%DATADIR%%/cocos/actions/basegrid_actions.py
+%%DATADIR%%/cocos/actions/camera_actions.py
+%%DATADIR%%/cocos/actions/grid3d_actions.py
+%%DATADIR%%/cocos/actions/instant_actions.py
+%%DATADIR%%/cocos/actions/interval_actions.py
+%%DATADIR%%/cocos/actions/quadmoveby_actions.py
+%%DATADIR%%/cocos/actions/tiledgrid_actions.py
+%%DATADIR%%/cocos/batch.py
+%%DATADIR%%/cocos/camera.py
+%%DATADIR%%/cocos/cocosnode.py
+%%DATADIR%%/cocos/director.py
+%%DATADIR%%/cocos/draw.py
+%%DATADIR%%/cocos/euclid.py
+%%DATADIR%%/cocos/framegrabber.py
+%%DATADIR%%/cocos/gl_framebuffer_object.py
+%%DATADIR%%/cocos/grid.py
+%%DATADIR%%/cocos/layer/__init__.py
+%%DATADIR%%/cocos/layer/base_layers.py
+%%DATADIR%%/cocos/layer/python_interpreter.py
+%%DATADIR%%/cocos/layer/util_layers.py
+%%DATADIR%%/cocos/menu.py
+%%DATADIR%%/cocos/particle.py
+%%DATADIR%%/cocos/particle_systems.py
+%%DATADIR%%/cocos/path.py
+%%DATADIR%%/cocos/rect.py
+%%DATADIR%%/cocos/resources/draw_texture.png
+%%DATADIR%%/cocos/resources/fire.png
+%%DATADIR%%/cocos/scene.py
+%%DATADIR%%/cocos/scenes/__init__.py
+%%DATADIR%%/cocos/scenes/pause.py
+%%DATADIR%%/cocos/scenes/transitions.py
+%%DATADIR%%/cocos/shader.py
+%%DATADIR%%/cocos/sprite.py
+%%DATADIR%%/cocos/text.py
+%%DATADIR%%/cocos/tiles.py
+%%DATADIR%%/cocos/wired.py
+%%DATADIR%%/data/0_0.map
+%%DATADIR%%/data/0_1.map
+%%DATADIR%%/data/0_2.map
+%%DATADIR%%/data/0_3.map
+%%DATADIR%%/data/1_0.map
+%%DATADIR%%/data/1_1.map
+%%DATADIR%%/data/1_2.map
+%%DATADIR%%/data/1_3.map
+%%DATADIR%%/data/2_0.map
+%%DATADIR%%/data/2_1.map
+%%DATADIR%%/data/2_2.map
+%%DATADIR%%/data/3_0.map
+%%DATADIR%%/data/Chip032.wav
+%%DATADIR%%/data/Chip047.wav
+%%DATADIR%%/data/Chip054.wav
+%%DATADIR%%/data/Chip074.wav
+%%DATADIR%%/data/Chip084.wav
+%%DATADIR%%/data/Chip103.wav
+%%DATADIR%%/data/Chip116.wav
+%%DATADIR%%/data/ball.png
+%%DATADIR%%/data/bird.png
+%%DATADIR%%/data/boss.png
+%%DATADIR%%/data/drunk.png
+%%DATADIR%%/data/feather.png
+%%DATADIR%%/data/gnome.mp3
+%%DATADIR%%/data/gothos.mp3
+%%DATADIR%%/data/heart.png
+%%DATADIR%%/data/legobg.jpg
+%%DATADIR%%/data/lfbg.jpg
+%%DATADIR%%/data/miniball.png
+%%DATADIR%%/data/monster.png
+%%DATADIR%%/data/moontown3.mp3
+%%DATADIR%%/data/player.png
+%%DATADIR%%/data/rock.png
+%%DATADIR%%/data/rockguy.png
+%%DATADIR%%/data/skull.png
+%%DATADIR%%/data/snake.png
+%%DATADIR%%/data/spikes.png
+%%DATADIR%%/data/tileset1.png
+%%DATADIR%%/data/tileset2.png
+%%DATADIR%%/data/tileset3.png
+%%DATADIR%%/data/volcanobg.jpg
+%%DATADIR%%/data/zephyr.mp3
+%%DATADIR%%/gamelib/Level.py
+%%DATADIR%%/gamelib/TiledLayer.py
+%%DATADIR%%/gamelib/__init__.py
+%%DATADIR%%/gamelib/actors.py
+%%DATADIR%%/gamelib/congratulations.py
+%%DATADIR%%/gamelib/data.py
+%%DATADIR%%/gamelib/gamedata.py
+%%DATADIR%%/gamelib/gameover.py
+%%DATADIR%%/gamelib/main.py
+%%DATADIR%%/gamelib/maploader.py
+%%DATADIR%%/gamelib/mymenu.py
+%%DATADIR%%/gamelib/sound.py
+%%DATADIR%%/gamelib/testlevel.py
+%%DATADIR%%/pyglet/__init__.py
+%%DATADIR%%/pyglet/app/__init__.py
+%%DATADIR%%/pyglet/app/carbon.py
+%%DATADIR%%/pyglet/app/win32.py
+%%DATADIR%%/pyglet/app/xlib.py
+%%DATADIR%%/pyglet/clock.py
+%%DATADIR%%/pyglet/com.py
+%%DATADIR%%/pyglet/event.py
+%%DATADIR%%/pyglet/font/__init__.py
+%%DATADIR%%/pyglet/font/base.py
+%%DATADIR%%/pyglet/font/carbon.py
+%%DATADIR%%/pyglet/font/freetype.py
+%%DATADIR%%/pyglet/font/freetype_lib.py
+%%DATADIR%%/pyglet/font/ttf.py
+%%DATADIR%%/pyglet/font/win32.py
+%%DATADIR%%/pyglet/gl/__init__.py
+%%DATADIR%%/pyglet/gl/agl.py
+%%DATADIR%%/pyglet/gl/gl.py
+%%DATADIR%%/pyglet/gl/gl_info.py
+%%DATADIR%%/pyglet/gl/glext_arb.py
+%%DATADIR%%/pyglet/gl/glext_missing.py
+%%DATADIR%%/pyglet/gl/glext_nv.py
+%%DATADIR%%/pyglet/gl/glu.py
+%%DATADIR%%/pyglet/gl/glu_info.py
+%%DATADIR%%/pyglet/gl/glx.py
+%%DATADIR%%/pyglet/gl/glx_info.py
+%%DATADIR%%/pyglet/gl/glxext_arb.py
+%%DATADIR%%/pyglet/gl/glxext_mesa.py
+%%DATADIR%%/pyglet/gl/glxext_nv.py
+%%DATADIR%%/pyglet/gl/lib.py
+%%DATADIR%%/pyglet/gl/lib_agl.py
+%%DATADIR%%/pyglet/gl/lib_glx.py
+%%DATADIR%%/pyglet/gl/lib_wgl.py
+%%DATADIR%%/pyglet/gl/wgl.py
+%%DATADIR%%/pyglet/gl/wgl_info.py
+%%DATADIR%%/pyglet/gl/wglext_arb.py
+%%DATADIR%%/pyglet/gl/wglext_nv.py
+%%DATADIR%%/pyglet/graphics/__init__.py
+%%DATADIR%%/pyglet/graphics/allocation.py
+%%DATADIR%%/pyglet/graphics/vertexattribute.py
+%%DATADIR%%/pyglet/graphics/vertexbuffer.py
+%%DATADIR%%/pyglet/graphics/vertexdomain.py
+%%DATADIR%%/pyglet/image/__init__.py
+%%DATADIR%%/pyglet/image/atlas.py
+%%DATADIR%%/pyglet/image/codecs/__init__.py
+%%DATADIR%%/pyglet/image/codecs/bmp.py
+%%DATADIR%%/pyglet/image/codecs/dds.py
+%%DATADIR%%/pyglet/image/codecs/gdiplus.py
+%%DATADIR%%/pyglet/image/codecs/gdkpixbuf2.py
+%%DATADIR%%/pyglet/image/codecs/gif.py
+%%DATADIR%%/pyglet/image/codecs/pil.py
+%%DATADIR%%/pyglet/image/codecs/png.py
+%%DATADIR%%/pyglet/image/codecs/pypng.py
+%%DATADIR%%/pyglet/image/codecs/quicktime.py
+%%DATADIR%%/pyglet/image/codecs/s3tc.py
+%%DATADIR%%/pyglet/info.py
+%%DATADIR%%/pyglet/lib.py
+%%DATADIR%%/pyglet/media/__init__.py
+%%DATADIR%%/pyglet/media/avbin.py
+%%DATADIR%%/pyglet/media/drivers/__init__.py
+%%DATADIR%%/pyglet/media/drivers/alsa/__init__.py
+%%DATADIR%%/pyglet/media/drivers/alsa/asound.py
+%%DATADIR%%/pyglet/media/drivers/directsound/__init__.py
+%%DATADIR%%/pyglet/media/drivers/directsound/lib_dsound.py
+%%DATADIR%%/pyglet/media/drivers/openal/__init__.py
+%%DATADIR%%/pyglet/media/drivers/openal/lib_alc.py
+%%DATADIR%%/pyglet/media/drivers/openal/lib_openal.py
+%%DATADIR%%/pyglet/media/drivers/silent.py
+%%DATADIR%%/pyglet/media/procedural.py
+%%DATADIR%%/pyglet/media/riff.py
+%%DATADIR%%/pyglet/resource.py
+%%DATADIR%%/pyglet/sprite.py
+%%DATADIR%%/pyglet/text/__init__.py
+%%DATADIR%%/pyglet/text/caret.py
+%%DATADIR%%/pyglet/text/document.py
+%%DATADIR%%/pyglet/text/formats/__init__.py
+%%DATADIR%%/pyglet/text/formats/attributed.py
+%%DATADIR%%/pyglet/text/formats/html.py
+%%DATADIR%%/pyglet/text/formats/plaintext.py
+%%DATADIR%%/pyglet/text/formats/structured.py
+%%DATADIR%%/pyglet/text/layout.py
+%%DATADIR%%/pyglet/text/runlist.py
+%%DATADIR%%/pyglet/window/__init__.py
+%%DATADIR%%/pyglet/window/carbon/__init__.py
+%%DATADIR%%/pyglet/window/carbon/constants.py
+%%DATADIR%%/pyglet/window/carbon/quartzkey.py
+%%DATADIR%%/pyglet/window/carbon/types.py
+%%DATADIR%%/pyglet/window/event.py
+%%DATADIR%%/pyglet/window/key.py
+%%DATADIR%%/pyglet/window/mouse.py
+%%DATADIR%%/pyglet/window/win32/__init__.py
+%%DATADIR%%/pyglet/window/win32/constants.py
+%%DATADIR%%/pyglet/window/win32/types.py
+%%DATADIR%%/pyglet/window/win32/winkey.py
+%%DATADIR%%/pyglet/window/xlib/__init__.py
+%%DATADIR%%/pyglet/window/xlib/cursorfont.py
+%%DATADIR%%/pyglet/window/xlib/xinerama.py
+%%DATADIR%%/pyglet/window/xlib/xlib.py
+%%DATADIR%%/pyglet/window/xlib/xsync.py
+%%DATADIR%%/run_game.py
+share/pixmaps/lostfeathers.png
+@dirrm %%DATADIR%%/pyglet/window/xlib
+@dirrm %%DATADIR%%/pyglet/window/win32
+@dirrm %%DATADIR%%/pyglet/window/carbon
+@dirrm %%DATADIR%%/pyglet/window
+@dirrm %%DATADIR%%/pyglet/text/formats
+@dirrm %%DATADIR%%/pyglet/text
+@dirrm %%DATADIR%%/pyglet/media/drivers/openal
+@dirrm %%DATADIR%%/pyglet/media/drivers/directsound
+@dirrm %%DATADIR%%/pyglet/media/drivers/alsa
+@dirrm %%DATADIR%%/pyglet/media/drivers
+@dirrm %%DATADIR%%/pyglet/media
+@dirrm %%DATADIR%%/pyglet/image/codecs
+@dirrm %%DATADIR%%/pyglet/image
+@dirrm %%DATADIR%%/pyglet/graphics
+@dirrm %%DATADIR%%/pyglet/gl
+@dirrm %%DATADIR%%/pyglet/font
+@dirrm %%DATADIR%%/pyglet/app
+@dirrm %%DATADIR%%/pyglet
+@dirrm %%DATADIR%%/gamelib
+@dirrm %%DATADIR%%/data
+@dirrm %%DATADIR%%/cocos/scenes
+@dirrm %%DATADIR%%/cocos/resources
+@dirrm %%DATADIR%%/cocos/layer
+@dirrm %%DATADIR%%/cocos/actions
+@dirrm %%DATADIR%%/cocos
+@dirrm %%DATADIR%%

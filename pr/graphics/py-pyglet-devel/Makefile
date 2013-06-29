@@ -16,15 +16,21 @@ LICENSE=	BSD
 
 LIB_DEPENDS=	freetype:${PORTSDIR}/print/freetype2 \
 		fontconfig:${PORTSDIR}/x11-fonts/fontconfig
+RUN_DEPENDS=	avbin>=0:${PORTSDIR}/multimedia/avbin
 
 USE_PYTHON=	yes
-USE_PYDISTUTILS=	yes
 USE_GL=		gl glu
 USE_OPENAL=	al
-CONFLICTS=	py-pyglet-[0-9]*
 
 PORTDOCS=	CHANGELOG NOTICE README
+PORTEXAMPLES=	*
+
+DOCSDIR=	${PREFIX}/share/doc/${PORTNAME}${PKGNAMESUFFIX}
+EXAMPLESDIR=	${PREFIX}/share/examples/${PORTNAME}${PKGNAMESUFFIX}
+
 PYDISTUTILS_EGGINFO=	${DISTNAME}-py${PYTHON_VER}.egg-info
+
+OPTIONS_DEFINE=	DOCS EXAMPLES
 
 .include <bsd.port.options.mk>
 
@@ -33,6 +39,13 @@ post-patch:
 		${REINPLACE_CMD} -e 's|/usr/include|${PREFIX}/include|g'
 	@${FIND} ${WRKSRC} -name "*.bak" -delete
 
+do-build:
+	@${PYTHON_CMD} -m compileall ${WRKSRC}
+	@${PYTHON_CMD} -O -m compileall ${WRKSRC}
+
+do-install:
+	@(cd ${WRKSRC}/pyglet && ${COPYTREE_SHARE} . ${PREFIX}${PYTHON_SITELIBDIR:S|${LOCALBASE}||}/${PORTNAME}${PKGNAMESUFFIX})
+
 post-install:
 .if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}
@@ -40,7 +53,7 @@ post-install:
 .endif
 
 .if ${PORT_OPTIONS:MEXAMPLES}
-	@cd ${WRKSRC}/examples && ${COPYTREE_SHARE} . ${EXAMPLESDIR}
+	@(cd ${WRKSRC}/examples && ${COPYTREE_SHARE} . ${EXAMPLESDIR})
 .endif
 
 .include <bsd.port.mk>
