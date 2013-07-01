@@ -1,0 +1,6 @@
+pymunk vision is a easy-to-use python 2d physics library that can be used
+whenever you need 2d rigid body physics from Python.
+It is built on top of the very nice 2d physics library named Chipmunk-Physics.
+
+WWW: https://code.google.com/p/pymunk/
+WWW: http://www.pymunk.org/

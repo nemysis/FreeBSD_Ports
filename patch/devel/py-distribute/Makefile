@@ -16,7 +16,7 @@ CONFLICTS_INSTALL=	${PYTHON_PKGNAMEPREFIX}setuptools-[0-9]*
 PLIST_SUB=	PYVER=${PYTHON_VER} VERSION=${PORTVERSION} SETUPTOOLS_VER=0.6c11
 
 PYDISTUTILS_NOEGGINFO=	yes
-USE_PYTHON=	3.1-3.2
+USE_PYTHON=	yes
 USE_PYDISTUTILS=	yes
 
 SUB_FILES=	pkg-install
@@ -42,11 +42,6 @@ PLIST_FILES+=	${PYTHONPREFIX_SITELIBDIR:S;${PREFIX}/;;}/${PYCACHE:S,%%PYMOD%%,${
 .endfor
 
 SUB_LIST+=	PYVER=${PYTHON_VER}
-
-# remove the console script easy_install
-#post-patch:
-#	@${REINPLACE_CMD} -e '/easy_install = / s|".*"||' ${WRKSRC}/setup.py
-#.endif
 
 regression-test: build
 	@cd ${WRKSRC} && ${PYTHON_CMD} ${PYSETUP} test
