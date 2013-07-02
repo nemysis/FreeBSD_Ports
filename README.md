@@ -10,7 +10,6 @@ These things are here:
 * Patches not yet committed for FreeBSD Ports.
 
 
-
 Links
 
 
