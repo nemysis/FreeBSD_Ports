@@ -1,0 +1,38 @@
+diff -ruN /usr/ports/audio/dumb/Makefile ./Makefile
+--- /usr/ports/audio/dumb/Makefile	2013-06-15 21:02:29.000000000 +0200
++++ ./Makefile	2013-07-02 17:56:03.000000000 +0200
+@@ -12,12 +12,13 @@
+ 
+ USE_GMAKE=	yes
+ 
+-OPTIONS_DEFINE=	ALLEGRO
++OPTIONS_DEFINE=	ALLEGRO ALLEGRO_DEVEL
+ ALLEGRO_DESC=	Enable allegro support
++ALLEGRO_DEVEL_DESC=	Enable allegro development version
+ 
+ .include <bsd.port.options.mk>
+ 
+-.if ${PORT_OPTIONS:MALLEGRO}
++.if ${PORT_OPTIONS:MALLEGRO} && ! ${PORT_OPTIONS:MALLEGRO_DEVEL}
+ LIB_DEPENDS+=	alleg.42:${PORTSDIR}/devel/allegro
+ PLIST_SUB+=	ALLEGRO=""
+ MAKE_ARGS=	_PORT_ALLEGRO_CFLAGS="`allegro-config --cflags`"
+@@ -29,6 +30,18 @@
+ CONFLICTS=	dumb-allegro-[0-9]*
+ .endif
+ 
++.if ${PORT_OPTIONS:MALLEGRO} && ${PORT_OPTIONS:MALLEGRO_DEVEL}
++LIB_DEPENDS+=	alleg.4:${PORTSDIR}/devel/allegro-devel
++PLIST_SUB+=	ALLEGRO=""
++MAKE_ARGS=	_PORT_ALLEGRO_CFLAGS="`allegro-config --cflags`"
++PKGNAMESUFFIX=	-allegro-devel
++CONFLICTS=	dumb-[0-9]*
++.else
++PLIST_SUB+=	ALLEGRO="@comment "
++MAKE_ARGS=	_PORT_ALLEGRO_CFLAGS=
++CONFLICTS=	dumb-allegro-devel[0-9]*
++.endif
++
+ .if ${ARCH} == "amd64" || ${ARCH} == "ia64" || ${ARCH} == "sparc64"
+ CFLAGS+=	-fPIC
+ .endif

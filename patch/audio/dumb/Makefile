@@ -12,13 +12,13 @@ COMMENT=	IT, XM, S3M, and MOD player library
 
 USE_GMAKE=	yes
 
-OPTIONS_DEFINE=	ALLEGRO DEVEL
+OPTIONS_DEFINE=	ALLEGRO ALLEGRO_DEVEL
 ALLEGRO_DESC=	Enable allegro support
-DEVEL_DESC=	Enable development version
+ALLEGRO_DEVEL_DESC=	Enable allegro development version
 
 .include <bsd.port.options.mk>
 
-.if ${PORT_OPTIONS:MALLEGRO} && ! ${PORT_OPTIONS:MDEVEL}
+.if ${PORT_OPTIONS:MALLEGRO} && ! ${PORT_OPTIONS:MALLEGRO_DEVEL}
 LIB_DEPENDS+=	alleg.42:${PORTSDIR}/devel/allegro
 PLIST_SUB+=	ALLEGRO=""
 MAKE_ARGS=	_PORT_ALLEGRO_CFLAGS="`allegro-config --cflags`"
@@ -30,7 +30,7 @@ MAKE_ARGS=	_PORT_ALLEGRO_CFLAGS=
 CONFLICTS=	dumb-allegro-[0-9]*
 .endif
 
-.if ${PORT_OPTIONS:MALLEGRO} && ${PORT_OPTIONS:MDEVEL}
+.if ${PORT_OPTIONS:MALLEGRO} && ${PORT_OPTIONS:MALLEGRO_DEVEL}
 LIB_DEPENDS+=	alleg.4:${PORTSDIR}/devel/allegro-devel
 PLIST_SUB+=	ALLEGRO=""
 MAKE_ARGS=	_PORT_ALLEGRO_CFLAGS="`allegro-config --cflags`"

@@ -12,14 +12,13 @@ COMMENT=	Cross-platform library for games and multimedia programming
 
 LICENSE=	ZLIB
 
+BUILD_DEPENDS+=	${LOCALBASE}/lib/libaldmb.a:${PORTSDIR}/audio/dumb-allegro-devel
 LIB_DEPENDS+=	asound:${PORTSDIR}/audio/alsa-lib \
 		png15:${PORTSDIR}/graphics/png \
 		jpeg:${PORTSDIR}/graphics/jpeg \
 		vorbis:${PORTSDIR}/audio/libvorbis \
 		FLAC:${PORTSDIR}/audio/flac \
 		physfs:${PORTSDIR}/devel/physfs
-# Disabled because install allegro-devel-4*  and then is conflict, but is needed
-#BUILD_DEPENDS+=	${LOCALBASE}/include/dumb.h:${PORTSDIR}/audio/dumb-allegro
 
 USE_GMAKE=	yes
 USES=		cmake pkgconfig
