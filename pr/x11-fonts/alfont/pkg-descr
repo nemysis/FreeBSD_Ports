@@ -1,0 +1,6 @@
+alfont also known as AllegroFont or AlFont is a wrapper around the freetype2
+library for use with the Allegro game library. Thus allowing the display of
+text using freetype fonts on Allegro bitmaps.
+
+WWW: http://opensnc.sourceforge.net/alfont/mirror/
+WWW: http://opensnc.sourceforge.net/alfont/
