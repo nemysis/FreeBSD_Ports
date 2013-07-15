@@ -6,8 +6,8 @@ PORTVERSION=	0.15
 PORTREVISION=	1
 CATEGORIES=	games
 MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/v0.0/ \
-		SF/nemysisfreebsdp/pacmanarena/ \
-		SF/nemysisfreebsdp/pacmanarena/:icons
+		SF/nemysisfreebsdp/${PORTNAME}/ \
+		SF/nemysisfreebsdp/${PORTNAME}/:icons
 DISTFILES=	${DISTNAME:S/na/n-a/}.tar.bz2 \
 		${PORTNAME:S/arena/-data/}-0.0.zip \
 		${PORTNAME}_icons.tar.bz2:icons

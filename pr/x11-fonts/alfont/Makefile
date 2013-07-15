@@ -4,7 +4,7 @@
 PORTNAME=	alfont
 PORTVERSION=	209
 CATEGORIES=	x11-fonts
-MASTER_SITES=	http://opensnc.sourceforge.net/alfont/mirror/  \
+MASTER_SITES=	http://opensnc.sourceforge.net/alfont/mirror/ \
 		http://opensnc.sourceforge.net/alfont/:opensnc
 DISTFILES=	AlFont${DISTVERSION}.rar \
 		alfont.c:opensnc
@@ -25,13 +25,12 @@ LIB_DEPENDS=	alleg.4:${PORTSDIR}/devel/allegro-devel \
 
 WRKSRC=		${WRKDIR}/${PORTNAME}
 
-USES=		iconv
+USES=		gmake iconv
 USE_DOS2UNIX=	yes
-USE_GMAKE=	yes
 USE_LDCONFIG=	yes
 
-CPPFLAGS+=	-Iinclude -I${LOCALBASE}/include -I${LOCALBASE}/include/freetype2
-LDFLAGS+=	-L${LOCALBASE}/lib -lalleg
+CPPFLAGS+=	-Iinclude -I${LOCALBASE}/include -I${LOCALBASE}/include/freetype2 $$(freetype-config --cflags)
+LDFLAGS+=	-L${LOCALBASE}/lib -lalleg $$(freetype-config --libs)
 
 PLIST_FILES=	include/alfont.h \
 		include/alfontdll.h \
@@ -68,12 +67,8 @@ post-patch:
 		${WRKSRC}/include/alfont.h
 
 do-build:
-	cd ${WRKSRC} ; ${CC} ${CPPFLAGS} -fPIC -DPIC $(shell freetype-config --cflags) \
-		-c src/alfont.c -o src/alfont.o
-
-	cd ${WRKSRC} ; ${CC} -shared ${LDFLAGS} -Wl,--no-as-needed,-soname,libalfont.so.${MAJORVER} \
-		$(shell allegro-config --libs) $(shell freetype-config --libs) \
-		src/alfont.o -o libalfont.so.${MAJORVER}
+	cd ${WRKSRC} ; ${CC} ${CPPFLAGS} -fPIC -DPIC -c src/alfont.c -o src/alfont.o
+	cd ${WRKSRC} ; ${CC} -shared ${LDFLAGS} src/alfont.o -o libalfont.so.${MAJORVER}
 
 do-install:
 	${INSTALL_DATA} ${WRKSRC}/libalfont.so.${MAJORVER} ${PREFIX}/lib

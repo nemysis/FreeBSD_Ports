@@ -1,9 +1,5 @@
-# New ports collection makefile for:	games/abe
-# Date created:			8 Aug 2005
-# Whom:				Alejandro Pulver <alejandro@varnet.biz>
-#
+# Created by: Alejandro Pulver <alejandro@varnet.biz>
 # $FreeBSD: head/games/abe/Makefile 303051 2012-08-24 02:36:17Z rakuco $
-#
 
 PORTNAME=	abe
 PORTVERSION=	1.1
@@ -31,8 +27,7 @@ MAKE_ARGS=	ACLOCAL="${TRUE}" AUTOCONF="${TRUE}" AUTOMAKE="${TRUE}" \
 
 PORTDOCS=	AUTHORS ChangeLog README
 
-DESKTOP_ENTRIES="Abe's Amazing Avanture" "${COMMENT}" \
-		"${PREFIX}/share/pixmaps/${PORTNAME}.png" \
+DESKTOP_ENTRIES="Abe's Amazing Avanture" "${COMMENT}" ${PORTNAME} \
 		"${PORTNAME}" "Game;ArcadeGame;" false
 
 OPTIONS_DEFINE=	GOD_MODE OPTIMIZED_CFLAGS
@@ -42,12 +37,12 @@ GOD_MODE_DESC=	Enable God Mode (toggle with 'g')
 .include <bsd.port.options.mk>
 
 post-patch:
-.if ${PORT_OPTIONS:MGOD_MODE} || !empty(PORT_OPTIONS:MOPTIMIZED_CFLAGS)
+.if ${PORT_OPTIONS:MGOD_MODE} || ! ${PORT_OPTIONS:MOPTIMIZED_CFLAGS}
 .   if ${PORT_OPTIONS:MGOD_MODE}
 	@${REINPLACE_CMD} -e 's|\(#define GOD_MODE\) 0|\1 1|' \
 		${WRKSRC}/src/Game.h
 .   endif
-.   if empty(PORT_OPTIONS:MOPTIMIZED_CFLAGS)
+.   if ! ${PORT_OPTIONS:MOPTIMIZED_CFLAGS}
 	@${REINPLACE_CMD} -e 's|-O2||g ; \
 		s|-fomit-frame-pointer||g ; \
 		s|-ffast-math||g ; \
@@ -57,15 +52,14 @@ post-patch:
 .endif
 
 post-install:
-	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps/
+	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps
 
-	${MKDIR} ${DATADIR}
 .for d in images maps sounds
 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} ${d} ${DATADIR})
 .endfor
 
 .if ${PORT_OPTIONS:MDOCS}
-	${MKDIR} ${DOCSDIR}
+	@${MKDIR} ${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
 .endif
 

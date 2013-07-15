@@ -20,7 +20,7 @@ X
 XPORTNAME=	alfont
 XPORTVERSION=	209
 XCATEGORIES=	x11-fonts
-XMASTER_SITES=	http://opensnc.sourceforge.net/alfont/mirror/  \
+XMASTER_SITES=	http://opensnc.sourceforge.net/alfont/mirror/ \
 X		http://opensnc.sourceforge.net/alfont/:opensnc
 XDISTFILES=	AlFont${DISTVERSION}.rar \
 X		alfont.c:opensnc
@@ -41,13 +41,12 @@ X		freetype:${PORTSDIR}/print/freetype2
 X
 XWRKSRC=		${WRKDIR}/${PORTNAME}
 X
-XUSES=		iconv
+XUSES=		gmake iconv
 XUSE_DOS2UNIX=	yes
-XUSE_GMAKE=	yes
 XUSE_LDCONFIG=	yes
 X
-XCPPFLAGS+=	-Iinclude -I${LOCALBASE}/include -I${LOCALBASE}/include/freetype2
-XLDFLAGS+=	-L${LOCALBASE}/lib -lalleg
+XCPPFLAGS+=	-Iinclude -I${LOCALBASE}/include -I${LOCALBASE}/include/freetype2 $$(freetype-config --cflags)
+XLDFLAGS+=	-L${LOCALBASE}/lib -lalleg $$(freetype-config --libs)
 X
 XPLIST_FILES=	include/alfont.h \
 X		include/alfontdll.h \
@@ -84,12 +83,8 @@ X		-e 's|//#define ALFONT_LINUX|#define ALFONT_LINUX|' \
 X		${WRKSRC}/include/alfont.h
 X
 Xdo-build:
-X	cd ${WRKSRC} ; ${CC} ${CPPFLAGS} -fPIC -DPIC $(shell freetype-config --cflags) \
-X		-c src/alfont.c -o src/alfont.o
-X
-X	cd ${WRKSRC} ; ${CC} -shared ${LDFLAGS} -Wl,--no-as-needed,-soname,libalfont.so.${MAJORVER} \
-X		$(shell allegro-config --libs) $(shell freetype-config --libs) \
-X		src/alfont.o -o libalfont.so.${MAJORVER}
+X	cd ${WRKSRC} ; ${CC} ${CPPFLAGS} -fPIC -DPIC -c src/alfont.c -o src/alfont.o
+X	cd ${WRKSRC} ; ${CC} -shared ${LDFLAGS} src/alfont.o -o libalfont.so.${MAJORVER}
 X
 Xdo-install:
 X	${INSTALL_DATA} ${WRKSRC}/libalfont.so.${MAJORVER} ${PREFIX}/lib
@@ -108,9 +103,10 @@ X.include <bsd.port.mk>
 a34f32b0352a953e7b6b816bd2bf7cec
 echo x - alfont/pkg-descr
 sed 's/^X//' >alfont/pkg-descr << '1a2a36d9bfe9ec9fe181ef7e23404924'
-Xalfont also known as AllegroFont or AlFont is a wrapper around the freetype2
-Xlibrary for use with the Allegro game library. Thus allowing the display of
-Xtext using freetype fonts on Allegro bitmaps.
+XAllegroFont is an Allegro wrapper for the wonderful FreeType2 library
+Xthat makes Allegro (amongst other things) able to load and render TTF
+Xand many other famous font formats. Other feature is that it is able
+Xto render the fonts antialiased.
 X
 XWWW: http://opensnc.sourceforge.net/alfont/mirror/
 XWWW: http://opensnc.sourceforge.net/alfont/

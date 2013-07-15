@@ -1,8 +1,0 @@
-bin/multiplik12
-%%DATADIR%%/MultipliK12_V1.0.0.jar
-%%DATADIR%%/lib/DeploymentUtilities_V0.2.0.jar
-%%DATADIR%%/lib/J2DGameEngine_V0.2.0.jar
-%%DATADIR%%/lib/jnlp.jar
-share/pixmaps/multiplik12.png
-@dirrm %%DATADIR%%/lib
-@dirrm %%DATADIR%%
