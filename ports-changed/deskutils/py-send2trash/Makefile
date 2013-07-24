@@ -1,30 +1,30 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD$
+# $FreeBSD: head/deskutils/py-send2trash/Makefile 322528 2013-07-08 18:24:12Z wg $
 
-PORTNAME=	send2trash3k
-PORTVERSION=	1.2.0
+PORTNAME=	send2trash
+PORTVERSION=	1.3.0
 CATEGORIES=	deskutils
 MASTER_SITES=	CHEESESHOP
 PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
-DISTNAME=	Send2Trash3k-${PORTVERSION}
+DISTNAME=	Send2Trash-${PORTVERSION}
+DIST_SUBDIR=	python
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Small package that sends files to the Trash
 
 LICENSE=	BSD
 
-USE_PYTHON=	3.1-3.2
+USE_PYTHON=	yes
 USE_PYDISTUTILS=easy_install
+PYDISTUTILS_PKGNAME=	Send2Trash
 
-PORTDOCS=	CHANGES README
+PLIST_FILES=	%%PYTHON_SITELIBDIR%%/%%PYEASYINSTALL_EGG%%
+
+PORTDOCS=	CHANGES.rst README.rst
+
+OPTIONS_DEFINE=	DOCS
 
 .include <bsd.port.options.mk>
-
-PLIST_SUB=	PYVER=${PYTHON_VER}
-
-post-patch:
-	@${REINPLACE_CMD} -e "s|name='Send2Trash3k'|name='send2trash3k'|" \
-		${WRKSRC}/setup.py
 
 post-install:
 .if ${PORT_OPTIONS:MDOCS}

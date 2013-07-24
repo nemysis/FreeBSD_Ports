@@ -1,9 +1,9 @@
 # Created by: Doug Barton <dougb@FreeBSD.org>
-# $FreeBSD: head/net-p2p/qbittorrent/Makefile 322724 2013-07-10 17:54:43Z wg $
+# $FreeBSD: head/net-p2p/qbittorrent/Makefile 322764 2013-07-11 11:48:18Z wg $
 
 PORTNAME=	qbittorrent
 PORTVERSION=	3.0.10
-PORTREVISION?=	0
+PORTREVISION?=	1
 CATEGORIES=	net-p2p ipv6
 MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}-${PORTVERSION}/
 
@@ -13,7 +13,7 @@ COMMENT?=	Bittorrent client using Qt4 and libtorrent-rasterbar
 LICENSE=	GPLv2
 
 # ABI versions specified on purpose for libtorrent-rasterbar
-LIB_DEPENDS=	torrent-rasterbar.7:${PORTSDIR}/net-p2p/libtorrent-rasterbar-16 \
+LIB_DEPENDS=	torrent-rasterbar:${PORTSDIR}/net-p2p/libtorrent-rasterbar-16 \
 		execinfo:${PORTSDIR}/devel/libexecinfo \
 
 USES=		pkgconfig
@@ -44,9 +44,6 @@ USE_QT4+=	dbus
 .else
 CONFIGURE_ARGS+=	--disable-qt-dbus
 .endif
-
-post-patch:
-	@${REINPLACE_CMD} -e 's|qputenv|!&|' ${WRKSRC}/src/main.cpp
 
 post-install:
 .if ${PORT_OPTIONS:MDOCS}
