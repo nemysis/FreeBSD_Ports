@@ -12,32 +12,36 @@ COMMENT=	IT, XM, S3M, and MOD player library
 
 USE_GMAKE=	yes
 
-OPTIONS_DEFINE=	ALLEGRO ALLEGRO_DEVEL
+OPTIONS_RADIO=	ALLEGRO
+OPTIONS_RADIO_ALLEGRO=	ALLEGRO ALLEGRO_DEVEL
+
+#OPTIONS_DEFINE=	ALLEGRO ALLEGRO_DEVEL
 ALLEGRO_DESC=	Enable allegro support
 ALLEGRO_DEVEL_DESC=	Enable allegro development version
+OPTIONS_SUB=	yes
 
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MALLEGRO} && ! ${PORT_OPTIONS:MALLEGRO_DEVEL}
-LIB_DEPENDS+=	alleg.42:${PORTSDIR}/devel/allegro
-PLIST_SUB+=	ALLEGRO=""
+LIB_DEPENDS+=	alleg.4:${PORTSDIR}/devel/allegro
+#PLIST_SUB+=	ALLEGRO=""
 MAKE_ARGS=	_PORT_ALLEGRO_CFLAGS="`allegro-config --cflags`"
 PKGNAMESUFFIX=	-allegro
 CONFLICTS=	dumb-[0-9]*
 .else
-PLIST_SUB+=	ALLEGRO="@comment "
+#PLIST_SUB+=	ALLEGRO="@comment "
 MAKE_ARGS=	_PORT_ALLEGRO_CFLAGS=
 CONFLICTS=	dumb-allegro-[0-9]*
 .endif
 
 .if ${PORT_OPTIONS:MALLEGRO} && ${PORT_OPTIONS:MALLEGRO_DEVEL}
-LIB_DEPENDS+=	alleg.4:${PORTSDIR}/devel/allegro-devel
-PLIST_SUB+=	ALLEGRO=""
+LIB_DEPENDS+=	allegro:${PORTSDIR}/devel/allegro-devel
+#PLIST_SUB+=	ALLEGRO=""
 MAKE_ARGS=	_PORT_ALLEGRO_CFLAGS="`allegro-config --cflags`"
 PKGNAMESUFFIX=	-allegro-devel
 CONFLICTS=	dumb-[0-9]*
 .else
-PLIST_SUB+=	ALLEGRO="@comment "
+#PLIST_SUB+=	ALLEGRO="@comment "
 MAKE_ARGS=	_PORT_ALLEGRO_CFLAGS=
 CONFLICTS=	dumb-allegro-devel[0-9]*
 .endif

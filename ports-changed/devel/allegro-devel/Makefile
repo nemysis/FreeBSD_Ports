@@ -1,58 +1,128 @@
-# $FreeBSD: head/devel/allegro-devel/Makefile 316333 2013-04-23 10:13:19Z bapt $
+# Created by: nemysis <nemysis@gmx.ch>
+# $FreeBSD: head/devel/allegro-devel/Makefile 323734 2013-07-26 16:04:47Z crees $
 
 PORTNAME=	allegro
-DISTVERSION=	4.4.2
-PORTREVISION=	1
+DISTVERSION=	5.0.9
 CATEGORIES=	devel
 MASTER_SITES=	SF/alleg/allegro/${PORTVERSION}
 PKGNAMESUFFIX=	-devel
+DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
+DIST_SUBDIR=	${PORTNAME}
+EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Cross-platform library for games and multimedia programming
 
-LICENSE=	ZLIB
+LICENSE=	ZLIB BSD
+LICENSE_COMB=	dual
 
-USES=		cmake pkgconfig
-USE_GMAKE=	yes
-USE_XORG=	x11 xpm xext xcursor xxf86vm xxf86dga
-USE_LDCONFIG=	yes
-WANT_GNOME=	yes
-USE_GL=		gl glu
-
-MAKE_JOBS_UNSAFE=	yes
-
-PORTDOCS=	*
-
-CONFLICTS=	allegro-[0-9]*
-LATEST_LINK=	${PORTNAME}${PKGNAMESUFFIX}
-PLIST_SUB=	SHLIB_VER="${SHLIB_VER}"
-CMAKE_ARGS+=	-DDOCDIR="${DOCSDIR}"
-
-SHLIB_VER=	4.4.2
-
-PORTSCOUT=	limit:^4\.3\.[0-9]*
-
-CFLAGS+=	-L${LOCALBASE}/lib
 LIB_DEPENDS+=	asound:${PORTSDIR}/audio/alsa-lib \
 		jack:${PORTSDIR}/audio/jack \
-		png15:${PORTSDIR}/graphics/png
+		png15:${PORTSDIR}/graphics/png \
+		jpeg:${PORTSDIR}/graphics/jpeg \
+		vorbis:${PORTSDIR}/audio/libvorbis \
+		FLAC:${PORTSDIR}/audio/flac \
+		physfs:${PORTSDIR}/devel/physfs
+
+USES=		cmake gmake pkgconfig
+USE_XORG=	x11 xpm xext xcursor xxf86vm xxf86dga
+WANT_GNOME=	yes
+USE_OPENAL=	soft
+USE_GL=		gl glu
+USE_FREETYPE=	yes
+USE_LDCONFIG=	yes
+MAKE_JOBS_UNSAFE=	yes
+
+PLIST_SUB+=	SHLIB_VER="${SHLIB_VER}"
+PLIST_SUB+=	SHLIB_VER1="${SHLIB_VER1}"
+
+SHLIB_VER=	${PORTVERSION}
+SHLIB_VER1=	${PORTVERSION:R}
+
+CFLAGS+=	-I${LOCALBASE}/include -L${LOCALBASE}/lib
+
+# Wrong versioning upstream
+PORTSCOUT=	skipv:5.0.10
+
+OPTIONS_DEFINE=	DOCS PULSEAUDIO
+OPTIONS_GROUP=	EXAMPLES_DEMOS
+OPTIONS_GROUP_EXAMPLES_DEMOS=	EXAMPLES DEMOS
+OPTIONS_DEFAULT=	DEMOS
+DEMOS_DESC=	Install Demos programs, requires EXAMPLES
+
+OPTIONS_SUB=	yes
+
+PORTDOCS=	*
+PORTEXAMPLES=	*
+
+DOCSDIR=	${PREFIX}/share/doc/${PORTNAME}${PKGNAMESUFFIX}
+EXAMPLESDIR=	${PREFIX}/share/examples/${PORTNAME}${PKGNAMESUFFIX}
+
+DOCSRCDIR1=	${WRKSRC}
+DOC_FILES1=	README.txt
+
+DOCSRCDIR2=	${WRKSRC}/docs
+DOCSDIR2=	${DOCSDIR}/docs
 
 .include <bsd.port.options.mk>
+.include "Makefile.man"
 
 .if ${PORT_OPTIONS:MDOCS}
-.include "Makefile.man"
-INFO=		allegro
+BUILD_DEPENDS+=	${LOCALBASE}/bin/pandoc:${PORTSDIR}/textproc/hs-pandoc
+.endif
+
+.if ${PORT_OPTIONS:MDEMOS} && ${PORT_OPTIONS:MEXAMPLES}
+CMAKE_ARGS+=-DWANT_DEMO=on
+SUB_FILES+=	cosmic_protector speed \
+		pkg-message
+MASTER_SITES+=	SF/nemysisfreebsdp/allegro/:icons
+DISTFILES+=	cosmic_protector.png:icons \
+		speed.png:icons
+DESKTOP_ENTRIES+="Cosmic Protector" "Protect the earth from a deadly meteor shower" "cosmic_protector" \
+		"cosmic_protector" "Game;ArcadeGame;" false
+DESKTOP_ENTRIES+="SPEED" "Simultaneous Projections Employing an Ensemble of Displays" "speed" \
+		"speed" "Game;ArcadeGame;" false
+.else
+CMAKE_ARGS+=-DWANT_DEMO=off
+.endif
+
+.if ${PORT_OPTIONS:MPULSEAUDIO}
+LIB_DEPENDS+=	pulse:${PORTSDIR}/audio/pulseaudio
+CMAKE_ARGS+=-DWANT_PULSEAUDIO=on
+.else
+CMAKE_ARGS+=-DWANT_PULSEAUDIO=off
 .endif
 
 post-patch:
-.if ! ${PORT_OPTIONS:MDOCS}
-	 @${REINPLACE_CMD} -e 's|add_subdirectory(docs)|#add_subdirectory(docs)|' ${WRKSRC}/CMakeLists.txt
-.endif
+	@${REINPLACE_CMD} -e 's|lib$${LIB_SUFFIX}/pkgconfig|libdata/pkgconfig|' \
+		${WRKSRC}/CMakeLists.txt
+	@${REINPLACE_CMD} -e 's|malloc.h|stdlib.h|' \
+		${WRKSRC}/addons/audio/pulseaudio.c
 
 post-install:
+	@${INSTALL_MAN} ${WRKSRC}/docs/man/* ${MAN3PREFIX}/man/man3
+
 .if ${PORT_OPTIONS:MDOCS}
-	@cd ${WRKSRC}/docs/man/ && \
-		${FIND} . -type f -and -name "*.3" -exec ${INSTALL_MAN} {} ${PREFIX}/man/man3/{} \;
+	@${MKDIR} ${DOCSDIR}
+	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${DOCSDIR}
+	@(cd ${DOCSRCDIR2} && ${COPYTREE_SHARE} "html src" ${DOCSDIR2})
+.endif
+
+.if ${PORT_OPTIONS:MEXAMPLES}
+	@(cd ${WRKSRC}/examples && ${COPYTREE_SHARE} . ${EXAMPLESDIR})
+.endif
+
+.if ${PORT_OPTIONS:MDEMOS} && ${PORT_OPTIONS:MEXAMPLES}
+	@(cd ${WRKSRC} && ${COPYTREE_SHARE} demos ${EXAMPLESDIR})
+	${INSTALL_SCRIPT} ${WRKDIR}/cosmic_protector ${PREFIX}/bin
+	${INSTALL_DATA} ${_DISTDIR}/cosmic_protector.png ${PREFIX}/share/pixmaps
+	@(cd ${EXAMPLESDIR}/demos/cosmic_protector && ${CHMOD} 755 cosmic_protector)
+	${INSTALL_SCRIPT} ${WRKDIR}/speed ${PREFIX}/bin
+	${INSTALL_DATA} ${_DISTDIR}/speed.png ${PREFIX}/share/pixmaps
+	@(cd ${EXAMPLESDIR}/demos/speed && ${CHMOD} 755 speed)
+	@${ECHO_CMD}
+	@${CAT} ${PKGMESSAGE}
+	@${ECHO_CMD}
 .endif
 
 .include <bsd.port.mk>
