@@ -12,16 +12,13 @@ EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	Cross-platform library for games and multimedia programming
 
-LIB_DEPENDS+=	asound:${PORTSDIR}/audio/alsa-lib \
-		jack:${PORTSDIR}/audio/jack \
-		png15:${PORTSDIR}/graphics/png
+LIB_DEPENDS+=	png15:${PORTSDIR}/graphics/png
 
-USES=		cmake gmake pkgconfig
+USES=		cmake pkgconfig
 USE_XORG=	x11 xpm xext xcursor xxf86vm xxf86dga
-USE_LDCONFIG=	yes
-WANT_GNOME=	yes
 USE_GL=		gl glu
-MAKE_JOBS_UNSAFE=	yes
+USE_LDCONFIG=	yes
+MAKE_JOBS_SAFE=	yes
 
 CFLAGS+=	-L${LOCALBASE}/lib
 
@@ -33,12 +30,13 @@ CMAKE_ARGS+=	-DDOCDIR="${DOCSDIR}"
 
 SHLIB_VER=	${PORTVERSION}
 
-PORTSCOUT=	limit:^4\.3\.[0-9]*
+# Wrong versioning upstream
+PORTSCOUT=	ignore:1
 
-OPTIONS_DEFINE=	DOCS
+OPTIONS_DEFINE=	DOCS ALSA JACK OGG
 OPTIONS_GROUP=	EXAMPLES_DEMOS
 OPTIONS_GROUP_EXAMPLES_DEMOS=	EXAMPLES DEMOS
-OPTIONS_DEFAULT=	DEMOS
+OPTIONS_DEFAULT=	DEMOS ALSA OGG
 DEMOS_DESC=	Install Demos programs, requires EXAMPLES
 
 OPTIONS_SUB=	yes
@@ -62,6 +60,27 @@ CMAKE_ARGS+=-DWANT_EXAMPLES=on
 CMAKE_ARGS+=-DWANT_EXAMPLES=off
 .endif
 
+.if ${PORT_OPTIONS:MALSA}
+LIB_DEPENDS+=	asound:${PORTSDIR}/audio/alsa-lib
+CMAKE_ARGS+=-DWANT_ALSA=on
+.else
+CMAKE_ARGS+=-DWANT_ALSA=off
+.endif
+
+.if ${PORT_OPTIONS:MJACK}
+LIB_DEPENDS+=	jack:${PORTSDIR}/audio/jack
+CMAKE_ARGS+=-DWANT_JACK=on
+.else
+CMAKE_ARGS+=-DWANT_JACK=off
+.endif
+
+.if ${PORT_OPTIONS:MOGG}
+LIB_DEPENDS+=	ogg:${PORTSDIR}/audio/libogg
+CMAKE_ARGS+=-DWANT_LOGG=on
+.else
+CMAKE_ARGS+=-DWANT_LOGG=off
+.endif
+
 .if ${PORT_OPTIONS:MDEMOS} && ${PORT_OPTIONS:MEXAMPLES}
 SUB_FILES+=	shooter skater skater_agl \
 		pkg-message
@@ -81,8 +100,10 @@ post-patch:
 		${WRKSRC}/docs/CMakeLists.txt
 	@${REINPLACE_CMD} -e 's|<X11/extensions/xf86dga.h>|<X11/extensions/Xxf86dga.h>|' \
 		${WRKSRC}/src/x/xdga2.c
+.if ${PORT_OPTIONS:MJACK}
 	@${REINPLACE_CMD} -e 's|jack_client = jack_client_new(jack_client_name);|jack_client = jack_client_open(jack_client_name, (jack_options_t)0, NULL);|' \
 		${WRKSRC}/src/unix/jack.c
+.endif
 .if ! ${PORT_OPTIONS:MDOCS}
 	@${REINPLACE_CMD} -e 's|add_subdirectory(docs)|#add_subdirectory(docs)|' \
 		${WRKSRC}/CMakeLists.txt

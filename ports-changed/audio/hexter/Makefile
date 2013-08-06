@@ -1,10 +1,10 @@
 # Created by: trasz <trasz@pin.if.uz.zgora.pl>
-# $FreeBSD: head/audio/hexter/Makefile 308445 2012-12-07 20:03:33Z beech $
+# $FreeBSD: head/audio/hexter/Makefile 322948 2013-07-13 17:23:19Z deischen $
 
 PORTNAME=	hexter
 PORTVERSION=	1.0.2
 CATEGORIES=	audio
-MASTER_SITES=	SF/dssi/${PORTNAME}/${PORTVERSION}
+MASTER_SITES=	SF/dssi/${PORTNAME}/${PORTVERSION}/
 
 MAINTAINER=	nemysis@gmx.ch
 COMMENT=	DSSI softsynth that models the sound generation of a Yamaha DX7
@@ -16,9 +16,9 @@ LIB_DEPENDS=	dssialsacompat:${PORTSDIR}/audio/libdssialsacompat \
 		jack:${PORTSDIR}/audio/jack
 BUILD_DEPENDS=	${LOCALBASE}/include/dssi.h:${PORTSDIR}/audio/dssi
 
+USES=		gmake
 USE_GNOME=	gtk20
 GNU_CONFIGURE=	yes
-USE_GMAKE=	yes
 
 PORTDOCS=	AUTHORS ChangeLog README TODO
 

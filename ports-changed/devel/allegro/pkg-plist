@@ -116,12 +116,12 @@ include/allegrogl/gl_ext.h
 include/allegrogl/gl_header_detect.h
 include/jpgalleg.h
 include/loadpng.h
-include/logg.h
+%%OGG%%include/logg.h
 include/xalleg.h
-lib/allegro/%%SHLIB_VER%%/alleg-alsadigi.so
-lib/allegro/%%SHLIB_VER%%/alleg-alsamidi.so
+%%ALSA%%lib/allegro/%%SHLIB_VER%%/alleg-alsadigi.so
+%%ALSA%%lib/allegro/%%SHLIB_VER%%/alleg-alsamidi.so
 lib/allegro/%%SHLIB_VER%%/alleg-dga2.so
-lib/allegro/%%SHLIB_VER%%/alleg-jack.so
+%%JACK%%lib/allegro/%%SHLIB_VER%%/alleg-jack.so
 lib/allegro/%%SHLIB_VER%%/modules.lst
 lib/liballeg.so
 lib/liballeg.so.4
@@ -129,7 +129,7 @@ lib/liballeg.so.%%SHLIB_VER%%
 lib/liballeggl.a
 lib/libjpgalleg.a
 lib/libloadpng.a
-lib/liblogg.a
+%%OGG%%lib/liblogg.a
 libdata/pkgconfig/allegro.pc
 libdata/pkgconfig/allegrogl.pc
 libdata/pkgconfig/jpgalleg.pc

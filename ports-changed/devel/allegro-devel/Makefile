@@ -16,22 +16,20 @@ COMMENT=	Cross-platform library for games and multimedia programming
 LICENSE=	ZLIB BSD
 LICENSE_COMB=	dual
 
-LIB_DEPENDS+=	asound:${PORTSDIR}/audio/alsa-lib \
-		jack:${PORTSDIR}/audio/jack \
+LIB_DEPENDS+=	jack:${PORTSDIR}/audio/jack \
 		png15:${PORTSDIR}/graphics/png \
 		jpeg:${PORTSDIR}/graphics/jpeg \
 		vorbis:${PORTSDIR}/audio/libvorbis \
 		FLAC:${PORTSDIR}/audio/flac \
 		physfs:${PORTSDIR}/devel/physfs
 
-USES=		cmake gmake pkgconfig
+USES=		cmake pkgconfig
 USE_XORG=	x11 xpm xext xcursor xxf86vm xxf86dga
-WANT_GNOME=	yes
 USE_OPENAL=	soft
 USE_GL=		gl glu
 USE_FREETYPE=	yes
 USE_LDCONFIG=	yes
-MAKE_JOBS_UNSAFE=	yes
+MAKE_JOBS_SAFE=	yes
 
 PLIST_SUB+=	SHLIB_VER="${SHLIB_VER}"
 PLIST_SUB+=	SHLIB_VER1="${SHLIB_VER1}"
@@ -44,10 +42,10 @@ CFLAGS+=	-I${LOCALBASE}/include -L${LOCALBASE}/lib
 # Wrong versioning upstream
 PORTSCOUT=	skipv:5.0.10
 
-OPTIONS_DEFINE=	DOCS PULSEAUDIO
+OPTIONS_DEFINE=	DOCS ALSA PULSEAUDIO
 OPTIONS_GROUP=	EXAMPLES_DEMOS
 OPTIONS_GROUP_EXAMPLES_DEMOS=	EXAMPLES DEMOS
-OPTIONS_DEFAULT=	DEMOS
+OPTIONS_DEFAULT=	DEMOS ALSA
 DEMOS_DESC=	Install Demos programs, requires EXAMPLES
 
 OPTIONS_SUB=	yes
@@ -69,6 +67,13 @@ DOCSDIR2=	${DOCSDIR}/docs
 
 .if ${PORT_OPTIONS:MDOCS}
 BUILD_DEPENDS+=	${LOCALBASE}/bin/pandoc:${PORTSDIR}/textproc/hs-pandoc
+.endif
+
+.if ${PORT_OPTIONS:MALSA}
+LIB_DEPENDS+=	asound:${PORTSDIR}/audio/alsa-lib
+CMAKE_ARGS+=-DWANT_ALSA=on
+.else
+CMAKE_ARGS+=-DWANT_ALSA=off
 .endif
 
 .if ${PORT_OPTIONS:MDEMOS} && ${PORT_OPTIONS:MEXAMPLES}

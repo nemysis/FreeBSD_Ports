@@ -5,9 +5,9 @@ PORTNAME=	opensurge
 PORTVERSION=	0.2.0${SVN_REV}
 CATEGORIES=	games
 MASTER_SITES=	http://www.ime.usp.br/~alemart/opensurge_nightly/
-#		SF/nemysisfreebsdp/${PORTNAME}/:icons
+#		SF/nemysisfreebsdp/${PORTNAME}/:mods
 DISTFILES=	${PORTNAME}-src-build${SVN_REV}${EXTRACT_SUFX}
-#		${PORTNAME}_icons${EXTRACT_SUFX}:icons
+		${PORTNAME}-mods:mods
 DIST_SUBDIR=	opensurge
 
 MAINTAINER=	nemysis@gmx.ch
@@ -17,7 +17,7 @@ LICENSE=	GPLv2
 
 WRKSRC=		${WRKDIR}/${PORTNAME}-src-build${SVN_REV}
 
-SVN_REV=	755
+SVN_REV=	756
 
 USES=		cmake
 USE_OPENAL=	soft
