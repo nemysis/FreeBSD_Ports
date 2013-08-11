@@ -1,0 +1,574 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	libav
+#	libav/Makefile
+#	libav/distinfo
+#	libav/pkg-descr
+#	libav/files
+#	libav/files/avserver.in
+#	libav/files/patch-libavdevice-bktr.c
+#	libav/files/patch-libavdevice-oss_audio.c
+#	libav/files/patch-libavfilter-vf_libopencv.c
+#	libav/files/patch-libavformat-udp.c
+#	libav/files/patch-libavutil-common.h
+#	libav/pkg-plist
+#
+echo c - libav
+mkdir -p libav > /dev/null 2>&1
+echo x - libav/Makefile
+sed 's/^X//' >libav/Makefile << '42651e2268834c6cd4612acddea500b2'
+X# Created by: nemysis <nemysis@gmx.ch>
+X# $FreeBSD$
+X
+XPORTNAME=	libav
+XPORTVERSION=	9.8
+XCATEGORIES=	multimedia audio ipv6 net
+XMASTER_SITES=	https://libav.org/releases/
+X
+XMAINTAINER=	nemysis@gmx.ch
+XCOMMENT=	Cross-platform solution to record, convert and stream audio and video
+X
+XLICENSE=	GPLv2 LGPL21
+XLICENSE_COMB=	multi
+X
+XBUILD_DEPENDS=	yasm:${PORTSDIR}/devel/yasm \
+X		${LOCALBASE}/bin/as:${PORTSDIR}/devel/binutils \
+X		texi2html:${PORTSDIR}/textproc/texi2html \
+X		${LOCALBASE}/lib/X11/fonts/freefont-ttf/FreeSerif.ttf:${PORTSDIR}/x11-fonts/freefont-ttf
+X
+XUSES=		gmake pkgconfig
+XWANT_SDL=	yes
+XUSE_PERL5_BUILD=	yes
+XHAS_CONFIGURE=	yes
+XCONFIGURE_ARGS+=--prefix="${PREFIX}" --mandir="${PREFIX}/man" --incdir="${PREFIX}/include/${PORTNAME}" \
+X		--libdir="${PREFIX}/lib/${PORTNAME}" --shlibdir="${PREFIX}/lib/${PORTNAME}" --datadir="${DATADIR}" \
+X		--enable-gpl --enable-runtime-cpudetect --enable-avcodec --enable-avformat --enable-avutil \
+X		--enable-swscale --enable-avfilter --enable-avresample \
+X		--enable-pthreads --enable-network --enable-memalign-hack
+XALL_TARGET=	all
+XMAKE_JOBS_SAFE=	yes
+XUSE_LDCONFIG=	${PREFIX}/lib/${PORTNAME}
+X
+XCPPFLAGS+=	-I${LOCALBASE}/include
+XLDFLAGS+=	-L${LOCALBASE}/lib
+X
+XMAN1=	avconv.1 avprobe.1
+X
+XPORTDOCS=	*
+X
+XDOCSRCDIR1=	${WRKSRC}
+XDOC_FILES1=	CREDITS Changelog
+X
+XDOCSRCDIR2=	${WRKSRC}/doc
+XDOCSDIR2=	${DOCSDIR}/doc
+XDOC_FILES2=	APIchanges RELEASE_NOTES *.txt
+X
+XOPTIONS_DEFINE=	DOCS SMALL GRAY X11GRAB VAAPI VDPAU FREI0R LIBBLURAY \
+X		CDIO LIBDC1394 FAAC FDK_AAC FREETYPE GSM LAME AMR_NB AMR_WB \
+X		OPENCV OPENJPEG OPUS ALSA PULSEAUDIO RTMP SCHROEDINGER SPEEX \
+X		THEORA VO_AACENC VO_AMRWBENC VORBIS SDL V4L VPX X264 XVID \
+X		DEBUG OPTIMIZED_CFLAGS
+X
+XOPTIONS_DEFAULT=	SHARED X11GRAB FREI0R CDIO FREETYPE OPENCV OPENJPEG \
+X			OPUS RTMP SCHROEDINGER SPEEX THEORA VORBIS SDL V4L VPX \
+X			X264 XVID OPENSSL
+X
+XOPTIONS_SINGLE=	SSL LIBRARIES
+XOPTIONS_SINGLE_SSL=	GNUTLS OPENSSL
+XOPTIONS_SINGLE_LIBRARIES=	STATIC SHARED
+X
+XOPTIONS_SUB=	yes
+X
+XSTATIC_DESC=	Build static libraries, avserver (unmaintained)
+XSHARED_DESC=	Build shared libraries
+XSMALL_DESC=	Optimize for size instead of speed
+XGRAY_DESC=	Full grayscale support (slower color)
+XCPU_DETECTION_DESC=	Detect cpu capabilities at runtime (bigger binary)
+XX11GRAB_DESC=	X11 grabbing
+XCDIO_DESC=	Audio CD grabbing with libcdio
+XLIBDC1394_DESC=	IIDC-1394 grabbing using libdc1394
+XFDK_AAC_DESC=	AAC encoding via libfdk-aac
+XAMR_NB_DESC=	AMR-NB de/encoding via libopencore-amrnb
+XAMR_WB_DESC=	AMR-WB decoding via libopencore-amrwb
+XOPUS_DESC=	Opus decoding via libopus
+X
+XDOCS_CONFIGURE_ENABLE=		doc
+XSTATIC_CONFIGURE_ENABLE=	static
+XSHARED_CONFIGURE_ENABLE=	shared
+XGNUTLS_CONFIGURE_ENABLE=	gnutls
+XGNUTLS_LIB_DEPEND=		gnutls:${PORTSDIR}/security/gnutls
+XOPENSSL_CONFIGURE_ENABLE=	openssl
+XSMALL_CONFIGURE_ENABLE=		small
+XGRAY_CONFIGURE_ENABLE=		gray
+XX11GRAB_CONFIGURE_ENABLE=	x11grab
+XVAAPI_CONFIGURE_ENABLE=		vaapi
+XVAAPI_LIB_DEPENDS=		va:${PORTSDIR}/multimedia/libva
+XVDPAU_CONFIGURE_ENABLE=		vdpau
+XVDPAU_LIB_DEPENDS=		vdpau:${PORTSDIR}/multimedia/libvdpa
+XFREI0R_CONFIGURE_ENABLE=	frei0r
+XFREI0R_BUILD_DEPENDS=		${LOCALBASE}/include/frei0r.h:${PORTSDIR}/graphics/frei0r
+XCDIO_CONFIGURE_ENABLE=		libcdio
+XCDIO_LIB_DEPENDS=		cdio:${PORTSDIR}/sysutils/libcdio
+XLIBBLURAY_LIB_DEPENDS=		bluray:${PORTSDIR}/multimedia/libbluray
+XLIBDC1394_CONFIGURE_ENABLE=	libdc1394
+XLIBDC1394_LIB_DEPENDS=		dc1394:${PORTSDIR}/multimedia/libdc1394
+XFAAC_CONFIGURE_ENABLE=		libfaac
+XFAAC_LIB_DEPENDS=		faac:${PORTSDIR}/audio/faac
+XFDK_AAC_CONFIGURE_ENABLE=	libfdk-aac
+XFDK_AAC_LIB_DEPENDS=		fdk-aac:${PORTSDIR}/audio/fdk-aac
+XFREETYPE_CONFIGURE_ENABLE=	libfreetype
+XFREETYPE_LIB_DEPENDS=		freetype:${PORTSDIR}/print/freetype2
+XGSM_CONFIGURE_ENABLE=		libgsm
+XGSM_LIB_DEPENDS=		gsm:${PORTSDIR}/audio/gsm
+XLAME_CONFIGURE_ENABLE=		libmp3lame
+XLAME_LIB_DEPENDS=		mp3lame:${PORTSDIR}/audio/lame
+XAMR_NB_CONFIGURE_ENABLE=	libopencore-amrnb
+XAMR_NB_LIB_DEPENDS=		opencore-amrnb:${PORTSDIR}/audio/opencore-amr
+XAMR_WB_CONFIGURE_ENABLE=	libopencore-amrwb
+XAMR_WB_LIB_DEPENDS=		opencore-amrwb:${PORTSDIR}/audio/opencore-amr
+XOPENCV_CONFIGURE_ENABLE=	libopencv
+XOPENCV_LIB_DEPENDS=		opencv_objdetect:${PORTSDIR}/graphics/opencv
+XOPENJPEG_CONFIGURE_ENABLE=	libopenjpeg
+XOPENJPEG_LIB_DEPENDS=		openjpeg:${PORTSDIR}/graphics/openjpeg
+XOPUS_CONFIGURE_ENABLE=		libopus
+XOPUS_LIB_DEPENDS=		opus:${PORTSDIR}/audio/opus
+XALSA_LIB_DEPENDS=		asound:${PORTSDIR}/audio/alsa-lib
+XPULSEAUDIO_CONFIGURE_ENABLE=	libpulse
+XPULSEAUDIO_LIB_DEPENDS=		pulse:${PORTSDIR}/audio/pulseaudio
+XRTMP_CONFIGURE_ENABLE=		librtmp
+XRTMP_LIB_DEPENDS=		rtmp:${PORTSDIR}/multimedia/rtmpdump
+XSCHROEDINGER_CONFIGURE_ENABLE=	libschroedinger
+XSCHROEDINGER_LIB_DEPENDS=	schroedinger:${PORTSDIR}/multimedia/schroedinger
+XSPEEX_CONFIGURE_ENABLE=		libspeex
+XSPEEX_LIB_DEPENDS=		speex:${PORTSDIR}/audio/speex
+XTHEORA_CONFIGURE_ENABLE=	libtheora
+XTHEORA_LIB_DEPENDS=		theora:${PORTSDIR}/multimedia/libtheora
+XVO_AACENC_CONFIGURE_ENABLE=	libvo-aacenc
+XVO_AACENC_LIB_DEPENDS=		vo-aacenc:${PORTSDIR}/audio/vo-aacenc
+XVO_AMRWBENC_CONFIGURE_ENABLE=	libvo-amrwbenc
+XVO_AMRWBENC_LIB_DEPENDS=	vo-amrwbenc:${PORTSDIR}/audio/vo-amrwben
+XVORBIS_CONFIGURE_ENABLE=	libvorbis
+XVORBIS_LIB_DEPENDS=		vorbis:${PORTSDIR}/audio/libvorbis
+XSDL_CONFIGURE_ENABLE=		avplay
+XV4L_LIB_DEPENDS=		v4l2:${PORTSDIR}/multimedia/libv4l
+XVPX_CONFIGURE_ENABLE=		libvpx
+XVPX_LIB_DEPENDS=		vpx:${PORTSDIR}/multimedia/libvpx
+XX264_CONFIGURE_ENABLE=		libx264
+XX264_LIB_DEPENDS=		x264:${PORTSDIR}/multimedia/x264
+XXVID_CONFIGURE_ENABLE=		libxvid
+XXVID_LIB_DEPENDS=		xvidcore:${PORTSDIR}/multimedia/xvid
+XDEBUG_CONFIGURE_ENABLE=		debug
+XOPTIMIZED_CFLAGS_CONFIGURE_ENABLE=	optimizations
+X
+X.include <bsd.port.options.mk>
+X.include <bsd.port.pre.mk>
+X
+X.if ${PORT_OPTIONS:MSTATIC}
+XUSE_RC_SUBR=	avserver
+XMAN1+=		avserver.1
+XCONFIGURE_ARGS+=	--enable-avserver
+X.else
+XCONFIGURE_ARGS+=	--disable-avserver
+X.endif
+X
+X.if ${PORT_OPTIONS:MOPENSSL}
+XLIBAV_NONFREE=	yes
+XUSE_OPENSSL=	yes
+X.endif
+X
+X.if ${PORT_OPTIONS:MX11GRAB}
+XUSE_XORG=	x11 xext xfixes
+X.endif
+X
+X.if ${PORT_OPTIONS:MFAAC}
+XLIBAV_NONFREE=	yes
+X.endif
+X
+X.if ${PORT_OPTIONS:MFDK_AAC}
+XLIBAV_NONFREE=	yes
+X.endif
+X
+X.if ${PORT_OPTIONS:MAMR_NB}
+XGPL3=	yes
+X.endif
+X
+X.if ${PORT_OPTIONS:MAMR_WB}
+XGPL3=	yes
+X.endif
+X
+X.if ! ${PORT_OPTIONS:MALSA}
+XCONFIGURE_ARGS+=	--disable-indev=alsa --disable-outdev=alsa
+X.endif
+X
+X.if ${PORT_OPTIONS:MVO_AACENC}
+XGPL3=	yes
+X.endif
+X
+X.if ${PORT_OPTIONS:MVO_AMRWBENC}
+XGPL3=	yes
+X.endif
+X
+X.if ${PORT_OPTIONS:MSDL}
+XUSE_SDL+=	sdl
+XMAN1+=		avplay.1
+X.endif
+X
+X.if ${PORT_OPTIONS:MOPTIMIZED_CFLAGS}
+XCFLAGS+=	-O3 -ffast-math -fno-finite-math-only -fomit-frame-pointer
+X.endif
+X
+X.if defined(GPL3)
+XCONFIGURE_ARGS+=	--enable-version3
+XLICENSE+=	GPLv3 LGPL3
+X.endif
+X
+X.if defined(LIBAV_NONFREE)
+XCONFIGURE_ARGS+=	--enable-nonfree
+XRESTRICTED=	linking to libfaac restricts redistribution
+X.endif
+X
+X.if ${OSVERSION} < 900033
+XBUILD_DEPENDS+=	${LOCALBASE}/bin/as:${PORTSDIR}/devel/binutils
+XCONFIGURE_ENV+=	COMPILER_PATH=${LOCALBASE}/bin
+XMAKE_ENV+=	COMPILER_PATH=${LOCALBASE}/bin
+X.endif
+X
+Xpost-patch:
+X	@${REINPLACE_CMD} -e 's|$$(LIBDIR)/pkgconfig|${PREFIX}/libdata/pkgconfig|g' \
+X		-e 's|$$(NAME).pc|$$(NAME)-${PORTNAME}.pc|g' \
+X		-e 's|install-lib$$(NAME)-pkgconfig|install-lib$$(NAME)-${PORTNAME}-pkgconfig|g' \
+X		${WRKSRC}/library.mak
+X	@${REINPLACE_CMD} -e 's|arch_default=$$(uname -m)|arch_default=$$(uname -p)|' \
+X		-e 's|-ldl||' \
+X		-e 's|gsm/gsm.h|gsm.h|' \
+X		-e 's|check_header linux/fb.h|#check_header linux/fb.h|' \
+X		${WRKSRC}/configure
+X	@${REINPLACE_CMD} -e 's|#include <SDL|#include <SDL/SDL|' \
+X		${WRKSRC}/avplay.c
+X	@${REINPLACE_CMD} -e 's|/etc/avserver.conf|${PREFIX}/etc/avserver.conf|' \
+X		${WRKSRC}/avserver.c
+X	@${FIND} ${WRKSRC}/doc -type f -print0 | ${XARGS} -0 \
+X		${REINPLACE_CMD} -e 's|/usr/share/fonts/truetype/freefont/|${LOCALBASE}/lib/X11/fonts/freefont-ttf/|g'
+X	@${REINPLACE_CMD} -e 's|install-progs-$$(CONFIG_DOC)|#install-progs-$$(CONFIG_DOC)|' \
+X		${WRKSRC}/doc/Makefile
+X	@${REINPLACE_CMD} -e 's|/usr/bin/perl -w|${PERL}|' \
+X		${WRKSRC}/doc/texi2pod.pl
+X	@${REINPLACE_CMD} -e 's|gsm/gsm.h|gsm.h|' \
+X		${WRKSRC}/libavcodec/libgsm.c
+X
+X.if ! ${PORT_OPTIONS:MV4L}
+X	@${REINPLACE_CMD} -i '' '/check_header linux/videodev2.h/,/check_struct linux/videodev2.h/s/^/#/' \
+X		${WRKSRC}/configure
+X.endif
+X
+Xpost-configure:
+X.for d in libavcodec libavdevice libavfilter libavformat libavresample libavutil libswscale
+X	@(cd ${WRKSRC}/${d} ; ${CP} -a ${d}.pc ${d}-${PORTNAME}.pc)
+X.endfor
+X
+Xpost-install:
+X.if ${PORT_OPTIONS:MSTATIC}
+X	${INSTALL_DATA} ${WRKSRC}/doc/avserver.conf ${PREFIX}/etc/avserver.conf.sample
+X	@[ -f ${PREFIX}/etc/avserver.conf ] || \
+X		${INSTALL_DATA} ${WRKSRC}/doc/avserver.conf ${PREFIX}/etc/avserver.conf
+X.endif
+X
+X	(cd ${WRKSRC}/doc ; ${INSTALL_MAN} ${MAN1} ${MAN1PREFIX}/man/man1)
+X
+X.if ${PORT_OPTIONS:MDOCS}
+X	@${MKDIR} ${DOCSDIR}
+X	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${DOCSDIR}
+X	@${MKDIR} ${DOCSDIR2}
+X	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${DOCSDIR2}
+X.endif
+X
+X.include <bsd.port.post.mk>
+42651e2268834c6cd4612acddea500b2
+echo x - libav/distinfo
+sed 's/^X//' >libav/distinfo << '4f7a225ed2e2c608706b03a340fbe701'
+XSHA256 (libav-9.8.tar.gz) = f02801338a186e857cbfab0accee68994c0b77ef6413b6fdf8b733b7288d2869
+XSIZE (libav-9.8.tar.gz) = 5783529
+4f7a225ed2e2c608706b03a340fbe701
+echo x - libav/pkg-descr
+sed 's/^X//' >libav/pkg-descr << '6f556f77a7114ffa47d9cfe40008ba99'
+XLibav is a friendly and community-driven effort to provide its users with a set
+Xof portable, functional and high-performance libraries for dealing with
+Xmultimedia formats of all sorts. It originates from the FFmpeg codebase,
+Xbut goes its own way these days, providing its users with reliable releases
+Xand a clear vision how to go forward.
+X
+XWWW: http://libav.org/
+6f556f77a7114ffa47d9cfe40008ba99
+echo c - libav/files
+mkdir -p libav/files > /dev/null 2>&1
+echo x - libav/files/avserver.in
+sed 's/^X//' >libav/files/avserver.in << 'bf357c1a26f9bc6128bd71532ed8d383'
+X#!/bin/sh
+X#
+X# $FreeBSD$
+X#
+X
+X# PROVIDE: avserver
+X# REQUIRE: NETWORKING
+X# KEYWORD: shutdown
+X
+X#
+X# Add the following lines to /etc/rc.conf to enable avserver:
+X#
+X#avserver_enable="YES"
+X#
+Xavserver_enable="${avserver_enable-NO}"
+X
+X. /etc/rc.subr
+X
+Xname=avserver
+Xrcvar=avserver_enable
+X
+Xcommand="%%PREFIX%%/bin/${name} &"
+Xrequired_files=%%PREFIX%%/etc/avserver.conf
+X
+Xload_rc_config ${name}
+Xrun_rc_command "$1"
+bf357c1a26f9bc6128bd71532ed8d383
+echo x - libav/files/patch-libavdevice-bktr.c
+sed 's/^X//' >libav/files/patch-libavdevice-bktr.c << 'c2a4fedf1231269a75f076b73c126afe'
+X--- libavdevice/bktr.c.orig	2013-07-06 15:14:38.000000000 +0200
+X+++ libavdevice/bktr.c	2013-08-08 13:32:19.000000000 +0200
+X@@ -24,6 +24,11 @@
+X  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+X  */
+X 
+X+typedef unsigned char  u_char;
+X+typedef unsigned short u_short;
+X+typedef unsigned int   u_int;
+X+typedef unsigned long  u_long;
+X+
+X #include "libavformat/avformat.h"
+X #include "libavformat/internal.h"
+X #include "libavutil/log.h"
+c2a4fedf1231269a75f076b73c126afe
+echo x - libav/files/patch-libavdevice-oss_audio.c
+sed 's/^X//' >libav/files/patch-libavdevice-oss_audio.c << '9b931f0e8d9ed90c9c1a91ee1faaa06c'
+X--- libavdevice/oss_audio.c.orig	2013-07-06 15:14:38.000000000 +0200
+X+++ libavdevice/oss_audio.c	2013-08-08 13:46:53.000000000 +0200
+X@@ -19,6 +19,11 @@
+X  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+X  */
+X 
+X+typedef unsigned char  u_char;
+X+typedef unsigned short u_short;
+X+typedef unsigned int   u_int;
+X+typedef unsigned long  u_long;
+X+
+X #include "config.h"
+X #include <stdlib.h>
+X #include <stdio.h>
+9b931f0e8d9ed90c9c1a91ee1faaa06c
+echo x - libav/files/patch-libavfilter-vf_libopencv.c
+sed 's/^X//' >libav/files/patch-libavfilter-vf_libopencv.c << 'b7abff9385cb32e8118579fb7a69e287'
+X--- libavfilter/vf_libopencv.c.orig	2013-07-06 15:14:38.000000000 +0200
+X+++ libavfilter/vf_libopencv.c	2013-08-08 14:04:32.000000000 +0200
+X@@ -25,8 +25,7 @@
+X 
+X /* #define DEBUG */
+X 
+X-#include <opencv/cv.h>
+X-#include <opencv/cxcore.h>
+X+#include <opencv2/imgproc/imgproc_c.h>
+X #include "libavutil/avstring.h"
+X #include "libavutil/common.h"
+X #include "libavutil/file.h"
+b7abff9385cb32e8118579fb7a69e287
+echo x - libav/files/patch-libavformat-udp.c
+sed 's/^X//' >libav/files/patch-libavformat-udp.c << 'b40d416b65998fef2986429cb8ee0127'
+X--- libavformat/udp.c.orig	2013-07-06 15:14:38.000000000 +0200
+X+++ libavformat/udp.c	2013-08-08 14:40:08.000000000 +0200
+X@@ -40,6 +40,8 @@
+X #define IPV6_DROP_MEMBERSHIP IPV6_LEAVE_GROUP
+X #endif
+X 
+X+#define IPPROTO_IPV6 41
+X+
+X typedef struct {
+X     int udp_fd;
+X     int ttl;
+b40d416b65998fef2986429cb8ee0127
+echo x - libav/files/patch-libavutil-common.h
+sed 's/^X//' >libav/files/patch-libavutil-common.h << 'fb02cae6373dd8ce25ddd5aebd85a564'
+X--- libavutil/common.h.orig	2013-07-06 15:14:38.000000000 +0200
+X+++ libavutil/common.h	2013-08-08 15:10:45.000000000 +0200
+X@@ -39,6 +39,10 @@
+X #include "version.h"
+X #include "libavutil/avconfig.h"
+X 
+X+#ifndef UINT64_C
+X+#define UINT64_C(c) (c ## UL)
+X+#endif
+X+
+X #if AV_HAVE_BIGENDIAN
+X #   define AV_NE(be, le) (be)
+X #else
+fb02cae6373dd8ce25ddd5aebd85a564
+echo x - libav/pkg-plist
+sed 's/^X//' >libav/pkg-plist << 'ce17ce87f57bab74d7ac8283949058ae'
+Xbin/avconv
+X%%SDL%%bin/avplay
+Xbin/avprobe
+X%%STATIC%%bin/avserver
+X%%STATIC%%@unexec if cmp -s %D/etc/avserver.conf %D/etc/avserver.conf.sample; then rm -f %D/etc/avserver.conf; fi
+X%%STATIC%%etc/avserver.conf.sample
+X%%STATIC%%@exec if [ ! -f %D/etc/avserver.conf ] ; then cp -p %D/%F %B/avserver.conf; fi
+Xinclude/libav/libavcodec/avcodec.h
+Xinclude/libav/libavcodec/avfft.h
+Xinclude/libav/libavcodec/dxva2.h
+Xinclude/libav/libavcodec/old_codec_ids.h
+Xinclude/libav/libavcodec/vaapi.h
+Xinclude/libav/libavcodec/vda.h
+Xinclude/libav/libavcodec/vdpau.h
+Xinclude/libav/libavcodec/version.h
+Xinclude/libav/libavcodec/xvmc.h
+Xinclude/libav/libavdevice/avdevice.h
+Xinclude/libav/libavdevice/version.h
+Xinclude/libav/libavfilter/avfilter.h
+Xinclude/libav/libavfilter/avfiltergraph.h
+Xinclude/libav/libavfilter/buffersink.h
+Xinclude/libav/libavfilter/buffersrc.h
+Xinclude/libav/libavfilter/version.h
+Xinclude/libav/libavformat/avformat.h
+Xinclude/libav/libavformat/avio.h
+Xinclude/libav/libavformat/version.h
+Xinclude/libav/libavresample/avresample.h
+Xinclude/libav/libavresample/version.h
+Xinclude/libav/libavutil/adler32.h
+Xinclude/libav/libavutil/aes.h
+Xinclude/libav/libavutil/attributes.h
+Xinclude/libav/libavutil/audio_fifo.h
+Xinclude/libav/libavutil/audioconvert.h
+Xinclude/libav/libavutil/avassert.h
+Xinclude/libav/libavutil/avconfig.h
+Xinclude/libav/libavutil/avstring.h
+Xinclude/libav/libavutil/avutil.h
+Xinclude/libav/libavutil/base64.h
+Xinclude/libav/libavutil/blowfish.h
+Xinclude/libav/libavutil/bswap.h
+Xinclude/libav/libavutil/channel_layout.h
+Xinclude/libav/libavutil/common.h
+Xinclude/libav/libavutil/cpu.h
+Xinclude/libav/libavutil/crc.h
+Xinclude/libav/libavutil/dict.h
+Xinclude/libav/libavutil/error.h
+Xinclude/libav/libavutil/eval.h
+Xinclude/libav/libavutil/fifo.h
+Xinclude/libav/libavutil/file.h
+Xinclude/libav/libavutil/imgutils.h
+Xinclude/libav/libavutil/intfloat.h
+Xinclude/libav/libavutil/intfloat_readwrite.h
+Xinclude/libav/libavutil/intreadwrite.h
+Xinclude/libav/libavutil/lfg.h
+Xinclude/libav/libavutil/log.h
+Xinclude/libav/libavutil/lzo.h
+Xinclude/libav/libavutil/mathematics.h
+Xinclude/libav/libavutil/md5.h
+Xinclude/libav/libavutil/mem.h
+Xinclude/libav/libavutil/old_pix_fmts.h
+Xinclude/libav/libavutil/opt.h
+Xinclude/libav/libavutil/parseutils.h
+Xinclude/libav/libavutil/pixdesc.h
+Xinclude/libav/libavutil/pixfmt.h
+Xinclude/libav/libavutil/random_seed.h
+Xinclude/libav/libavutil/rational.h
+Xinclude/libav/libavutil/samplefmt.h
+Xinclude/libav/libavutil/sha.h
+Xinclude/libav/libavutil/time.h
+Xinclude/libav/libavutil/version.h
+Xinclude/libav/libavutil/xtea.h
+Xinclude/libav/libswscale/swscale.h
+Xinclude/libav/libswscale/version.h
+X%%STATIC%%lib/libav/libavcodec.a
+X%%SHARED%%lib/libav/libavcodec.so
+X%%SHARED%%lib/libav/libavcodec.so.54
+X%%SHARED%%lib/libav/libavcodec.so.54.35.0
+X%%STATIC%%lib/libav/libavdevice.a
+X%%SHARED%%lib/libav/libavdevice.so
+X%%SHARED%%lib/libav/libavdevice.so.53
+X%%SHARED%%lib/libav/libavdevice.so.53.2.0
+X%%STATIC%%lib/libav/libavfilter.a
+X%%SHARED%%lib/libav/libavfilter.so
+X%%SHARED%%lib/libav/libavfilter.so.3
+X%%SHARED%%lib/libav/libavfilter.so.3.3.0
+X%%STATIC%%lib/libav/libavformat.a
+X%%SHARED%%lib/libav/libavformat.so
+X%%SHARED%%lib/libav/libavformat.so.54
+X%%SHARED%%lib/libav/libavformat.so.54.20.3
+X%%STATIC%%lib/libav/libavresample.a
+X%%SHARED%%lib/libav/libavresample.so
+X%%SHARED%%lib/libav/libavresample.so.1
+X%%SHARED%%lib/libav/libavresample.so.1.0.1
+X%%STATIC%%lib/libav/libavutil.a
+X%%SHARED%%lib/libav/libavutil.so
+X%%SHARED%%lib/libav/libavutil.so.52
+X%%SHARED%%lib/libav/libavutil.so.52.3.0
+X%%STATIC%%lib/libav/libswscale.a
+X%%SHARED%%lib/libav/libswscale.so
+X%%SHARED%%lib/libav/libswscale.so.2
+X%%SHARED%%lib/libav/libswscale.so.2.1.1
+Xlibdata/pkgconfig/libavcodec-libav.pc
+Xlibdata/pkgconfig/libavdevice-libav.pc
+Xlibdata/pkgconfig/libavfilter-libav.pc
+Xlibdata/pkgconfig/libavformat-libav.pc
+Xlibdata/pkgconfig/libavresample-libav.pc
+Xlibdata/pkgconfig/libavutil-libav.pc
+Xlibdata/pkgconfig/libswscale-libav.pc
+X%%DATADIR%%/libvpx-1080p.avpreset
+X%%DATADIR%%/libvpx-1080p50_60.avpreset
+X%%DATADIR%%/libvpx-360p.avpreset
+X%%DATADIR%%/libvpx-720p.avpreset
+X%%DATADIR%%/libvpx-720p50_60.avpreset
+X%%DATADIR%%/libx264-baseline.avpreset
+X%%DATADIR%%/libx264-fast.avpreset
+X%%DATADIR%%/libx264-fast_firstpass.avpreset
+X%%DATADIR%%/libx264-faster.avpreset
+X%%DATADIR%%/libx264-faster_firstpass.avpreset
+X%%DATADIR%%/libx264-ipod320.avpreset
+X%%DATADIR%%/libx264-ipod640.avpreset
+X%%DATADIR%%/libx264-lossless_fast.avpreset
+X%%DATADIR%%/libx264-lossless_max.avpreset
+X%%DATADIR%%/libx264-lossless_medium.avpreset
+X%%DATADIR%%/libx264-lossless_slow.avpreset
+X%%DATADIR%%/libx264-lossless_slower.avpreset
+X%%DATADIR%%/libx264-lossless_ultrafast.avpreset
+X%%DATADIR%%/libx264-main.avpreset
+X%%DATADIR%%/libx264-medium.avpreset
+X%%DATADIR%%/libx264-medium_firstpass.avpreset
+X%%DATADIR%%/libx264-placebo.avpreset
+X%%DATADIR%%/libx264-placebo_firstpass.avpreset
+X%%DATADIR%%/libx264-slow.avpreset
+X%%DATADIR%%/libx264-slow_firstpass.avpreset
+X%%DATADIR%%/libx264-slower.avpreset
+X%%DATADIR%%/libx264-slower_firstpass.avpreset
+X%%DATADIR%%/libx264-superfast.avpreset
+X%%DATADIR%%/libx264-superfast_firstpass.avpreset
+X%%DATADIR%%/libx264-ultrafast.avpreset
+X%%DATADIR%%/libx264-ultrafast_firstpass.avpreset
+X%%DATADIR%%/libx264-veryfast.avpreset
+X%%DATADIR%%/libx264-veryfast_firstpass.avpreset
+X%%DATADIR%%/libx264-veryslow.avpreset
+X%%DATADIR%%/libx264-veryslow_firstpass.avpreset
+X@dirrm %%DATADIR%%
+X@dirrm lib/libav
+X@dirrm include/libav/libswscale
+X@dirrm include/libav/libavutil
+X@dirrm include/libav/libavresample
+X@dirrm include/libav/libavformat
+X@dirrm include/libav/libavfilter
+X@dirrm include/libav/libavdevice
+X@dirrm include/libav/libavcodec
+X@dirrm include/libav
+ce17ce87f57bab74d7ac8283949058ae
+exit
+

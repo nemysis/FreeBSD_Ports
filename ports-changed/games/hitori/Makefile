@@ -2,7 +2,7 @@
 # $FreeBSD: head/games/hitori/Makefile 316464 2013-04-24 18:10:30Z ak $
 
 PORTNAME=	hitori
-PORTVERSION=	0.4.0
+PORTVERSION=	0.4.1
 CATEGORIES=	games
 MASTER_SITES=	GNOME
 DIST_SUBDIR=	gnome2
@@ -21,25 +21,21 @@ BUILD_DEPENDS=	xml2po:${PORTSDIR}/textproc/gnome-doc-utils \
 LIB_DEPENDS=	cairo:${PORTSDIR}/graphics/cairo
 
 USE_XZ=		yes
-GNU_CONFIGURE=	yes
-USE_GMAKE=	yes
+USES=		gmake desktop-file-utils
 USE_GNOME=	glib20 gtk30
+GNU_CONFIGURE=	yes
 MAKE_JOBS_SAFE=	yes
 INSTALLS_ICONS=	yes
 
 PORTDOCS=	AUTHORS ChangeLog MAINTAINERS NEWS README
 
-OPTIONS_DEFINE=	NLS
+OPTIONS_DEFINE=	DOCS NLS
+OPTIONS_SUB=	yes
+
+NLS_CONFIGURE_ENABLE=	nls
+NLS_USES=	gettext
 
 .include <bsd.port.options.mk>
-
-.if ${PORT_OPTIONS:MNLS}
-USES+=		gettext
-PLIST_SUB+=	NLS=""
-.else
-CONFIGURE_ARGS+=	--disable-nls
-PLIST_SUB+=	NLS="@comment "
-.endif
 
 post-patch:
 .if ${PORT_OPTIONS:MNLS}
