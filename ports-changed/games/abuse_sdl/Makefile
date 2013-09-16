@@ -8,7 +8,7 @@ MASTER_SITES=	GENTOO/distfiles \
 		http://abuse.zoy.org/raw-attachment/wiki/download/
 DISTNAME=	abuse-${DISTVERSION}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	SDL port of the Abuse game engine
 
 LICENSE=	GPLv2

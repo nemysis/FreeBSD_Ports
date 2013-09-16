@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	vacuum-magic
@@ -7,7 +7,7 @@ CATEGORIES=	games
 MASTER_SITES=	SF/nemysisfreebsdp/
 DISTNAME=	vacuum-${PORTVERSION}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Fast-paced action game
 
 LICENSE=	GPLv2

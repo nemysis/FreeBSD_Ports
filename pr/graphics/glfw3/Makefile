@@ -1,13 +1,13 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	glfw
-PORTVERSION=	3.0.1
+PORTVERSION=	3.0.2
 CATEGORIES=	graphics
 MASTER_SITES=	SF
 PKGNAMESUFFIX=	3
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Portable framework for OpenGL development
 
 LICENSE=	ZLIB

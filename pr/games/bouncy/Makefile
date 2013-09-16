@@ -1,4 +1,4 @@
-# Created by:	nemysis@gmx.ch
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	bouncy
@@ -10,7 +10,7 @@ DISTFILES=	${PORTNAME}-post-${DISTVERSION}.tgz \
 DIST_SUBDIR=	python
 EXTRACT_ONLY=	${PORTNAME}-post-${DISTVERSION}.tgz
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	You are a hungry rabbit. Eat food to complete the level
 
 LICENSE=	GPLv2

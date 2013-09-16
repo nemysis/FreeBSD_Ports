@@ -11,7 +11,7 @@ DISTFILES=	${PORTNAME}-source${EXTRACT_SUFX} \
 		${PORTNAME}.png:icons
 EXTRACT_ONLY=	${PORTNAME}-source${EXTRACT_SUFX}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Side scrolling arcade game
 
 LICENSE=	LGPL20

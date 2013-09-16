@@ -7,7 +7,7 @@ PORTREVISION=	2
 CATEGORIES=	games
 MASTER_SITES=	SF/radius-engine/egp/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Maze on the Isle of Crete
 
 LICENSE=	GPLv2 CCbyNCSA3

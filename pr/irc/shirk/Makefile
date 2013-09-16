@@ -1,4 +1,4 @@
-# Created by:	nemysis@gmx.ch
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	shirk
@@ -7,7 +7,7 @@ CATEGORIES=	irc
 MASTER_SITES=	GITHUB
 DIST_SUBDIR=	python
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Modular IRC bot based on the Twisted framework
 
 LICENSE=	MIT

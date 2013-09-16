@@ -12,7 +12,7 @@ DISTFILES=	${PORTNAME}-${DISTVERSION}.tgz \
 		${PORTNAME}.png:icons
 EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}.tgz
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Game similar to Jezzball or Barrack
 
 LICENSE=	GPLv2

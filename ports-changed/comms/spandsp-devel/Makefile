@@ -8,7 +8,7 @@ MASTER_SITES=	http://www.soft-switch.org/downloads/spandsp/
 PKGNAMESUFFIX=	-devel
 EXTRACT_SUFX=	.tgz
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	DSP library and software FAX machine
 
 LICENSE=	LGPL21

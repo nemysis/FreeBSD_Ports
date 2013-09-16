@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	sdl_gfx
@@ -10,7 +10,7 @@ MASTER_SITES=	https://archives.fedoraproject.org/pub/archive/fedora/linux/releas
 PKGNAMEPREFIX=	linux-f10-
 DISTNAME=	${LINUX_NAME}-${PORTVERSION}-${RPMVERSION}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	SDL graphics drawing primitives (Linux Fedora 10)
 
 ONLY_FOR_ARCHS=	i386 amd64

@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	jetspeed2
@@ -8,7 +8,7 @@ MASTER_SITES=	APACHE/portals/jetspeed-2/sources
 DISTNAME=	${PORTNAME:S/2/-2/}-${PORTVERSION}-source-release
 DIST_SUBDIR=	java
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Open Source Portal, written in Java and XML
 
 LICENSE=	AL2 BSD MIT CCbyNCSA25

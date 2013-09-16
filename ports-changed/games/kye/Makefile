@@ -16,7 +16,7 @@ DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
 		kye-data_extra_levels.20120818.tar.gz:nemysis
 DIST_SUBDIR=	kye
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Puzzle game with arcade game elements
 
 LICENSE=	GPLv2

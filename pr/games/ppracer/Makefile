@@ -7,7 +7,7 @@ PORTREVISION=	8
 CATEGORIES=	games
 MASTER_SITES=	SF/${PORTNAME}.berlios/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	3D downhill racing game... kind of like TuxRacer Improved
 
 LICENSE=	GPLv2

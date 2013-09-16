@@ -7,7 +7,7 @@ PORTREVISION=	2
 CATEGORIES=	misc
 MASTER_SITES=	SF
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Show a scrolling 'Matrix' like screen
 
 LICENSE=	GPLv2

@@ -12,14 +12,14 @@ DISTFILES=	${PORTNAME}_${DISTVERSION}${EXTRACT_SUFX} \
 DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${PORTNAME}_${DISTVERSION}${EXTRACT_SUFX}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Classic single screen vertical shoot em up
 
 LICENSE=	GPLv2
 
 WRKSRC=		${WRKDIR}/${PORTNAME}-${PORTVERSION}
 
-USE_GMAKE=	yes
+USES=		gmake
 ALL_TARGET=	${PORTNAME}
 USE_XORG=	x11 xpm
 MAN6=		xgalaga++.6
@@ -30,6 +30,8 @@ PLIST_FILES=	bin/${PORTNAME} \
 		share/pixmaps/${PORTNAME}.png
 
 PORTDOCS=	README
+
+OPTIONS_DEFINE=	DOCS
 
 DESKTOP_ENTRIES="XGalaga++" "${COMMENT}" "${PORTNAME}" \
 		"${PORTNAME}" "Game;ArcadeGame;" false

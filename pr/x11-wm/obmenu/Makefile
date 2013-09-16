@@ -1,3 +1,4 @@
+# Created by: Doug Barton <dougb@FreeBSD.org>
 # $FreeBSD: head/x11-wm/obmenu/Makefile 305526 2012-10-08 10:38:47Z dougb $
 
 PORTNAME=	obmenu
@@ -6,7 +7,7 @@ PORTREVISION=	6
 CATEGORIES=	x11-wm
 MASTER_SITES=	SF
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Menu manager for Openbox supporting both static and pipe menus
 
 LICENSE=	GPLv2

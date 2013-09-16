@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	airstrike
@@ -8,7 +8,7 @@ MASTER_SITES=	http://offload1.icculus.org:9090/airstrike/ \
 		http://offload2.icculus.org:9090/airstrike/
 DISTNAME=	${PORTNAME}-pre6a-src_freebsd_and_v${DISTVERSION}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	2d biplane dogfight game
 
 LICENSE=	GPLv2
@@ -19,7 +19,6 @@ USE_SDL=	image mixer sdl
 USES=		desktop-file-utils
 USE_GMAKE=	yes
 ALL_TARGET=
-MAKE_JOBS_SAFE=	yes
 INSTALLS_ICONS=	yes
 
 MAN6=		${PORTNAME}.6

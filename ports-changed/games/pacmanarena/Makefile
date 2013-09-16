@@ -13,7 +13,7 @@ DISTFILES=	${DISTNAME:S/na/n-a/}.tar.bz2 \
 		${PORTNAME}_icons.tar.bz2:icons
 DIST_SUBDIR=	${PORTNAME}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Pacman clone in full 3D with a few surprises
 
 LICENSE=	GPLv2

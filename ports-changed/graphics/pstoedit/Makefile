@@ -6,7 +6,7 @@ PORTVERSION=	3.62
 CATEGORIES=	graphics print
 MASTER_SITES=	SF
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Convert PostScript to other vector graphic formats
 
 LICENSE=	GPLv2

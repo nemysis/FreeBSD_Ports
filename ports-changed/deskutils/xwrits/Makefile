@@ -6,7 +6,7 @@ PORTVERSION=	2.26
 CATEGORIES=	deskutils
 MASTER_SITES=	http://www.lcdf.org/${PORTNAME}/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Reminds you to take wrist breaks
 
 LICENSE=	GPLv2

@@ -11,7 +11,7 @@ DISTFILES=	TuxFighter${DISTVERSION}${EXTRACT_SUFX} \
 		${PORTNAME}_icons${EXTRACT_SUFX}:icons
 DIST_SUBDIR=	python
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Little Asteroids-like Shooter game
 
 LICENSE=	GPLv2

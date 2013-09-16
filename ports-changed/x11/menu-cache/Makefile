@@ -6,7 +6,7 @@ PORTVERSION=	0.5.0
 CATEGORIES=	x11
 MASTER_SITES=	SF/lxde/menu-cache/menu-cache%20${PORTVERSION:S/.0/.x/}/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	The menu-cache portion of LXDE
 
 USES=		pkgconfig

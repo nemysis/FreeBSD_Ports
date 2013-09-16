@@ -9,7 +9,7 @@ MASTER_SITES=	${MASTER_SITE_GENTOO:S/%SUBDIR%/distfiles/} \
 		SF/nemysisfreebsdp/
 DIST_SUBDIR=	python
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Home to vector gaming, Python style
 
 LICENSE=	GPLv2

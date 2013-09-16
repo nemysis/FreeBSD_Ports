@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	fpm2
@@ -6,7 +6,7 @@ PORTVERSION=	0.79
 CATEGORIES=	security
 MASTER_SITES=	http://als.regnet.cz/fpm2/download/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Program that allows you to securely store the passwords
 
 LICENSE=	GPLv2

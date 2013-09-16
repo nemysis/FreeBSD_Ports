@@ -6,7 +6,7 @@ PORTVERSION=	0.2.33
 CATEGORIES=	misc python gnome
 MASTER_SITES=	http://www.unihedron.com/projects/gonvert/downloads/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Conversion utility that allows conversion between many units
 
 LICENSE=	GPLv2

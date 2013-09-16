@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	arkanoidsb
@@ -6,7 +6,7 @@ PORTVERSION=	1.3.2.10
 CATEGORIES=	games
 MASTER_SITES=	http://www.wegroup.org/downloads/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Arkanoid and space game
 
 WRKSRC=		${WRKDIR}/${PORTNAME}

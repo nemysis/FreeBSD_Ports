@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	cargocarrier
@@ -8,7 +8,7 @@ MASTER_SITES=	http://www.bglz.net/files/python/projects/
 DISTNAME=	${PORTNAME:S/c/C/g}
 DIST_SUBDIR=	python
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Collect cargo crates and warp to more difficult zones
 
 RUN_DEPENDS=	${PYGAME}

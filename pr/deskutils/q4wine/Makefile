@@ -7,7 +7,7 @@ CATEGORIES=	deskutils emulators
 MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}%20$${PORTVERSION:S/.r/-r/}/
 DISTNAME=	${PORTNAME}-${PORTVERSION:S/.r/-r/}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	QT4 front-end for WINE
 
 LICENSE=	GPLv3

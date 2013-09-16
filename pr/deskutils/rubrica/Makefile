@@ -7,7 +7,7 @@ CATEGORIES=	deskutils gnome
 MASTER_SITES=	BERLIOS
 DISTNAME=	${PORTNAME}2-${PORTVERSION}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Addressbook for the GNOME 2 desktop
 
 LICENSE=	GPLv3

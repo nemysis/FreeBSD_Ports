@@ -11,7 +11,7 @@ DISTFILES=	${PORTNAME}_${DISTVERSION}_src${EXTRACT_SUFX} \
 		${PORTNAME}.png:icons
 EXTRACT_ONLY=	${PORTNAME}_${DISTVERSION}_src${EXTRACT_SUFX}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Platform game as Super Mario Bros
 
 WRKSRC=		${WRKDIR}/${PORTNAME}

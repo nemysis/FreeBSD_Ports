@@ -6,7 +6,7 @@ PORTVERSION=	2.7.9
 CATEGORIES=	graphics
 MASTER_SITES=	SF
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Portable framework for OpenGL development
 
 LICENSE=	ZLIB

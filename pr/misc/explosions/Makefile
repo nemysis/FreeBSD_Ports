@@ -13,7 +13,7 @@ DISTFILES=	${PORTNAME}-${DISTVERSION:S/^0.//}${EXTRACT_SUFX} \
 DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION:S/^0.//}${EXTRACT_SUFX}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	3D objects flying around resembling explosions with various effects
 
 LICENSE=	GPLv2

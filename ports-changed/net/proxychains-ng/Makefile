@@ -7,7 +7,7 @@ CATEGORIES=	net security
 MASTER_SITES=	SF/${PORTNAME}
 DISTNAME=	${PORTNAME:S/-ng//}-${PORTVERSION}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Redirect connection through proxy servers
 
 LICENSE=	GPLv2

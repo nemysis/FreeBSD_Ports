@@ -6,7 +6,7 @@ PORTVERSION=	1.07
 CATEGORIES=	x11
 MASTER_SITES=	http://hoopajoo.net/static/projects/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Control X from the command line for scripts
 
 LICENSE=	GPLv2

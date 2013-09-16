@@ -8,7 +8,7 @@ CATEGORIES=	games ruby
 MASTER_SITES=	RUBYFORGE
 DISTNAME=	${PORTNAME}-${DISTVERSION:S/./_/g}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Simple and low-tech monster-bashing maze game
 
 LICENSE=	GPLv2

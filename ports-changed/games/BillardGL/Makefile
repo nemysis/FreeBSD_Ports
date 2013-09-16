@@ -12,7 +12,7 @@ DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}:game \
 		${PORTNAME}_icons.tar.gz:icons
 DIST_SUBDIR=	${PORTNAME:L}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	OpenGL pool billiard simulation
 
 LICENSE=	GPLv2

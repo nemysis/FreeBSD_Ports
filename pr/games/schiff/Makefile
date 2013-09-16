@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	schiff
@@ -11,7 +11,7 @@ DISTFILES=	${PORTNAME}${DISTVERSION}.py \
 DIST_SUBDIR=	python
 EXTRACT_ONLY=	${PORTNAME}_icons.tar.gz
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Steer your ship(s) with the keyboard
 
 LICENSE=	GPLv3

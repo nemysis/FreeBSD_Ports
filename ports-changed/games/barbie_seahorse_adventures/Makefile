@@ -11,7 +11,7 @@ DISTFILES=	barbie-${DISTVERSION}${EXTRACT_SUFX} \
 		${PORTNAME}_icons.tar.gz:icons
 DIST_SUBDIR=	python
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	You are a seahorse and you want to go to the moon!
 
 LICENSE=	GPLv2

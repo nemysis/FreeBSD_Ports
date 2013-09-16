@@ -7,7 +7,7 @@ PORTREVISION=	3
 CATEGORIES=	emulators deskutils python
 MASTER_SITES=	https://github.com/downloads/dswd/Swine/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Qt4 graphical Wine frontend
 
 LICENSE=	GPLv2

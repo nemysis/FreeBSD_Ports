@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	schwarzweiss
@@ -8,7 +8,7 @@ MASTER_SITES=	GH
 DISTNAME=	${PORTNAME}-d${DISTVERSION}f
 DIST_SUBDIR=	python
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Tank game for 2 players
 
 LICENSE=	GPLv3

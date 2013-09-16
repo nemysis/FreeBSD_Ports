@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	entombed
@@ -7,7 +7,7 @@ CATEGORIES=	games
 MASTER_SITES=	ftp://ftp.tuxpaint.org/unix/x/entombed/ \
 		ftp://ftp.billsgames.com/unix/x/entombed/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	One- or two-player maze game based on the Entombed
 
 LICENSE=	GPLv2

@@ -7,7 +7,7 @@ PORTREVISION=	12
 CATEGORIES=	games
 MASTER_SITES=	http://gtkballs.antex.ru/dist/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Lines-like simple logic game for X Window System
 
 LICENSE=	GPLv2

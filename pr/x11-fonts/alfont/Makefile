@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	alfont
@@ -11,7 +11,7 @@ DISTFILES=	AlFont${DISTVERSION}.rar \
 DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	AlFont${DISTVERSION}.rar
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Wrapper around the freetype2 library
 
 LICENSE=	FTL

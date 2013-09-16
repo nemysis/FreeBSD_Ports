@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	popstar
@@ -7,7 +7,7 @@ CATEGORIES=	games
 MASTER_SITES=	ftp://ftp.tuxpaint.org/unix/x/popstar/ \
 		ftp://ftp.billsgames.com/unix/x/popstar/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Simple puzzle game involving floating stars
 
 LICENSE=	GPLv2 CCbyNCSA3

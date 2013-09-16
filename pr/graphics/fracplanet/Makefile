@@ -10,7 +10,7 @@ MASTER_SITES=	SF \
 DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
 		${PORTNAME}_icons.tar.gz:icons
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Interactive tool for creating random fractal planets and terrain
 
 LICENSE=	GPLv2

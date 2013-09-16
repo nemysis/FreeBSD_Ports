@@ -1,7 +1,0 @@
-#!/bin/sh
-#
-# $FreeBSD$
-
-echo "duckmaze: Starting up..."
-cd "%%DATADIR%%"
-./

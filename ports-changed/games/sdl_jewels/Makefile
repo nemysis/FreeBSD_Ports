@@ -12,7 +12,7 @@ DISTFILES=	${PORTNAME:S/sdl/SDL/}-${DISTVERSION}.tgz \
 DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${PORTNAME:S/sdl/SDL/}-${DISTVERSION}.tgz
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Tile-matching 8x8 puzzle game
 
 LICENSE=	GPLv2

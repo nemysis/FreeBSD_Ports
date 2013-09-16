@@ -7,7 +7,7 @@ PORTREVISION=	3
 CATEGORIES=	graphics
 MASTER_SITES=	http://cloud.github.com/downloads/xsisqox/Viewnior/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Fast and simple image viewer
 
 LICENSE=	GPLv3

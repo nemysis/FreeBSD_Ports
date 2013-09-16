@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	wlan2eth
@@ -7,7 +7,7 @@ CATEGORIES=	net-mgmt security
 MASTER_SITES=	http://www.willhackforsushi.com/code/${PORTNAME}/
 EXTRACT_SUFX=	.tgz
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Convert packet captures in 802.11 format to Ethernet format
 
 LICENSE=	GPLv2

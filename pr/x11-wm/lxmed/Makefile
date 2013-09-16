@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	lxmed
@@ -7,7 +7,7 @@ CATEGORIES=	x11-wm java
 MASTER_SITES=	SF/${PORTNAME}/
 DIST_SUBDIR=	java
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	LXDE Main Menu Editor
 
 LICENSE=	GPLv3

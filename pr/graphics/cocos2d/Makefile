@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	cocos2d
@@ -8,7 +8,7 @@ MASTER_SITES=	GOOGLE_CODE
 PROJECTHOST=	los-cocos
 DIST_SUBDIR=	python
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Framework for building 2D games, demos, and other applications
 
 LICENSE=	BSD GPLv2 CCbyNCSA2

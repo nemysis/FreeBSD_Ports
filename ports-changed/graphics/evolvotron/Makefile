@@ -10,7 +10,7 @@ MASTER_SITES=	SF \
 DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
 		${PORTNAME}_icons${EXTRACT_SUFX}:icons
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Generative software that evolves images/textures/patterns
 
 LICENSE=	GPLv2

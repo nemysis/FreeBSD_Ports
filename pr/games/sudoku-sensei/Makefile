@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	sudoku-sensei
@@ -11,7 +11,7 @@ DISTFILES=	${PORTNAME}-src-${DISTVERSION:S/./-/}${EXTRACT_SUFX} \
 DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${PORTNAME}-src-${DISTVERSION:S/./-/}${EXTRACT_SUFX}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Enjoy playing with Sudoku boards designed by yourself
 
 LICENSE=	GPLv2

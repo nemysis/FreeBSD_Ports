@@ -9,7 +9,7 @@ MASTER_SITES=	SF/${PORTNAME}/${PORTNAME:S/r/R/}%21%20Max/${PORTVERSION}/
 DISTNAME=	${PORTNAME:S/r/R/}_${PORTVERSION}
 DIST_SUBDIR=	java
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Action adventure in space
 
 LICENSE=	GPLv2

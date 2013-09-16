@@ -6,7 +6,7 @@ PORTVERSION=	0.3.2
 CATEGORIES=	sysutils
 MASTER_SITES=	SF/lxde/LXInput%20%28Kbd%20and%20amp_%20mouse%20config%29/LXInput%200.3.2/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Keyboard and mouse config tool from the LXDE project
 
 USES=		iconv desktop-file-utils

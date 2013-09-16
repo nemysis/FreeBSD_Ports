@@ -11,7 +11,7 @@ MASTER_SITES=	http://download.tuxfamily.org/${PORTNAME}/downloads/v0.4/ \
 DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
 		${PORTNAME}_icons${EXTRACT_SUFX}:icons
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Game like Monopoly(tm)
 
 LICENSE=	GPLv2

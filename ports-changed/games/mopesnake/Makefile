@@ -8,7 +8,7 @@ CATEGORIES=	games python
 MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTVERSION}
 DISTNAME=	${PORTNAME}-pc-${DISTVERSION}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Classic snake game in which you attempt to eat all the pain
 
 LICENSE=	GPLv2

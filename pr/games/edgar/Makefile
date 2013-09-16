@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	edgar
@@ -7,7 +7,7 @@ CATEGORIES=	games
 MASTER_SITES=	SF/legendof${PORTNAME}/${PORTVERSION:R}/
 DISTNAME=	${PORTNAME}-${DISTVERSION:S/.1/-1/}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	2D platform game with a persistent world
 
 LICENSE=	GPLv2
@@ -28,7 +28,7 @@ OPTIONS_DEFINE=	NLS
 .include <bsd.port.options.mk>
 
 .if ${PORT_OPTIONS:MNLS}
-USES+=		gettext
+USE_GETTEXT=	yes
 PLIST_SUB+=	NLS=""
 .else
 PLIST_SUB+=	NLS="@comment "

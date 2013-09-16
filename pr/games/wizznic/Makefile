@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	wizznic
@@ -7,7 +7,7 @@ DISTVERSIONSUFFIX=-src
 CATEGORIES=	games
 MASTER_SITES=	SF/${PORTNAME}/Source%20Releases/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Implementation of the arcade classic Puzznic
 
 LICENSE=	GPLv2

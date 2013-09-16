@@ -6,7 +6,7 @@ PORTVERSION=	0.999
 CATEGORIES=	graphics
 MASTER_SITES=	http://www.xsane.org/download/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Gtk-based X11 frontend for SANE (Scanner Access Now Easy)
 
 LICENSE=	GPLv2

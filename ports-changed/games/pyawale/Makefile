@@ -7,7 +7,7 @@ PORTREVISION=	4
 CATEGORIES=	games python
 MASTER_SITES=	http://download.gna.org/pyawale/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	African board game
 
 LICENSE=	GPLv2

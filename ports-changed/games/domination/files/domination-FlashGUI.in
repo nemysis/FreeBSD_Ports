@@ -1,9 +1,0 @@
-#!/bin/sh
-#
-# $FreeBSD: head/games/domination/files/domination-FlashGUI.in 305276 2012-10-04 19:40:39Z pawel $
-#
-
-export JAVA_VERSION="%%JAVA_VERSION%%"
-
-cd "%%DATADIR%%" && exec "%%LOCALBASE%%/bin/java" -Djava.ext.dirs="%%DATADIR%%" \
--Djava.ext.dirs="%%DATADIR%%" -cp Domination.jar net.yura.domination.ui.flashgui.MainMenu "${@}"

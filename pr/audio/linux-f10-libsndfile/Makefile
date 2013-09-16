@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	libsndfile
@@ -9,7 +9,7 @@ MASTER_SITES=	https://archives.fedoraproject.org/pub/archive/fedora/linux/update
 PKGNAMEPREFIX=	linux-f10-
 DISTNAME=	${PORTNAME}-${PORTVERSION}-${RPMVERSION}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Reading and writing files containing sampled sound (Linux Fedora 10)
 
 ONLY_FOR_ARCHS=	i386 amd64

@@ -6,7 +6,7 @@ PORTVERSION=	1.18.2
 CATEGORIES=	deskutils
 MASTER_SITES=	http://www.lesbonscomptes.com/${PORTNAME}/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Personal full text search package, based on Xapian
 
 LICENSE=	GPLv2

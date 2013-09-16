@@ -6,7 +6,7 @@ PORTVERSION=	0.7.1
 CATEGORIES=	multimedia
 MASTER_SITES=	SF
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Makes a DVD file structure from one or more MPEG2 streams
 
 LICENSE=	GPLv2

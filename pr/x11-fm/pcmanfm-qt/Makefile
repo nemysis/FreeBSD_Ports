@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	pcmanfm-qt
@@ -7,7 +7,7 @@ CATEGORIES=	x11-fm
 MASTER_SITES=	SF/pcmanfm/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/PCManFM-Qt%20%28Qt%20port%20of%20PCManFM%20%2B%20libfm%29/
 DISTNAME=	${PORTNAME}-${PORTVERSION}-Source
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	PCManFM Qt File Manager
 
 LICENSE=	GPLv2

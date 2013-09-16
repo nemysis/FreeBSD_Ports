@@ -7,7 +7,7 @@ PORTREVISION=	3
 CATEGORIES=	games
 MASTER_SITES=	SF/avsn/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Simple collect-dots-avoid-blocks game
 
 LICENSE=	GPLv2 CCbyNCSA3
@@ -27,7 +27,6 @@ USE_SDL=	sdl sound
 USE_GL=		glu
 GNU_CONFIGURE=	yes
 ALL_TARGET=	${PORTNAME}
-MAKE_JOBS_SAFE=	yes
 
 PLIST_FILES=	bin/${PORTNAME} \
 		share/applications/${PORTNAME}.desktop \

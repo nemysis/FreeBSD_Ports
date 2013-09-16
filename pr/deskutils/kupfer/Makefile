@@ -1,11 +1,11 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	kupfer
 PORTVERSION=	208
 CATEGORIES=	deskutils
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Convenient command and access tool
 
 LICENSE=	GPLv3
@@ -22,7 +22,7 @@ RUN_DEPENDS=	keybinder>=0:${PORTSDIR}/x11/keybinder \
 USE_GITHUB=	yes
 GH_ACCOUNT=	engla
 GH_PROJECT=	kupfer
-GH_TAGNAME=	master
+GH_TAGNAME=	${GH_COMMIT}
 GH_COMMIT=	04bbd63
 
 USES=		desktop-file-utils shared-mime-info

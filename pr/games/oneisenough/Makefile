@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	oneisenough
@@ -11,7 +11,7 @@ DISTFILES=	${PORTNAME}_a${DISTVERSION:S/.//g}_src${EXTRACT_SUFX} \
 DIST_SUBDIR=	python
 EXTRACT_ONLY=	${PORTNAME}_a${DISTVERSION:S/.//g}_src${EXTRACT_SUFX}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Economic development in the land of the balls
 
 LICENSE=	GPLv2

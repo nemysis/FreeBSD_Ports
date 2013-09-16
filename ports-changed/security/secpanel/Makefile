@@ -13,7 +13,7 @@ DISTFILES=	${PORTNAME}-${PORTVERSION}.tgz \
 DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${PORTNAME}-${PORTVERSION}.tgz
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	GUI for managing and running ssh and related utilities
 
 LICENSE=	GPLv2

@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	sdl_ttf
@@ -10,7 +10,7 @@ MASTER_SITES=	https://archives.fedoraproject.org/pub/archive/fedora/linux/releas
 PKGNAMEPREFIX=	linux-f10-
 DISTNAME=	${LINUX_NAME}-${PORTVERSION}-${RPMVERSION}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Library to use TrueType fonts in SDL applications (Linux Fedora 10)
 
 CONFLICTS=	linux-sdl_ttf-[0-9]*

@@ -8,7 +8,7 @@ CATEGORIES=	games
 MASTER_SITES=	http://gottcode.org/${PORTNAME}/
 DISTNAME=	${PORTNAME}-${DISTVERSION}-src
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Simple, top-down game in which mazes are randomly generated
 
 LICENSE=	GPLv3

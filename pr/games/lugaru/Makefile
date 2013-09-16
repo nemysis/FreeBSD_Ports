@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	lugaru
@@ -7,7 +7,7 @@ CATEGORIES=	games
 MASTER_SITES=	GOOGLE_CODE
 DISTNAME=	${PORTNAME}-rev${DISTVERSION}-src
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	3D arcade with unique fighting system and anthropomorphic characters
 
 LICENSE=	GPLv2

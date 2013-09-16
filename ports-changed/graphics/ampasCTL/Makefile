@@ -9,7 +9,7 @@ MASTER_SITES=	SF/nemysisfreebsdp/
 #MASTER_SITES=	GH
 DISTNAME=	ctl-${DISTVERSION}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Color Transformation Language interpreter
 
 LICENSE=	BSD

@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	ampasCTL2
@@ -7,7 +7,7 @@ CATEGORIES=	graphics devel
 MASTER_SITES=	GH
 DISTNAME=	ctl-${DISTVERSION}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Color Transformation Language interpreter
 
 LICENSE=	BSD

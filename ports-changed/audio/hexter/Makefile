@@ -6,7 +6,7 @@ PORTVERSION=	1.0.2
 CATEGORIES=	audio
 MASTER_SITES=	SF/dssi/${PORTNAME}/${PORTVERSION}/
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	DSSI softsynth that models the sound generation of a Yamaha DX7
 
 LICENSE=	GPLv2

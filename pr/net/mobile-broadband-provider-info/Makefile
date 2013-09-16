@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	mobile-broadband-provider-info
@@ -8,7 +8,7 @@ MASTER_SITES=	DEBIAN \
 		http://archive.ubuntu.com/ubuntu/pool/main/m/${PORTNAME}/
 DISTNAME=	${PORTNAME}_${DISTVERSION}.orig
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Mobile broadband settings for different service provider
 
 BUILD_DEPENDS=	gawk:${PORTSDIR}/lang/gawk

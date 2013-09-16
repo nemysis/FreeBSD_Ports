@@ -8,7 +8,7 @@ MASTER_SITES=	ftp://ftp.figlet.org/pub/figlet/fonts/
 DISTFILES=	contributed.tar.gz international.tar.gz
 DIST_SUBDIR=	figlet
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Assorted fonts for the figlet(6) program
 
 RUN_DEPENDS=	figlet:${PORTSDIR}/misc/figlet

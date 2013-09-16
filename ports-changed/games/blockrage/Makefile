@@ -10,7 +10,7 @@ MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTVERSION} \
 DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
 		${PORTNAME}_icons${EXTRACT_SUFX}:icons
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Falling blocks game with 2-player hotseat mode
 
 LICENSE=	GPLv2
@@ -40,7 +40,7 @@ post-patch:
 		${WRKSRC}/configure
 
 do-install:
-	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin
+	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${PREFIX}/bin/
 	@${MKDIR} ${DATADIR}
 	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${DATADIR}
 
@@ -50,12 +50,12 @@ do-install:
 
 post-install:
 .for s in ${ICON_SIZES}
-	${MKDIR} ${PREFIX}/share/icons/hicolor/${s}/apps
+	@${MKDIR} ${PREFIX}/share/icons/hicolor/${s}/apps/
 	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}_${s}.png \
 		${PREFIX}/share/icons/hicolor/${s}/apps/${PORTNAME}.png
 .endfor
-	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps
-	${INSTALL_MAN} ${WRKSRC}/${MAN6} ${MAN6PREFIX}/man/man6
+	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${PREFIX}/share/pixmaps/
+	${INSTALL_MAN} ${WRKSRC}/${MAN6} ${MAN6PREFIX}/man/man6/
 
 .if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${DOCSDIR}

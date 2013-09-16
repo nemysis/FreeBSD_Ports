@@ -1,5 +1,5 @@
 --- Makefile.orig	2013-03-02 22:22:20.000000000 +0100
-+++ Makefile	2013-04-04 01:59:35.000000000 +0200
++++ Makefile	2013-09-12 19:35:27.000000000 +0200
 @@ -11,10 +11,10 @@
  MINOR=30
  RELEASE=$(MAJOR).$(MINOR)
@@ -45,3 +45,12 @@
  d/grammar.g d/sample.g d/my.g 
  
  LIB_SRCS = arg.c parse.c scan.c symtab.c util.c read_binary.c dparse_tree.c
+@@ -141,7 +141,7 @@
+ 
+ ALL_SRCS = $(MAKE_PARSER_SRCS) $(BASE_SAMPLE_PARSER_SRCS) $(LIB_SRCS) $(MK_LIB_SRCS)
+ 
+-all: $(EXECS) $(LIBRARIES) D_BUILD_VERSION make_dparser.cat
++all: $(EXECS) $(LIBRARIES) make_dparser.cat
+ 
+ version:
+ 	echo $(OS_TYPE) $(OS_VERSION)

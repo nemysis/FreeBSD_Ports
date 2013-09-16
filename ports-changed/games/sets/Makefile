@@ -11,7 +11,7 @@ DISTFILES=	${PORTNAME}-${DISTVERSION}.tgz \
 		${PORTNAME}.png:icons
 EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}.tgz
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Implementation of the sets game
 
 LICENSE=	GPLv3

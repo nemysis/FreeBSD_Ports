@@ -1,4 +1,4 @@
-# Created by: nemysis <nemysis@gmx.ch>
+# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
 # $FreeBSD$
 
 PORTNAME=	docbook2odf
@@ -7,7 +7,7 @@ CATEGORIES=	textproc perl5
 MASTER_SITES=	http://open.comsultia.com/docbook2odf/dwn/
 PKGNAMEPREFIX=	p5-
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Convert docbook document to Oasis Open Document
 
 LICENSE=	GPLv2

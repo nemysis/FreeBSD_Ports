@@ -8,7 +8,7 @@ CATEGORIES=	x11
 MASTER_SITES=	SF
 EXTRACT_SUFX=	.tbz2
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Lightweight, NETWM compliant X11 desktop panel
 
 LICENSE=	MIT

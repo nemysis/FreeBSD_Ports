@@ -11,7 +11,7 @@ DISTFILES=	${PORTNAME}-${DISTVERSION}-setup.jar \
 DIST_SUBDIR=	java
 EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}-setup.jar
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Game for learning Java[tm] programming language
 
 LICENSE=	EPL

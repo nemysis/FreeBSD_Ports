@@ -10,7 +10,7 @@ DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
 DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Cross-platform library for games and multimedia programming
 
 LICENSE=	ZLIB BSD
@@ -29,7 +29,6 @@ USE_OPENAL=	soft
 USE_GL=		gl glu
 USE_FREETYPE=	yes
 USE_LDCONFIG=	yes
-MAKE_JOBS_SAFE=	yes
 
 PLIST_SUB+=	SHLIB_VER="${SHLIB_VER}"
 PLIST_SUB+=	SHLIB_VER1="${SHLIB_VER1}"
@@ -48,8 +47,6 @@ OPTIONS_GROUP_EXAMPLES_DEMOS=	EXAMPLES DEMOS
 OPTIONS_DEFAULT=	DEMOS ALSA
 DEMOS_DESC=	Install Demos programs, requires EXAMPLES
 
-OPTIONS_SUB=	yes
-
 PORTDOCS=	*
 PORTEXAMPLES=	*
 
@@ -62,19 +59,18 @@ DOC_FILES1=	README.txt
 DOCSRCDIR2=	${WRKSRC}/docs
 DOCSDIR2=	${DOCSDIR}/docs
 
+OPTIONS_SUB=	yes
+
+DOCS_BUILD_DEPENDS=	${LOCALBASE}/bin/pandoc:${PORTSDIR}/textproc/hs-pandoc
+ALSA_LIB_DEPENDS=	asound:${PORTSDIR}/audio/alsa-lib
+ALSA_CMAKE_ON=		-DWANT_ALSA=on
+ALSA_CMAKE_OFF=		-DWANT_ALSA=off
+PULSEAUDIO_LIB_DEPENDS=	pulse:${PORTSDIR}/audio/pulseaudio
+PULSEAUDIO_CMAKE_ON=	-DWANT_PULSEAUDIO=on
+PULSEAUDIO_CMAKE_OFF=	-DWANT_PULSEAUDIO=off
+
 .include <bsd.port.options.mk>
 .include "Makefile.man"
-
-.if ${PORT_OPTIONS:MDOCS}
-BUILD_DEPENDS+=	${LOCALBASE}/bin/pandoc:${PORTSDIR}/textproc/hs-pandoc
-.endif
-
-.if ${PORT_OPTIONS:MALSA}
-LIB_DEPENDS+=	asound:${PORTSDIR}/audio/alsa-lib
-CMAKE_ARGS+=-DWANT_ALSA=on
-.else
-CMAKE_ARGS+=-DWANT_ALSA=off
-.endif
 
 .if ${PORT_OPTIONS:MDEMOS} && ${PORT_OPTIONS:MEXAMPLES}
 CMAKE_ARGS+=-DWANT_DEMO=on
@@ -89,13 +85,6 @@ DESKTOP_ENTRIES+="SPEED" "Simultaneous Projections Employing an Ensemble of Disp
 		"speed" "Game;ArcadeGame;" false
 .else
 CMAKE_ARGS+=-DWANT_DEMO=off
-.endif
-
-.if ${PORT_OPTIONS:MPULSEAUDIO}
-LIB_DEPENDS+=	pulse:${PORTSDIR}/audio/pulseaudio
-CMAKE_ARGS+=-DWANT_PULSEAUDIO=on
-.else
-CMAKE_ARGS+=-DWANT_PULSEAUDIO=off
 .endif
 
 post-patch:

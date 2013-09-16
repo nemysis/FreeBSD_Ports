@@ -8,7 +8,7 @@ CATEGORIES=	games python
 MASTER_SITES=	SF/forcedattack/4stAttack/${PORTVERSION}
 DISTNAME=	4stAttack-${DISTVERSION}
 
-MAINTAINER=	nemysis@gmx.ch
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Connect four stones in a straight line
 
 LICENSE=	GPLv2
