@@ -1,5 +1,5 @@
 # Created by: Andreas Kohn <andreas@syndrom23.de>
-# $FreeBSD: head/audio/dumb/Makefile 322840 2013-07-12 15:01:45Z amdmi3 $
+# $FreeBSD: head/audio/dumb/Makefile 327706 2013-09-20 14:36:35Z bapt $
 
 PORTNAME=	dumb
 PORTVERSION=	0.9.3
@@ -10,19 +10,20 @@ MASTER_SITES=	SF
 MAINTAINER=	amdmi3@FreeBSD.org
 COMMENT=	IT, XM, S3M, and MOD player library
 
-USES=	gmake
+USES=		gmake
+NO_STAGE=	yes
 
 OPTIONS_RADIO=	ALLEGRO
 OPTIONS_RADIO_ALLEGRO=	ALLEGRO ALLEGRO_DEVEL
 
-OPTIONS_DEFAULT=	ALLEGRO_DEVEL
+OPTIONS_DEFAULT=	ALLEGRO
 
 OPTIONS_SUB=	yes
 
 ALLEGRO_DESC=	Enable allegro support
 ALLEGRO_DEVEL_DESC=	Enable allegro development version
 
-ALLEGRO_LIB_DEPENDS=		alleg:${PORTSDIR}/devel/allegro
+ALLEGRO_LIB_DEPENDS=		liballeg.so:${PORTSDIR}/devel/allegro
 ALLEGRO_DEVEL_LIB_DEPENDS=	liballegro.so:${PORTSDIR}/devel/allegro-devel
 
 .include <bsd.port.options.mk>

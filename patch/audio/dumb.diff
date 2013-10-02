@@ -1,7 +1,8 @@
-diff -ruN /usr/ports/audio/dumb/Makefile ./dumb/Makefile
---- /usr/ports/audio/dumb/Makefile	2013-07-13 22:41:06.000000000 +0200
-+++ ./dumb/Makefile	2013-08-12 01:11:09.000000000 +0200
-@@ -3,43 +3,64 @@
+Index: Makefile
+===================================================================
+--- Makefile	(revision 328620)
++++ Makefile	(working copy)
+@@ -3,7 +3,7 @@
  
  PORTNAME=	dumb
  PORTVERSION=	0.9.3
@@ -10,32 +11,31 @@ diff -ruN /usr/ports/audio/dumb/Makefile ./dumb/Makefile
  CATEGORIES=	audio
  MASTER_SITES=	SF
  
- MAINTAINER=	amdmi3@FreeBSD.org
- COMMENT=	IT, XM, S3M, and MOD player library
+@@ -13,35 +13,55 @@
+ USES=		gmake
+ NO_STAGE=	yes
  
--USE_GMAKE=	yes
-+USES=	gmake
-+
+-OPTIONS_DEFINE=	ALLEGRO
 +OPTIONS_RADIO=	ALLEGRO
 +OPTIONS_RADIO_ALLEGRO=	ALLEGRO ALLEGRO_DEVEL
 +
-+OPTIONS_DEFAULT=	ALLEGRO_DEVEL
++OPTIONS_DEFAULT=	ALLEGRO
 +
 +OPTIONS_SUB=	yes
- 
--OPTIONS_DEFINE=	ALLEGRO
++
  ALLEGRO_DESC=	Enable allegro support
 +ALLEGRO_DEVEL_DESC=	Enable allegro development version
-+
-+ALLEGRO_LIB_DEPENDS=		alleg:${PORTSDIR}/devel/allegro
-+ALLEGRO_DEVEL_LIB_DEPENDS=	liballegro.so:${PORTSDIR}/devel/allegro-devel
  
++ALLEGRO_LIB_DEPENDS=		liballeg.so:${PORTSDIR}/devel/allegro
++ALLEGRO_DEVEL_LIB_DEPENDS=	liballegro.so:${PORTSDIR}/devel/allegro-devel
++
  .include <bsd.port.options.mk>
  
  .if ${PORT_OPTIONS:MALLEGRO}
 -LIB_DEPENDS+=	alleg:${PORTSDIR}/devel/allegro
 -PLIST_SUB+=	ALLEGRO=""
 -MAKE_ARGS=	_PORT_ALLEGRO_CFLAGS="`allegro-config --cflags`"
+-MAKE_ARGS+=	LINK_ALLEGRO="-lm -L${LOCALBASE}/lib -lalleg"
 +SET_ALLEGRO=	yes
  PKGNAMESUFFIX=	-allegro
  CONFLICTS=	dumb-[0-9]*
@@ -80,9 +80,10 @@ diff -ruN /usr/ports/audio/dumb/Makefile ./dumb/Makefile
  .endif
  
  .include <bsd.port.mk>
-diff -ruN /usr/ports/audio/dumb/pkg-plist ./dumb/pkg-plist
---- /usr/ports/audio/dumb/pkg-plist	2013-06-02 19:00:39.000000000 +0200
-+++ ./dumb/pkg-plist	2013-08-11 17:02:23.000000000 +0200
+Index: pkg-plist
+===================================================================
+--- pkg-plist	(revision 328620)
++++ pkg-plist	(working copy)
 @@ -1,7 +1,10 @@
  %%ALLEGRO%%bin/dumbplay
 +%%ALLEGRO_DEVEL%%bin/dumbplay

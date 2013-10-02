@@ -1,7 +1,0 @@
-#!/bin/sh
-#
-# $FreeBSD: head/games/blockrage/files/blockrage.in 314185 2013-03-14 21:08:06Z beech $
-#
-
-cd "%%DATADIR%%"
-exec ./blockrage

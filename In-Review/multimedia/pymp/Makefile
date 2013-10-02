@@ -26,8 +26,6 @@ PORTDOCS=	CHANGELOG README
 DESKTOP_ENTRIES="Pymp" "${COMMENT}" "${PORTNAME}" \
 		"${PORTNAME}" "AudioVideo;Player;" false
 
-.include <bsd.port.options.mk>
-
 post-patch:
 	@${REINPLACE_CMD} -e 's|PREFIX/lib/pymp|${DATADIR}|' \
 		${WRKSRC}/${PORTNAME}
@@ -38,18 +36,17 @@ do-build:
 	@${PYTHON_CMD} -O -m compileall ${WRKSRC}
 
 do-install:
-	${INSTALL_SCRIPT} ${WRKSRC}/${PORTNAME} ${PREFIX}/bin/
+	${INSTALL_SCRIPT} ${WRKSRC}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin/
 
-	@${MKDIR} ${DATADIR}
+	@${MKDIR} ${STAGEDIR}${DATADIR}
 .for d in *.py *.pyc *.pyo
-	${INSTALL_DATA} ${WRKSRC}/${d} ${DATADIR}
+	${INSTALL_DATA} ${WRKSRC}/${d} ${STAGEDIR}${DATADIR}
 .endfor
 
-	${INSTALL_DATA} ${WRKSRC}/${PORTNAME}.png ${PREFIX}/share/pixmaps/
+	${INSTALL_DATA} ${WRKSRC}/${PORTNAME}.png \
+		${STAGEDIR}${PREFIX}/share/pixmaps/
 
-.if ${PORT_OPTIONS:MDOCS}
-	@${MKDIR} ${DOCSDIR}
-	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
-.endif
+	@${MKDIR} ${STAGEDIR}${DOCSDIR}
+	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${STAGEDIR}${DOCSDIR}
 
 .include <bsd.port.mk>
