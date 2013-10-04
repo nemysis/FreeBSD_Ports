@@ -1,0 +1,107 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	py-gtknetcat
+#	py-gtknetcat/Makefile
+#	py-gtknetcat/pkg-descr
+#	py-gtknetcat/distinfo
+#	py-gtknetcat/pkg-plist
+#
+echo c - py-gtknetcat
+mkdir -p py-gtknetcat > /dev/null 2>&1
+echo x - py-gtknetcat/Makefile
+sed 's/^X//' >py-gtknetcat/Makefile << '9858429527964013680e431b0cd7b69c'
+X# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
+X# $FreeBSD$
+X
+XPORTNAME=	gtknetcat
+XPORTVERSION=	0.1
+XCATEGORIES=	net
+XMASTER_SITES=	SF/lxde/GtkNetCat%20%28GUI%20for%20netcat%29/GtkNetCat%20${PORTVERSION}/ \
+X		SF/nemysisfreebsdp/:icons
+XPKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+XDISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
+X		${PORTNAME}.png:icons
+XEXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
+X
+XMAINTAINER=	nemysis@FreeBSD.org
+XCOMMENT=	GTK GUI for netcat
+X
+XLICENSE=	GPLv3
+X
+XUSES=		gmake
+XUSE_GNOME=	gtk20 intlhack
+XUSE_PYTHON=	yes
+XGNU_CONFIGURE=	yes
+X
+XCPPFLAGS+=	-I${LOCALBASE}/include
+XLDFLAGS+=	-L${LOCALBASE}/lib
+X
+XPORTDOCS=	AUTHORS README
+X
+XOPTIONS_DEFINE=	DOCS NLS
+XOPTIONS_SUB=	yes
+X
+XNLS_USES=	gettext
+X
+X.include <bsd.port.options.mk>
+X
+Xpost-patch:
+X	@${REINPLACE_CMD} -e 's|Icon=|Icon=${PORTNAME}|' \
+X		${WRKSRC}/${PORTNAME}.desktop
+X
+X.if ! ${PORT_OPTIONS:MNLS}
+X	@${REINPLACE_CMD} -e 's|src po|src|' \
+X		${WRKSRC}/Makefile.in
+X.endif
+X
+Xpost-install:
+X	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${STAGEDIR}${PREFIX}/share/pixmaps/
+X
+X	@${MKDIR} ${STAGEDIR}${DOCSDIR}
+X	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${STAGEDIR}${DOCSDIR}
+X
+X.include <bsd.port.mk>
+9858429527964013680e431b0cd7b69c
+echo x - py-gtknetcat/pkg-descr
+sed 's/^X//' >py-gtknetcat/pkg-descr << '8e5967828a37dd7355b85abf3aa694b2'
+XGtkNetCat is a Graphic User Interface for netcat. Netcat provides system
+Xfunctions as a computer networking utility for reading from and writing
+Xto network connections on either TCP or UDP.
+X
+XWWW: http://wiki.lxde.org/en/GtkNetCat
+8e5967828a37dd7355b85abf3aa694b2
+echo x - py-gtknetcat/distinfo
+sed 's/^X//' >py-gtknetcat/distinfo << '8a5a4bd521b21e4b740f745ee9126269'
+XSHA256 (gtknetcat-0.1.tar.gz) = 7d59d82410a5e466f9a81425f234591c083ff6495b38430fa683884029542c45
+XSIZE (gtknetcat-0.1.tar.gz) = 107278
+XSHA256 (gtknetcat.png) = d5c17193bfe1f4c0e65e55d93f5b1a9e66da7faeda1799ca1bf3dd1abfd8a5d7
+XSIZE (gtknetcat.png) = 3538
+8a5a4bd521b21e4b740f745ee9126269
+echo x - py-gtknetcat/pkg-plist
+sed 's/^X//' >py-gtknetcat/pkg-plist << '3bd707da345412df65bd6e606233d7b0'
+Xbin/gtknetcat
+X%%PYTHON_SITELIBDIR%%/gtknetcat/__init__.py
+X%%PYTHON_SITELIBDIR%%/gtknetcat/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/gtknetcat/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/gtknetcat/globals.py
+X%%PYTHON_SITELIBDIR%%/gtknetcat/globals.pyc
+X%%PYTHON_SITELIBDIR%%/gtknetcat/globals.pyo
+X%%PYTHON_SITELIBDIR%%/gtknetcat/gtknetcat.py
+X%%PYTHON_SITELIBDIR%%/gtknetcat/gtknetcat.pyc
+X%%PYTHON_SITELIBDIR%%/gtknetcat/gtknetcat.pyo
+Xlibexec/gtknetcat.py
+Xshare/applications/gtknetcat.desktop
+Xshare/gtknetcat/wizard.glade
+X%%NLS%%share/locale/zh_TW/LC_MESSAGES/gtknetcat.mo
+Xshare/pixmaps/gtknetcat.png
+X@dirrm share/gtknetcat
+X@dirrmtry share/applications
+X@dirrm %%PYTHON_SITELIBDIR%%/gtknetcat
+3bd707da345412df65bd6e606233d7b0
+exit
+

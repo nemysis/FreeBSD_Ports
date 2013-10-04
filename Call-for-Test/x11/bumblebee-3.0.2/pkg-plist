@@ -1,0 +1,9 @@
+bin/bumblebee-bugreport
+bin/kldstat-
+bin/optirun
+%%BASH%%etc/bash_completion.d/bumblebee
+etc/bumblebee/bumblebee.conf
+etc/bumblebee/xorg.conf.nouveau
+etc/bumblebee/xorg.conf.nvidia
+sbin/bumblebeed
+@dirrmtry etc/bumblebee

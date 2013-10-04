@@ -1,0 +1,30 @@
+#!/bin/sh
+
+#
+# $FreeBSD$
+#
+# PROVIDE: bumblebeed
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+#
+# Add the following lines to /etc/rc.conf
+# to enable this service:
+#
+# bumblebeed_enable="YES"
+#
+
+. /etc/rc.subr
+
+name="bumblebeed"
+rcvar=bumblebeed_enable
+
+load_rc_config $name
+
+command=%%PREFIX%%/sbin/${name}
+bumblebeed_flags="--daemon"
+
+load_rc_config "$name"
+
+: ${bumblebeed_enable="NO"}
+
+run_rc_command "$1"

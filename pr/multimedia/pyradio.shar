@@ -1,0 +1,188 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	pyradio
+#	pyradio/Makefile
+#	pyradio/pkg-descr
+#	pyradio/distinfo
+#	pyradio/pkg-plist
+#	pyradio/files
+#	pyradio/files/pkg-message.in
+#
+echo c - pyradio
+mkdir -p pyradio > /dev/null 2>&1
+echo x - pyradio/Makefile
+sed 's/^X//' >pyradio/Makefile << '6c36204d8b75511396682dc37a6600c4'
+X# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
+X# $FreeBSD$
+X
+XPORTNAME=	pyradio
+XPORTVERSION=	0.5.1${STATIONS_VER}
+XCATEGORIES=	multimedia python
+XMASTER_SITES=	SF/nemysisfreebsdp/${PORTNAME}:nemysis
+XPKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+XDISTFILES=	${PORTNAME}-${DISTVERSION:S/${STATIONS_VER}//}${EXTRACT_SUFX} \
+X		${PORTNAME}-stations.csv-${STATIONS_VER}:nemysis \
+X		${PORTNAME}.png:nemysis
+XDIST_SUBDIR=	python
+XEXTRACT_ONLY=	${PORTNAME}-${DISTVERSION:S/${STATIONS_VER}//}${EXTRACT_SUFX
+X
+XMAINTAINER=	nemysis@FreeBSD.org
+XCOMMENT=	Curses based internet radio player
+X
+XLICENSE=	MIT
+X
+XRUN_DEPENDS=	xterm:${PORTSDIR}/x11/xterm
+X
+XUSE_GITHUB=	yes
+XGH_ACCOUNT=	coderholic
+XGH_PROJECT=	${PORTNAME}
+XGH_TAGNAME=	${GH_COMMIT}
+XGH_COMMIT=	8092a02
+X
+XSTATIONS_VER=	20130920
+X
+XPLIST_SUB=	PYVER=${PYTHON_VER} VERSION=${PORTVERSION:S/${STATIONS_VER}//}
+X
+XUSE_PYTHON=	2.7-3.2
+XUSE_PYDISTUTILS=	easy_install
+X
+XPORTDOCS=	Changelog README.md
+X
+XDESKTOP_ENTRIES="PyRadio" "${COMMENT}" "${PORTNAME}" \
+X		"xterm -e ${PORTNAME}" "AudioVideo;Player;" "false"
+X
+XOPTIONS_DEFINE=	DOCS
+X
+XOPTIONS_SINGLE=	PLAYER
+XOPTIONS_SINGLE_PLAYER=	MPLAYER VLC
+XOPTIONS_DEFAULT=	MPLAYER
+X
+XVLC_DESC=	Multimedia support for VLC
+X
+XSUB_FILES=	pkg-message
+X
+X.include <bsd.port.options.mk>
+X
+XSUB_LIST+=	PYVER=${PYTHON_VER}
+X
+X.if ${PORT_OPTIONS:MMPLAYER}
+XRUN_DEPENDS+=	mplayer:${PORTSDIR}/multimedia/mplayer
+X.endif
+X
+X.if ${PORT_OPTIONS:MVLC}
+XRUN_DEPENDS+=	vlc:${PORTSDIR}/multimedia/vlc
+X.endif
+X
+Xpost-patch:
+X	@${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}-stations.csv-${STATIONS_VER} ${WRKSRC}/pyradio/stations.csv
+X	@${REINPLACE_CMD} -e 's|import sys|import os, sys|' \
+X		${WRKSRC}/pyradio/main.py
+X	@${REINPLACE_CMD} -e 's|import os|import os, sys|' \
+X		 ${WRKSRC}/pyradio/player.py ${WRKSRC}/pyradio/radio.py
+X	@${FIND} ${WRKSRC} -name "*.bak" -delete
+X
+Xpost-install:
+X	${INSTALL_DATA} ${_DISTDIR}/${PORTNAME}.png ${PREFIX}/share/pixmaps/
+X
+X.if ${PORT_OPTIONS:MDOCS}
+X	@${MKDIR} ${DOCSDIR}
+X	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+X.endif
+X
+X	@${ECHO_CMD}
+X	@${CAT} ${PKGMESSAGE}
+X	@${ECHO_CMD}
+X
+X.include <bsd.port.mk>
+6c36204d8b75511396682dc37a6600c4
+echo x - pyradio/pkg-descr
+sed 's/^X//' >pyradio/pkg-descr << '068b417bdb482ff76e126d90ddcebfd5'
+XPyRadio is a console based Internet radio player. It is implemented in Python,
+Xand uses MPlayer or VLC for media playback.
+X
+XWWW: http://www.coderholic.com/pyradio/
+068b417bdb482ff76e126d90ddcebfd5
+echo x - pyradio/distinfo
+sed 's/^X//' >pyradio/distinfo << 'b9830e1d039d7ba0b3c2904810f0e20a'
+XSHA256 (python/pyradio-0.5.1.tar.gz) = de62ca2cca3e1425709c522b43f3d1466ee37ff4add9cddc7ed31ce31edbe1d8
+XSIZE (python/pyradio-0.5.1.tar.gz) = 7783
+XSHA256 (python/pyradio.png) = 57598e5f062ec5bbf1da7d3fd31d73a4de822bb9179df281d70e3d5f0bead4fd
+XSIZE (python/pyradio.png) = 2364
+b9830e1d039d7ba0b3c2904810f0e20a
+echo x - pyradio/pkg-plist
+sed 's/^X//' >pyradio/pkg-plist << '53e56ae831eb8f09201a84ec557f0537'
+Xbin/pyradio
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO/PKG-INFO
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO/SOURCES.txt
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO/dependency_links.txt
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO/entry_points.txt
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO/not-zip-safe
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO/top_level.txt
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/__init__.py
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/__init__.pyc
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/__init__.pyo
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/log.py
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/log.pyc
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/log.pyo
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/main.py
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/main.pyc
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/main.pyo
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/player.py
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/player.pyc
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/player.pyo
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/radio.py
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/radio.pyc
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/radio.pyo
+X%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/stations.csv
+Xshare/pixmaps/pyradio.png
+X@dirrmtry %%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio
+X@dirrmtry %%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO
+X@dirrmtry %%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg
+53e56ae831eb8f09201a84ec557f0537
+echo c - pyradio/files
+mkdir -p pyradio/files > /dev/null 2>&1
+echo x - pyradio/files/pkg-message.in
+sed 's/^X//' >pyradio/files/pkg-message.in << 'c786eafa7b848071c89a70c34d58692b'
+X===============================================================================
+X
+XPyRadio has been installed.
+X
+XIf you don't have ~/.pyradio/stations.csv, please type as user
+X
+X    su user
+X
+X    mkdir -p ~/.pyradio
+X
+X
+XThe PyRadio config can be copied with
+X
+X    cp -a /usr/ports/multimedia/pyradio/files/stations.csv ~/.pyradio/
+X
+X    chmod 644 ~/.pyradio/stations.csv
+X
+X    exit
+X
+X
+XIf you wish to add more Internet Stations please type as user
+X
+X    pyradio --add
+X
+Xand use for
+X
+X    Enter the name: "Station Name"
+X    Enter the url: "Internet address"
+X
+Xor add manually in ~/.pyradio/stations.csv
+X
+X
+XHave fun!
+X
+X===============================================================================
+c786eafa7b848071c89a70c34d58692b
+exit
+

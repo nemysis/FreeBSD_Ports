@@ -1,0 +1,70 @@
+Index: Makefile
+===================================================================
+--- Makefile	(revision 328932)
++++ Makefile	(working copy)
+@@ -3,7 +3,7 @@
+ 
+ PORTNAME=	sphinx
+ PORTVERSION=	1.1.3
+-PORTREVISION=	1
++PORTREVISION=	2
+ CATEGORIES=	textproc python
+ MASTER_SITES=	CHEESESHOP
+ PKGNAMEPREFIX=	${PYTHON_PKGNAMEPREFIX}
+Index: files/patch-sphinx-writers-manpage.py
+===================================================================
+--- files/patch-sphinx-writers-manpage.py	(revision 0)
++++ files/patch-sphinx-writers-manpage.py	(working copy)
+@@ -0,0 +1,27 @@
++--- sphinx/writers/manpage.py.orig	2011-11-01 08:38:44.000000000 +0100
+++++ sphinx/writers/manpage.py	2013-06-28 13:27:48.000000000 +0200
++@@ -72,6 +72,11 @@
++         # since self.append_header() is never called, need to do this here
++         self.body.append(MACRO_DEF)
++ 
+++        # Overwrite admonition label translations with our own
+++        for label, translation in admonitionlabels.items():
+++            self.language.labels[label] = self.deunicode(translation)
+++
+++
++     # overwritten -- added quotes around all .TH arguments
++     def header(self):
++         tmpl = (".TH \"%(title_upper)s\" \"%(manual_section)s\""
++@@ -193,12 +198,6 @@
++     def depart_seealso(self, node):
++         self.depart_admonition(node)
++ 
++-    # overwritten -- use our own label translations
++-    def visit_admonition(self, node, name=None):
++-        if name:
++-            self.body.append('.IP %s\n' %
++-                             self.deunicode(admonitionlabels.get(name, name)))
++-
++     def visit_productionlist(self, node):
++         self.ensure_eol()
++         names = []
+
+Property changes on: files/patch-sphinx-writers-manpage.py
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++text/plain
+\ No newline at end of property
+Added: fbsd:nokeywords
+## -0,0 +1 ##
++yes
+\ No newline at end of property
+Added: svn:eol-style
+## -0,0 +1 ##
++native
+\ No newline at end of property
+Index: pkg-descr
+===================================================================
+--- pkg-descr	(revision 328932)
++++ pkg-descr	(working copy)
+@@ -2,4 +2,4 @@
+ documentation for Python projects, written by Georg Brandl and licensed
+ under the BSD license.
+ 
+-WWW:	http://sphinx.pocoo.org/
++WWW: http://sphinx-doc.org/

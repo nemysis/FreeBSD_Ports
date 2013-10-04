@@ -1,0 +1,10 @@
+--- bash/startup.orig	2013-03-31 23:12:23.000000000 +0200
++++ bash/startup	2013-04-27 14:03:14.000000000 +0200
+@@ -41,5 +41,6 @@
+ 	POL_Config_Write VDRIVES_LINK_MADE TRUE
+ 	[ -e "$HOME/$APPLICATION_TITLE's virtual drives" ] || ln -s "$POL_USER_ROOT/wineprefix/" "$HOME/$APPLICATION_TITLE's virtual drives"
+ fi
++$PLAYONLINUX/bash/changetmp
+ 
+ ) &
+\ No newline at end of file

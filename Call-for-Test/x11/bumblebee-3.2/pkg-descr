@@ -1,0 +1,7 @@
+Bumblebee daemon is a rewrite of the original Bumblebee service, providing
+an elegant and stable means of managing Optimus hybrid graphics chipsets.
+A primary goal of this project is to not only enable use of the discrete GPU
+for rendering, but also to enable smart power management of the dGPU when it's
+not in use.
+
+WWW: https://github.com/seanbruno/fbsd-bumblebee

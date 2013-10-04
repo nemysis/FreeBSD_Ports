@@ -1,0 +1,165 @@
+Index: Makefile
+===================================================================
+--- Makefile	(revision 329103)
++++ Makefile	(working copy)
+@@ -2,52 +2,62 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	venice
+-DISTVERSION=	0.71beta
++DISTVERSION=	0.751beta
+ CATEGORIES=	finance java
+-MASTER_SITES=	SF/mov/${PORTNAME}/0.71%20beta
+-DISTNAME=	${PORTNAME}-${DISTVERSION}
++MASTER_SITES=	SF/mov/${PORTNAME}/0.751%20beta/ \
++		SF/nemysisfreebsdp/:icons
++DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
++		${PORTNAME}_icons${EXTRACT_SUFX}:icons
++DIST_SUBDIR=	java
+ 
+-MAINTAINER=	ports@FreeBSD.org
++MAINTAINER=	nemysis@FreeBSD.org
+ COMMENT=	Merchant Of Venice, a stock market trading program
+ 
+-NO_BUILD=	yes
++LICENSE=	GPLv2
++
+ USE_JAVA=	yes
+-JAVA_RUN=	yes
+ JAVA_VERSION=	1.6+
++NO_BUILD=	yes
+ 
+-JARFILE=	${PORTNAME}.jar
++PORTDOCS=	*
+ 
+-PLIST_FILES=	bin/venice \
+-		%%JAVAJARDIR%%/${JARFILE}
++DOCSRCDIR1=	${WRKSRC}
++DOC_FILES1=	changelog.txt readme.txt
+ 
+-# docs
+-DOC_FILES=	doc/manual.txt \
+-		doc/manual.html \
+-		changelog.txt \
+-		readme.txt
++DOCSRCDIR2=	${WRKSRC}/doc
++DOCSDIR2=	${DOCSDIR}/doc
++DOC_FILES2=	manual.html manual.txt
+ 
+-.ifndef(NOPORTDOCS)
+-PORTDOCS=	*
+-.endif
++DATADIR=	${JAVASHAREDIR}/${PORTNAME}
+ 
+-NO_STAGE=	yes
+-.include <bsd.port.pre.mk>
++SUB_FILES=	${PORTNAME}
+ 
+-post-patch:
+-	${REINPLACE_CMD} -e s,venice.jar,${JAVAJARDIR}/${JARFILE}, ${WRKSRC}/venice
++INSTALLS_ICONS=	yes
++ICON_SIZES=	32x32 48x48 64x64 72x72 96x96 128x128
+ 
++DESKTOP_ENTRIES="Venice" "${COMMENT}" "${PORTNAME}" \
++		"${PORTNAME}" "Office;Finance;" false
++
++OPTIONS_DEFINE=	DOCS
++
++.include <bsd.port.options.mk>
++
+ do-install:
+-# docs
+-.ifndef(NOPORTDOCS)
+-	@${MKDIR} ${DOCSDIR}
+-.for doc in ${DOC_FILES}
+-	@${INSTALL_DATA} ${WRKSRC}/${doc} ${DOCSDIR}
++	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin/
++	@${MKDIR} ${STAGEDIR}${DATADIR}
++	${INSTALL_DATA} ${WRKSRC}/${PORTNAME}.jar ${STAGEDIR}${DATADIR}
++
++.for s in ${ICON_SIZES}
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}/apps/
++	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}_${s}.png \
++		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}/apps/${PORTNAME}.png
+ .endfor
+-.endif
+-# wrapper
+-	@${INSTALL_SCRIPT} ${WRKSRC}/venice ${PREFIX}/bin/
+-# jar
+-	@${MKDIR} ${JAVAJARDIR}
+-	@${INSTALL_DATA} ${WRKSRC}/${JARFILE} ${JAVAJARDIR}/
++	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png \
++		${STAGEDIR}${PREFIX}/share/pixmaps/
+ 
+-.include <bsd.port.post.mk>
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${STAGEDIR}${DOCSDIR}
++	@${MKDIR} ${STAGEDIR}${DOCSDIR2}
++	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${STAGEDIR}${DOCSDIR2}
++
++.include <bsd.port.mk>
+Index: distinfo
+===================================================================
+--- distinfo	(revision 329103)
++++ distinfo	(working copy)
+@@ -1,2 +1,4 @@
+-SHA256 (venice-0.71beta.tar.gz) = fd5e1dfc069d194b27c9566c3fd3a627a4f839589390b7426ad5255341d40ca5
+-SIZE (venice-0.71beta.tar.gz) = 3553122
++SHA256 (java/venice-0.751beta.tar.gz) = 47005ab8dd013f24828f969f086a7249876f50c10445c4229431f721a26379d0
++SIZE (java/venice-0.751beta.tar.gz) = 4187889
++SHA256 (java/venice_icons.tar.gz) = 88d377528717a6a1a98a705f3e46fd0f818dd5f3aa3ad25122361127ee9b9858
++SIZE (java/venice_icons.tar.gz) = 92672
+Index: files/venice.in
+===================================================================
+--- files/venice.in	(revision 0)
++++ files/venice.in	(working copy)
+@@ -0,0 +1,9 @@
++#!/bin/sh
++#
++# $FreeBSD$
++#
++
++export JAVA_VERSION="%%JAVA_VERSION%%"
++
++cd "%%DATADIR%%" && exec "%%LOCALBASE%%/bin/java" \
++-Djava.ext.dirs="%%DATADIR%%" -jar "%%DATADIR%%/venice.jar" "${@}"
+Index: pkg-descr
+===================================================================
+--- pkg-descr	(revision 329103)
++++ pkg-descr	(working copy)
+@@ -1,5 +1,3 @@
+-[ excerpt taken from developer's web site ]
+-
+ Venice is a stock market trading program that supports portfolio
+ management, charting, technical analysis, paper trading and
+ experimental methods like genetic programming. Venice runs in a
+Index: pkg-plist
+===================================================================
+--- pkg-plist	(revision 0)
++++ pkg-plist	(working copy)
+@@ -0,0 +1,10 @@
++bin/venice
++share/icons/hicolor/128x128/apps/venice.png
++share/icons/hicolor/32x32/apps/venice.png
++share/icons/hicolor/48x48/apps/venice.png
++share/icons/hicolor/64x64/apps/venice.png
++share/icons/hicolor/72x72/apps/venice.png
++share/icons/hicolor/96x96/apps/venice.png
++%%DATADIR%%/venice.jar
++share/pixmaps/venice.png
++@dirrm %%DATADIR%%
+
+Property changes on: pkg-plist
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++text/plain
+\ No newline at end of property
+Added: fbsd:nokeywords
+## -0,0 +1 ##
++yes
+\ No newline at end of property
+Added: svn:eol-style
+## -0,0 +1 ##
++native
+\ No newline at end of property

@@ -1,0 +1,10 @@
+--- bash/installpolpackages.orig	2013-03-31 23:12:23.000000000 +0200
++++ bash/installpolpackages	2013-04-27 10:52:53.000000000 +0200
+@@ -38,6 +38,7 @@
+ POL_Wine_AutoSetVersionEnv
+ export USER_FORCED="true"
+ POL_Call "$1" --force
++$PLAYONLINUX/bash/changetmp
+ 
+ POL_SetupWindow_Close
+ exit

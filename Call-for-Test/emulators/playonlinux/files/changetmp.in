@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# $FreeBSD$
+#
+# Script to change downloaded PlayOnLinux files for FreeBSD
+#
+
+find ~/.PlayOnLinux -type f -print0 | xargs -0 \
+        %%REINPLACE_CMD%% -e 's|!/bin/bash|!%%PREFIX%%/bin/bash|' \
+            -e 's|!/usr/bin/python|!%%PYTHON_CMD%%|'
+
+find ~/.PlayOnLinux -name "*.bak" -delete

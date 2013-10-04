@@ -1,0 +1,314 @@
+Index: Makefile
+===================================================================
+--- Makefile	(revision 328630)
++++ Makefile	(working copy)
+@@ -2,25 +2,25 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	rubrica
+-PORTVERSION=	2.0.10
+-PORTREVISION=	1
++PORTVERSION=	2.0.12
+ CATEGORIES=	deskutils gnome
+ MASTER_SITES=	BERLIOS
+ DISTNAME=	${PORTNAME}2-${PORTVERSION}
+ 
+-MAINTAINER=	ports@FreeBSD.org
++MAINTAINER=	nemysis@FreeBSD.org
+ COMMENT=	Addressbook for the GNOME 2 desktop
+ 
+ LICENSE=	GPLv3
+-LICENSE_FILE=	${WRKSRC}/COPYING
+ 
+-LIB_DEPENDS=	notify.4:${PORTSDIR}/devel/libnotify
+-RUN_DEPENDS=	${LOCALBASE}/share/icons/gnome/index.theme:${PORTSDIR}/misc/gnome-icon-theme
++LIB_DEPENDS=	libnotify.so:${PORTSDIR}/devel/libnotify
++RUN_DEPENDS=	gnome-icon-theme>=0:${PORTSDIR}/misc/gnome-icon-theme
+ 
++FETCH_ARGS?=	-Fpr
+ USE_BZIP2=	yes
+-USES=		pathfix gettext gmake pkgconfig
++USES=		desktop-file-utils gmake pathfix pkgconfig
+ USE_GNOME=	gconf2 gnomeprefix libglade2
+ USE_AUTOTOOLS=	libtool
++USE_LDCONFIG=	yes
+ 
+ GCONF_SCHEMAS=	rubrica2.schemas
+ 
+@@ -27,24 +27,46 @@
+ CPPFLAGS+=	-I${LOCALBASE}/include
+ LDFLAGS+=	-L${LOCALBASE}/lib
+ 
+-NO_STAGE=	yes
++PORTDOCS=	*
++
++DOCSRCDIR1=	${WRKSRC}
++DOC_FILES1=	CREDITS ChangeLog
++
++DOCSRCDIR2=	${WRKSRC}/doc/reference/html
++DOCSDIR2=	${DOCSDIR}/doc/libRAL
++DOC_FILES2=	*.*
++
++OPTIONS_DEFINE=	DOCS NLS
++
++OPTIONS_SUB=	yes
++
++NLS_CONFIGURE_ENABLE=	nls
++NLS_USES=		gettext
++
++.include <bsd.port.options.mk>
++
+ post-patch:
+ 	@${FIND} ${WRKSRC} -name "Makefile.in" | ${XARGS} ${REINPLACE_CMD} -e \
+ 		's|-Wall -g|-Wall|g ; \
+ 		 s|-Wmissing-prototypes -g|-Wmissing-prototypes|g'
+ 	@${REINPLACE_CMD} -e '/^SUBDIRS/s|doc||g' ${WRKSRC}/Makefile.in
++	@${REINPLACE_CMD} -e 's|_Modifica|_Edit|' \
++		-e 's|A_iuto|_Help|' \
++		${WRKSRC}/interface/MainWindow.glade
++	${REINPLACE_CMD} -e 's|^Categories=.*|Categories=GNOME;Application;Office;System;Utility;|' \
++		${WRKSRC}/rubrica2.desktop.in
+ 
++.if ! ${PORT_OPTIONS:MNLS}
++	@${REINPLACE_CMD} -e '/^SUBDIRS/s|po||g' ${WRKSRC}/Makefile.in
++.endif
++
+ post-install:
+ 	@${LN} -sf ${LOCALBASE}/share/icons/gnome \
+-		${PREFIX}/share/pixmaps/rubrica2/22x22/hicolor
+-.if !defined(NOPORTDOCS)
+-	@${MKDIR} ${DOCSDIR}
+-.for file in AUTHORS CREDITS ChangeLog INSTALL NEWS README TODO
+-	${INSTALL_DATA} ${WRKSRC}/${file} ${DOCSDIR}
+-.endfor
+-	@${MKDIR} ${PREFIX}/share/doc/libRAL
+-	${INSTALL_DATA} ${WRKSRC}/doc/reference/html/*.* \
+-		${PREFIX}/share/doc/libRAL
+-.endif
++		${STAGEDIR}${PREFIX}/share/pixmaps/rubrica2/22x22/hicolor
+ 
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${STAGEDIR}${DOCSDIR}
++	@${MKDIR} ${STAGEDIR}${DOCSDIR2}
++	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${STAGEDIR}${DOCSDIR2}
++
+ .include <bsd.port.mk>
+Index: distinfo
+===================================================================
+--- distinfo	(revision 328630)
++++ distinfo	(working copy)
+@@ -1,2 +1,2 @@
+-SHA256 (rubrica2-2.0.10.tar.bz2) = 8353435f699562103a63b3b78401e96dfd1a7497d42e795f0d4751a8b20c3611
+-SIZE (rubrica2-2.0.10.tar.bz2) = 708561
++SHA256 (rubrica2-2.0.12.tar.bz2) = 973f76ec96e9c68f890dc22997568d3355a0b798e8e0e5670519d27e0439b7a8
++SIZE (rubrica2-2.0.12.tar.bz2) = 733757
+Index: files/patch-interface__MainWindow.glade
+===================================================================
+--- files/patch-interface__MainWindow.glade	(revision 328630)
++++ files/patch-interface__MainWindow.glade	(working copy)
+@@ -1,20 +0,0 @@
+---- interface/MainWindow.glade.orig	2008-04-30 18:41:37.000000000 +0900
+-+++ interface/MainWindow.glade	2009-09-12 03:39:24.000000000 +0900
+-@@ -84,7 +84,7 @@
+-             <child>
+-               <widget class="GtkMenuItem" id="menuitem2">
+-                 <property name="visible">True</property>
+--                <property name="label">_Modifica</property>
+-+                <property name="label">_Edit</property>
+-                 <property name="use_underline">True</property>
+-                 <child>
+-                   <widget class="GtkMenu" id="menuitem2_menu">
+-@@ -173,7 +173,7 @@
+-             <child>
+-               <widget class="GtkMenuItem" id="menuitem4">
+-                 <property name="visible">True</property>
+--                <property name="label">A_iuto</property>
+-+                <property name="label">_Help</property>
+-                 <property name="use_underline">True</property>
+-                 <child>
+-                   <widget class="GtkMenu" id="menuitem4_menu">
+Index: files/patch-rubrica2.schemas.in
+===================================================================
+--- files/patch-rubrica2.schemas.in	(revision 328630)
++++ files/patch-rubrica2.schemas.in	(working copy)
+@@ -1,5 +1,5 @@
+---- rubrica2.schemas.in.orig	2008-04-30 18:41:37.000000000 +0900
+-+++ rubrica2.schemas.in	2009-09-06 12:40:19.000000000 +0900
++--- rubrica2.schemas.in.orig	2010-06-20 14:23:50.000000000 +0200
+++++ rubrica2.schemas.in	2013-04-03 20:40:05.000000000 +0200
+ @@ -6,7 +6,7 @@
+  		<applyto>/apps/rubrica2/file_format</applyto>
+  		<owner>rubrica</owner>
+
+Property changes on: files/patch-rubrica2.schemas.in
+___________________________________________________________________
+Added: svn:eol-style
+## -0,0 +1 ##
++native
+\ No newline at end of property
+Added: svn:mime-type
+## -0,0 +1 ##
++text/plain
+\ No newline at end of property
+Index: files/patch-src_app.c
+===================================================================
+--- files/patch-src_app.c	(revision 328630)
++++ files/patch-src_app.c	(working copy)
+@@ -1,12 +0,0 @@
+---- src/app.c.orig	2011-08-12 15:55:03.000000000 +0200
+-+++ src/app.c	2011-08-12 15:55:26.000000000 +0200
+-@@ -1269,8 +1269,7 @@ rubrica_app_init(RubricaApp* self)
+-   self->priv->cutted      = NULL;
+-   self->priv->notify      = notify_notification_new("Rubrica Addressbook",
+- 						    NULL, 
+--						    "info",
+--						    NULL);
+-+						    "info");
+-   self->priv->show_card   = TRUE;
+- 
+-   g_object_set(self->priv->notebook, "homogeneous", FALSE, NULL);
+Index: files/patch-src_callbacks.c
+===================================================================
+--- files/patch-src_callbacks.c	(revision 328630)
++++ files/patch-src_callbacks.c	(working copy)
+@@ -1,10 +0,0 @@
+-Index: src/callbacks.c
+-@@ -336,7 +336,7 @@
+-       gint rate;
+-       gboolean backup;
+-       GtkFileFilter* filefilter;
+--      G_CONST_RETURN gchar *filter;
+-+      const gchar *filter;
+-       
+-       filefilter = gtk_file_chooser_get_filter(GTK_FILE_CHOOSER (chooser));
+-       filter     = gtk_file_filter_get_name(filefilter);
+Index: pkg-descr
+===================================================================
+--- pkg-descr	(revision 328630)
++++ pkg-descr	(working copy)
+@@ -1,6 +1,7 @@
+-Rubrica is an addressbook for Gnome desktop. Rubrica store personal data 
+-(first name, last name,...), web urls and emails, telepnone numbers (home,...), 
+-job data (company name, company address, assigment in company), notes 
+-(contact is married,...)
++Rubrica is an addressbook manager for the GNOME Environment.
++It allows you to add personal data (name, surname, address, etc.),
++web links, irc and email addresses, telephone numbers, job information
++(company where contact works, company infos, contact's assigment, etc.)
++and notes.
+ 
+-WWW: http://www.nicolafragale.org/rubrica
++WWW: http://www.nicolafragale.org/rubrica/
+Index: pkg-plist
+===================================================================
+--- pkg-plist	(revision 328630)
++++ pkg-plist	(working copy)
+@@ -23,6 +23,10 @@
+ include/libral-1.0/libral/types.h
+ include/libral-1.0/libral/utils.h
+ include/libral-1.0/libral/work.h
++lib/libral.a
++lib/libral.la
++lib/libral.so
++lib/libral.so.1
+ lib/libral/plugins/libcsv.a
+ lib/libral/plugins/libcsv.la
+ lib/libral/plugins/libcsv.so
+@@ -39,34 +43,19 @@
+ lib/libral/plugins/libvcard.la
+ lib/libral/plugins/libvcard.so
+ lib/libral/plugins/libvcard.so.1
+-lib/libral.a
+-lib/libral.la
+-lib/libral.so
+-lib/libral.so.1
+ libdata/pkgconfig/libral.pc
+ share/applications/rubrica2.desktop
+-%%PORTDOCS%%share/doc/libRAL/ch01.html
+-%%PORTDOCS%%share/doc/libRAL/home.png
+-%%PORTDOCS%%share/doc/libRAL/index.html
+-%%PORTDOCS%%share/doc/libRAL/left.png
+-%%PORTDOCS%%share/doc/libRAL/libRAL.devhelp
+-%%PORTDOCS%%share/doc/libRAL/libRAL.devhelp2
+-%%PORTDOCS%%share/doc/libRAL/right.png
+-%%PORTDOCS%%share/doc/libRAL/style.css
+-%%PORTDOCS%%share/doc/libRAL/up.png
+-%%PORTDOCS%%%%DOCSDIR%%/AUTHORS
+-%%PORTDOCS%%%%DOCSDIR%%/CREDITS
+-%%PORTDOCS%%%%DOCSDIR%%/ChangeLog
+-%%PORTDOCS%%%%DOCSDIR%%/INSTALL
+-%%PORTDOCS%%%%DOCSDIR%%/NEWS
+-%%PORTDOCS%%%%DOCSDIR%%/README
+-%%PORTDOCS%%%%DOCSDIR%%/TODO
+-share/locale/de/LC_MESSAGES/rubrica2.mo
+-share/locale/el/LC_MESSAGES/rubrica2.mo
+-share/locale/en_US/LC_MESSAGES/rubrica2.mo
+-share/locale/fr/LC_MESSAGES/rubrica2.mo
+-share/locale/it/LC_MESSAGES/rubrica2.mo
+-share/locale/uk/LC_MESSAGES/rubrica2.mo
++%%NLS%%share/locale/de/LC_MESSAGES/rubrica2.mo
++%%NLS%%share/locale/el/LC_MESSAGES/rubrica2.mo
++%%NLS%%share/locale/en_US/LC_MESSAGES/rubrica2.mo
++%%NLS%%share/locale/es_ES/LC_MESSAGES/rubrica2.mo
++%%NLS%%share/locale/fr/LC_MESSAGES/rubrica2.mo
++%%NLS%%share/locale/hu/LC_MESSAGES/rubrica2.mo
++%%NLS%%share/locale/it/LC_MESSAGES/rubrica2.mo
++%%NLS%%share/locale/pt-pt/LC_MESSAGES/rubrica2.mo
++%%NLS%%share/locale/pt_BR/LC_MESSAGES/rubrica2.mo
++%%NLS%%share/locale/ru/LC_MESSAGES/rubrica2.mo
++%%NLS%%share/locale/uk/LC_MESSAGES/rubrica2.mo
+ share/mime-info/rubrica2.keys
+ share/mime-info/rubrica2.mime
+ share/pixmaps/rubrica2/16x16/ccare.png
+@@ -105,17 +94,17 @@
+ share/pixmaps/rubrica2/48x48/tux.png
+ share/pixmaps/rubrica2/scalable/card_photo.svg
+ share/pixmaps/rubrica2/scalable/query.svg
+-share/rubrica2/interface/CompanyCard.glade
+-share/rubrica2/interface/GroupManager.glade
+-share/rubrica2/interface/MainWindow.glade
+-share/rubrica2/interface/Menu.glade
+-share/rubrica2/interface/MenuTrash.glade
+-share/rubrica2/interface/PersonalCard.glade
+-share/rubrica2/interface/Preferences.glade
+-share/rubrica2/interface/Search.glade
+-share/rubrica2/interface/logo.png
+-@dirrm share/rubrica2/interface
+-@dirrm share/rubrica2
++%%DATADIR%%2/interface/CompanyCard.glade
++%%DATADIR%%2/interface/GroupManager.glade
++%%DATADIR%%2/interface/MainWindow.glade
++%%DATADIR%%2/interface/Menu.glade
++%%DATADIR%%2/interface/MenuTrash.glade
++%%DATADIR%%2/interface/PersonalCard.glade
++%%DATADIR%%2/interface/Preferences.glade
++%%DATADIR%%2/interface/Search.glade
++%%DATADIR%%2/interface/logo.png
++@dirrm %%DATADIR%%2/interface
++@dirrm %%DATADIR%%2
+ @dirrm share/pixmaps/rubrica2/scalable
+ @dirrm share/pixmaps/rubrica2/48x48
+ @dirrm share/pixmaps/rubrica2/24x24
+@@ -122,12 +111,14 @@
+ @dirrm share/pixmaps/rubrica2/22x22
+ @dirrm share/pixmaps/rubrica2/16x16
+ @dirrm share/pixmaps/rubrica2
+-@dirrmtry share/locale/en_US/LC_MESSAGES
+-@dirrmtry share/locale/en_US
+-%%PORTDOCS%%@dirrm %%DOCSDIR%%
+-%%PORTDOCS%%@dirrm share/doc/libRAL
++%%NLS%%@dirrmtry share/locale/pt-pt/LC_MESSAGES
++%%NLS%%@dirrmtry share/locale/pt-pt
++%%NLS%%@dirrmtry share/locale/en_US/LC_MESSAGES
++%%NLS%%@dirrmtry share/locale/en_US
+ @dirrmtry share/applications
+-@dirrmtry lib/libral/plugins
+-@dirrmtry lib/libral
+-@dirrmtry include/libral-1.0/libral
+-@dirrmtry include/libral-1.0
++@dirrm lib/libral/plugins
++@dirrm lib/libral
++@dirrm include/libral-1.0/libral
++@dirrm include/libral-1.0
++@dirrmtry etc/gconf/schemas
++@dirrmtry etc/gconf

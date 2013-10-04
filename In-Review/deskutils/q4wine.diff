@@ -1,0 +1,207 @@
+Index: Makefile
+===================================================================
+--- Makefile	(revision 328593)
++++ Makefile	(working copy)
+@@ -2,45 +2,65 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	q4wine
+-PORTVERSION=	0.120
+-PORTREVISION=	1
++PORTVERSION=	1.0r3
+ CATEGORIES=	deskutils emulators
+-MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}%20${PORTVERSION}
++MASTER_SITES=	SF/${PORTNAME}/${PORTNAME}/${PORTNAME}%20$${PORTVERSION:S/r/-r/}/
++DISTNAME=	${PORTNAME}-${PORTVERSION:S/r/-r/}
+ 
+-MAINTAINER=	sergey.dyatko@gmail.com
++MAINTAINER=	nemysis@FreeBSD.org
+ COMMENT=	QT4 front-end for WINE
+ 
++LICENSE=	GPLv3
++
+ BUILD_DEPENDS=	icotool:${PORTSDIR}/graphics/icoutils
+ RUN_DEPENDS=	sudo:${PORTSDIR}/security/sudo \
+-		wine:${PORTSDIR}/emulators/wine \
+ 		wget:${PORTSDIR}/ftp/wget \
+ 		cabextract:${PORTSDIR}/archivers/cabextract \
+ 		icotool:${PORTSDIR}/graphics/icoutils
+ 
++USES=		cmake desktop-file-utils
++CMAKE_ARGS+=	-DMANPAGE_ENTRY_PATH=${MANPREFIX}/man
++USE_LDCONFIG=	yes
++INSTALLS_ICONS=	yes
+ USE_QT4=	qmake_build rcc_build moc_build uic_build \
+ 		linguist_build corelib gui sql network
++ONLY_FOR_ARCHS=	i386 amd64
+ 
+-ONLY_FOR_ARCHS=	i386
+-ONLY_FOR_ARCHS_REASON=	depends on wine which is only available for i386
++SUB_FILES=	pkg-message
+ 
+-MAN1=		q4wine-cli.1 q4wine-helper.1 q4wine.1
++PORTDOCS=	AUTHORS ChangeLog README TODO
+ 
+-USES=		cmake
+-CMAKE_ARGS+=	-DMANPAGE_ENTRY_PATH=${MANPREFIX}/man/
+-
+-OPTIONS_DEFINE=	DBUS
++OPTIONS_DEFINE=	DOCS NLS DBUS
+ OPTIONS_DEFAULT=	DBUS
+ 
+-NO_STAGE=	yes
++OPTIONS_SUB=	yes
++
++NLS_CONFIGURE_ENABLE=	nls
++NLS_USES=		gettext
++DBUS_CMAKE_ON=		-DWITH_DBUS:BOOL=ON
++DBUS_CMAKE_OFF=		-DWITH_DBUS:BOOL=OFF
++
+ .include <bsd.port.options.mk>
+ 
++.if ${ARCH} == "i386"
++RUN_DEPENDS+=	wine:${PORTSDIR}/emulators/wine-devel
++.endif
++
+ .if ${PORT_OPTIONS:MDBUS}
+ USE_QT4+=	dbus
+-.else
+-CMAKE_ARGS+=	-DWITH_DBUS:BOOL=OFF
+ .endif
+ 
++post-patch:
++	@${REINPLACE_CMD} -e 's|^Categories=.*|Categories=Qt;System;Emulator;Utility;Game;|' \
++		${WRKSRC}/${PORTNAME}.desktop
++
++.if ! ${PORT_OPTIONS:MNLS}
++	@${REINPLACE_CMD} -e 's|install(FILES|#install(FILES|' \
++		${WRKSRC}/src/i18n/CMakeLists.txt
++.endif
++
+ post-install:
+-	@-update-desktop-database
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${STAGEDIR}${DOCSDIR}
+ 
+ .include <bsd.port.mk>
+Index: distinfo
+===================================================================
+--- distinfo	(revision 328593)
++++ distinfo	(working copy)
+@@ -1,2 +1,2 @@
+-SHA256 (q4wine-0.120.tar.gz) = 9db9cc021722403709e6f2bb81318e285cfad9eba24d1343532b0fa32f823996
+-SIZE (q4wine-0.120.tar.gz) = 836328
++SHA256 (q4wine-1.0-r3.tar.gz) = c23c0dfa30fec67794663cd000100da5633a286c55c86dbdc1c49984d0e72fc9
++SIZE (q4wine-1.0-r3.tar.gz) = 1105792
+Index: pkg-message
+===================================================================
+--- pkg-message	(revision 328593)
++++ pkg-message	(working copy)
+@@ -1,9 +1,16 @@
+ ################################################################################
+ 
+-This programm will attempt to obtain some system information by accessing files
+-in procfs. You must mount procfs filesystem for this to work correctly. This can
+-be accomplished by adding the following line to your /etc/fstab file:
++FreeBSD/amd64 users:
++You need to manually install Wine 32bit binary from:
++http://www.mediafire.com/wine_fbsd64
+ 
++For more info about running wine on FreeBSD please see:
++http://wiki.freebsd.org/Wine
++
++This program will attempt to obtain some system information by accessing files
++in procfs. You must mount procfs filesystem for this to work correctly.
++This can be accomplished by adding the following line to your /etc/fstab file:
++
+ # Device                Mountpoint      FStype  Options         Dump    Pass#
+ proc                    /proc           procfs  rw              0       0
+ 
+@@ -11,7 +18,7 @@
+ 
+ mount /proc
+ 
+-Also you need passwordless sudo for mdconfig, mount_cd9660, umount commands for 
++Also you need passwordless sudo for mdconfig, mount_cd9660, umount commands for
+ work with ISO images
+ 
+ ################################################################################
+
+Property changes on: pkg-message
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++text/plain
+\ No newline at end of property
+Added: svn:eol-style
+## -0,0 +1 ##
++native
+\ No newline at end of property
+Index: pkg-plist
+===================================================================
+--- pkg-plist	(revision 328593)
++++ pkg-plist	(working copy)
+@@ -2,23 +2,46 @@
+ bin/q4wine-cli
+ bin/q4wine-helper
+ lib/q4wine/libq4wine-core.so
++man/man1/q4wine-cli.1.gz
++man/man1/q4wine-helper.1.gz
++man/man1/q4wine.1.gz
+ share/applications/q4wine.desktop
+-share/pixmaps/q4wine.png
+-%%DATADIR%%/i18n/cs_cz.qm
+-%%DATADIR%%/i18n/en_us.qm
+-%%DATADIR%%/i18n/es_es.qm
+-%%DATADIR%%/i18n/it_it.qm
+-%%DATADIR%%/i18n/pt_br.qm
+-%%DATADIR%%/i18n/ru_ru.qm
+-%%DATADIR%%/i18n/uk_ua.qm
++share/icons/hicolor/128x128/apps/q4wine.png
++share/icons/hicolor/16x16/apps/q4wine.png
++share/icons/hicolor/192x192/apps/q4wine.png
++share/icons/hicolor/22x22/apps/q4wine.png
++share/icons/hicolor/256x256/apps/q4wine.png
++share/icons/hicolor/32x32/apps/q4wine.png
++share/icons/hicolor/48x48/apps/q4wine.png
++share/icons/hicolor/64x64/apps/q4wine.png
++share/icons/hicolor/96x96/apps/q4wine.png
++share/icons/hicolor/scalable/apps/q4wine.svg
++%%NLS%%%%DATADIR%%/i18n/q4wine_af_za.qm
++%%NLS%%%%DATADIR%%/i18n/q4wine_cs_cz.qm
++%%NLS%%%%DATADIR%%/i18n/q4wine_de_de.qm
++%%NLS%%%%DATADIR%%/i18n/q4wine_en_us.qm
++%%NLS%%%%DATADIR%%/i18n/q4wine_es_es.qm
++%%NLS%%%%DATADIR%%/i18n/q4wine_fa_ir.qm
++%%NLS%%%%DATADIR%%/i18n/q4wine_he_il.qm
++%%NLS%%%%DATADIR%%/i18n/q4wine_it_it.qm
++%%NLS%%%%DATADIR%%/i18n/q4wine_pl_pl.qm
++%%NLS%%%%DATADIR%%/i18n/q4wine_pt_br.qm
++%%NLS%%%%DATADIR%%/i18n/q4wine_ru_ru.qm
++%%NLS%%%%DATADIR%%/i18n/q4wine_uk_ua.qm
++%%DATADIR%%/icons/control.png
+ %%DATADIR%%/icons/eject.png
+ %%DATADIR%%/icons/exec_wine.png
+ %%DATADIR%%/icons/explorer.png
++%%DATADIR%%/icons/iexplore.png
+ %%DATADIR%%/icons/notepad.png
++%%DATADIR%%/icons/oleview.png
+ %%DATADIR%%/icons/regedit.png
++%%DATADIR%%/icons/taskmgr.png
+ %%DATADIR%%/icons/uninstaller.png
+ %%DATADIR%%/icons/winecfg.png
+ %%DATADIR%%/icons/wineconsole.png
++%%DATADIR%%/icons/winemine.png
++%%DATADIR%%/icons/wordpad.png
+ %%DATADIR%%/scripts/mount_image.sh
+ %%DATADIR%%/scripts/umount.sh
+ %%DATADIR%%/theme/nuvola/data/configure.png
+@@ -43,7 +66,7 @@
+ @dirrm %%DATADIR%%/theme
+ @dirrm %%DATADIR%%/scripts
+ @dirrm %%DATADIR%%/icons
+-@dirrm %%DATADIR%%/i18n
++%%NLS%%@dirrm %%DATADIR%%/i18n
+ @dirrm %%DATADIR%%
+ @dirrmtry share/applications
+ @dirrm lib/q4wine

@@ -1,0 +1,9 @@
+--- bash/install.orig	2013-03-31 23:12:23.000000000 +0200
++++ bash/install	2013-04-27 10:16:28.000000000 +0200
+@@ -43,5 +43,6 @@
+ 	rm "$REPERTOIRE/install"
+ 	$POL_WGET "$SITE/V4_data/repository/get_file.php?version=PlayOn$POL_OS-$VERSION&id=$(POL_Website_urlparse "$menu")" -O "$REPERTOIRE/install"
+ 	[ -e "$REPERTOIRE/install" ] && POL_Bash "$REPERTOIRE/install"
++	$PLAYONLINUX/bash/changetmp
+ fi
+ 

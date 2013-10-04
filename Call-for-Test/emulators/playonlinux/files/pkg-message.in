@@ -1,0 +1,41 @@
+################################################################################
+
+FreeBSD/amd64 users:
+You need to manually install Wine 32bit binary from:
+http://www.mediafire.com/wine_fbsd64
+
+For more info about running Wine on FreeBSD please see:
+http://wiki.freebsd.org/Wine
+
+This program will attempt to obtain some system information by accessing files
+in procfs, linprocfs and fdescfs. You must mount procfs, linprocfs and fdescfs
+filesystem for this to work correctly.
+
+This can be accomplished by adding the following lines to your /etc/fstab file:
+
+# Device                Mountpoint      FStype  Options         Dump    Pass#
+proc                    /proc           procfs  rw              0       0
+linproc                 /compat/linux/proc      linprocfs       rw      0       0
+fdescfs                 /dev/fd         fdescfs rw              0       0
+
+and then, as root, executing the commands:
+
+mount /proc
+mount /compat/linux/proc
+mount /dev/fd
+
+
+Better is to use DOSBox for DOS Games.
+
+
+When You deinstall PlayOnLinux, the games and software installed from within
+PlayOnLinux are not removed.
+
+Remove those games and software first, then remove PlayOnLinux itself.
+
+Otherwise, reinstall PlayOnLinux and remove them using it
+or do it manually by removing
+
+    ~/.PlayOnLinux
+
+################################################################################

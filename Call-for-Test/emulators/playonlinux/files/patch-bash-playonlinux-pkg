@@ -1,0 +1,8 @@
+--- bash/playonlinux-pkg.orig	2013-03-31 23:12:23.000000000 +0200
++++ bash/playonlinux-pkg	2013-04-27 16:13:38.000000000 +0200
+@@ -114,4 +114,5 @@
+ 	rm -r "$TMP/pkg/" 2> /dev/null
+ 	echo "$(eval_gettext "Cleaning...")"
+ fi
++$PLAYONLINUX/bash/changetmp
+ exit 0

@@ -1,0 +1,102 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN /usr/ports/deskutils/recoll/Makefile ./Makefile
+--- /usr/ports/deskutils/recoll/Makefile	2013-09-13 02:59:53.000000000 +0200
++++ ./Makefile	2013-09-19 10:09:58.000000000 +0200
+@@ -6,14 +6,14 @@
+ CATEGORIES=	deskutils
+ MASTER_SITES=	http://www.lesbonscomptes.com/${PORTNAME}/
+ 
+-MAINTAINER=	nemysis@gmx.ch
++MAINTAINER=	nemysis@FreeBSD.org
+ COMMENT=	Personal full text search package, based on Xapian
+ 
+ LICENSE=	GPLv2
+ 
+ BUILD_DEPENDS=	xapian-core>=0:${PORTSDIR}/databases/xapian-core
+ 
+-USES=		iconv gmake
++USES=		gmake iconv
+ GNU_CONFIGURE=	yes
+ 
+ CPPFLAGS+=	-I${LOCALBASE}/include
+@@ -26,6 +26,17 @@
+ X11MON_DESC=	X11 session monitoring support
+ OPTIONS_DEFAULT=QT4 ASPELL PYTHON X11MON
+ 
++OPTIONS_SUB=	yes
++
++QT4_CONFIGURE_ON=		qtgui
++
++ASPELL_LIB_DEPENDS=		libaspell.so:${PORTSDIR}/textproc/aspell
++ASPELL_CONFIGURE_ENABLE=	aspell
++
++PYTHON_CONFIGURE_ENABLE=	python-module
++
++X11MON_CONFIGURE_ENABLE=	x11mon
++
+ # Wrong versioning upstream
+ PORTSCOUT=	skipv:1.19
+ 
+@@ -36,37 +47,22 @@
+ 		corelib gui xml webkit
+ QT_NONSTANDARD=	yes
+ CONFIGURE_ENV+=	QTDIR="${QT_PREFIX}" QMAKE="${QMAKE}"
+-CONFIGURE_ARGS+=--enable-qtgui
+ INSTALLS_ICONS=	yes
+ PLIST_SUB+=	QT=""
+ MAN1+=		recollq.1 recoll.1
+-.else
+-CONFIGURE_ARGS+=--disable-qtgui
+-PLIST_SUB+=	QT="@comment "
+-.endif
+ 
+-.if ${PORT_OPTIONS:MASPELL}
+-LIB_DEPENDS+=	aspell:${PORTSDIR}/textproc/aspell
+-.else
+-CONFIGURE_ARGS+=--without-aspell
+ .endif
+ 
+ .if ${PORT_OPTIONS:MPYTHON}
+ USE_PYTHON=	yes
+ INSTALLS_EGGINFO=	yes
+ PYDISTUTILS_EGGINFO=	Recoll-1.0-py${PYTHON_VER}.egg-info
+-PLIST_SUB+=	PYTHON=""
+-.else
+-CONFIGURE_ARGS+=--disable-python-module
+-PLIST_SUB+=	PYTHON="@comment "
+ .endif
+ 
+ .if ${PORT_OPTIONS:MX11MON}
+ USE_XORG+=	ice sm x11
+ USE_FAM=	yes
+ CONFIGURE_ARGS+=--with-fam
+-.else
+-CONFIGURE_ARGS+=--disable-x11mon
+ .endif
+ 
+ post-patch:
+@@ -84,7 +80,7 @@
+ post-configure:
+ .if ${PORT_OPTIONS:MQT4}
+ 	@cd ${WRKSRC}/qtgui && ${SETENV} ${CONFIGURE_ENV} \
+-	${QMAKE} ${QMAKEFLAGS} PREFIX=${PREFIX}
++		${QMAKE} ${QMAKEFLAGS} PREFIX=${PREFIX}
+ .endif
+ 
+ .include <bsd.port.mk>
+diff -ruN /usr/ports/deskutils/recoll/files/patch-src-rclaspell.cpp ./files/patch-src-rclaspell.cpp
+--- /usr/ports/deskutils/recoll/files/patch-src-rclaspell.cpp	1970-01-01 01:00:00.000000000 +0100
++++ ./files/patch-src-rclaspell.cpp	2013-09-18 19:11:41.000000000 +0200
+@@ -0,0 +1,10 @@
++--- aspell/rclaspell.cpp.orig	2012-10-26 10:25:54.000000000 +0200
+++++ aspell/rclaspell.cpp	2013-09-18 19:07:36.000000000 +0200
++@@ -24,6 +24,7 @@
++ #include <unistd.h>
++ #include <dlfcn.h>
++ #include <stdlib.h>
+++#include <iostream>
++ 
++ using namespace std;
++ 
+===> Done

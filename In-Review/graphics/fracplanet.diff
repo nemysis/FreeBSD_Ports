@@ -1,0 +1,192 @@
+Index: Makefile
+===================================================================
+--- Makefile	(revision 329105)
++++ Makefile	(working copy)
+@@ -3,18 +3,24 @@
+ 
+ PORTNAME=	fracplanet
+ PORTVERSION=	0.4.0
+-PORTREVISION=	4
++PORTREVISION=	5
+ CATEGORIES=	graphics
+-MASTER_SITES=	SF
++MASTER_SITES=	SF \
++		SF/nemysisfreebsdp/:icons
++DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
++		${PORTNAME}_icons.tar.gz:icons
+ 
+-MAINTAINER=	ports@FreeBSD.org
+-COMMENT=	An interactive generator of planets and terrain
++MAINTAINER=	nemysis@FreeBSD.org
++COMMENT=	Interactive tool for creating random fractal planets and terrain
+ 
++LICENSE=	GPLv2
++
+ BUILD_DEPENDS=	xsltproc:${PORTSDIR}/textproc/libxslt
+-LIB_DEPENDS=	boost_program_options:${PORTSDIR}/devel/boost-libs
++LIB_DEPENDS=	libboost_program_options.so:${PORTSDIR}/devel/boost-libs
+ 
+ WRKSRC=		${WRKDIR}/${PORTNAME}
+ 
++USES=		gmake
+ USE_GL=		glu
+ USE_QT4=	corelib gui opengl \
+ 		moc_build qmake_build
+@@ -22,27 +28,68 @@
+ HAS_CONFIGURE=	yes
+ CONFIGURE_ENV=	QTDIR="${QT_PREFIX}"
+ CONFIGURE_ARGS=	-spec ${QMAKESPEC}
+-USE_GMAKE=	yes
+ 
+-MAN1=		${PORTNAME}.1
+-PORTDOCS=	${PORTNAME}.css ${PORTNAME}.htm
+-PLIST_FILES=	bin/${PORTNAME}
++PORTDOCS=	*
+ 
+-NO_STAGE=	yes
++DOCSRCDIR1=	${WRKSRC}
++DOC_FILES1=	 BUGS NEWS README THANKS TODO ${PORTNAME}.css ${PORTNAME}.htm
++
++INSTALLS_ICONS=	yes
++ICON_SIZES=	32x32 48x48 64x64 72x72 96x96
++
++DESKTOP_ENTRIES="Fracplanet" "${COMMENT}" "${PORTNAME}" \
++		"${PORTNAME}" "Graphics;" false
++
++OPTIONS_DEFINE=	DOCS
++OPTIONS_GROUP=	DOXYGEN
++OPTIONS_GROUP_DOXYGEN=	HTML LATEX
++
++OPTIONS_DEFAULT=	HTML
++
++HTML_DESC=	Install HTML Doxygen files
++LATEX_DESC=	Install LaTeX Doxygen files
++
++.include <bsd.port.options.mk>
++
++.if ${PORT_OPTIONS:MHTML} || ${PORT_OPTIONS:MLATEX}
++BUILD_DEPENDS+=	doxygen:${PORTSDIR}/devel/doxygen
++.endif
++
+ post-patch:
+-.for file in BUILD VERSION configure
+-	@${REINPLACE_CMD} -e \
+-		'/^#!/s|/.*bash|/bin/sh|g' ${WRKSRC}/${file}
++.for f in BUILD VERSION configure
++	@${REINPLACE_CMD} -e 's|/bin/bash|/bin/sh|g' \
++		${WRKSRC}/${f}
+ .endfor
++	@${REINPLACE_CMD} -e 's|-lboost_program_options|-lboost_program_options -lGLU|' \
++		${WRKSRC}/fracplanet.pro
+ 
+ do-install:
+-	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${PREFIX}/bin
+-	${INSTALL_MAN} ${WRKSRC}/man/man1/${PORTNAME}.1 ${MAN1PREFIX}/man/man1
+-.if !defined(NOPORTDOCS)
+-	@${MKDIR} ${DOCSDIR}
+-.for file in ${PORTDOCS}
+-	${INSTALL_DATA} ${WRKSRC}/${file} ${DOCSDIR}
++	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin/
++	${INSTALL_MAN} ${WRKSRC}/man/man1/fracplanet.1 ${STAGEDIR}${MAN1PREFIX}/man/man1/
++
++.for s in ${ICON_SIZES}
++	@${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}/apps/
++	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}_${s}.png \
++		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}/apps/${PORTNAME}.png
+ .endfor
++	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png \
++		${STAGEDIR}${PREFIX}/share/pixmaps
++
++.if ${PORT_OPTIONS:MDOCS}
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${STAGEDIR}${DOCSDIR}
+ .endif
+ 
++.if ${PORT_OPTIONS:MHTML} || ${PORT_OPTIONS:MLATEX}
++	@cd ${WRKSRC} && doxygen .
++.endif
++
++.if ${PORT_OPTIONS:MDOCS} && ${PORT_OPTIONS:MHTML}
++	@(cd ${WRKSRC} && ${COPYTREE_SHARE} html ${STAGEDIR}${DOCSDIR})
++.endif
++
++.if ${PORT_OPTIONS:MDOCS} && ${PORT_OPTIONS:MLATEX}
++	@(cd ${WRKSRC} && ${COPYTREE_SHARE} latex ${STAGEDIR}${DOCSDIR})
++.endif
++
+ .include <bsd.port.mk>
+Index: distinfo
+===================================================================
+--- distinfo	(revision 329105)
++++ distinfo	(working copy)
+@@ -1,2 +1,4 @@
+ SHA256 (fracplanet-0.4.0.tar.gz) = 38d56aba3c5cf19d4f2c218bece471d3860b161d2210a24ba94550356723482a
+ SIZE (fracplanet-0.4.0.tar.gz) = 101700
++SHA256 (fracplanet_icons.tar.gz) = 99eeb8ed62d45083138402c41b2af79a4b432bfcb8e63cbe83090bb2d235063b
++SIZE (fracplanet_icons.tar.gz) = 51712
+Index: files/patch-fracplanet.pro
+===================================================================
+--- files/patch-fracplanet.pro	(revision 329105)
++++ files/patch-fracplanet.pro	(working copy)
+@@ -1,11 +0,0 @@
+---- fracplanet.pro~	2012-05-19 23:50:08.000000000 -0300
+-+++ fracplanet.pro	2012-05-19 23:50:19.000000000 -0300
+-@@ -8,7 +8,7 @@
+- 
+- HEADERS += $$system(ls *.h)
+- SOURCES += $$system(ls *.cpp)
+--LIBS += -lboost_program_options
+-+LIBS += -lboost_program_options -lGLU
+- 
+- DEFINES += QT_DLL
+- 
+Index: files/patch-triangle_mesh_viewer_display.cpp
+===================================================================
+--- files/patch-triangle_mesh_viewer_display.cpp	(revision 329105)
++++ files/patch-triangle_mesh_viewer_display.cpp	(working copy)
+@@ -1,5 +1,5 @@
+---- triangle_mesh_viewer_display.cpp~	2012-05-19 23:49:24.000000000 -0300
+-+++ triangle_mesh_viewer_display.cpp	2012-05-19 23:49:55.000000000 -0300
++--- triangle_mesh_viewer_display.cpp.orig	2009-10-05 00:26:36.000000000 +0200
+++++ triangle_mesh_viewer_display.cpp	2013-10-03 00:25:53.000000000 +0200
+ @@ -24,6 +24,8 @@
+  #include "matrix33.h"
+  #include "triangle_mesh_viewer.h"
+Index: pkg-descr
+===================================================================
+--- pkg-descr	(revision 329105)
++++ pkg-descr	(working copy)
+@@ -3,4 +3,4 @@
+ interactively and the results displayed using OpenGL. The generated
+ objects can be dumped in Pov-Ray format.
+ 
+-WWW: http://www.bottlenose.demon.co.uk/share/fracplanet
++WWW: http://www.bottlenose.demon.co.uk/share/fracplanet/
+Index: pkg-plist
+===================================================================
+--- pkg-plist	(revision 0)
++++ pkg-plist	(working copy)
+@@ -0,0 +1,8 @@
++bin/fracplanet
++man/man1/fracplanet.1.gz
++share/icons/hicolor/32x32/apps/fracplanet.png
++share/icons/hicolor/48x48/apps/fracplanet.png
++share/icons/hicolor/64x64/apps/fracplanet.png
++share/icons/hicolor/72x72/apps/fracplanet.png
++share/icons/hicolor/96x96/apps/fracplanet.png
++share/pixmaps/fracplanet.png
+
+Property changes on: pkg-plist
+___________________________________________________________________
+Added: fbsd:nokeywords
+## -0,0 +1 ##
++yes
+\ No newline at end of property
+Added: svn:eol-style
+## -0,0 +1 ##
++native
+\ No newline at end of property
+Added: svn:mime-type
+## -0,0 +1 ##
++text/plain
+\ No newline at end of property

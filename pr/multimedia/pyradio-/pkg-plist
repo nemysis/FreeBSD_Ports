@@ -1,0 +1,27 @@
+bin/pyradio
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO/PKG-INFO
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO/SOURCES.txt
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO/dependency_links.txt
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO/entry_points.txt
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO/not-zip-safe
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO/top_level.txt
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/__init__.py
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/__init__.pyc
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/__init__.pyo
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/log.py
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/log.pyc
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/log.pyo
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/main.py
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/main.pyc
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/main.pyo
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/player.py
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/player.pyc
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/player.pyo
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/radio.py
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/radio.pyc
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/radio.pyo
+%%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio/stations.csv
+share/pixmaps/pyradio.png
+@dirrmtry %%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/pyradio
+@dirrmtry %%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg/EGG-INFO
+@dirrmtry %%PYTHON_SITELIBDIR%%/pyradio-%%VERSION%%-py%%PYVER%%.egg

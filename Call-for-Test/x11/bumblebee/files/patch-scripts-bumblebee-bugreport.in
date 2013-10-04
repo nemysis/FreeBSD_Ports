@@ -1,0 +1,61 @@
+--- scripts/bumblebee-bugreport.in.orig	2012-09-06 17:54:25.000000000 +0200
++++ scripts/bumblebee-bugreport.in	2013-05-02 16:50:41.000000000 +0200
+@@ -1,4 +1,4 @@
+-#!/bin/bash
++#!/usr/local/bin/bash
+ # Copyright (C) 2011 Bumblebee Project
+ #
+ # This file is part of Bumblebee.
+@@ -184,11 +184,11 @@
+ 
+ header "System Information"
+ uname -a
+-echo "/etc/issue:"
+-cat /etc/issue
+-if which lsb_release &>/dev/null; then
+-    echo "lsb_release -a:"
+-    lsb_release -a
++#echo "/etc/issue:"
++#cat /etc/issue
++if which uname &>/dev/null; then
++    echo "uname -rv:"
++    uname -rv
+ fi
+ 
+ header "lspci overview"
+@@ -248,21 +248,24 @@
+ done
+ 
+ header "Modules information"
+-modinfo bbswitch
+-modinfo nvidia
+-modinfo nvidia-current
+-modinfo nouveau
++kldstat -n bbswitch
++kldstat -n nvidia
++kldstat -n nouveau
+ 
+ header "Driver information"
+-ls -ld /usr/lib/libnvidia*
+-ls -ld /usr/lib/libGL.so*
+-ls -ld /usr/lib/libvdpau.so*
+-ls -ld /usr/lib/*/libnvidia*
+-ls -ld /usr/lib/*/libGL.so*
+-ls -ld /usr/lib/*/libvdpau.so*
++ls -ld /compat/linux/usr/lib/libnvidia*
++ls -ld /usr/local/lib/libnvidia*
++ls -ld /compat/linux/usr/lib/libGL.so*
++ls -ld /usr/local/lib/libGL.so*
++ls -ld /compat/linux/usr/lib/libvdpau.so*
++ls -ld /usr/local/lib/libvdpau.so*
++ls -ld /compat/linux/usr/lib/libnvidia*
++ls -ld /usr/local/lib/libnvidia*
++ls -ld /usr/local/lib/*/libGL.so*
+ # non-empty containing 'log' and 1[0-9][0-9] files if the driver was installed
+ # from nvidia.com
+-ls -la /var/lib/nvidia
++#ls -la /var/lib/nvidia
++pkg info | grep nvidia-driver
+ 
+ header "Packages info"
+ if [ -n "$PKG_QUERY_TOOL" ]; then

@@ -1,0 +1,117 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	alfont
+#	alfont/Makefile
+#	alfont/pkg-descr
+#	alfont/distinfo
+#
+echo c - alfont
+mkdir -p alfont > /dev/null 2>&1
+echo x - alfont/Makefile
+sed 's/^X//' >alfont/Makefile << 'a34f32b0352a953e7b6b816bd2bf7cec'
+X# Created by: Rusmir Dusko <nemysis@FreeBSD.org>
+X# $FreeBSD$
+X
+XPORTNAME=	alfont
+XPORTVERSION=	209
+XCATEGORIES=	x11-fonts
+XMASTER_SITES=	http://opensnc.sourceforge.net/alfont/mirror/ \
+X		SF/nemysisfreebsdp/opensurge:nemysis
+X#		http://opensnc.sourceforge.net/alfont/:opensnc
+XDISTFILES=	AlFont${DISTVERSION}.rar \
+X		alfont.c:nemysis
+XDIST_SUBDIR=	${PORTNAME}
+XEXTRACT_ONLY=	AlFont${DISTVERSION}.rar
+X
+XMAINTAINER=	nemysis@FreeBSD.org
+XCOMMENT=	Wrapper around the freetype2 library
+X
+XLICENSE=	FTL
+XLICENSE_NAME=	The FreeType Project LICENSE (FTL)
+XLICENSE_FILE=	${WRKSRC}/docs/FTL.txt
+XLICENSE_PERMS=	auto-accept
+X
+XEXTRACT_DEPENDS=	unrar:${PORTSDIR}/archivers/unrar
+XLIB_DEPENDS=	liballeg.so.4:${PORTSDIR}/devel/allegro \
+X		libfreetype.so:${PORTSDIR}/print/freetype2
+X
+XWRKSRC=		${WRKDIR}/${PORTNAME}
+X
+XUSES=		gmake iconv
+XUSE_DOS2UNIX=	yes
+XUSE_LDCONFIG=	yes
+X
+XCPPFLAGS+=	-Iinclude -I${LOCALBASE}/include -I${LOCALBASE}/include/freetype2 $$(freetype-config --cflags)
+XLDFLAGS+=	-L${LOCALBASE}/lib -lalleg $$(freetype-config --libs)
+X
+XPLIST_FILES=	include/alfont.h \
+X		include/alfontdll.h \
+X		lib/libalfont.so.${MAJORVER} \
+X		lib/libalfont.so
+X
+XPORTDOCS=	*
+X
+XDOCSRCDIR1=	${WRKSRC}
+XDOC_FILES1=	CHANGES.txt README.txt
+X
+XDOCSRCDIR2=	${WRKSRC}/docs
+XDOCSDIR2=	${DOCSDIR}/docs
+XDOC_FILES2=	ALFONT.txt AUTHORS.txt
+X
+XOPTIONS_DEFINE=	DOCS
+X
+X.include <bsd.port.options.mk>
+X
+XMAJORVER=	${PORTVERSION:S/209/2.0.9/}
+X
+Xdo-extract:
+X	@${MKDIR} ${WRKDIR}
+X	@cd ${WRKDIR} && ${LOCALBASE}/bin/unrar x -y -idq ${_DISTDIR}/AlFont${DISTVERSION}.rar
+X
+Xpost-patch:
+X	@${CP} -af ${_DISTDIR}/alfont.c ${WRKSRC}/src
+X
+X	@${REINPLACE_CMD} \
+X		-e 's|#define ALFONT_WINDOWS|//#define ALFONT_WINDOWS|' \
+X		-e 's|//#define ALFONT_LINUX|#define ALFONT_LINUX|' \
+X		${WRKSRC}/include/alfont.h
+X
+Xdo-build:
+X	cd ${WRKSRC} ; ${CC} ${CPPFLAGS} -fPIC -DPIC -c src/alfont.c -o src/alfont.o
+X	cd ${WRKSRC} ; ${CC} -shared ${LDFLAGS} src/alfont.o -o libalfont.so.${MAJORVER}
+X
+Xdo-install:
+X	${INSTALL_DATA} ${WRKSRC}/libalfont.so.${MAJORVER} ${STAGEDIR}${PREFIX}/lib
+X	@cd ${STAGEDIR}${PREFIX}/lib ; ${LN} -sf libalfont.so.${MAJORVER} libalfont.so
+X	${INSTALL_DATA} ${WRKSRC}/include/alfont*.h ${STAGEDIR}${PREFIX}/include
+X
+X	@${MKDIR} ${STAGEDIR}${DOCSDIR}
+X	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${STAGEDIR}${DOCSDIR}
+X	@${MKDIR} ${STAGEDIR}${DOCSDIR2}
+X	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${STAGEDIR}${DOCSDIR2}
+X
+X.include <bsd.port.mk>
+a34f32b0352a953e7b6b816bd2bf7cec
+echo x - alfont/pkg-descr
+sed 's/^X//' >alfont/pkg-descr << '1a2a36d9bfe9ec9fe181ef7e23404924'
+XAllegroFont is an Allegro wrapper for the wonderful FreeType2 library
+Xthat makes Allegro (amongst other things) able to load and render TTF
+Xand many other famous font formats. Other feature is that it is able
+Xto render the fonts antialiased.
+X
+XWWW: http://opensnc.sourceforge.net/alfont/
+1a2a36d9bfe9ec9fe181ef7e23404924
+echo x - alfont/distinfo
+sed 's/^X//' >alfont/distinfo << '6f613e293209a2a93e4279af6817cd7e'
+XSHA256 (alfont/AlFont209.rar) = 734f7f9758dfb3b80979baf010245d931c9cd2a7557683906c7fc616353f960d
+XSIZE (alfont/AlFont209.rar) = 3696983
+XSHA256 (alfont/alfont.c) = f07440f8eef66f13ec276a5b7e7092285b2ba9ba2cc7c2b10810afe7bcc50e1b
+XSIZE (alfont/alfont.c) = 147094
+6f613e293209a2a93e4279af6817cd7e
+exit
+

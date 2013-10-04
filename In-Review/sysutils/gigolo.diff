@@ -1,0 +1,49 @@
+===> Generating patch
+===> Viewing diff with more
+diff -ruN /usr/ports/sysutils/gigolo/Makefile ./Makefile
+--- /usr/ports/sysutils/gigolo/Makefile	2013-09-13 03:00:33.000000000 +0200
++++ ./Makefile	2013-09-17 20:21:24.000000000 +0200
+@@ -12,26 +12,25 @@
+ DIST_SUBDIR=	${PORTNAME}
+ EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
+ 
+-MAINTAINER=	nemysis@gmx.ch
++MAINTAINER=	nemysis@FreeBSD.org
+ COMMENT=	Frontend to easily manage filesystem connections
+ 
+ LICENSE=	GPLv2
+ 
+ BUILD_DEPENDS=	p5-XML-Parser>=0:${PORTSDIR}/textproc/p5-XML-Parser
+-LIB_DEPENDS=	cairo:${PORTSDIR}/graphics/cairo
+ 
+ USE_BZIP2=	yes
+-USES=		fuse
+-USE_GNOME=	gtk20 gvfs
++USES=		fuse pkgconfig
++USE_GNOME=	cairo gtk20 gvfs
+ USE_XORG=	x11
+ USE_PYTHON=	yes
+ 
+ MAN1=		gigolo.1
+ 
+ PORTDOCS=	AUTHORS ChangeLog NEWS README TODO
++OPTIONS_SUB=	yes
+ 
+ OPTIONS_DEFINE=	DOCS NLS
+-OPTIONS_SUB=	yes
+ 
+ NLS_USES=	gettext
+ 
+@@ -41,11 +40,7 @@
+ .include <bsd.port.options.mk>
+ 
+ post-patch:
+-	@${REINPLACE_CMD} -e 's|COPYING ||' ${WRKSRC}/wscript
+-
+-.if ! ${PORT_OPTIONS:MDOCS}
+ 	${REINPLACE_CMD} -e 's|bld.install_files|#bld.install_files|' ${WRKSRC}/wscript
+-.endif
+ 
+ .if ! ${PORT_OPTIONS:MNLS}
+ 	${REINPLACE_CMD} -e "s|= 'po'|= ''|" ${WRKSRC}/wscript
+===> Done

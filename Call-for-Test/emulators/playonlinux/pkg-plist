@@ -1,0 +1,390 @@
+bin/playonlinux
+share/applications/PlayOnLinux.desktop
+%%NLS%%share/locale/ar/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/ast/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/bg/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/bn/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/bs/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/ca/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/cs/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/da/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/de/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/el/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/en_GB/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/es/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/et/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/fi/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/fr/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/gl/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/he/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/hr/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/hu/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/id/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/it/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/ja/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/jv/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/ko/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/lt/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/ms/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/nb/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/nl/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/oc/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/pl/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/pt/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/pt_BR/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/ro/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/ru/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/sk/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/sl/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/sr/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/sv/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/te/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/tr/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/uk/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/zh_CN/LC_MESSAGES/pol.mo
+%%NLS%%share/locale/zh_TW/LC_MESSAGES/pol.mo
+share/pixmaps/playonlinux.png
+%%DATADIR%%/bash/POL_Command
+%%DATADIR%%/bash/bash_wrapper
+%%DATADIR%%/bash/bug_report
+%%DATADIR%%/bash/changetmp
+%%DATADIR%%/bash/check_fs
+%%DATADIR%%/bash/check_gl
+%%DATADIR%%/bash/create_prefix
+%%DATADIR%%/bash/document_reader
+%%DATADIR%%/bash/expert/Executer
+%%DATADIR%%/bash/expert/PolShell
+%%DATADIR%%/bash/first_use
+%%DATADIR%%/bash/install
+%%DATADIR%%/bash/install_gecko
+%%DATADIR%%/bash/install_wver
+%%DATADIR%%/bash/installpolpackages
+%%DATADIR%%/bash/killall
+%%DATADIR%%/bash/make_shortcut
+%%DATADIR%%/bash/manual_install
+%%DATADIR%%/bash/playonlinux-pkg
+%%DATADIR%%/bash/playonlinux-shell
+%%DATADIR%%/bash/playonlinux-url_handler
+%%DATADIR%%/bash/playonlinux_online
+%%DATADIR%%/bash/pol_update_list
+%%DATADIR%%/bash/polconfigurator
+%%DATADIR%%/bash/polshell
+%%DATADIR%%/bash/read_pc_cd
+%%DATADIR%%/bash/run_app
+%%DATADIR%%/bash/run_exe
+%%DATADIR%%/bash/startup
+%%DATADIR%%/bash/startup_after_server
+%%DATADIR%%/bash/uninstall
+%%DATADIR%%/bash/update_git
+%%DATADIR%%/bash/winebash
+%%DATADIR%%/etc/24-0.gif
+%%DATADIR%%/etc/install/applications-accessories.png
+%%DATADIR%%/etc/install/applications-development.png
+%%DATADIR%%/etc/install/applications-fonts.png
+%%DATADIR%%/etc/install/applications-games.png
+%%DATADIR%%/etc/install/applications-graphics.png
+%%DATADIR%%/etc/install/applications-internet.png
+%%DATADIR%%/etc/install/applications-multimedia.png
+%%DATADIR%%/etc/install/applications-office.png
+%%DATADIR%%/etc/install/applications-other.png
+%%DATADIR%%/etc/install/applications-system.png
+%%DATADIR%%/etc/install/applications-testing.png
+%%DATADIR%%/etc/install/edu.png
+%%DATADIR%%/etc/install/emblem-favorite.png
+%%DATADIR%%/etc/install/face-smile.png
+%%DATADIR%%/etc/install/founder.png
+%%DATADIR%%/etc/install/gnome-control-center.png
+%%DATADIR%%/etc/install/h-star.png
+%%DATADIR%%/etc/install/preferences-desktop-peripherals.png
+%%DATADIR%%/etc/install/preferences-desktop.png
+%%DATADIR%%/etc/install/spacer.png
+%%DATADIR%%/etc/install/spacer16.png
+%%DATADIR%%/etc/install/star.png
+%%DATADIR%%/etc/install/view-refresh.png
+%%DATADIR%%/etc/install/wine-packages.png
+%%DATADIR%%/etc/install/wine-warning.png
+%%DATADIR%%/etc/install/wine.png
+%%DATADIR%%/etc/onglet/application-x-executable.png
+%%DATADIR%%/etc/onglet/applications-system.png
+%%DATADIR%%/etc/onglet/input-gaming.png
+%%DATADIR%%/etc/onglet/internet-group-chat.png
+%%DATADIR%%/etc/onglet/internet-web-browser.png
+%%DATADIR%%/etc/onglet/package-x-generic.png
+%%DATADIR%%/etc/onglet/preferences-desktop-locale.png
+%%DATADIR%%/etc/onglet/preferences-desktop-theme.png
+%%DATADIR%%/etc/onglet/system-users.png
+%%DATADIR%%/etc/onglet/user-desktop.png
+%%DATADIR%%/etc/onglet/wine.png
+%%DATADIR%%/etc/playonlinux.gpg
+%%DATADIR%%/etc/playonlinux15.png
+%%DATADIR%%/etc/playonlinux16.png
+%%DATADIR%%/etc/playonlinux22.png
+%%DATADIR%%/etc/playonlinux32.png
+%%DATADIR%%/etc/playonlinux.png
+%%DATADIR%%/etc/pol_bash
+%%DATADIR%%/etc/setups/autorun/left.jpg
+%%DATADIR%%/etc/setups/autorun/top.png
+%%DATADIR%%/etc/setups/default/left.jpg
+%%DATADIR%%/etc/setups/default/playonmac.jpg
+%%DATADIR%%/etc/setups/default/top.png
+%%DATADIR%%/etc/setups/delete/left.jpg
+%%DATADIR%%/etc/setups/delete/top.png
+%%DATADIR%%/etc/setups/exec/left.jpg
+%%DATADIR%%/etc/setups/exec/top.png
+%%DATADIR%%/etc/setups/fonts/left.jpg
+%%DATADIR%%/etc/setups/fonts/top.png
+%%DATADIR%%/etc/setups/update/top.png
+%%DATADIR%%/etc/setups/wineserver/left.jpg
+%%DATADIR%%/etc/setups/wineserver/top.png
+%%DATADIR%%/etc/star.png
+%%DATADIR%%/lib/debian.lib
+%%DATADIR%%/lib/debug.lib
+%%DATADIR%%/lib/deprecated.lib
+%%DATADIR%%/lib/dosbox.lib
+%%DATADIR%%/lib/playonlinux.lib
+%%DATADIR%%/lib/plugins.lib
+%%DATADIR%%/lib/scripts.lib
+%%DATADIR%%/lib/setupwindow.lib
+%%DATADIR%%/lib/sources
+%%DATADIR%%/lib/variables
+%%DATADIR%%/lib/website.lib
+%%DATADIR%%/lib/wine.lib
+%%DATADIR%%/playonlinux
+%%DATADIR%%/playonlinux-bash
+%%DATADIR%%/playonlinux-pkg
+%%DATADIR%%/playonlinux-shell
+%%DATADIR%%/playonlinux-url_handler
+%%DATADIR%%/plugins/Capture_2.4.3.pol
+%%DATADIR%%/plugins/ScreenCap_0.0.4.pol
+%%DATADIR%%/plugins/plugins.lst
+%%DATADIR%%/plugins/polvault_4.0.3_all.pol
+%%DATADIR%%/plugins/pot.strings
+%%DATADIR%%/python/configure.py
+%%DATADIR%%/python/debug.py
+%%DATADIR%%/python/gui_server.py
+%%DATADIR%%/python/guiv3.py
+%%DATADIR%%/python/install.py
+%%DATADIR%%/python/irc.py
+%%DATADIR%%/python/lib/Variables.py
+%%DATADIR%%/python/lib/__init__.py
+%%DATADIR%%/python/lib/irc.py
+%%DATADIR%%/python/lib/lng.py
+%%DATADIR%%/python/lib/playonlinux.py
+%%DATADIR%%/python/lib/wine.py
+%%DATADIR%%/python/mainwindow.py
+%%DATADIR%%/python/options.py
+%%DATADIR%%/python/sp.py
+%%DATADIR%%/python/wine_versions.py
+%%DATADIR%%/python/wrapper.py
+%%DATADIR%%/resources/images/configure/cmd.png
+%%DATADIR%%/resources/images/configure/console.png
+%%DATADIR%%/resources/images/configure/emblem-system.png
+%%DATADIR%%/resources/images/configure/killall.png
+%%DATADIR%%/resources/images/configure/monitor.png
+%%DATADIR%%/resources/images/configure/reboot.png
+%%DATADIR%%/resources/images/configure/regedit.png
+%%DATADIR%%/resources/images/configure/registry.png
+%%DATADIR%%/resources/images/configure/stop.png
+%%DATADIR%%/resources/images/configure/taskmgr.png
+%%DATADIR%%/resources/images/configure/update.png
+%%DATADIR%%/resources/images/configure/wine-uninstaller.png
+%%DATADIR%%/resources/images/configure/wine-winecfg.png
+%%DATADIR%%/resources/images/configure/wineboot.png
+%%DATADIR%%/resources/images/configure/winecfg.png
+%%DATADIR%%/resources/images/emotes/face-angel.png
+%%DATADIR%%/resources/images/emotes/face-crying.png
+%%DATADIR%%/resources/images/emotes/face-devilish.png
+%%DATADIR%%/resources/images/emotes/face-glasses.png
+%%DATADIR%%/resources/images/emotes/face-grin.png
+%%DATADIR%%/resources/images/emotes/face-kiss.png
+%%DATADIR%%/resources/images/emotes/face-monkey.png
+%%DATADIR%%/resources/images/emotes/face-plain.png
+%%DATADIR%%/resources/images/emotes/face-sad.png
+%%DATADIR%%/resources/images/emotes/face-smile-big.png
+%%DATADIR%%/resources/images/emotes/face-smile.png
+%%DATADIR%%/resources/images/emotes/face-surprise.png
+%%DATADIR%%/resources/images/emotes/face-wink.png
+%%DATADIR%%/resources/images/icones/add.png
+%%DATADIR%%/resources/images/icones/browse.png
+%%DATADIR%%/resources/images/icones/cdrom.png
+%%DATADIR%%/resources/images/icones/document-new.png
+%%DATADIR%%/resources/images/icones/download.png
+%%DATADIR%%/resources/images/icones/finish.png
+%%DATADIR%%/resources/images/icones/generic.png
+%%DATADIR%%/resources/images/icones/list-add.png
+%%DATADIR%%/resources/images/icones/new.png
+%%DATADIR%%/resources/images/icones/virtual_drive.png
+%%DATADIR%%/resources/images/icones/virtual_drive_32.png
+%%DATADIR%%/resources/images/icones/virtual_drive_64.png
+%%DATADIR%%/resources/images/install/32/applications-accessories.png
+%%DATADIR%%/resources/images/install/32/applications-development.png
+%%DATADIR%%/resources/images/install/32/applications-fonts.png
+%%DATADIR%%/resources/images/install/32/applications-games.png
+%%DATADIR%%/resources/images/install/32/applications-graphics.png
+%%DATADIR%%/resources/images/install/32/applications-internet.png
+%%DATADIR%%/resources/images/install/32/applications-multimedia.png
+%%DATADIR%%/resources/images/install/32/applications-office.png
+%%DATADIR%%/resources/images/install/32/applications-other.png
+%%DATADIR%%/resources/images/install/32/applications-science.png
+%%DATADIR%%/resources/images/install/32/applications-system.png
+%%DATADIR%%/resources/images/install/32/emblem-favorite.png
+%%DATADIR%%/resources/images/install/32/gnome-control-center.png
+%%DATADIR%%/resources/images/install/32/preferences-desktop.png
+%%DATADIR%%/resources/images/install/32/view-refresh.png
+%%DATADIR%%/resources/images/install/applications-accessories.png
+%%DATADIR%%/resources/images/install/applications-development.png
+%%DATADIR%%/resources/images/install/applications-fonts.png
+%%DATADIR%%/resources/images/install/applications-games.png
+%%DATADIR%%/resources/images/install/applications-graphics.png
+%%DATADIR%%/resources/images/install/applications-internet.png
+%%DATADIR%%/resources/images/install/applications-multimedia.png
+%%DATADIR%%/resources/images/install/applications-office.png
+%%DATADIR%%/resources/images/install/applications-other.png
+%%DATADIR%%/resources/images/install/applications-system.png
+%%DATADIR%%/resources/images/install/applications-testing.png
+%%DATADIR%%/resources/images/install/edu.png
+%%DATADIR%%/resources/images/install/emblem-favorite.png
+%%DATADIR%%/resources/images/install/face-smile.png
+%%DATADIR%%/resources/images/install/founder.png
+%%DATADIR%%/resources/images/install/gnome-control-center.png
+%%DATADIR%%/resources/images/install/h-star.png
+%%DATADIR%%/resources/images/install/preferences-desktop-peripherals.png
+%%DATADIR%%/resources/images/install/preferences-desktop.png
+%%DATADIR%%/resources/images/install/preferences-system.png
+%%DATADIR%%/resources/images/install/spacer.png
+%%DATADIR%%/resources/images/install/spacer16.png
+%%DATADIR%%/resources/images/install/star.png
+%%DATADIR%%/resources/images/install/view-refresh.png
+%%DATADIR%%/resources/images/install/wait.gif
+%%DATADIR%%/resources/images/install/wait_mini.gif
+%%DATADIR%%/resources/images/install/wine-packages.png
+%%DATADIR%%/resources/images/install/wine-warning.png
+%%DATADIR%%/resources/images/install/wine.png
+%%DATADIR%%/resources/images/menu/add.png
+%%DATADIR%%/resources/images/menu/bug.png
+%%DATADIR%%/resources/images/menu/call-start.png
+%%DATADIR%%/resources/images/menu/cdrom.png
+%%DATADIR%%/resources/images/menu/change_icon.png
+%%DATADIR%%/resources/images/menu/delete.png
+%%DATADIR%%/resources/images/menu/dialog-ok.png
+%%DATADIR%%/resources/images/menu/extensions.png
+%%DATADIR%%/resources/images/menu/folder-wine.png
+%%DATADIR%%/resources/images/menu/internet.png
+%%DATADIR%%/resources/images/menu/manual.png
+%%DATADIR%%/resources/images/menu/media-playback-start.png
+%%DATADIR%%/resources/images/menu/media-playback-stop.png
+%%DATADIR%%/resources/images/menu/options.png
+%%DATADIR%%/resources/images/menu/people.png
+%%DATADIR%%/resources/images/menu/people_.png
+%%DATADIR%%/resources/images/menu/playonlinux_online.png
+%%DATADIR%%/resources/images/menu/polshell.png
+%%DATADIR%%/resources/images/menu/prefix-manager.png
+%%DATADIR%%/resources/images/menu/regedit.png
+%%DATADIR%%/resources/images/menu/repository.png
+%%DATADIR%%/resources/images/menu/run.png
+%%DATADIR%%/resources/images/menu/settings.png
+%%DATADIR%%/resources/images/menu/shortcut.png
+%%DATADIR%%/resources/images/menu/star.png
+%%DATADIR%%/resources/images/menu/update_git.png
+%%DATADIR%%/resources/images/menu/virtual_drive_32.png
+%%DATADIR%%/resources/images/menu/virtual_drive_64.png
+%%DATADIR%%/resources/images/menu/window-close.png
+%%DATADIR%%/resources/images/menu/wine.png
+%%DATADIR%%/resources/images/menu/winecfg.png
+%%DATADIR%%/resources/images/menu/wineserver.png
+%%DATADIR%%/resources/images/pol_min.png
+%%DATADIR%%/resources/images/setups/about.png
+%%DATADIR%%/resources/images/setups/autorun/left.jpg
+%%DATADIR%%/resources/images/setups/autorun/top.png
+%%DATADIR%%/resources/images/setups/default/playonlinux.jpg
+%%DATADIR%%/resources/images/setups/default/playonmac.jpg
+%%DATADIR%%/resources/images/setups/default/top.png
+%%DATADIR%%/resources/images/setups/delete/left.jpg
+%%DATADIR%%/resources/images/setups/delete/left_old.jpg
+%%DATADIR%%/resources/images/setups/delete/top.png
+%%DATADIR%%/resources/images/setups/exec/left.jpg
+%%DATADIR%%/resources/images/setups/exec/top.png
+%%DATADIR%%/resources/images/setups/face-sad.png
+%%DATADIR%%/resources/images/setups/fonts/left.jpg
+%%DATADIR%%/resources/images/setups/fonts/top.png
+%%DATADIR%%/resources/images/setups/update/top.png
+%%DATADIR%%/resources/images/setups/wait.gif
+%%DATADIR%%/resources/images/setups/wait.png
+%%DATADIR%%/resources/images/setups/wait/1.png
+%%DATADIR%%/resources/images/setups/wait/10.png
+%%DATADIR%%/resources/images/setups/wait/11.png
+%%DATADIR%%/resources/images/setups/wait/12.png
+%%DATADIR%%/resources/images/setups/wait/2.png
+%%DATADIR%%/resources/images/setups/wait/3.png
+%%DATADIR%%/resources/images/setups/wait/4.png
+%%DATADIR%%/resources/images/setups/wait/5.png
+%%DATADIR%%/resources/images/setups/wait/6.png
+%%DATADIR%%/resources/images/setups/wait/7.png
+%%DATADIR%%/resources/images/setups/wait/8.png
+%%DATADIR%%/resources/images/setups/wait/9.png
+%%DATADIR%%/resources/images/setups/wineserver/left.jpg
+%%DATADIR%%/resources/images/setups/wineserver/top.png
+%%DATADIR%%/resources/images/toolbar/48/configure.png
+%%DATADIR%%/resources/images/toolbar/48/delete.png
+%%DATADIR%%/resources/images/toolbar/48/emblem-downloads.png
+%%DATADIR%%/resources/images/toolbar/48/install.png
+%%DATADIR%%/resources/images/toolbar/48/package.png
+%%DATADIR%%/resources/images/toolbar/48/run.png
+%%DATADIR%%/resources/images/toolbar/48/stop.png
+%%DATADIR%%/resources/images/toolbar/configure.png
+%%DATADIR%%/resources/images/toolbar/delete.png
+%%DATADIR%%/resources/images/toolbar/emblem-downloads.png
+%%DATADIR%%/resources/images/toolbar/install.png
+%%DATADIR%%/resources/images/toolbar/messenger.png
+%%DATADIR%%/resources/images/toolbar/package.png
+%%DATADIR%%/resources/images/toolbar/play.png
+%%DATADIR%%/resources/images/toolbar/run.png
+%%DATADIR%%/resources/images/toolbar/stop.png
+%%DATADIR%%/resources/sounds/irc.wav
+@dirrm %%DATADIR%%/resources/sounds
+@dirrm %%DATADIR%%/resources/images/toolbar/48
+@dirrm %%DATADIR%%/resources/images/toolbar
+@dirrm %%DATADIR%%/resources/images/setups/wineserver
+@dirrm %%DATADIR%%/resources/images/setups/wait
+@dirrm %%DATADIR%%/resources/images/setups/update
+@dirrm %%DATADIR%%/resources/images/setups/fonts
+@dirrm %%DATADIR%%/resources/images/setups/exec
+@dirrm %%DATADIR%%/resources/images/setups/delete
+@dirrm %%DATADIR%%/resources/images/setups/default
+@dirrm %%DATADIR%%/resources/images/setups/autorun
+@dirrm %%DATADIR%%/resources/images/setups
+@dirrm %%DATADIR%%/resources/images/menu
+@dirrm %%DATADIR%%/resources/images/install/32
+@dirrm %%DATADIR%%/resources/images/install
+@dirrm %%DATADIR%%/resources/images/icones
+@dirrm %%DATADIR%%/resources/images/emotes
+@dirrm %%DATADIR%%/resources/images/configure
+@dirrm %%DATADIR%%/resources/images
+@dirrm %%DATADIR%%/resources
+@dirrm %%DATADIR%%/python/lib
+@dirrm %%DATADIR%%/python
+@dirrm %%DATADIR%%/plugins
+@dirrm %%DATADIR%%/lib
+@dirrm %%DATADIR%%/etc/setups/wineserver
+@dirrm %%DATADIR%%/etc/setups/update
+@dirrm %%DATADIR%%/etc/setups/fonts
+@dirrm %%DATADIR%%/etc/setups/exec
+@dirrm %%DATADIR%%/etc/setups/delete
+@dirrm %%DATADIR%%/etc/setups/default
+@dirrm %%DATADIR%%/etc/setups/autorun
+@dirrm %%DATADIR%%/etc/setups
+@dirrm %%DATADIR%%/etc/onglet
+@dirrm %%DATADIR%%/etc/install
+@dirrm %%DATADIR%%/etc
+@dirrm %%DATADIR%%/bash/expert
+@dirrm %%DATADIR%%/bash
+@dirrm %%DATADIR%%
+%%NLS%%@dirrmtry share/locale/te/LC_MESSAGES
+%%NLS%%@dirrmtry share/locale/te
+%%NLS%%@dirrmtry share/locale/oc/LC_MESSAGES
+%%NLS%%@dirrmtry share/locale/oc
+%%NLS%%@dirrmtry share/locale/jv/LC_MESSAGES
+%%NLS%%@dirrmtry share/locale/jv
+%%NLS%%@dirrmtry share/locale/ast/LC_MESSAGES
+%%NLS%%@dirrmtry share/locale/ast
+@dirrmtry share/applications

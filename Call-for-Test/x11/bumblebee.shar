@@ -1,0 +1,292 @@
+# This is a shell archive.  Save it in a file, remove anything before
+# this line, and then unpack it by entering "sh file".  Note, it may
+# create directories; files and directories will be owned by you and
+# have default permissions.
+#
+# This archive contains:
+#
+#	bumblebee
+#	bumblebee/Makefile
+#	bumblebee/distinfo
+#	bumblebee/pkg-descr
+#	bumblebee/files
+#	bumblebee/files/bumblebeed.in
+#	bumblebee/files/patch-scripts-bumblebee-bugreport.in
+#	bumblebee/files/patch-src-module.c
+#	bumblebee/files/pkg-message.in
+#	bumblebee/pkg-plist
+#
+echo c - bumblebee
+mkdir -p bumblebee > /dev/null 2>&1
+echo x - bumblebee/Makefile
+sed 's/^X//' >bumblebee/Makefile << '3759707a019707758fa9d594c3316536'
+X# Created by: nemysis <nemysis@gmx.ch>
+X# $FreeBSD$
+X
+XPORTNAME=	bumblebee
+XPORTVERSION=	3.0.2
+XCATEGORIES=	x11
+XMASTER_SITES=	GH
+X
+XMAINTAINER=	nemysis@FreeBSD.org
+XCOMMENT=	Bumblebee daemon for Optimus hybrid graphics chipsets
+X
+XLICENSE=	GPLv3
+X
+XBUILD_DEPENDS=	help2man:${PORTSDIR}/misc/help2man
+XRUN_DEPENDS=	${LINUXBASE}/usr/lib/libGL.so.1:${PORTSDIR}/x11/nvidia-driver
+X
+XUSE_GITHUB=	yes
+XGH_ACCOUNT=	seanbruno
+XGH_PROJECT=	fbsd-bumblebee
+XGH_TAGNAME=	${GH_COMMIT}
+XGH_COMMIT=	48a1491
+X
+XUSE_GNOME=	glib20
+XUSE_XORG=	x11
+XUSE_GL=		gl
+XUSES=		pkgconfig
+XUSE_RC_SUBR=	bumblebeed
+X
+XUSE_AUTOTOOLS=	aclocal:env automake:env autoheader:env autoconf:env
+XAUTOMAKE_ARGS=	--add-missing --force
+XGNU_CONFIGURE=	yes
+XCONFIGURE_ARGS+=	CONF_DRIVER=nvidia CONF_DRIVER_MODULE_NVIDIA=nvidia \
+X			CONF_LDPATH_NVIDIA=${PREFIX}/lib:/compat/linux/usr/lib \
+X			CONF_MODPATH_NVIDIA=${PREFIX}/lib/xorg/modules/extensions/.nvidia,${PREFIX}/lib/xorg/modules/
+X
+XMAN1=		bumblebeed.1 optirun.1
+XPORTDOCS=	*
+X
+XSUB_FILES=	pkg-message
+X
+XOPTIONS_DEFINE=	BASH
+X
+X.include <bsd.port.options.mk>
+X
+X.if ${PORT_OPTIONS:MBASH}
+XPLIST_SUB+=	BASH=""
+X.else
+XPLIST_SUB+=	BASH="@comment "
+X.endif
+X
+Xpre-configure:
+X	@(cd ${WRKSRC} && ${SETENV} ${AUTOTOOLS_ENV} ${AUTORECONF} -fi)
+X
+Xpost-patch:
+X.if ! ${PORT_OPTIONS:MDOCS}
+X	@${REINPLACE_CMD} -e '/^dist_doc_DATA/s|$$(relnotes) README.markdown||g' ${WRKSRC}/Makefile.am
+X.endif
+X
+X.if${PORT_OPTIONS:MBASH}
+XRUN_DEPENDS+=	bash:${PORTSDIR}/shells/bash
+X.endif
+X
+X.if ! ${PORT_OPTIONS:MBASH}
+X	@${REINPLACE_CMD} -e 's|scripts/bash_completion/bumblebee||' \
+X		-e 's|completiondir|#completiondir|' \
+X		-e 's|completion_DATA|#completion_DATA|'\
+X		${WRKSRC}/Makefile.am
+X.endif
+X
+Xpost-install:
+X	@${ECHO_CMD}
+X	@${CAT} ${PKGMESSAGE}
+X	@${ECHO_CMD}
+X
+X.include <bsd.port.mk>
+3759707a019707758fa9d594c3316536
+echo x - bumblebee/distinfo
+sed 's/^X//' >bumblebee/distinfo << '79244311fa0b27a13c266c56827bd1ef'
+XSHA256 (bumblebee-3.0.2.tar.gz) = 9068056082c412b5f80847abdf2be732966a8907ca5f3b19b80764b4aa53e7b9
+XSIZE (bumblebee-3.0.2.tar.gz) = 56896
+79244311fa0b27a13c266c56827bd1ef
+echo x - bumblebee/pkg-descr
+sed 's/^X//' >bumblebee/pkg-descr << '6660a1e880f8c89b8d34ea4d3728e613'
+XBumblebee daemon is a rewrite of the original Bumblebee service, providing
+Xan elegant and stable means of managing Optimus hybrid graphics chipsets.
+XA primary goal of this project is to not only enable use of the discrete GPU
+Xfor rendering, but also to enable smart power management of the dGPU when it's
+Xnot in use.
+X
+XWWW: https://github.com/seanbruno/fbsd-bumblebee
+XWWW: https://github.com/Bumblebee-Project/Bumblebee
+6660a1e880f8c89b8d34ea4d3728e613
+echo c - bumblebee/files
+mkdir -p bumblebee/files > /dev/null 2>&1
+echo x - bumblebee/files/bumblebeed.in
+sed 's/^X//' >bumblebee/files/bumblebeed.in << '41a3821c74dadcf315439df6d54b4a62'
+X#!/bin/sh
+X
+X#
+X# $FreeBSD$
+X#
+X# PROVIDE: bumblebeed
+X# REQUIRE: LOGIN
+X# KEYWORD: shutdown
+X#
+X# Add the following lines to /etc/rc.conf
+X# to enable this service:
+X#
+X# bumblebeed_enable="YES"
+X#
+X
+X. /etc/rc.subr
+X
+Xname="bumblebeed"
+Xrcvar=bumblebeed_enable
+X
+Xload_rc_config $name
+X
+Xcommand=%%PREFIX%%/sbin/${name}
+X
+Xload_rc_config "$name"
+X
+X: ${bumblebeed_enable="NO"}
+X
+Xrun_rc_command "$1"
+41a3821c74dadcf315439df6d54b4a62
+echo x - bumblebee/files/patch-scripts-bumblebee-bugreport.in
+sed 's/^X//' >bumblebee/files/patch-scripts-bumblebee-bugreport.in << '2619e533a8493434a616006a231baab6'
+X--- scripts/bumblebee-bugreport.in.orig	2012-09-06 17:54:25.000000000 +0200
+X+++ scripts/bumblebee-bugreport.in	2013-05-02 16:50:41.000000000 +0200
+X@@ -1,4 +1,4 @@
+X-#!/bin/bash
+X+#!/usr/local/bin/bash
+X # Copyright (C) 2011 Bumblebee Project
+X #
+X # This file is part of Bumblebee.
+X@@ -184,11 +184,11 @@
+X 
+X header "System Information"
+X uname -a
+X-echo "/etc/issue:"
+X-cat /etc/issue
+X-if which lsb_release &>/dev/null; then
+X-    echo "lsb_release -a:"
+X-    lsb_release -a
+X+#echo "/etc/issue:"
+X+#cat /etc/issue
+X+if which uname &>/dev/null; then
+X+    echo "uname -rv:"
+X+    uname -rv
+X fi
+X 
+X header "lspci overview"
+X@@ -248,21 +248,24 @@
+X done
+X 
+X header "Modules information"
+X-modinfo bbswitch
+X-modinfo nvidia
+X-modinfo nvidia-current
+X-modinfo nouveau
+X+kldstat -n bbswitch
+X+kldstat -n nvidia
+X+kldstat -n nouveau
+X 
+X header "Driver information"
+X-ls -ld /usr/lib/libnvidia*
+X-ls -ld /usr/lib/libGL.so*
+X-ls -ld /usr/lib/libvdpau.so*
+X-ls -ld /usr/lib/*/libnvidia*
+X-ls -ld /usr/lib/*/libGL.so*
+X-ls -ld /usr/lib/*/libvdpau.so*
+X+ls -ld /compat/linux/usr/lib/libnvidia*
+X+ls -ld /usr/local/lib/libnvidia*
+X+ls -ld /compat/linux/usr/lib/libGL.so*
+X+ls -ld /usr/local/lib/libGL.so*
+X+ls -ld /compat/linux/usr/lib/libvdpau.so*
+X+ls -ld /usr/local/lib/libvdpau.so*
+X+ls -ld /compat/linux/usr/lib/libnvidia*
+X+ls -ld /usr/local/lib/libnvidia*
+X+ls -ld /usr/local/lib/*/libGL.so*
+X # non-empty containing 'log' and 1[0-9][0-9] files if the driver was installed
+X # from nvidia.com
+X-ls -la /var/lib/nvidia
+X+#ls -la /var/lib/nvidia
+X+pkg info | grep nvidia-driver
+X 
+X header "Packages info"
+X if [ -n "$PKG_QUERY_TOOL" ]; then
+2619e533a8493434a616006a231baab6
+echo x - bumblebee/files/patch-src-module.c
+sed 's/^X//' >bumblebee/files/patch-src-module.c << '11d67c100b0dc86da9b7ef9f29f9bc11'
+X--- src/module.c.orig	2012-09-06 17:54:25.000000000 +0200
+X+++ src/module.c	2013-04-24 22:09:28.000000000 +0200
+X@@ -71,7 +71,7 @@
+X     /* the module has not loaded yet, try to load it */
+X     bb_log(LOG_INFO, "Loading driver %s (module %s)\n", driver, module_name);
+X     char *mod_argv[] = {
+X-      "modprobe",
+X+      "kldload",
+X       module_name,
+X       NULL
+X     };
+X@@ -95,7 +95,7 @@
+X   if (module_is_loaded(driver) == 1) {
+X     bb_log(LOG_INFO, "Unloading %s driver\n", driver);
+X     char *mod_argv[] = {
+X-      "rmmod",
+X+      "kldunload",
+X       "--wait",
+X       driver,
+X       NULL
+X@@ -117,10 +117,10 @@
+X  */
+X int module_is_available(char *module_name) {
+X   /* HACK to support call from optirun */
+X-  char *modinfo_bin = "/sbin/modinfo";
+X+  char *modinfo_bin = "/sbin/kldstat";
+X   if (access(modinfo_bin, X_OK)) {
+X-    /* if /sbin/modinfo is not found, pray that PATH contains it*/
+X-    modinfo_bin = "modinfo";
+X+    /* if /sbin/kldstat is not found, pray that PATH contains it*/
+X+    modinfo_bin = "kldstat";
+X   }
+X   char *mod_argv[] = {
+X     modinfo_bin,
+11d67c100b0dc86da9b7ef9f29f9bc11
+echo x - bumblebee/files/pkg-message.in
+sed 's/^X//' >bumblebee/files/pkg-message.in << '4a1dca57efc4295ab699f4ac31978fc9'
+X===============================================================================
+X
+XBumblebee has been installed.
+X
+X
+XPlease look
+X
+X    https://github.com/Bumblebee-Project/Bumblebee/wiki
+X
+X
+XIn order to use Bumblebee, add your user to new 'bumblebee' group.
+X
+X    groupadd bumblebee
+X
+X
+XYou can configure the behaviour of Bumblebee to fit your needs.
+XFine tuning like speed optimization, power management and other stuff
+Xcan be configured in
+X
+X    %%PREFIX%%/etc/bumblebee/bumblebee.conf
+X
+X
+XTo run a program on the discrete video card:
+X
+X    optirun <program-name>
+X
+X===============================================================================
+4a1dca57efc4295ab699f4ac31978fc9
+echo x - bumblebee/pkg-plist
+sed 's/^X//' >bumblebee/pkg-plist << 'd1dde658f37befa116b07dfbe85643eb'
+Xbin/bumblebee-bugreport
+Xbin/optirun
+X%%BASH%%etc/bash_completion.d/bumblebee
+Xetc/bumblebee/bumblebee.conf
+Xetc/bumblebee/xorg.conf.nouveau
+Xetc/bumblebee/xorg.conf.nvidia
+Xsbin/bumblebeed
+X@dirrmtry etc/bumblebee
+d1dde658f37befa116b07dfbe85643eb
+exit
+

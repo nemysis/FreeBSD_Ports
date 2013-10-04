@@ -1,0 +1,29 @@
+--- lib/debug.lib.orig	2013-03-31 23:12:23.000000000 +0200
++++ lib/debug.lib	2013-04-27 14:43:40.000000000 +0200
+@@ -79,8 +79,6 @@
+ 
+ > uname -a
+   $(uname -a)
+-> lsb_release -a
+-  $(lsbrelease -a 2> /dev/null)
+ > wine --version (Be careful, this version might not be the version used 
+ in the script. Read the content of this file for more information)
+   $(wine --version)
+@@ -168,7 +166,7 @@
+ 	# Get information about cpu in one's computer
+ 	# Usage : POL_Debug_cpuinfo
+ 	
+-	cat /proc/cpuinfo > "$DEBUGGING/cpuinfo.log"
++	cat /compat/linux/proc/cpuinfo > "$DEBUGGING/cpuinfo.log"
+ }
+ POL_Debug_glxinfo()
+ {
+@@ -195,8 +193,6 @@
+ 	  $VERSION
+ 	> uname -a
+ 	  $(uname -a)
+-	> lsb_release -a
+-	  $(lsbrelease -a 2> /dev/null)
+ 	> wine --version
+ 	  $(POL_Wine --version)
+ 	> POL_WINEVERSION

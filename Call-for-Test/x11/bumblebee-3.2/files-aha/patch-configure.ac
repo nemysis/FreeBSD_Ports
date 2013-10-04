@@ -1,0 +1,27 @@
+--- configure.ac.orig	2013-04-23 17:29:23.000000000 +0200
++++ configure.ac	2013-04-24 15:00:57.000000000 +0200
+@@ -119,12 +119,24 @@
+ # Checks for libraries.
+ #AC_CHECK_LIB([bsd], [pidfile_open])
+ 
++AC_ARG_WITH([without_libbsd],
++	[AS_HELP_STRING([--without-libbsd],
++			[Do Not Check For libbsd])],
++		[],[without_libbsd=no])
++if test "x$without_libbsd" = "xno" && test -f /usr/include/sys/param.h ; then
++  without_libbsd=yes
++  AM_CONDITIONAL([FREEBSD], [test -f "/usr/include/sys/param.h"])
++  AC_DEFINE(HAVE_LIBBSD_020)
++fi
++
+ # Checks for header files.
+ PKG_CHECK_MODULES([x11], [x11])
+ PKG_CHECK_MODULES([glib], [glib-2.0])
+ AS_IF([test "x$with_pidfile" != xno], [
++  if test "x$without_libbsd" = "xno"; then
+ 		PKG_CHECK_MODULES([libbsd], [libbsd >= 0.2.0])
+ 		PKG_CHECK_EXISTS([libbsd = 0.2.0], [AC_DEFINE(HAVE_LIBBSD_020)])
++  fi
+ 	])
+ 
+ AC_CONFIG_FILES([Makefile])

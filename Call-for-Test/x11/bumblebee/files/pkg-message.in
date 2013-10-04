@@ -1,0 +1,27 @@
+===============================================================================
+
+Bumblebee has been installed.
+
+
+Please look
+
+    https://github.com/Bumblebee-Project/Bumblebee/wiki
+
+
+In order to use Bumblebee, add your user to new 'bumblebee' group.
+
+    groupadd bumblebee
+
+
+You can configure the behaviour of Bumblebee to fit your needs.
+Fine tuning like speed optimization, power management and other stuff
+can be configured in
+
+    %%PREFIX%%/etc/bumblebee/bumblebee.conf
+
+
+To run a program on the discrete video card:
+
+    optirun <program-name>
+
+===============================================================================

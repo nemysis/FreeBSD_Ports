@@ -1,0 +1,17 @@
+--- configure.ac.orig	2013-04-23 17:29:23.000000000 +0200
++++ configure.ac	2013-04-24 12:27:08.000000000 +0200
+@@ -122,10 +122,10 @@
+ # Checks for header files.
+ PKG_CHECK_MODULES([x11], [x11])
+ PKG_CHECK_MODULES([glib], [glib-2.0])
+-AS_IF([test "x$with_pidfile" != xno], [
+-		PKG_CHECK_MODULES([libbsd], [libbsd >= 0.2.0])
+-		PKG_CHECK_EXISTS([libbsd = 0.2.0], [AC_DEFINE(HAVE_LIBBSD_020)])
+-	])
++#AS_IF([test "x$with_pidfile" != xno], [
++#		PKG_CHECK_MODULES([libbsd], [libbsd >= 0.2.0])
++#		PKG_CHECK_EXISTS([libbsd = 0.2.0], [AC_DEFINE(HAVE_LIBBSD_020)])
++#	])
+ 
+ AC_CONFIG_FILES([Makefile])
+ AC_OUTPUT
