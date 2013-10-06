@@ -3,14 +3,8 @@
 
 PORTNAME=	netwalk
 PORTVERSION=	0.4.10
-PORTREVISION=	2
+PORTREVISION=	3
 CATEGORIES=	games
-MASTER_SITES=	GH \
-		GOOGLE_CODE:icons
-DISTFILES=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX} \
-		screenshot-0.4.8.png:icons
-DIST_SUBDIR=	${PORTNAME}
-EXTRACT_ONLY=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX}
 
 MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Game where the object is to connect every terminal to the main server
@@ -21,21 +15,18 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	blynn
 GH_PROJECT=	${PORTNAME}
 GH_TAGNAME=	${GH_COMMIT}
-GH_COMMIT=	b5e0346
+GH_COMMIT=	cb6b089
 
 USES=		gmake iconv
 USE_SDL=	sdl ttf
 USE_XORG=	x11 xau xdmcp
+MAKE_ARGS=	PREFIX=${STAGEDIR}${PREFIX}
 ALL_TARGET=
 
-CFLAGS+=	-I${LOCALBASE}/include -L${LOCALBASE}/lib
-
-PLIST_FILES=	bin/${PORTNAME} \
-		share/netwalk/Vera.ttf \
-		share/pixmaps/${PORTNAME}.png
-PLIST_DIRSTRY=	share/netwalk
-
 PORTDOCS=	README
+
+INSTALLS_ICONS=	yes
+ICON_SIZES=	32x32 48x48 64x64 96x96 128x128
 
 DESKTOP_ENTRIES="NetWalk" "${COMMENT}" "${PORTNAME}" \
 		"${PORTNAME}" "Game;LogicGame;" "false"
@@ -51,8 +42,13 @@ post-patch:
 		${WRKSRC}/Makefile
 
 post-install:
-	${INSTALL_DATA} ${_DISTDIR}/screenshot-0.4.8.png \
-		${STAGEDIR}${PREFIX}/share/pixmaps/${PORTNAME}.png
+.for s in ${ICON_SIZES}
+	@${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}/apps/
+	${INSTALL_DATA} ${WRKSRC}/icons/${PORTNAME}_${s}.png \
+		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}/apps/${PORTNAME}.png
+.endfor
+	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png \
+		${STAGEDIR}${PREFIX}/share/pixmaps/
 
 	@${MKDIR} ${STAGEDIR}${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${STAGEDIR}${DOCSDIR}

@@ -2,7 +2,7 @@ Index: Makefile
 ===================================================================
 --- Makefile	(revision 328753)
 +++ Makefile	(working copy)
-@@ -6,13 +6,13 @@
+@@ -6,20 +6,17 @@
  CATEGORIES=	graphics
  MASTER_SITES=	SF
  
@@ -14,12 +14,18 @@ Index: Makefile
  
 -LIB_DEPENDS=	pthread-stubs:${PORTSDIR}/devel/libpthread-stubs \
 -		drm:${PORTSDIR}/graphics/libdrm
-+LIB_DEPENDS=	libpthread-stubs.so:${PORTSDIR}/devel/libpthread-stubs \
-+		libdrm.so:${PORTSDIR}/graphics/libdrm
- 
+-
  USE_BZIP2=	yes
  HAS_CONFIGURE=	yes
-@@ -50,8 +50,8 @@
+ CONFIGURE_SCRIPT=	compile.sh
+ ALL_TARGET=	x11
+ INSTALL_TARGET=	x11-install
+-USE_XORG=	x11 xau xcb xdamage xdmcp xext xfixes xrandr xrender xxf86vm
++USE_XORG=	xi xrandr
+ USE_GL=		glu
+ USE_LDCONFIG=	yes
+ MAKE_JOBS_UNSAFE=	yes
+@@ -50,8 +47,8 @@
  EXAMPLES_FILES2=	accuracy defaults dynamic events fsaa fsinput iconify \
  			joysticks peter reopen tearing version
  
@@ -30,7 +36,7 @@ Index: Makefile
  
  post-extract:
  	@${CHMOD} ${BINMODE} ${CONFIGURE_WRKSRC}/${CONFIGURE_SCRIPT}
-@@ -61,27 +61,25 @@
+@@ -61,27 +58,25 @@
  		's|/usr/X11R6|${LOCALBASE}| ; \
  		 /SOFLAGS/s|-soname |-Wl,-soname,| ; \
  		 /CFLAGS_THREAD/s|"-pthread"|"${PTHREAD_CFLAGS}"| ; \
@@ -74,3 +80,52 @@ Index: Makefile
 +	${INSTALL_PROGRAM} ${EXAMPLES_FILES2:S|^|${EXAMPLESSRCDIR2}/|} ${STAGEDIR}${EXAMPLESDIR2}
  
  .include <bsd.port.mk>
+Index: files/patch-lib__x11__Makefile.x11.in
+===================================================================
+--- files/patch-lib__x11__Makefile.x11.in	(revision 0)
++++ files/patch-lib__x11__Makefile.x11.in	(working copy)
+@@ -0,0 +1,29 @@
++--- ./lib/x11/Makefile.x11.in.orig	2013-05-30 16:07:32.000000000 +0200
+++++ ./lib/x11/Makefile.x11.in	2013-09-30 12:46:48.994429398 +0200
++@@ -26,19 +26,19 @@
++ # Install GLFW static library
++ ##########################################################################
++ install: libglfw.a libglfw.pc
++-	$(INSTALL) -d $(PREFIX)/lib
++-	$(INSTALL) -c -m 644 libglfw.a $(PREFIX)/lib/libglfw.a
++-	$(INSTALL) -d $(PREFIX)/include/GL
++-	$(INSTALL) -c -m 644 ../../include/GL/glfw.h $(PREFIX)/include/GL/glfw.h
++-	$(INSTALL) -d $(PREFIX)/lib/pkgconfig
++-	$(INSTALL) -c -m 644 libglfw.pc $(PREFIX)/lib/pkgconfig/libglfw.pc
+++	$(INSTALL) -d $(DESTDIR)$(PREFIX)/lib
+++	$(INSTALL) -c -m 644 libglfw.a $(DESTDIR)$(PREFIX)/lib/libglfw.a
+++	$(INSTALL) -d $(DESTDIR)$(PREFIX)/include/GL
+++	$(INSTALL) -c -m 644 ../../include/GL/glfw.h $(DESTDIR)$(PREFIX)/include/GL/glfw.h
+++	$(INSTALL) -d $(DESTDIR)$(PREFIX)/lib/pkgconfig
+++	$(INSTALL) -c -m 644 libglfw.pc $(DESTDIR)$(PREFIX)/lib/pkgconfig/libglfw.pc
++ 
++ 
++ ##########################################################################
++ # Install GLFW static and shared libraries
++ ##########################################################################
++ dist-install: libglfw.so install
++-	$(INSTALL) -c -m 644 libglfw.so $(PREFIX)/lib/libglfw.so
+++	$(INSTALL) -c -m 644 libglfw.so $(DESTDIR)$(PREFIX)/lib/libglfw.so
++ 
++ 
++ ##########################################################################
+
+Property changes on: files/patch-lib__x11__Makefile.x11.in
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++text/plain
+\ No newline at end of property
+Added: fbsd:nokeywords
+## -0,0 +1 ##
++yes
+\ No newline at end of property
+Added: svn:eol-style
+## -0,0 +1 ##
++native
+\ No newline at end of property

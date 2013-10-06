@@ -11,15 +11,12 @@ COMMENT=	Portable framework for OpenGL development
 
 LICENSE=	ZLIB
 
-LIB_DEPENDS=	libpthread-stubs.so:${PORTSDIR}/devel/libpthread-stubs \
-		libdrm.so:${PORTSDIR}/graphics/libdrm
-
 USE_BZIP2=	yes
 HAS_CONFIGURE=	yes
 CONFIGURE_SCRIPT=	compile.sh
 ALL_TARGET=	x11
 INSTALL_TARGET=	x11-install
-USE_XORG=	x11 xau xcb xdamage xdmcp xext xfixes xrandr xrender xxf86vm
+USE_XORG=	xi xrandr
 USE_GL=		glu
 USE_LDCONFIG=	yes
 MAKE_JOBS_UNSAFE=	yes

@@ -5,6 +5,6 @@ Open Surge has been installed.
 After deinstallation, some files may stay in %%DATADIR%%,
 you can delete them with
 
-    rm -fr %%DATADIR%%
+    /bin/rm -fr %%DATADIR%%
 
 ===============================================================================

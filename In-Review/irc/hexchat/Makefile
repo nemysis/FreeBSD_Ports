@@ -1,5 +1,5 @@
 # Created by: nemysis <nemysis@gmx.ch>
-# $FreeBSD: head/irc/hexchat/Makefile 328196 2013-09-24 21:21:48Z nemysis $
+# $FreeBSD: head/irc/hexchat/Makefile 329395 2013-10-04 21:59:14Z nemysis $
 
 PORTNAME=	hexchat
 PORTVERSION=	2.9.6.1
