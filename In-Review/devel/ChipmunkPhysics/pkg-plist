@@ -24,7 +24,7 @@ include/chipmunk/cpShape.h
 include/chipmunk/cpSpace.h
 include/chipmunk/cpSpatialIndex.h
 include/chipmunk/cpVect.h
-lib/libchipmunk.a
+%%STATIC%%lib/libchipmunk.a
 lib/libchipmunk.so
 lib/libchipmunk.so.%%MAJORVER%%
 @dirrm include/chipmunk/constraints

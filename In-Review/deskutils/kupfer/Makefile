@@ -23,16 +23,12 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	GNOME
 GH_PROJECT=	kupfer
 GH_TAGNAME=	${GH_COMMIT}
-GH_COMMIT=	0268e36
-#04bbd63
+GH_COMMIT=	04bbd63
 
 USES=		desktop-file-utils shared-mime-info
 USE_GNOME=	gvfs intltool pygtk2 pygnomedesktop
 USE_PYTHON=	yes
 INSTALLS_ICONS=	yes
-
-#MAN1=		kupfer.1
-#MLINKS=		kupfer.1 kupfer-exec.1
 
 PORTDOCS=	*
 
@@ -57,21 +53,6 @@ RHYTHMBOX_RUN_DEPENDS=	rhythmbox:${PORTSDIR}/audio/rhythmbox
 
 .include <bsd.port.options.mk>
 
-#.if ${PORT_OPTIONS:MNLS}
-#USES+=		gettext
-#PLIST_SUB+=	NLS=""
-#.else
-#PLIST_SUB+=	NLS="@comment "
-#.endif
-
-#.if ${PORT_OPTIONS:MNAUTILUS}
-#RUN_DEPENDS+=	${LOCALBASE}/lib/nautilus-python/nautilus:${PORTSDIR}/x11-fm/py-nautilus
-#.endif
-
-#.if ${PORT_OPTIONS:MRHYTHMBOX}
-#RUN_DEPENDS+=	rhythmbox:${PORTSDIR}/audio/rhythmbox
-#.endif
-
 post-patch:
 	@${REINPLACE_CMD} -e 's|--quiet||' ${WRKSRC}/bin/kupfer.in
 	@${REINPLACE_CMD} -e 's|locale.bindtextdomain|gettext.bindtextdomain|' \
@@ -90,16 +71,13 @@ do-build:
 
 do-install:
 	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ./waf install
-#--prefix=${STAGEDIR}${PREFIX}
 
 post-install:
 	${INSTALL_MAN} ${WRKSRC}/build/kupfer.1 ${STAGEDIR}${MAN1PREFIX}/man/man1/
 
-.if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${STAGEDIR}${DOCSDIR}
 	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${STAGEDIR}${DOCSDIR}
 	@${MKDIR} ${STAGEDIR}${DOCSDIR2}
 	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${STAGEDIR}${DOCSDIR2}
-.endif
 
 .include <bsd.port.mk>

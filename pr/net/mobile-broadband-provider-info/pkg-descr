@@ -1,9 +1,0 @@
-Mobile Broadband Service Provider Information Database
-
-This package contains mobile broadband settings for different service providers
-in different countries. The Package contains only informational files so it's
-safe for distributions to grab updates even during feature freeze and
-maintenance stages.
-
-WWW: https://live.gnome.org/NetworkManager/MobileBroadband/ServiceProviders
-WWW: http://packages.ubuntu.com/source/raring/mobile-broadband-provider-info

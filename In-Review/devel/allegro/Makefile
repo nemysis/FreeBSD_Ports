@@ -63,9 +63,6 @@ OGG_CMAKE_OFF=		-DWANT_LOGG=of
 CFLAGS+=	-L${LOCALBASE}/lib
 .endif
 
-#.include "Makefile.man"
-#INFO=		allegro
-
 .if ${PORT_OPTIONS:MDEMOS} && ${PORT_OPTIONS:MEXAMPLES}
 SUB_FILES+=	shooter skater skater_agl \
 		pkg-message

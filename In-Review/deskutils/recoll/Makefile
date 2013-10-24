@@ -2,8 +2,7 @@
 # $FreeBSD: head/deskutils/recoll/Makefile 324744 2013-08-14 22:35:50Z ak $
 
 PORTNAME=	recoll
-#PORTVERSION=	1.18.2
-PORTVERSION=	1.19.5
+PORTVERSION=	1.19.7
 CATEGORIES=	deskutils
 MASTER_SITES=	http://www.lesbonscomptes.com/${PORTNAME}/
 
@@ -29,7 +28,7 @@ OPTIONS_DEFAULT=QT4 ASPELL PYTHON X11MON
 
 OPTIONS_SUB=	yes
 
-QT4_CONFIGURE_ON=		qtgui
+QT4_CONFIGURE_ENABLE=		qtgui
 
 ASPELL_LIB_DEPENDS=		libaspell.so:${PORTSDIR}/textproc/aspell
 ASPELL_CONFIGURE_ENABLE=	aspell
@@ -38,10 +37,9 @@ PYTHON_CONFIGURE_ENABLE=	python-module
 
 X11MON_CONFIGURE_ENABLE=	x11mon
 
-# Wrong versioning upstream
-PORTSCOUT=	skipv:1.19
-
 .include <bsd.port.options.mk>
+
+PLIST_SUB+=	MAJORVER=${PORTVERSION}
 
 .if ${PORT_OPTIONS:MQT4}
 USE_QT4=	moc_build qmake_build rcc_build uic_build iconengines imageformats \
@@ -49,8 +47,6 @@ USE_QT4=	moc_build qmake_build rcc_build uic_build iconengines imageformats \
 QT_NONSTANDARD=	yes
 CONFIGURE_ENV+=	QTDIR="${QT_PREFIX}" QMAKE="${QMAKE}"
 INSTALLS_ICONS=	yes
-PLIST_SUB+=	QT=""
-MAN1+=		recollq.1 recoll.1
 .endif
 
 .if ${PORT_OPTIONS:MPYTHON}
@@ -76,6 +72,10 @@ post-patch:
 		-e 's|-pthread|${PTHREAD_LIBS}|' ${WRKSRC}/mk/${OPSYS}
 	@${REINPLACE_CMD} -e 's|@NOCMDLINE@|@NOQTMAKE@|g' \
 		${WRKSRC}/recollinstall.in
+
+.if ${OSVERSION} > 1000000
+    @${REINPLACE_CMD} -e 's|std::tr1::shared_ptr|std::shared_ptr|g' ${WRKSRC}/*/*.h ${WRKSRC}/*/*.cpp
+.endif
 
 post-configure:
 .if ${PORT_OPTIONS:MQT4}

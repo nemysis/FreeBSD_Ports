@@ -494,11 +494,9 @@ share/icons/hicolor/scalable/apps/kupfer.svg
 %%DATADIR%%/progress_dialog.ui
 %%DATADIR%%/result.ui
 %%DATADIR%%/searchplugins/google.xml
-%%NLS%%share/locale/ca/LC_MESSAGES/kupfer.mo
 %%NLS%%share/locale/cs/LC_MESSAGES/kupfer.mo
 %%NLS%%share/locale/da/LC_MESSAGES/kupfer.mo
 %%NLS%%share/locale/de/LC_MESSAGES/kupfer.mo
-%%NLS%%share/locale/el/LC_MESSAGES/kupfer.mo
 %%NLS%%share/locale/en/LC_MESSAGES/kupfer.mo
 %%NLS%%share/locale/en_GB/LC_MESSAGES/kupfer.mo
 %%NLS%%share/locale/es/LC_MESSAGES/kupfer.mo

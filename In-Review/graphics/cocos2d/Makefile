@@ -26,6 +26,7 @@ USE_ZIP=	yes
 USE_GL=		yes
 USE_SDL=	mixer
 USE_PYTHON=	2.7
+USE_PYDISTUTILS=	yes
 USE_DOS2UNIX=	yes
 DOS2UNIX_REGEX=	.*.[^p][^n][^g]$
 
@@ -47,7 +48,7 @@ UTEST_DESC=		Install unittest
 
 OPTIONS_SUB=	yes
 
-UTEST_RUN_DEPENDS=	py.test>=0:${PORTSDIR}/devel/py-pytest
+UTEST_RUN_DEPENDS=	${LOCALBASE}/bin/py.test:${PORTSDIR}/devel/py-pytest
 
 .include <bsd.port.options.mk>
 
@@ -61,15 +62,16 @@ post-patch:
 regression-test: build
 	@(cd ${WRKSRC} && ${PYTHON_CMD} ${PYSETUP} test)
 
-do-build:
-	@(cd ${WRKSRC}/cocos && ${PYTHON_CMD} -m compileall .)
-	@(cd ${WRKSRC}/cocos && ${PYTHON_CMD} -O -m compileall .)
+#do-build:
+#	@(cd ${WRKSRC}/cocos && ${PYTHON_CMD} -m compileall .)
+#	@(cd ${WRKSRC}/cocos && ${PYTHON_CMD} -O -m compileall .)
 
-do-install:
-	@${MKDIR} ${STAGEDIR}${DATADIR}/EGG-INFO
-	@(cd ${WRKSRC}/cocos2d.egg-info && ${CP} * ${STAGEDIR}${DATADIR}/EGG-INFO)
-	@(cd ${WRKSRC} && ${COPYTREE_SHARE} cocos ${STAGEDIR}${DATADIR})
+#do-install:
+#	@${MKDIR} ${STAGEDIR}${DATADIR}/EGG-INFO
+#	@(cd ${WRKSRC}/cocos2d.egg-info && ${CP} * ${STAGEDIR}${DATADIR}/EGG-INFO)
+#	@(cd ${WRKSRC} && ${COPYTREE_SHARE} cocos ${STAGEDIR}${DATADIR})
 
+post-install:
 .if ${PORT_OPTIONS:MBENCHMARKS}
 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} benchmarks ${STAGEDIR}${DATADIR})
 .endif

@@ -1,5 +1,5 @@
 # Created by: Sergey V. Dyatko <sergey.dyatko@gmail.com>
-# $FreeBSD: nemysis/deskutils/q4wine/Makefile 17456 2013-09-28 17:20:47Z nemysis $
+# $FreeBSD: head/deskutils/q4wine/Makefile 330710 2013-10-18 00:56:10Z nemysis $
 
 PORTNAME=	q4wine
 PORTVERSION=	1.0r3
@@ -26,8 +26,6 @@ USE_QT4=	qmake_build rcc_build moc_build uic_build \
 		linguist_build corelib gui sql network
 ONLY_FOR_ARCHS=	i386 amd64
 
-SUB_FILES=	pkg-message
-
 PORTDOCS=	AUTHORS ChangeLog README TODO
 
 OPTIONS_DEFINE=	DOCS NLS DBUS
@@ -51,6 +49,8 @@ USE_QT4+=	dbus
 .endif
 
 post-patch:
+	@${REINPLACE_CMD} -e 's|/share/man|/man|' \
+		${WRKSRC}/src/CMakeLists.txt
 	@${REINPLACE_CMD} -e 's|^Categories=.*|Categories=Qt;System;Emulator;Utility;Game;|' \
 		${WRKSRC}/${PORTNAME}.desktop
 

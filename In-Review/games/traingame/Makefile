@@ -1,11 +1,11 @@
 # Created by: Rusmir Dusko <nemysis@FreeBSD.org>
-# $FreeBSD$
+# $FreeBSD: head/games/traingame/Makefile 330705 2013-10-18 00:28:50Z nemysis $
 
 PORTNAME=	traingame
 PORTVERSION=	0.2.2
 CATEGORIES=	games
 MASTER_SITES=	http://www.nickg.me.uk/files/:game \
-		SF/nemysisfreebsdp/:icons
+		SF/nemysisfreebsdp/${CATEGORIES}/:icons
 DISTFILES=	TrainGame-${DISTVERSION}${EXTRACT_SUFX}:game \
 		${PORTNAME}_icons.tar.gz:icons
 DIST_SUBDIR=	${PORTNAME}
@@ -22,10 +22,10 @@ RUN_DEPENDS=	xterm:${PORTSDIR}/x11/xterm
 
 WRKSRC=		${WRKDIR}/TrainGame-${PORTVERSION}
 
-USES=		cmake pkgconfig
+USES=		cmake compiler:c++11-lib pkgconfig
 USE_SDL=	sdl image
 USE_GL=		glew
-USE_GCC=	4.6+
+#USE_GCC=	yes
 
 PORTDOCS=	model_notes.txt models.gnuplot
 
@@ -38,6 +38,8 @@ SUB_FILES=	${PORTNAME} \
 
 DESKTOP_ENTRIES="Train Game" "${COMMENT}" ${PORTNAME} \
 		"xterm -e ${PORTNAME}-map" "Game;ArcadeGame;" false
+
+OPTIONS_DEFINE=	DOCS
 
 post-patch:
 		@${REINPLACE_CMD} -e 's|shared_ptr|std::shared_ptr|' \
@@ -57,7 +59,8 @@ do-install:
 	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}_${s}.png \
 		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}/apps/${PORTNAME}.png
 .endfor
-	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png ${STAGEDIR}${PREFIX}/share/pixmaps/
+	${LN} -sf ${PREFIX}/share/icons/hicolor/48x48/apps/${PORTNAME}.png \
+		${STAGEDIR}${PREFIX}/share/pixmaps/
 
 	@${MKDIR} ${STAGEDIR}${DOCSDIR}
 	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${STAGEDIR}${DOCSDIR}

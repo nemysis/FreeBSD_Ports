@@ -1,131 +1,52 @@
 Index: Makefile
 ===================================================================
---- Makefile	(revision 328753)
+--- Makefile	(revision 329704)
 +++ Makefile	(working copy)
-@@ -6,20 +6,17 @@
+@@ -5,7 +5,6 @@
+ PORTVERSION=	3.0.3
  CATEGORIES=	graphics
  MASTER_SITES=	SF
+-PKGNAMESUFFIX=	-devel
  
--MAINTAINER=	nemysis@gmx.ch
-+MAINTAINER=	nemysis@FreeBSD.org
+ MAINTAINER=	nemysis@FreeBSD.org
  COMMENT=	Portable framework for OpenGL development
- 
- LICENSE=	ZLIB
- 
--LIB_DEPENDS=	pthread-stubs:${PORTSDIR}/devel/libpthread-stubs \
--		drm:${PORTSDIR}/graphics/libdrm
--
- USE_BZIP2=	yes
- HAS_CONFIGURE=	yes
- CONFIGURE_SCRIPT=	compile.sh
- ALL_TARGET=	x11
- INSTALL_TARGET=	x11-install
--USE_XORG=	x11 xau xcb xdamage xdmcp xext xfixes xrandr xrender xxf86vm
-+USE_XORG=	xi xrandr
+@@ -17,6 +16,7 @@
  USE_GL=		glu
  USE_LDCONFIG=	yes
- MAKE_JOBS_UNSAFE=	yes
-@@ -50,8 +47,8 @@
- EXAMPLES_FILES2=	accuracy defaults dynamic events fsaa fsinput iconify \
- 			joysticks peter reopen tearing version
+ USE_GCC=	4.6+
++CMAKE_ARGS+=	-DBUILD_SHARED_LIBS:BOOL=ON
  
--NO_STAGE=	yes
--.include <bsd.port.options.mk>
-+# Restrict to stable (even) versions, indicated by the second component.
-+PORTSCOUT=    limit:^2\..*
+ CPPFLAGS+=	-I${LOCALBASE}/include
+ LDFLAGS+=	-L${LOCALBASE}/lib
+@@ -23,8 +23,6 @@
  
- post-extract:
- 	@${CHMOD} ${BINMODE} ${CONFIGURE_WRKSRC}/${CONFIGURE_SCRIPT}
-@@ -61,27 +58,25 @@
- 		's|/usr/X11R6|${LOCALBASE}| ; \
- 		 /SOFLAGS/s|-soname |-Wl,-soname,| ; \
- 		 /CFLAGS_THREAD/s|"-pthread"|"${PTHREAD_CFLAGS}"| ; \
--		 /LFLAGS_THREAD/s|"-pthread"|"${PTHREAD_LIBS}"|' ${WRKSRC}/${CONFIGURE_SCRIPT}
--	@${REINPLACE_CMD} -e \
--		's|lib/pkgconfig|libdata/pkgconfig|g' ${WRKSRC}/lib/x11/Makefile.x11.in
-+		 /LFLAGS_THREAD/s|"-pthread"|"${PTHREAD_LIBS}"|' \
-+		${WRKSRC}/${CONFIGURE_SCRIPT}
-+	@${REINPLACE_CMD} \
-+		-e 's|lib/pkgconfig|libdata/pkgconfig|g' \
-+		${WRKSRC}/lib/x11/Makefile.x11.in
+ PORTDOCS=	*
  
- post-install:
--	${INSTALL_DATA} ${WRKSRC}/lib/x11/libglfw.so ${PREFIX}/lib/libglfw.so.0
--	${LN} -sf ${PREFIX}/lib/libglfw.so.0 ${PREFIX}/lib/libglfw.so
-+	${INSTALL_DATA} ${WRKSRC}/lib/x11/libglfw.so ${STAGEDIR}${PREFIX}/lib/libglfw.so.0
-+	${LN} -sf ${PREFIX}/lib/libglfw.so.0 ${STAGEDIR}${PREFIX}/lib/libglfw.so
+-DOCSDIR=	${PREFIX}/share/doc/${PORTNAME}${PKGNAMESUFFIX}
+-
+ DOCSRCDIR1=	${WRKSRC}
+ DOC_FILES1=	README.md
  
--.if ${PORT_OPTIONS:MDOCS}
--	@${MKDIR} ${DOCSDIR}
--	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${DOCSDIR}
--	@${MKDIR} ${DOCSDIR2}
--	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${DOCSDIR2}
--.endif
-+	@${MKDIR} ${STAGEDIR}${DOCSDIR}
-+	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${STAGEDIR}${DOCSDIR}
-+	@${MKDIR} ${STAGEDIR}${DOCSDIR2}
-+	${INSTALL_DATA} ${DOC_FILES2:S|^|${DOCSRCDIR2}/|} ${STAGEDIR}${DOCSDIR2}
+@@ -38,8 +36,6 @@
  
--.if ${PORT_OPTIONS:MEXAMPLES}
--	@${MKDIR} ${EXAMPLESDIR}
--	${INSTALL_PROGRAM} ${EXAMPLES_FILES1:S|^|${EXAMPLESSRCDIR1}/|} ${EXAMPLESDIR}
--	${INSTALL_DATA} ${EXAMPLESSRCDIR1}/*.tga ${EXAMPLESDIR}
--	@${MKDIR} ${EXAMPLESDIR2}
--	${INSTALL_PROGRAM} ${EXAMPLES_FILES2:S|^|${EXAMPLESSRCDIR2}/|} ${EXAMPLESDIR2}
--.endif
-+	@${MKDIR} ${STAGEDIR}${EXAMPLESDIR}
-+	${INSTALL_PROGRAM} ${EXAMPLES_FILES1:S|^|${EXAMPLESSRCDIR1}/|} ${STAGEDIR}${EXAMPLESDIR}
-+	${INSTALL_DATA} ${EXAMPLESSRCDIR1}/*.tga ${STAGEDIR}${EXAMPLESDIR}
-+	@${MKDIR} ${STAGEDIR}${EXAMPLESDIR2}
-+	${INSTALL_PROGRAM} ${EXAMPLES_FILES2:S|^|${EXAMPLESSRCDIR2}/|} ${STAGEDIR}${EXAMPLESDIR2}
+ PORTEXAMPLES=	*
  
- .include <bsd.port.mk>
-Index: files/patch-lib__x11__Makefile.x11.in
+-EXAMPLESDIR=	${PREFIX}/share/examples/${PORTNAME}${PKGNAMESUFFIX}
+-
+ EXAMPLESSRCDIR1=	${WRKSRC}/examples
+ EXAMPLES_FILES1=	boing gears heightmap simple splitview wave
+ 
+Index: pkg-plist
 ===================================================================
---- files/patch-lib__x11__Makefile.x11.in	(revision 0)
-+++ files/patch-lib__x11__Makefile.x11.in	(working copy)
-@@ -0,0 +1,29 @@
-+--- ./lib/x11/Makefile.x11.in.orig	2013-05-30 16:07:32.000000000 +0200
-++++ ./lib/x11/Makefile.x11.in	2013-09-30 12:46:48.994429398 +0200
-+@@ -26,19 +26,19 @@
-+ # Install GLFW static library
-+ ##########################################################################
-+ install: libglfw.a libglfw.pc
-+-	$(INSTALL) -d $(PREFIX)/lib
-+-	$(INSTALL) -c -m 644 libglfw.a $(PREFIX)/lib/libglfw.a
-+-	$(INSTALL) -d $(PREFIX)/include/GL
-+-	$(INSTALL) -c -m 644 ../../include/GL/glfw.h $(PREFIX)/include/GL/glfw.h
-+-	$(INSTALL) -d $(PREFIX)/lib/pkgconfig
-+-	$(INSTALL) -c -m 644 libglfw.pc $(PREFIX)/lib/pkgconfig/libglfw.pc
-++	$(INSTALL) -d $(DESTDIR)$(PREFIX)/lib
-++	$(INSTALL) -c -m 644 libglfw.a $(DESTDIR)$(PREFIX)/lib/libglfw.a
-++	$(INSTALL) -d $(DESTDIR)$(PREFIX)/include/GL
-++	$(INSTALL) -c -m 644 ../../include/GL/glfw.h $(DESTDIR)$(PREFIX)/include/GL/glfw.h
-++	$(INSTALL) -d $(DESTDIR)$(PREFIX)/lib/pkgconfig
-++	$(INSTALL) -c -m 644 libglfw.pc $(DESTDIR)$(PREFIX)/lib/pkgconfig/libglfw.pc
-+ 
-+ 
-+ ##########################################################################
-+ # Install GLFW static and shared libraries
-+ ##########################################################################
-+ dist-install: libglfw.so install
-+-	$(INSTALL) -c -m 644 libglfw.so $(PREFIX)/lib/libglfw.so
-++	$(INSTALL) -c -m 644 libglfw.so $(DESTDIR)$(PREFIX)/lib/libglfw.so
-+ 
-+ 
-+ ##########################################################################
-
-Property changes on: files/patch-lib__x11__Makefile.x11.in
-___________________________________________________________________
-Added: svn:mime-type
-## -0,0 +1 ##
-+text/plain
-\ No newline at end of property
-Added: fbsd:nokeywords
-## -0,0 +1 ##
-+yes
-\ No newline at end of property
-Added: svn:eol-style
-## -0,0 +1 ##
-+native
-\ No newline at end of property
+--- pkg-plist	(revision 329704)
++++ pkg-plist	(working copy)
+@@ -4,7 +4,8 @@
+ lib/cmake/glfw/glfwConfigVersion.cmake
+ lib/cmake/glfw/glfwTargets-release.cmake
+ lib/cmake/glfw/glfwTargets.cmake
+-lib/libglfw3.a
++lib/libglfw.so.3
++lib/libglfw.so.3.0
+ libdata/pkgconfig/glfw3.pc
+ @dirrm lib/cmake/glfw
+ @dirrmtry lib/cmake

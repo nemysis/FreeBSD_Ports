@@ -5,7 +5,7 @@ PORTNAME=	alfont
 PORTVERSION=	209
 CATEGORIES=	x11-fonts
 MASTER_SITES=	http://opensnc.sourceforge.net/alfont/mirror/ \
-		SF/nemysisfreebsdp/opensurge:nemysis
+		SF/nemysisfreebsdp/${CATEGORIES}/:nemysis
 #		http://opensnc.sourceforge.net/alfont/:opensnc
 DISTFILES=	AlFont${DISTVERSION}.rar \
 		alfont.c:nemysis

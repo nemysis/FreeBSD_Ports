@@ -122,7 +122,7 @@ info/allegro.info
 lib/allegro/%%SHLIB_VER%%/alleg-alsadigi.so
 lib/allegro/%%SHLIB_VER%%/alleg-alsamidi.so
 lib/allegro/%%SHLIB_VER%%/alleg-dga2.so
-lib/allegro/%%SHLIB_VER%%/alleg-jack.so
+%%JACK%%lib/allegro/%%SHLIB_VER%%/alleg-jack.so
 lib/allegro/%%SHLIB_VER%%/modules.lst
 lib/liballeg.so
 lib/liballeg.so.4

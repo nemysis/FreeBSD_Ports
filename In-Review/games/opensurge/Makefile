@@ -5,7 +5,7 @@ PORTNAME=	opensurge
 PORTVERSION=	0.2.0${SVN_REV}
 CATEGORIES=	games
 MASTER_SITES=	http://www.ime.usp.br/~alemart/opensurge_nightly/ \
-		SF/nemysisfreebsdp/${PORTNAME}/:mods
+		SF/nemysisfreebsdp/${CATEGORIES}/${PORTNAME}/:mods
 DISTFILES=	${PORTNAME}-src-build${SVN_REV}${EXTRACT_SUFX}:mods \
 		${PORTNAME}-mods-${MODS_VER}${EXTRACT_SUFX}:mods
 

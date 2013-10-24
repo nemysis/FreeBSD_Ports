@@ -1,10 +1,9 @@
-===> Generating patch
-===> Viewing diff with more
-diff -ruN /usr/ports/devel/ChipmunkPhysics/Makefile ./Makefile
---- /usr/ports/devel/ChipmunkPhysics/Makefile	2013-09-20 20:52:40.000000000 +0200
-+++ ./Makefile	2013-10-01 00:22:49.000000000 +0200
+Index: Makefile
+===================================================================
+--- Makefile	(revision 329768)
++++ Makefile	(working copy)
 @@ -2,23 +2,49 @@
- # $FreeBSD: head/devel/ChipmunkPhysics/Makefile 327726 2013-09-20 17:17:44Z bapt $
+ # $FreeBSD$
  
  PORTNAME=	ChipmunkPhysics
 -PORTVERSION=	6.1.5
@@ -60,17 +59,19 @@ diff -ruN /usr/ports/devel/ChipmunkPhysics/Makefile ./Makefile
 +	@(cd ${WRKSRC}/doc && ${COPYTREE_SHARE} . ${STAGEDIR}${EXAMPLESDIR})
 +
  .include <bsd.port.mk>
-diff -ruN /usr/ports/devel/ChipmunkPhysics/distinfo ./distinfo
---- /usr/ports/devel/ChipmunkPhysics/distinfo	2013-09-13 02:59:18.000000000 +0200
-+++ ./distinfo	2013-09-30 16:35:49.000000000 +0200
+Index: distinfo
+===================================================================
+--- distinfo	(revision 329768)
++++ distinfo	(working copy)
 @@ -1,2 +1,2 @@
 -SHA256 (Chipmunk-6.1.5.tgz) = c7c36bf096c6a49b8b3034268d20a28b693a763c2edf7fa350729929067d1a66
 -SIZE (Chipmunk-6.1.5.tgz) = 332496
 +SHA256 (Chipmunk-6.2.0.tgz) = 75fd4098b98dd23e5c1f78a1c9e3080768fb6256143e261638a624163cde5af8
 +SIZE (Chipmunk-6.2.0.tgz) = 1071081
-diff -ruN /usr/ports/devel/ChipmunkPhysics/pkg-descr ./pkg-descr
---- /usr/ports/devel/ChipmunkPhysics/pkg-descr	2013-09-13 02:59:18.000000000 +0200
-+++ ./pkg-descr	2013-06-28 17:23:17.000000000 +0200
+Index: pkg-descr
+===================================================================
+--- pkg-descr	(revision 329768)
++++ pkg-descr	(working copy)
 @@ -1,5 +1,6 @@
  Chipmunk is a simple, lightweight, fast and portable 2D rigid body physics
 -library written in C. It's licensed under the unrestrictive, OSI approved MIT
@@ -80,39 +81,14 @@ diff -ruN /usr/ports/devel/ChipmunkPhysics/pkg-descr ./pkg-descr
 +physics you find in newer 3D games.
  
  WWW: http://chipmunk-physics.net/
-diff -ruN /usr/ports/devel/ChipmunkPhysics/pkg-plist ./pkg-plist
---- /usr/ports/devel/ChipmunkPhysics/pkg-plist	2013-09-13 02:59:18.000000000 +0200
-+++ ./pkg-plist	2013-09-30 17:10:03.000000000 +0200
+Index: pkg-plist
+===================================================================
+--- pkg-plist	(revision 329768)
++++ pkg-plist	(working copy)
 @@ -1,30 +1,31 @@
 -lib/libchipmunk.so.6.1.5
--lib/libchipmunk.so
--lib/libchipmunk.a
--include/chipmunk/cpVect.h
--include/chipmunk/cpSpatialIndex.h
--include/chipmunk/cpSpace.h
--include/chipmunk/cpShape.h
--include/chipmunk/cpPolyShape.h
--include/chipmunk/cpBody.h
--include/chipmunk/cpBB.h
--include/chipmunk/cpArbiter.h
--include/chipmunk/constraints/util.h
--include/chipmunk/constraints/cpSlideJoint.h
--include/chipmunk/constraints/cpSimpleMotor.h
--include/chipmunk/constraints/cpRotaryLimitJoint.h
--include/chipmunk/constraints/cpRatchetJoint.h
--include/chipmunk/constraints/cpPivotJoint.h
--include/chipmunk/constraints/cpPinJoint.h
--include/chipmunk/constraints/cpGrooveJoint.h
--include/chipmunk/constraints/cpGearJoint.h
--include/chipmunk/constraints/cpDampedSpring.h
--include/chipmunk/constraints/cpDampedRotarySpring.h
--include/chipmunk/constraints/cpConstraint.h
--include/chipmunk/chipmunk_unsafe.h
--include/chipmunk/chipmunk_types.h
--include/chipmunk/chipmunk_private.h
--include/chipmunk/chipmunk_ffi.h
 +%%DEMOS%%bin/chipmunk_demos
- include/chipmunk/chipmunk.h
++include/chipmunk/chipmunk.h
 +include/chipmunk/chipmunk_ffi.h
 +include/chipmunk/chipmunk_private.h
 +include/chipmunk/chipmunk_types.h
@@ -138,8 +114,33 @@ diff -ruN /usr/ports/devel/ChipmunkPhysics/pkg-plist ./pkg-plist
 +include/chipmunk/cpSpatialIndex.h
 +include/chipmunk/cpVect.h
 +lib/libchipmunk.a
-+lib/libchipmunk.so
+ lib/libchipmunk.so
+-lib/libchipmunk.a
+-include/chipmunk/cpVect.h
+-include/chipmunk/cpSpatialIndex.h
+-include/chipmunk/cpSpace.h
+-include/chipmunk/cpShape.h
+-include/chipmunk/cpPolyShape.h
+-include/chipmunk/cpBody.h
+-include/chipmunk/cpBB.h
+-include/chipmunk/cpArbiter.h
+-include/chipmunk/constraints/util.h
+-include/chipmunk/constraints/cpSlideJoint.h
+-include/chipmunk/constraints/cpSimpleMotor.h
+-include/chipmunk/constraints/cpRotaryLimitJoint.h
+-include/chipmunk/constraints/cpRatchetJoint.h
+-include/chipmunk/constraints/cpPivotJoint.h
+-include/chipmunk/constraints/cpPinJoint.h
+-include/chipmunk/constraints/cpGrooveJoint.h
+-include/chipmunk/constraints/cpGearJoint.h
+-include/chipmunk/constraints/cpDampedSpring.h
+-include/chipmunk/constraints/cpDampedRotarySpring.h
+-include/chipmunk/constraints/cpConstraint.h
+-include/chipmunk/chipmunk_unsafe.h
+-include/chipmunk/chipmunk_types.h
+-include/chipmunk/chipmunk_private.h
+-include/chipmunk/chipmunk_ffi.h
+-include/chipmunk/chipmunk.h
 +lib/libchipmunk.so.%%MAJORVER%%
  @dirrm include/chipmunk/constraints
  @dirrm include/chipmunk
-===> Done

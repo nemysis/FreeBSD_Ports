@@ -1,9 +1,13 @@
-===> Generating patch
-===> Viewing diff with more
-diff -ruN /usr/ports/deskutils/recoll/Makefile ./Makefile
---- /usr/ports/deskutils/recoll/Makefile	2013-09-13 02:59:53.000000000 +0200
-+++ ./Makefile	2013-09-19 10:09:58.000000000 +0200
-@@ -6,14 +6,14 @@
+Index: Makefile
+===================================================================
+--- Makefile	(revision 330670)
++++ Makefile	(working copy)
+@@ -2,11 +2,11 @@
+ # $FreeBSD$
+ 
+ PORTNAME=	recoll
+-PORTVERSION=	1.18.2
++PORTVERSION=	1.19.7
  CATEGORIES=	deskutils
  MASTER_SITES=	http://www.lesbonscomptes.com/${PORTNAME}/
  
@@ -12,6 +16,7 @@ diff -ruN /usr/ports/deskutils/recoll/Makefile ./Makefile
  COMMENT=	Personal full text search package, based on Xapian
  
  LICENSE=	GPLv2
+@@ -13,7 +13,7 @@
  
  BUILD_DEPENDS=	xapian-core>=0:${PORTSDIR}/databases/xapian-core
  
@@ -20,7 +25,7 @@ diff -ruN /usr/ports/deskutils/recoll/Makefile ./Makefile
  GNU_CONFIGURE=	yes
  
  CPPFLAGS+=	-I${LOCALBASE}/include
-@@ -26,6 +26,17 @@
+@@ -26,10 +26,20 @@
  X11MON_DESC=	X11 session monitoring support
  OPTIONS_DEFAULT=QT4 ASPELL PYTHON X11MON
  
@@ -38,7 +43,11 @@ diff -ruN /usr/ports/deskutils/recoll/Makefile ./Makefile
  # Wrong versioning upstream
  PORTSCOUT=	skipv:1.19
  
-@@ -36,37 +47,22 @@
+-NO_STAGE=	yes
+ .include <bsd.port.options.mk>
+ 
+ .if ${PORT_OPTIONS:MQT4}
+@@ -37,29 +47,15 @@
  		corelib gui xml webkit
  QT_NONSTANDARD=	yes
  CONFIGURE_ENV+=	QTDIR="${QT_PREFIX}" QMAKE="${QMAKE}"
@@ -49,14 +58,14 @@ diff -ruN /usr/ports/deskutils/recoll/Makefile ./Makefile
 -.else
 -CONFIGURE_ARGS+=--disable-qtgui
 -PLIST_SUB+=	QT="@comment "
--.endif
+ .endif
  
 -.if ${PORT_OPTIONS:MASPELL}
 -LIB_DEPENDS+=	aspell:${PORTSDIR}/textproc/aspell
 -.else
 -CONFIGURE_ARGS+=--without-aspell
- .endif
- 
+-.endif
+-
  .if ${PORT_OPTIONS:MPYTHON}
  USE_PYTHON=	yes
  INSTALLS_EGGINFO=	yes
@@ -68,6 +77,7 @@ diff -ruN /usr/ports/deskutils/recoll/Makefile ./Makefile
  .endif
  
  .if ${PORT_OPTIONS:MX11MON}
+@@ -66,8 +62,6 @@
  USE_XORG+=	ice sm x11
  USE_FAM=	yes
  CONFIGURE_ARGS+=--with-fam
@@ -76,7 +86,7 @@ diff -ruN /usr/ports/deskutils/recoll/Makefile ./Makefile
  .endif
  
  post-patch:
-@@ -84,7 +80,7 @@
+@@ -85,7 +79,7 @@
  post-configure:
  .if ${PORT_OPTIONS:MQT4}
  	@cd ${WRKSRC}/qtgui && ${SETENV} ${CONFIGURE_ENV} \
@@ -85,18 +95,12 @@ diff -ruN /usr/ports/deskutils/recoll/Makefile ./Makefile
  .endif
  
  .include <bsd.port.mk>
-diff -ruN /usr/ports/deskutils/recoll/files/patch-src-rclaspell.cpp ./files/patch-src-rclaspell.cpp
---- /usr/ports/deskutils/recoll/files/patch-src-rclaspell.cpp	1970-01-01 01:00:00.000000000 +0100
-+++ ./files/patch-src-rclaspell.cpp	2013-09-18 19:11:41.000000000 +0200
-@@ -0,0 +1,10 @@
-+--- aspell/rclaspell.cpp.orig	2012-10-26 10:25:54.000000000 +0200
-++++ aspell/rclaspell.cpp	2013-09-18 19:07:36.000000000 +0200
-+@@ -24,6 +24,7 @@
-+ #include <unistd.h>
-+ #include <dlfcn.h>
-+ #include <stdlib.h>
-++#include <iostream>
-+ 
-+ using namespace std;
-+ 
-===> Done
+Index: distinfo
+===================================================================
+--- distinfo	(revision 330670)
++++ distinfo	(working copy)
+@@ -1,2 +1,2 @@
+-SHA256 (recoll-1.18.2.tar.gz) = 4729785354bd0d465c92e7d2a6fced688d8c08f1342a9bef2f040e7b10b1f510
+-SIZE (recoll-1.18.2.tar.gz) = 1969421
++SHA256 (recoll-1.19.7.tar.gz) = 6d647f4c17282994cefb37e068cfb571cf9de14a22087701c59ff8c78a4e0b9d
++SIZE (recoll-1.19.7.tar.gz) = 2005198
