@@ -3,8 +3,6 @@ FreeBSD_Ports
 
 These things are here:
 
-* My changed FreeBSD Ports.
-
 * My FreeBSD Ports not yet in the FreeBSD Ports tree.
 
 * Patches not yet committed for FreeBSD Ports.
