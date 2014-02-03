@@ -1,8 +1,9 @@
 # Created by: nork@FreeBSD.org
-# $FreeBSD$
+# $FreeBSD: head/graphics/OpenEXR/Makefile 335161 2013-11-29 10:45:22Z nemysis $
 
 PORTNAME=	OpenEXR
-PORTVERSION=	2.0.1
+PORTVERSION=	2.1.0
+PORTREVISION=	1
 CATEGORIES=	graphics devel
 MASTER_SITES=	SAVANNAH/openexr/
 DISTNAME=	openexr-${DISTVERSION}
@@ -10,7 +11,7 @@ DISTNAME=	openexr-${DISTVERSION}
 MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	High dynamic-range (HDR) image file format
 
-LICENSE=	BSD
+LICENSE=	BSD3CLAUSE
 
 LIB_DEPENDS=	libImath.so:${PORTSDIR}/graphics/ilmbase
 
@@ -44,11 +45,19 @@ LARGE_STACK_CONFIGURE_ENABLE=	large-stack
 
 .include <bsd.port.options.mk>
 
-PLIST_SUB=	MAJORVER=2_0
+MAJORVER=	2_1
+VER=	21
+
+PLIST_SUB=	MAJORVER=${MAJORVER}
+PLIST_SUB+=	VER=${VER}
 
 post-patch:
-	@${REINPLACE_CMD} -e 's|$$(datadir)/doc/OpenEXR-@OPENEXR_VERSION@/examples|$$(prefix)/share/examples/${PORTNAME}|' \
-		${WRKSRC}/IlmImfExamples/Makefile.in
+	@${REINPLACE_CMD} -e 's|== x|= x|g ; \
+		s|LIB_SUFFIX="Imf_$${OPENEXR_VERSION_API}"|LIB_SUFFIX="$${OPENEXR_VERSION_API}"|' \
+		${WRKSRC}/configure
+	@${REINPLACE_CMD} -e \
+		's|$$(datadir)/doc/OpenEXR-@OPENEXR_VERSION@/examples|$$(prefix)/share/examples/${PORTNAME}|' \
+			${WRKSRC}/IlmImfExamples/Makefile.in
 	@${REINPLACE_CMD} -e 's|$$(datadir)/doc/OpenEXR-@OPENEXR_VERSION@||' \
 		-e 's|$$(EXTRA_DIST)||' \
 		${WRKSRC}/doc/Makefile.am ${WRKSRC}/doc/Makefile.in
@@ -61,6 +70,8 @@ regression-test regression test check:	build
 	@(cd ${WRKSRC}; ${SETENV} ${MAKE_ENV} ${MAKE} ${MAKE_FLAGS} ${MAKEFILE} ${MAKE_ARGS} check)
 
 post-install:
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libIlmImf-${MAJORVER}.so.${VER}
+
 	@${MKDIR} ${STAGEDIR}${DOCSDIR}
 	${INSTALL_DATA} ${DOC_FILES1:S|^|${DOCSRCDIR1}/|} ${STAGEDIR}${DOCSDIR}
 	@${MKDIR} ${STAGEDIR}${DOCSDIR2}

@@ -1,5 +1,59 @@
---- configure.orig	2013-10-04 18:58:30.000000000 +0200
-+++ configure	2013-10-04 19:09:40.000000000 +0200
+--- ./configure.orig	2014-01-29 13:16:44.000000000 +0100
++++ ./configure	2014-01-29 13:16:44.000000000 +0100
+@@ -8497,7 +8497,7 @@
+ LIBTOOL_DEPS="$ltmain"
+ 
+ # Always use our own libtool.
+-LIBTOOL='$(SHELL) $(top_builddir)/libtool'
++LIBTOOL='$(SHELL) /usr/local/bin/libtool'
+ 
+ 
+ 
+@@ -17212,7 +17212,7 @@
+ lib_suffix_valid="no"
+ 
+ lib_namespace=""
+-if test "x${library_namespace_versioning}" == xyes ; then
++if test "x${library_namespace_versioning}" = xyes ; then
+     cat >>confdefs.h <<_ACEOF
+ #define IMATH_INTERNAL_NAMESPACE Imath_${ILMBASE_VERSION_API}
+ _ACEOF
+@@ -17233,7 +17233,7 @@
+     lib_namespace="${ILMBASE_VERSION_API}"
+     LIB_SUFFIX="${ILMBASE_VERSION_API}"
+     lib_suffix_valid="yes"
+-elif test "x${library_namespace_versioning}" == xno ; then
++elif test "x${library_namespace_versioning}" = xno ; then
+     cat >>confdefs.h <<_ACEOF
+ #define IMATH_INTERNAL_NAMESPACE Imath
+ _ACEOF
+@@ -17271,7 +17271,7 @@
+ fi
+ 
+ 
+-if test "x${lib_suffix_valid}" == xyes ; then
++if test "x${lib_suffix_valid}" = xyes ; then
+ LIB_SUFFIX_DASH="-${LIB_SUFFIX}"
+ 
+  if true; then
+@@ -17306,7 +17306,7 @@
+ fi
+ 
+ 
+-if test "x${custom_public_namespace}" == xyes ; then
++if test "x${custom_public_namespace}" = xyes ; then
+     { $as_echo "$as_me:$LINENO: WARNING: Enabling 'custom user namespace' requires an additional argument, reverting to default" >&5
+ $as_echo "$as_me: WARNING: Enabling 'custom user namespace' requires an additional argument, reverting to default" >&2;}
+     cat >>confdefs.h <<\_ACEOF
+@@ -17324,7 +17324,7 @@
+ 
+     public_namespace=""
+     custom_public_namespace=no
+-elif test "x${custom_public_namespace}" == xno ; then
++elif test "x${custom_public_namespace}" = xno ; then
+     cat >>confdefs.h <<\_ACEOF
+ #define IMATH_NAMESPACE Imath
+ _ACEOF
 @@ -17373,25 +17373,25 @@
  fi
  

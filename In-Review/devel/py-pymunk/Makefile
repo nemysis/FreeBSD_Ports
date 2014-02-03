@@ -20,9 +20,9 @@ RUN_DEPENDS=	${PYGAME} \
 		${PYTHON_PKGNAMEPREFIX}pyglet>=0:${PORTSDIR}/graphics/py-pyglet
 
 USE_ZIP=	yes
-USE_GL=		yes
-USE_DOS2UNIX=	yes
+USES=		dos2unix
 DOS2UNIX_REGEX=	.*.[^p][^n][^g]$
+USE_GL=		yes
 USE_PYTHON=	yes
 USE_PYDISTUTILS=	yes
 

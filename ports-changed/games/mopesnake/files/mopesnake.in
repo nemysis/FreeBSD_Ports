@@ -1,7 +1,0 @@
-#!/bin/sh
-#
-# $FreeBSD: head/games/mopesnake/files/mopesnake.in 314193 2013-03-14 23:31:14Z beech $
-#
-
-cd "%%DATADIR%%"
-exec /usr/bin/env python ./mopesnake.py "${@}"

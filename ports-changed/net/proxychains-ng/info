@@ -1,5 +1,0 @@
-NSTALL_TARGET= install install-config --> INSTALL_TARGET= install
-
-${INSTALL_DATA} ${WRKSRC}/src/proxychains.conf ${PREFIX}/etc/proxychains.conf.sample
-
-remove patch for Makefile

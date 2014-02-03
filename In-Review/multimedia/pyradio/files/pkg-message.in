@@ -1,0 +1,19 @@
+===============================================================================
+
+PyRadio has been installed.
+
+If you wish to add more Internet Stations please type as user
+
+    pyradio --add
+
+and use for
+
+    Enter the name: "Station Name"
+    Enter the url: "Internet address"
+
+or add manually in ~/.pyradio/stations.csv
+
+
+Have fun!
+
+===============================================================================

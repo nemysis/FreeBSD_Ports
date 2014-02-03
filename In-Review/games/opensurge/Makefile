@@ -6,7 +6,7 @@ PORTVERSION=	0.2.0${SVN_REV}
 CATEGORIES=	games
 MASTER_SITES=	http://www.ime.usp.br/~alemart/opensurge_nightly/ \
 		SF/nemysisfreebsdp/${CATEGORIES}/${PORTNAME}/:mods
-DISTFILES=	${PORTNAME}-src-build${SVN_REV}${EXTRACT_SUFX}:mods \
+DISTFILES=	${PORTNAME}-src-build${SVN_REV}${EXTRACT_SUFX} \
 		${PORTNAME}-mods-${MODS_VER}${EXTRACT_SUFX}:mods
 
 MAINTAINER=	nemysis@FreeBSD.org
@@ -21,12 +21,12 @@ LICENSE_PERMS_CCbyNCSA3=dist-mirror pkg-mirror auto-accept
 
 WRKSRC=		${WRKDIR}/${PORTNAME}-src-build${SVN_REV}
 
-SVN_REV=	758
+SVN_REV=	760
 MODS_VER=	20130928
 
-USES=		cmake
-USE_OPENAL=	soft
-USE_DOS2UNIX=	*.txt *.lng *.lev *.obj *.qst *.spr *.h *.c *.bg *.brk *.grp
+USES=		cmake openal:soft
+#dos2unix
+#DOS2UNIX_FILES=	*.txt *.lng *.lev *.obj *.qst *.spr *.h *.c *.bg *.brk *.grp
 USE_GCC=	yes
 
 CFLAGS+=	-I${LOCALBASE}/include
@@ -49,8 +49,8 @@ SUB_FILES=	${PORTNAME} pkg-message
 INSTALLS_ICONS=	yes
 ICON_SIZES=	16x16 32x32 48x48 64x64 72x72 96x96 128x128 256x256
 
-DESKTOP_ENTRIES="Open Surge" "${COMMENT}" "${PORTNAME}" \
-		"${PORTNAME}" "Game;ArcadeGame;" false
+DESKTOP_ENTRIES="Open Surge" "" "${PORTNAME}" \
+		"${PORTNAME}" "Game;ArcadeGame;" ""
 
 .if exists(${LOCALBASE}/libdata/pkgconfig/alure-static.pc)
 IGNORE=		STATIC ALURE libs do not support Open Surge build. (Re)Install audio/alure with the STATIC option OFF

@@ -13,10 +13,12 @@ COMMENT=	Simple and low-tech monster-bashing maze game
 
 LICENSE=	GPLv2
 
-#RUN_DEPENDS=	ruby18-sdl>=0:${PORTSDIR}/devel/ruby-sdl
+RUN_DEPENDS=	ruby19-sdl>=0:${PORTSDIR}/devel/ruby-sdl
 
 WRKSRC=		${WRKDIR}/${PORTNAME}-${DISTVERSION:S/./_/g}
 
+USES=		shebangfix
+SHEBANG_FILES=	mm.rb testmm.rb
 USE_SDL=	sdl image mixer
 USE_RUBY=	yes
 NO_BUILD=	yes
@@ -26,8 +28,8 @@ PORTDOCS=	*
 SUB_FILES=	${PORTNAME}
 SUB_LIST=	RUBY=${RUBY}
 
-DESKTOP_ENTRIES="Magic Maze" "${COMMENT}" "${PORTNAME}" \
-		"${PORTNAME}" "Game;ArcadeGame;" false
+DESKTOP_ENTRIES="Magic Maze" "" "${PORTNAME}" \
+		"${PORTNAME}" "Game;ArcadeGame;" ""
 
 .include <bsd.port.options.mk>
 
@@ -35,12 +37,11 @@ do-install:
 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin/
 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} "data magicmaze" ${STAGEDIR}${DATADIR})
 	${INSTALL_SCRIPT} ${WRKSRC}/*.rb ${STAGEDIR}${DATADIR}
-	${LN} -sf ${DATADIR}/data/gfx/icon.png
+	${LN} -sf ${DATADIR}/data/gfx/icon.png \
 		${STAGEDIR}${PREFIX}/share/pixmaps/${PORTNAME}.png
 
-.if ${PORT_OPTIONS:MDOCS}
 	@${MKDIR} ${STAGEDIR}${DOCSDIR}
-	${INSTALL_DATA} ${WRKSRC}/README.TXT ${WRKSRC}/doc/BUGS.TXT ${WRKSRC}/doc/TODO.TXT ${STAGEDIR}${DOCSDIR}
-.endif
+	${INSTALL_DATA} ${WRKSRC}/README.TXT ${WRKSRC}/doc/BUGS.TXT \
+		${WRKSRC}/doc/TODO.TXT ${STAGEDIR}${DOCSDIR}
 
 .include <bsd.port.mk>

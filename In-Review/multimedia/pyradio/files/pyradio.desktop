@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=PyRadio
+GenericName=PyRadio
+Comment=Curses based internet radio player
+Icon=pyradio
+Exec=pyradio
+Categories=AudioVideo;Player;
+Terminal=true

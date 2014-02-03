@@ -1,4 +1,4 @@
-# $FreeBSD: head/devel/allegro/Makefile 327722 2013-09-20 17:03:26Z bapt $
+# $FreeBSD: head/devel/allegro/Makefile 332651 2013-11-03 22:26:52Z nemysis $
 
 PORTNAME=	allegro
 DISTVERSION=	4.4.2
@@ -17,7 +17,7 @@ LIB_DEPENDS+=	libpng15.so:${PORTSDIR}/graphics/png \
 
 USES=		gmake cmake pkgconfig
 USE_XORG=	x11 xpm xext xcursor xxf86vm xxf86dga
-USE_GL=		gl glu
+USE_GL=		glu
 USE_LDCONFIG=	yes
 
 PORTDOCS=	*
@@ -31,7 +31,7 @@ SHLIB_VER=	${PORTVERSION}
 # Wrong versioning upstream
 PORTSCOUT=	ignore:1
 
-OPTIONS_DEFINE=	ALSA DOCS JACK OGG
+OPTIONS_DEFINE=	ALSA JACK OGG
 OPTIONS_GROUP=	DEMOS_EXAMPLES
 OPTIONS_GROUP_DEMOS_EXAMPLES=	DEMOS EXAMPLES
 OPTIONS_DEFAULT=	ALSA DEMOS OGG
@@ -66,7 +66,7 @@ CFLAGS+=	-L${LOCALBASE}/lib
 .if ${PORT_OPTIONS:MDEMOS} && ${PORT_OPTIONS:MEXAMPLES}
 SUB_FILES+=	shooter skater skater_agl \
 		pkg-message
-MASTER_SITES+=	SF/nemysisfreebsdp/allegro/:icons
+MASTER_SITES+=	SF/nemysisfreebsdp/${CATEGORIES}/${PORTNAME}/:icons
 DISTFILES+=	shooter.png:icons \
 		skater.png:icons
 DESKTOP_ENTRIES+="Shooter" "In a distant corner of the galaxy" "shooter" \
