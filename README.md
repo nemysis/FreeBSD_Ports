@@ -7,6 +7,7 @@ These things are here:
 
 * Patches not yet committed for FreeBSD Ports.
 
+* Scripts which I use for patches.
 
 Links
 
