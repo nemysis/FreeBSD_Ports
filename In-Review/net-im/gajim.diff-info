@@ -12,7 +12,61 @@ Then download with SVN ports
 svn co svn://svn.FreeBSD.org/ports/head /usr/ports
 
 
+You could use above commands but is better this script
+
+
+cat /home/bin/svn-port
+#!/bin/sh
+
+# Author nemysis
+
+echo ""
+echo "$0"
+echo ""
+
+echo ""
+echo You are `whoami`
+echo""
+echo "Start this as root!"
+echo ""
+
+
+# Without root no chance
+euid=`ps -o uid= $$`
+if [ $euid -ne 0 ]
+then
+echo "This script needs root privileges. Aborting now..."
+echo ""
+exit 1
+fi
+
+
+echo ""
+echo "Please use $0 cat port"
+echo ""
+
+if [ -z $2 ]
+then
+echo "This script needs proper usage. Aborting now..."
+echo ""
+exit 1
+fi
+
+
+REVIEW=/usr/local/ports/local/In-Review
+
+if [ ! -d $REVIEW/"$1" ]
+        then
+    mkdir $REVIEW/"$1"
+fi
+
+
+
 Then download from SVN net-im/gajim
+
+mkdir /usr/local/ports/local/In-Review/net-im/gajim/
+
+cd /usr/local/ports/local/In-Review/net-im/gajim/
 
 svn checkout svn://svn.freebsd.org/ports/head/net-im/gajim gajim
 

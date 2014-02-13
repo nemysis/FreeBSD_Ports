@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Author nemysis
+
+# When download one Patch, then must adjust Rights
+
+chmod 644 *
+
+if [  -d files ] 
+    then
+        chmod 755 files
+        cd files ; chmod 644 *
+        ls -lh
+fi
+
+ls -lh

@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Author nemysis
+
+echo ""
+echo "$0"
+echo ""
+
+echo ""
+echo You are `whoami`
+echo""
+echo "Start this as root!"
+echo ""
+
+
+# Without root no chance
+euid=`ps -o uid= $$`
+if [ $euid -ne 0 ]
+then
+echo "This script needs root privileges. Aborting now..."
+echo ""
+exit 1
+fi
+
+
+echo ""
+echo "Please use $0 cat port"
+echo ""
+
+if [ -z $2 ]
+then
+echo "This script needs proper usage. Aborting now..."
+echo ""
+exit 1
+fi
+
+
+REVIEW=/usr/local/ports/local/In-Review
+
+if [ ! -d $REVIEW/"$1" ]
+        then
+    mkdir $REVIEW/"$1"
+fi
+
+cd $REVIEW/"$1"
+svn checkout svn+ssh://nemysis@svn.freebsd.org/ports/head/"$1"/"$2" "$2"
+
+# Works only when is this Port installed
+#svn checkout svn+ssh://nemysis@svn.freebsd.org/ports/head/$(pkg info -qo $2) $2
