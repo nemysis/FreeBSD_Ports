@@ -1,0 +1,562 @@
+Index: Makefile
+===================================================================
+--- Makefile	(revision 342544)
++++ Makefile	(working copy)
+@@ -3,81 +3,74 @@
+ 
+ PORTNAME=	gajim
+ PORTVERSION=	0.15.4
++PORTREVISION=	1
+ CATEGORIES=	net-im
+ MASTER_SITES=	http://gajim.org/downloads/0.15/
+ 
+-MAINTAINER=	rm@FreeBSD.org
++MAINTAINER=	nemysis@FreeBSD.org
+ COMMENT=	Jabber client based on a plugin system
+ 
+ LICENSE=	GPLv3
+ 
++BUILD_DEPENDS=	p5-XML-Parser>=0:${PORTSDIR}/textproc/p5-XML-Parser
+ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}openssl>=0:${PORTSDIR}/security/py-openssl \
+ 		${PYTHON_PKGNAMEPREFIX}sqlite3>=0:${PORTSDIR}/databases/py-sqlite3 \
+ 		${PYTHON_PKGNAMEPREFIX}asn1>=0:${PORTSDIR}/devel/py-asn1
+ 
+-GNU_CONFIGURE=	yes
+-INSTALLS_ICONS=	yes
+-USES=		gmake pathfix
+ USE_BZIP2=	yes
+-USE_DOS2UNIX=	src/plugins/plugins_i18n.py
++USES=		dos2unix gmake pathfix pkgconfig
++DOS2UNIX_FILES=	src/plugins/plugins_i18n.py
+ USE_GNOME=	pygtk2
++USE_XORG=	x11 xext xscrnsaver
+ USE_PYTHON=	2
+-USE_XORG=	x11 xext xscrnsaver
+-MAN1=		gajim.1 gajim-remote.1 gajim-history-manager.1
++GNU_CONFIGURE=	yes
++CONFIGURE_ENV+=	PYTHON=${PYTHON_CMD}
++INSTALLS_ICONS=	yes
+ 
+-CONFIGURE_ENV+=	PYTHON=${PYTHON_CMD}
+ LDFLAGS+=	-L${LOCALBASE}/lib
+ CFLAGS+=	-I${LOCALBASE}/include
+ 
+-OPTIONS_DEFINE=	AVAHI CRYPTO DBUS DOCS GUPNP KEYRING NLS SPELL
+-OPTIONS_DEFAULT=DBUS NLS SPELL
+-CRYPTO_DESC=	End to end encryption support
++OPTIONS_DEFINE=	AVAHI DBUS DOCS E2EE GUPNP KEYRING NLS SPELL
++OPTIONS_DEFAULT=DBUS SPELL
++
++E2EE_DESC=	End to End message Encryption suport
+ KEYRING_DESC=	Gnome Keyring support
++GUPNP_DESC=	UPnP IGD protocol support
+ SPELL_DESC=	Spell checking support
+ 
+ PORTDOCS=	AUTHORS ChangeLog README.html
+ OPTIONS_SUB=	yes
+-NLS_USES=	gettext
+ 
+-NO_STAGE=	yes
+-.include <bsd.port.options.mk>
++SUB_FILES=	pkg-message
+ 
+-.if ! ${PORT_OPTIONS:MNLS}
+-CONFIGURE_ARGS+=	--disable-nls
+-.endif
++NLS_CONFIGURE_ENABLE=	nls
++NLS_USES=	gettext
+ 
+-.if ${PORT_OPTIONS:MAVAHI}
+-RUN_DEPENDS+=	avahi-discover:${PORTSDIR}/net/py-avahi
+-.endif
++AVAHI_RUN_DEPENDS=	avahi-discover:${PORTSDIR}/net/py-avahi
++DBUS_RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}dbus>=0:${PORTSDIR}/devel/py-dbus
++E2EE_RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}pycrypto>=0:${PORTSDIR}/security/py-pycrypto
++GUPNP_RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}gupnp-igd>=0:${PORTSDIR}/net/gupnp-igd
++KEYRING_USE=	GNOME=pygnomedesktop
++SPELL_LIB_DEPENDS=	libgtkspell.so:${PORTSDIR}/textproc/gtkspell
+ 
+-.if ${PORT_OPTIONS:MDBUS}
+-RUN_DEPENDS+=	${PYTHON_PKGNAMEPREFIX}dbus>=0.82.2:${PORTSDIR}/devel/py-dbus
+-.endif
++.include <bsd.port.options.mk>
+ 
+-.if ${PORT_OPTIONS:MGUPNP}
+-RUN_DEPENDS+=	${PYTHON_SITELIBDIR}/gupnp/__init__.py:${PORTSDIR}/net/gupnp-igd
+-.endif
++post-patch:
++	@${REINPLACE_CMD} -e 's|$$(pkgdatadir)/icons|${PREFIX}/share/icons|; \
++		s|$$(datadir)/icons|${PREFIX}/share/icons|' \
++		${WRKSRC}/icons/Makefile.in
+ 
+-.if ${PORT_OPTIONS:MCRYPTO}
+-RUN_DEPENDS+=	${PYTHON_PKGNAMEPREFIX}pycrypto>0:${PORTSDIR}/security/py-pycrypto
++.if ! ${PORT_OPTIONS:ME2EE}
++	@${REINPLACE_CMD} -e 's|PYCRYPTO = True|PYCRYPTO = False|' \
++		${WRKSRC}/src/common/gajim.py
+ .endif
+ 
+-.if ${PORT_OPTIONS:MKEYRING}
+-USE_GNOME+=	pygnomedesktop
+-.endif
++do-build:
++	@${PYTHON_CMD} -m compileall ${WRKSRC}/src
++	@${PYTHON_CMD} -O -m compileall ${WRKSRC}/src
+ 
+-.if ${PORT_OPTIONS:MSPELL}
+-LIB_DEPENDS=	gtkspell:${PORTSDIR}/textproc/gtkspell
+-.endif
+-
+ post-install:
+-.if ${PORT_OPTIONS:MDOCS}
+-	@${MKDIR} ${DOCSDIR}
+-	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${DOCSDIR}
+-.endif
++	@${MKDIR} ${STAGEDIR}${DOCSDIR}
++	${INSTALL_DATA} ${PORTDOCS:S|^|${WRKSRC}/|} ${STAGEDIR}${DOCSDIR}
+ 
+-pre-build:
+-	${PYTHON_CMD} ${PYTHON_LIBDIR}/compileall.py ${WRKSRC}/src
+-	${PYTHON_CMD} -O ${PYTHON_LIBDIR}/compileall.py ${WRKSRC}/src
+-
+ .include <bsd.port.mk>
+Index: files/patch-src-Makefile.in
+===================================================================
+--- files/patch-src-Makefile.in	(revision 342544)
++++ files/patch-src-Makefile.in	(working copy)
+@@ -1,44 +0,0 @@
+---- src/Makefile.in.orig	2012-03-18 15:26:17.000000000 +0400
+-+++ src/Makefile.in	2012-03-20 22:43:53.000000000 +0400
+-@@ -243,13 +243,29 @@
+- gajimsrcdir = $(gajim_srcdir)
+- nobase_dist_gajimsrc_PYTHON = \
+- 	$(srcdir)/*.py \
+-+	$(srcdir)/*.pyc \
+-+	$(srcdir)/*.pyo \
+- 	$(srcdir)/common/*.py \
+-+	$(srcdir)/common/*.pyc \
+-+	$(srcdir)/common/*.pyo \
+- 	$(srcdir)/common/protocol/*.py \
+-+	$(srcdir)/common/protocol/*.pyc \
+-+	$(srcdir)/common/protocol/*.pyo \
+- 	$(srcdir)/common/xmpp/*.py \
+-+	$(srcdir)/common/xmpp/*.pyc \
+-+	$(srcdir)/common/xmpp/*.pyo \
+- 	$(srcdir)/common/zeroconf/*.py \
+-+	$(srcdir)/common/zeroconf/*.pyc \
+-+	$(srcdir)/common/zeroconf/*.pyo \
+- 	$(srcdir)/command_system/*.py \
+-+	$(srcdir)/command_system/*.pyc \
+-+	$(srcdir)/command_system/*.pyo \
+- 	$(srcdir)/command_system/implementation/*.py \
+--	$(srcdir)/plugins/*.py
+-+	$(srcdir)/command_system/implementation/*.pyc \
+-+	$(srcdir)/command_system/implementation/*.pyo \
+-+	$(srcdir)/plugins/*.py \
+-+	$(srcdir)/plugins/*.pyc \
+-+	$(srcdir)/plugins/*.pyo
+- 
+- MAINTAINERCLEANFILES = Makefile.in
+- all: all-am
+-@@ -306,10 +322,6 @@
+- 	      $(MKDIR_P) "$(DESTDIR)$(gajimsrcdir)/$$dir"; }; \
+- 	    echo " $(INSTALL_DATA) $$xfiles '$(DESTDIR)$(gajimsrcdir)/$$dir'"; \
+- 	    $(INSTALL_DATA) $$xfiles "$(DESTDIR)$(gajimsrcdir)/$$dir" || exit $$?; }; \
+--	  if test -n "$$dlist"; then \
+--	    $(am__py_compile) --destdir "$(DESTDIR)" \
+--	                      --basedir "$(gajimsrcdir)" $$dlist; \
+--	  else :; fi \
+- 	done
+- 
+- uninstall-nobase_dist_gajimsrcPYTHON:
+Index: files/patch-src-plugins_plugins_i18n.py
+===================================================================
+--- files/patch-src-plugins_plugins_i18n.py	(revision 342544)
++++ files/patch-src-plugins_plugins_i18n.py	(working copy)
+@@ -1,10 +0,0 @@
+---- src/plugins/plugins_i18n.py.orig	2012-03-18 15:26:00.000000000 +0400
+-+++ src/plugins/plugins_i18n.py	2012-03-21 08:21:52.000000000 +0400
+-@@ -29,7 +29,6 @@
+- 
+- if os.name != 'nt':
+-     locale.setlocale(locale.LC_ALL, '')
+--    locale.bindtextdomain(APP, plugins_locale_dir)
+-     gettext.bindtextdomain(APP, plugins_locale_dir)
+-     gettext.textdomain(APP)
+- 
+Index: files/patch-src__Makefile.in
+===================================================================
+--- files/patch-src__Makefile.in	(revision 0)
++++ files/patch-src__Makefile.in	(working copy)
+@@ -0,0 +1,44 @@
++--- ./src/Makefile.in.orig	2014-02-06 00:08:06.000000000 +0100
+++++ ./src/Makefile.in	2014-02-06 00:08:06.000000000 +0100
++@@ -272,13 +272,29 @@
++ gajimsrcdir = $(gajim_srcdir)
++ nobase_dist_gajimsrc_PYTHON = \
++ 	$(srcdir)/*.py \
+++	$(srcdir)/*.pyc \
+++	$(srcdir)/*.pyo \
++ 	$(srcdir)/common/*.py \
+++	$(srcdir)/common/*.pyc \
+++	$(srcdir)/common/*.pyo \
++ 	$(srcdir)/common/protocol/*.py \
+++	$(srcdir)/common/protocol/*.pyc \
+++	$(srcdir)/common/protocol/*.pyo \
++ 	$(srcdir)/common/xmpp/*.py \
+++	$(srcdir)/common/xmpp/*.pyc \
+++	$(srcdir)/common/xmpp/*.pyo \
++ 	$(srcdir)/common/zeroconf/*.py \
+++	$(srcdir)/common/zeroconf/*.pyc \
+++	$(srcdir)/common/zeroconf/*.pyo \
++ 	$(srcdir)/command_system/*.py \
+++	$(srcdir)/command_system/*.pyc \
+++	$(srcdir)/command_system/*.pyo \
++ 	$(srcdir)/command_system/implementation/*.py \
++-	$(srcdir)/plugins/*.py
+++	$(srcdir)/command_system/implementation/*.pyc \
+++	$(srcdir)/command_system/implementation/*.pyo \
+++	$(srcdir)/plugins/*.py \
+++	$(srcdir)/plugins/*.pyc \
+++	$(srcdir)/plugins/*.pyo
++ 
++ MAINTAINERCLEANFILES = Makefile.in
++ all: all-am
++@@ -338,10 +354,6 @@
++ 	      $(MKDIR_P) "$(DESTDIR)$(gajimsrcdir)/$$dir"; }; \
++ 	    echo " $(INSTALL_DATA) $$xfiles '$(DESTDIR)$(gajimsrcdir)/$$dir'"; \
++ 	    $(INSTALL_DATA) $$xfiles "$(DESTDIR)$(gajimsrcdir)/$$dir" || exit $$?; }; \
++-	  if test -n "$$dlist"; then \
++-	    $(am__py_compile) --destdir "$(DESTDIR)" \
++-	                      --basedir "$(gajimsrcdir)" $$dlist; \
++-	  else :; fi \
++ 	done
++ 
++ uninstall-nobase_dist_gajimsrcPYTHON:
+
+Property changes on: files/patch-src__Makefile.in
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++text/plain
+\ No newline at end of property
+Added: fbsd:nokeywords
+## -0,0 +1 ##
++yes
+\ No newline at end of property
+Added: svn:eol-style
+## -0,0 +1 ##
++native
+\ No newline at end of property
+Index: files/patch-src__common__resolver.py
+===================================================================
+--- files/patch-src__common__resolver.py	(revision 0)
++++ files/patch-src__common__resolver.py	(working copy)
+@@ -0,0 +1,37 @@
++--- ./src/common/resolver.py.orig	2013-05-25 17:27:17.000000000 +0200
+++++ ./src/common/resolver.py	2014-02-06 00:08:06.000000000 +0100
++@@ -238,8 +238,8 @@
++         return hosts
++ 
++     def _parse_srv_result_posix(self, fqdn, result):
++-        # typical output of bind-tools nslookup command:
++-        # _xmpp-client._tcp.jabber.org    service = 30 30 5222 jabber.org.
+++        # typical output of host lookup command
+++        # _xmpp-client._tcp.jabber.org has SRV record 30 30 5222 jabber.org.
++         if not result:
++             return []
++         ufqdn = helpers.ascii_to_idn(fqdn) # Unicode domain name
++@@ -255,11 +255,12 @@
++                 line = helpers.decode_string(line)
++                 domain = ufqdn # For nslookup 9.6
++             if domain:
++-                rest = line[len(domain):].split('=')
+++                # add 4 for ' has' after domain name
+++                rest = line[len(domain)+4:].split('record')
++                 if len(rest) != 2:
++                     continue
++                 answer_type, props_str = rest
++-                if answer_type.strip() != 'service':
+++                if answer_type.strip() != 'SRV':
++                     continue
++                 props = props_str.strip().split(' ')
++                 if len(props) < 4:
++@@ -309,7 +310,7 @@
++             return
++ 
++     def _compose_command_args(self):
++-        return ['nslookup', '-type=' + self.type, self.host]
+++        return ['host', '-t', self.type, self.host]
++ 
++     def _return_result(self):
++         if self.result_handler:
+
+Property changes on: files/patch-src__common__resolver.py
+___________________________________________________________________
+Added: fbsd:nokeywords
+## -0,0 +1 ##
++yes
+\ No newline at end of property
+Added: svn:eol-style
+## -0,0 +1 ##
++native
+\ No newline at end of property
+Added: svn:mime-type
+## -0,0 +1 ##
++text/plain
+\ No newline at end of property
+Index: files/patch-src__plugins__plugins_i18n.py
+===================================================================
+--- files/patch-src__plugins__plugins_i18n.py	(revision 0)
++++ files/patch-src__plugins__plugins_i18n.py	(working copy)
+@@ -0,0 +1,10 @@
++--- ./src/plugins/plugins_i18n.py.orig	2014-02-06 00:08:06.000000000 +0100
+++++ ./src/plugins/plugins_i18n.py	2014-02-06 00:08:06.000000000 +0100
++@@ -29,7 +29,6 @@
++ 
++ if os.name != 'nt':
++     locale.setlocale(locale.LC_ALL, '')
++-    locale.bindtextdomain(APP, plugins_locale_dir)
++     gettext.bindtextdomain(APP, plugins_locale_dir)
++     gettext.textdomain(APP)
++ 
+
+Property changes on: files/patch-src__plugins__plugins_i18n.py
+___________________________________________________________________
+Added: fbsd:nokeywords
+## -0,0 +1 ##
++yes
+\ No newline at end of property
+Added: svn:eol-style
+## -0,0 +1 ##
++native
+\ No newline at end of property
+Added: svn:mime-type
+## -0,0 +1 ##
++text/plain
+\ No newline at end of property
+Index: files/pkg-message.in
+===================================================================
+--- files/pkg-message.in	(revision 0)
++++ files/pkg-message.in	(working copy)
+@@ -0,0 +1,46 @@
++===============================================================================
++
++Gajim has been installed.
++
++
++Gajim supports plugins:
++
++    Edit / Plugins
++
++    Plugins are installed in:
++
++        ~/.local/share/gajim/plugins
++
++    And configuration for plugins is located in:
++
++        ~/.config/gajim/pluginsconfig
++
++
++To use encryption you may use either of the following:
++
++
++E2EE (End to End message Encryption)
++
++    https://www.dlitz.net/software/pycrypto/
++
++    https://en.wikipedia.org/wiki/End-to-end_encryption
++
++    Enable E2EE support in make config
++
++    Note that E2EE should not be enabled if you intend to use
++    below explained OTR
++
++
++OTR (Off-the-Record Messaging)  * Recommended
++
++    https://otr.cypherpunks.ca/
++
++    https://en.wikipedia.org/wiki/Off-the-Record_Messaging
++
++    If you wish to use OTR, install it from Plugins:
++
++        Edit / Plugins / Off-The-Record Encryption
++
++        To use OTR, you need to generate a key from OTR plugin configuration
++
++===============================================================================
+
+Property changes on: files/pkg-message.in
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++text/plain
+\ No newline at end of property
+Added: fbsd:nokeywords
+## -0,0 +1 ##
++yes
+\ No newline at end of property
+Added: svn:eol-style
+## -0,0 +1 ##
++native
+\ No newline at end of property
+Index: pkg-plist
+===================================================================
+--- pkg-plist	(revision 342544)
++++ pkg-plist	(working copy)
+@@ -1,6 +1,9 @@
+ bin/gajim
+ bin/gajim-history-manager
+ bin/gajim-remote
++man/man1/gajim-history-manager.1.gz
++man/man1/gajim-remote.1.gz
++man/man1/gajim.1.gz
+ share/applications/gajim.desktop
+ %%DATADIR%%/data/activities/default/doing_chores/buying_groceries.png
+ %%DATADIR%%/data/activities/default/doing_chores/category.png
+@@ -821,61 +824,6 @@
+ %%DATADIR%%/data/sounds/message1.wav
+ %%DATADIR%%/data/sounds/message2.wav
+ %%DATADIR%%/data/sounds/sent.wav
+-%%DATADIR%%/icons/hicolor/128x128/apps/gajim-about.png
+-%%DATADIR%%/icons/hicolor/16x16/actions/gajim-cam_active.png
+-%%DATADIR%%/icons/hicolor/16x16/actions/gajim-cam_inactive.png
+-%%DATADIR%%/icons/hicolor/16x16/actions/gajim-earth.png
+-%%DATADIR%%/icons/hicolor/16x16/actions/gajim-kbd_input.png
+-%%DATADIR%%/icons/hicolor/16x16/actions/gajim-mic_active.png
+-%%DATADIR%%/icons/hicolor/16x16/actions/gajim-mic_inactive.png
+-%%DATADIR%%/icons/hicolor/16x16/actions/gajim-muc_separator.png
+-%%DATADIR%%/icons/hicolor/16x16/actions/gajim-receipt_missing.png
+-%%DATADIR%%/icons/hicolor/16x16/actions/gajim-security_high.png
+-%%DATADIR%%/icons/hicolor/16x16/actions/gajim-security_low.png
+-%%DATADIR%%/icons/hicolor/16x16/actions/gajim-upload.png
+-%%DATADIR%%/icons/hicolor/16x16/status/audio-mic-volume-high.png
+-%%DATADIR%%/icons/hicolor/16x16/status/audio-mic-volume-low.png
+-%%DATADIR%%/icons/hicolor/16x16/status/audio-mic-volume-medium.png
+-%%DATADIR%%/icons/hicolor/16x16/status/audio-mic-volume-muted.png
+-%%DATADIR%%/icons/hicolor/32x32/actions/gajim-security_high.png
+-%%DATADIR%%/icons/hicolor/32x32/actions/gajim-security_low.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-aim.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-bytestreams.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-conference.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-disc.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-error.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-facebook.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-gadu-gadu.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-http-ws.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-icq.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-irc.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-jabber.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-jud.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-mail.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-mrim.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-msn.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-pubsub.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-rss.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-sip.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-sms.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-tv.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-weather.png
+-%%DATADIR%%/icons/hicolor/32x32/categories/gajim-agent-yahoo.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-chat_msg_recv.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-connection_lost.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-ft_done.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-ft_error.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-ft_request.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-ft_stopped.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-gc_invitation.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-new_email_recv.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-priv_msg_recv.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-single_msg_recv.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-subscription_request.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-unsubscribed.png
+-%%DATADIR%%/icons/hicolor/48x48/actions/gajim-warning.png
+-%%DATADIR%%/icons/hicolor/64x64/apps/gajim.png
+-%%DATADIR%%/icons/hicolor/scalable/apps/gajim.svg
+ %%DATADIR%%/plugins/plugin_installer/__init__.py
+ %%DATADIR%%/plugins/plugin_installer/config_dialog.ui
+ %%DATADIR%%/plugins/plugin_installer/manifest.ini
+@@ -1304,6 +1252,59 @@
+ %%DATADIR%%/src/vcard.py
+ %%DATADIR%%/src/vcard.pyc
+ %%DATADIR%%/src/vcard.pyo
++share/icons/hicolor/128x128/apps/gajim-about.png
++share/icons/hicolor/16x16/actions/gajim-cam_active.png
++share/icons/hicolor/16x16/actions/gajim-cam_inactive.png
++share/icons/hicolor/16x16/actions/gajim-earth.png
++share/icons/hicolor/16x16/actions/gajim-kbd_input.png
++share/icons/hicolor/16x16/actions/gajim-mic_active.png
++share/icons/hicolor/16x16/actions/gajim-mic_inactive.png
++share/icons/hicolor/16x16/actions/gajim-muc_separator.png
++share/icons/hicolor/16x16/actions/gajim-receipt_missing.png
++share/icons/hicolor/16x16/actions/gajim-security_high.png
++share/icons/hicolor/16x16/actions/gajim-security_low.png
++share/icons/hicolor/16x16/actions/gajim-upload.png
++share/icons/hicolor/16x16/status/audio-mic-volume-high.png
++share/icons/hicolor/16x16/status/audio-mic-volume-low.png
++share/icons/hicolor/16x16/status/audio-mic-volume-medium.png
++share/icons/hicolor/16x16/status/audio-mic-volume-muted.png
++share/icons/hicolor/32x32/actions/gajim-security_high.png
++share/icons/hicolor/32x32/actions/gajim-security_low.png
++share/icons/hicolor/32x32/categories/gajim-agent-aim.png
++share/icons/hicolor/32x32/categories/gajim-agent-bytestreams.png
++share/icons/hicolor/32x32/categories/gajim-agent-conference.png
++share/icons/hicolor/32x32/categories/gajim-agent-disc.png
++share/icons/hicolor/32x32/categories/gajim-agent-error.png
++share/icons/hicolor/32x32/categories/gajim-agent-facebook.png
++share/icons/hicolor/32x32/categories/gajim-agent-gadu-gadu.png
++share/icons/hicolor/32x32/categories/gajim-agent-http-ws.png
++share/icons/hicolor/32x32/categories/gajim-agent-icq.png
++share/icons/hicolor/32x32/categories/gajim-agent-irc.png
++share/icons/hicolor/32x32/categories/gajim-agent-jabber.png
++share/icons/hicolor/32x32/categories/gajim-agent-jud.png
++share/icons/hicolor/32x32/categories/gajim-agent-mail.png
++share/icons/hicolor/32x32/categories/gajim-agent-mrim.png
++share/icons/hicolor/32x32/categories/gajim-agent-msn.png
++share/icons/hicolor/32x32/categories/gajim-agent-pubsub.png
++share/icons/hicolor/32x32/categories/gajim-agent-rss.png
++share/icons/hicolor/32x32/categories/gajim-agent-sip.png
++share/icons/hicolor/32x32/categories/gajim-agent-sms.png
++share/icons/hicolor/32x32/categories/gajim-agent-tv.png
++share/icons/hicolor/32x32/categories/gajim-agent-weather.png
++share/icons/hicolor/32x32/categories/gajim-agent-yahoo.png
++share/icons/hicolor/48x48/actions/gajim-chat_msg_recv.png
++share/icons/hicolor/48x48/actions/gajim-connection_lost.png
++share/icons/hicolor/48x48/actions/gajim-ft_done.png
++share/icons/hicolor/48x48/actions/gajim-ft_error.png
++share/icons/hicolor/48x48/actions/gajim-ft_request.png
++share/icons/hicolor/48x48/actions/gajim-ft_stopped.png
++share/icons/hicolor/48x48/actions/gajim-gc_invitation.png
++share/icons/hicolor/48x48/actions/gajim-new_email_recv.png
++share/icons/hicolor/48x48/actions/gajim-priv_msg_recv.png
++share/icons/hicolor/48x48/actions/gajim-single_msg_recv.png
++share/icons/hicolor/48x48/actions/gajim-subscription_request.png
++share/icons/hicolor/48x48/actions/gajim-unsubscribed.png
++share/icons/hicolor/48x48/actions/gajim-warning.png
+ share/icons/hicolor/64x64/apps/gajim.png
+ share/icons/hicolor/scalable/apps/gajim.svg
+ %%NLS%%share/locale/be/LC_MESSAGES/gajim.mo
+@@ -1356,22 +1357,6 @@
+ @dirrm %%DATADIR%%/src
+ @dirrm %%DATADIR%%/plugins/plugin_installer
+ @dirrm %%DATADIR%%/plugins
+-@dirrm %%DATADIR%%/icons/hicolor/scalable/apps
+-@dirrm %%DATADIR%%/icons/hicolor/scalable
+-@dirrm %%DATADIR%%/icons/hicolor/64x64/apps
+-@dirrm %%DATADIR%%/icons/hicolor/64x64
+-@dirrm %%DATADIR%%/icons/hicolor/48x48/actions
+-@dirrm %%DATADIR%%/icons/hicolor/48x48
+-@dirrm %%DATADIR%%/icons/hicolor/32x32/categories
+-@dirrm %%DATADIR%%/icons/hicolor/32x32/actions
+-@dirrm %%DATADIR%%/icons/hicolor/32x32
+-@dirrm %%DATADIR%%/icons/hicolor/16x16/status
+-@dirrm %%DATADIR%%/icons/hicolor/16x16/actions
+-@dirrm %%DATADIR%%/icons/hicolor/16x16
+-@dirrm %%DATADIR%%/icons/hicolor/128x128/apps
+-@dirrm %%DATADIR%%/icons/hicolor/128x128
+-@dirrm %%DATADIR%%/icons/hicolor
+-@dirrm %%DATADIR%%/icons
+ @dirrm %%DATADIR%%/data/sounds
+ @dirrm %%DATADIR%%/data/pixmaps
+ @dirrm %%DATADIR%%/data/other

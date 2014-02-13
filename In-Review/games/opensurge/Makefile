@@ -2,7 +2,8 @@
 # $FreeBSD$
 
 PORTNAME=	opensurge
-PORTVERSION=	0.2.0${SVN_REV}
+#PORTVERSION=	0.2.0${SVN_REV}
+PORTVERSION=	0.2.0
 CATEGORIES=	games
 MASTER_SITES=	http://www.ime.usp.br/~alemart/opensurge_nightly/ \
 		SF/nemysisfreebsdp/${CATEGORIES}/${PORTNAME}/:mods
@@ -24,10 +25,10 @@ WRKSRC=		${WRKDIR}/${PORTNAME}-src-build${SVN_REV}
 SVN_REV=	760
 MODS_VER=	20130928
 
-USES=		cmake openal:soft
+USES=		cmake dos2unix openal:soft
 #dos2unix
-#DOS2UNIX_FILES=	*.txt *.lng *.lev *.obj *.qst *.spr *.h *.c *.bg *.brk *.grp
-USE_GCC=	yes
+DOS2UNIX_FILES=	*.txt *.lng *.lev *.obj *.qst *.spr *.h *.c *.bg *.brk *.grp
+#USE_GCC=	yes
 
 CFLAGS+=	-I${LOCALBASE}/include
 LDFLAGS+=	-L${LOCALBASE}/lib
@@ -58,6 +59,7 @@ IGNORE=		STATIC ALURE libs do not support Open Surge build. (Re)Install audio/al
 
 post-extract-script:
 	@(cd ${WRKDIR}/opensurge-mods ; ${COPYTREE_SHARE} . ${WRKSRC})
+	@${CHMOD} 644 ${WRKSRC}/levels/desert1.lev
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|/usr/share/opensurge|${DATADIR}|' \

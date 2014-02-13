@@ -1,26 +1,24 @@
 # Created by: Akinori MUSHA aka knu <knu@idaemons.org>
-# $FreeBSD: head/devel/ruby-sdl/Makefile 330041 2013-10-11 01:41:56Z tabthorpe $
+# $FreeBSD: head/devel/ruby-sdl/Makefile 343823 2014-02-11 21:48:27Z nemysis $
 
 PORTNAME=	sdl
 PORTVERSION=	2.1.3
+PORTREVISION=	1
 CATEGORIES=	devel graphics audio ruby
 MASTER_SITES=	RUBYFORGE/ruby${PORTNAME}/
 PKGNAMEPREFIX=	${RUBY_PKGNAMEPREFIX}
 DISTNAME=	ruby${PORTNAME}-${PORTVERSION}
 DIST_SUBDIR=	ruby
 
-MAINTAINER=	ruby@FreeBSD.org
+MAINTAINER=	nemysis@FreeBSD.org
 COMMENT=	Ruby extension library to use SDL library
 
 LICENSE=	LGPL21
 
 LIB_DEPENDS=	libSGE.so:${PORTSDIR}/devel/sdl_sge \
-		libskk.so:${PORTSDIR}/japanese/libskk \
-		libSDLSKK.so.2.0:${PORTSDIR}/devel/sdlskk
-
-RUBY_OPENGL_PORTDIR=	${PORTSDIR}/graphics/ruby-opengl
-RUBY_OPENGL_WRKSRC_CMD=	cd ${RUBY_OPENGL_PORTDIR}; ${MAKE} -V WRKSRC
-
+		libSDLSKK.so.2.0:${PORTSDIR}/devel/sdlskk \
+		libsmpeg.so:${PORTSDIR}/multimedia/smpeg
+RUN_DEPENDS=	rubygem-opengl>=0:${PORTSDIR}/graphics/rubygem-opengl
 
 USE_SDL=	mixer image ttf sdl
 USE_RUBY=	yes
@@ -31,6 +29,12 @@ CONFIGURE_ARGS=	--with-sdl-config="sdl-config" \
 		--with-x11-dir="${LOCALBASE}" \
 		--disable-pthreads
 INSTALL_TARGET=	site-install
+
+PLIST_FILES=	%%RUBY_SITEARCHLIBDIR%%/sdl_ext.so \
+		%%RUBY_SITELIBDIR%%/rubysdl_aliases.rb \
+		%%RUBY_SITELIBDIR%%/rubysdl_compatible_ver1.rb \
+		%%RUBY_SITELIBDIR%%/sdl.rb \
+		%%RUBY_SITELIBDIR%%/sdl1_compatible.rb
 
 PORTDOCS=	*
 PORTEXAMPLES=	*

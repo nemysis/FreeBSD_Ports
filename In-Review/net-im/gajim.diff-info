@@ -1,0 +1,43 @@
+Please use SVN for FreeBSD Ports tree.
+
+
+When you not use SVN please first save
+Your old Ports with
+
+mv /usr/ports /usr/ports-orig
+
+
+Then download with SVN ports
+
+svn co svn://svn.FreeBSD.org/ports/head /usr/ports
+
+
+Then download from SVN net-im/gajim
+
+svn checkout svn://svn.freebsd.org/ports/head/net-im/gajim gajim
+
+
+Then change to directory and  download gajim.diff
+
+cd /usr/local/ports/local/In-Review/net-im/gajim/
+
+fetch http://sourceforge.net/projects/nemysisfreebsdp/files/Call_for_Test/gajim.diff
+
+and use to patch
+
+svn patch gajim.diff
+
+
+Then use from this directory in native FreeBSD or PC-BSD
+
+make deinstall
+
+make reinstall
+
+
+And enjoy Gajim without E2EE and good working OTR
+
+
+Make account jabster.pl
+
+My nick is always the same.
