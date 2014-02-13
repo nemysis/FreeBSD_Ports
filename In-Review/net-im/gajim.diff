@@ -26,7 +26,7 @@ Index: Makefile
 -USES=		gmake pathfix
  USE_BZIP2=	yes
 -USE_DOS2UNIX=	src/plugins/plugins_i18n.py
-+USES=		dos2unix gmake pathfix pkgconfig
++USES=		dos2unix gmake pathfix
 +DOS2UNIX_FILES=	src/plugins/plugins_i18n.py
  USE_GNOME=	pygtk2
 +USE_XORG=	x11 xext xscrnsaver
@@ -293,6 +293,10 @@ Index: files/patch-src__common__resolver.py
 
 Property changes on: files/patch-src__common__resolver.py
 ___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++text/plain
+\ No newline at end of property
 Added: fbsd:nokeywords
 ## -0,0 +1 ##
 +yes
@@ -300,10 +304,6 @@ Added: fbsd:nokeywords
 Added: svn:eol-style
 ## -0,0 +1 ##
 +native
-\ No newline at end of property
-Added: svn:mime-type
-## -0,0 +1 ##
-+text/plain
 \ No newline at end of property
 Index: files/patch-src__plugins__plugins_i18n.py
 ===================================================================

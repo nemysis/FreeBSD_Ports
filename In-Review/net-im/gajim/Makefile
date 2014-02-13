@@ -18,7 +18,7 @@ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}openssl>=0:${PORTSDIR}/security/py-openssl \
 		${PYTHON_PKGNAMEPREFIX}asn1>=0:${PORTSDIR}/devel/py-asn1
 
 USE_BZIP2=	yes
-USES=		dos2unix gmake pathfix pkgconfig
+USES=		dos2unix gmake pathfix
 DOS2UNIX_FILES=	src/plugins/plugins_i18n.py
 USE_GNOME=	pygtk2
 USE_XORG=	x11 xext xscrnsaver
