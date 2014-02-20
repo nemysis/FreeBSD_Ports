@@ -1,9 +1,9 @@
 # Created by: Vsevolod Stakhov <vsevolod@highsecure.ru>
-# $FreeBSD: head/net-im/gajim/Makefile 339634 2014-01-13 21:00:02Z rene $
+# $FreeBSD: head/net-im/gajim/Makefile 345154 2014-02-19 21:45:51Z rm $
 
 PORTNAME=	gajim
 PORTVERSION=	0.15.4
-PORTREVISION=	1
+PORTREVISION=	2
 CATEGORIES=	net-im
 MASTER_SITES=	http://gajim.org/downloads/0.15/
 
@@ -24,34 +24,33 @@ USE_GNOME=	pygtk2
 USE_XORG=	x11 xext xscrnsaver
 USE_PYTHON=	2
 GNU_CONFIGURE=	yes
-CONFIGURE_ENV+=	PYTHON=${PYTHON_CMD}
+CONFIGURE_ENV+= PYTHON=${PYTHON_CMD}
 INSTALLS_ICONS=	yes
 
 LDFLAGS+=	-L${LOCALBASE}/lib
 CFLAGS+=	-I${LOCALBASE}/include
 
-OPTIONS_DEFINE=	AVAHI DBUS DOCS E2EE GUPNP KEYRING NLS SPELL
+OPTIONS_DEFINE=	AVAHI  DBUS DOCS E2EE GUPNP KEYRING NLS SPELL
 OPTIONS_DEFAULT=DBUS SPELL
+OPTIONS_SUB=	yes
 
 E2EE_DESC=	End to End message Encryption suport
 KEYRING_DESC=	Gnome Keyring support
 GUPNP_DESC=	UPnP IGD protocol support
 SPELL_DESC=	Spell checking support
 
+AVAHI_RUN_DEPENDS=	avahi-discover:${PORTSDIR}/net/py-avahi
+E2EE_RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}pycrypto>0:${PORTSDIR}/security/py-pycrypto
+DBUS_RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}dbus>=0.82.2:${PORTSDIR}/devel/py-dbus
+GUPNP_RUN_DEPENDS=	${PYTHON_SITELIBDIR}/gupnp/__init__.py:${PORTSDIR}/net/gupnp-igd
+KEYRING_USE=		GNOME=pygnomedesktop
+NLS_CONFIGURE_ENABLE=	nls
+NLS_USES=		gettext
+SPELL_LIB_DEPENDS=	libgtkspell.so:${PORTSDIR}/textproc/gtkspell
+
 PORTDOCS=	AUTHORS ChangeLog README.html
-OPTIONS_SUB=	yes
 
 SUB_FILES=	pkg-message
-
-NLS_CONFIGURE_ENABLE=	nls
-NLS_USES=	gettext
-
-AVAHI_RUN_DEPENDS=	avahi-discover:${PORTSDIR}/net/py-avahi
-DBUS_RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}dbus>=0:${PORTSDIR}/devel/py-dbus
-E2EE_RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}pycrypto>=0:${PORTSDIR}/security/py-pycrypto
-GUPNP_RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}gupnp-igd>=0:${PORTSDIR}/net/gupnp-igd
-KEYRING_USE=	GNOME=pygnomedesktop
-SPELL_LIB_DEPENDS=	libgtkspell.so:${PORTSDIR}/textproc/gtkspell
 
 .include <bsd.port.options.mk>
 
@@ -63,6 +62,10 @@ post-patch:
 .if ! ${PORT_OPTIONS:ME2EE}
 	@${REINPLACE_CMD} -e 's|PYCRYPTO = True|PYCRYPTO = False|' \
 		${WRKSRC}/src/common/gajim.py
+.endif
+
+.if ${OPSYS} == FreeBSD && ${OSVERSION} >= 1000000
+EXTRA_PATCHES+=	${FILESDIR}/extra-patch-src__common__resolver.py
 .endif
 
 do-build:
